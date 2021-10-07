@@ -1,0 +1,701 @@
+/* ALL MAIN CSS CLASSES DESIGNED FOR MOBILE VIEW FIRST, WITH BREAKPOINTS ADDED FOR WIDER SCREENS AT THE END
+
+ _    _ _ _   _  _____                        
+ | |  | | | | (_)/ ____|                       
+ | |  | | | |_ _| (___   ___ __ _ _ __   ___ 
+ | |  | | | __| |\___ \ / __/ _` | '_ \ / _ \
+ | |__| | | |_| |____) | (_| (_| | |_) |  __/
+  \____/|_|\__|_|_____/ \___\__,_| .__/ \___|
+                                 | |                                 
+                                 |_|                                      
+   Copyright McGehee Enterprises 2021 */
+
+*, *::before, *::after {
+	font-family: 'Roboto', sans-serif;
+	margin: 0;
+	padding: 0;
+}
+
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/* Vars */
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+
+:root {
+	--utliscapeColorTheme: #65B200;
+	--peopleColorTheme: #199D00;
+	--communicationsColorTheme: #b14646;
+	--jobsColorTheme: #008BC9;
+	--documentsColorTheme: #C98D00;
+	--inventoryColorTheme: #549D00;
+
+	--grayTextColorTheme: #444444;
+}
+
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/* Utility Classes */
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+
+/*Centers*/
+
+.marginCentered {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.textCentered {
+	text-align: center;
+}
+
+.centered {
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+}
+
+.xCenteredFlex {
+	display: flex;
+	/* align-items: center; */
+	justify-content: center;
+}
+
+.yCenteredFlex {
+	display: flex;
+	align-items: center;
+	/* justify-content: center; */
+}
+
+.xyCenteredFlex {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.flexDirectionColumn {
+	flex-direction: column;
+}
+
+.flexDirectionRow {
+	flex-direction: row;
+}
+
+/*Margins*/
+
+.margin1em {
+	margin-left: 1em;
+	margin-right: 1em;
+}
+
+.margin2em {
+	margin-left: 2em;
+	margin-right: 2em;
+}
+
+.margin90 {
+	margin-left: 5%;
+	margin-right: 5%;
+}
+
+.margin80 {
+	margin-left: 10%;
+	margin-right: 10%;
+}
+
+.margin70 {
+	margin-left: 15%;
+	margin-right: 15%;
+}
+
+.margin60 {
+	margin-left: 20%;
+	margin-right: 20%;
+}
+
+/*Columns*/
+
+
+/*Scaling*/
+
+.maxHeight {
+	height: 100%;
+}
+
+/*Shadows*/
+
+.defaultMainShadows {
+	box-shadow: inset 0px 8px 8px -10px rgb(58, 58, 58), inset 5px 0px 8px -10px rgb(58, 58, 58);
+	
+	box-shadow: -1px 2px 6px 0px rgba(0,0,0,0.15);
+	-webkit-box-shadow: -1px 2px 6px 0px rgba(0,0,0,0.15);
+	-moz-box-shadow: -1px 2px 6px 0px rgba(0,0,0,0.15);
+}
+
+.defaultInsetShadow {
+	box-shadow: inset 0px 8px 8px -10px rgb(58, 58, 58), inset 5px 0px 8px -10px rgb(58, 58, 58);
+}
+
+.defaultAll4InsetShadow {
+	box-shadow: 0px 0px 8px -2px rgba(58,58,58,0.75) inset;
+}
+
+.defaultBoxShadow {
+	box-shadow: -1px 2px 6px 0px rgba(0,0,0,0.15);
+	-webkit-box-shadow: -1px 2px 6px 0px rgba(0,0,0,0.15);
+	-moz-box-shadow: -1px 2px 6px 0px rgba(0,0,0,0.15);
+}
+
+/*Styled Text*/
+
+.styledText h1, .styledText h2, .styledText h3, .styledText h4, .styledText h5, .styledText h6 {
+    font-weight: 400;
+	text-shadow: 2px 2px 3px #BABABA;
+	margin-top: .5em;
+	/* text-shadow: 0 1px 0px #378ab4, 1px 0 0px #5dabcd, 1px 2px 1px #378ab4, 2px 1px 1px #5dabcd, 2px 3px 2px #378ab4, 3px 2px 2px #5dabcd, 3px 4px 2px #378ab4, 4px 3px 3px #5dabcd, 4px 5px 3px #378ab4, 5px 4px 2px #5dabcd, 5px 6px 2px #378ab4, 6px 5px 2px #5dabcd, 6px 7px 1px #378ab4, 7px 6px 1px #5dabcd, 7px 8px 0px #378ab4, 8px 7px 0px #5dabcd, 2px 2px 3px rgba(47,186,13,0); */
+}
+
+.styledText p {
+	margin-top: .5em;
+	line-height: 1.5em;
+}
+
+.styledText h1 {
+	font-size: 2.5em;
+}
+
+.styledText h2 {
+	font-size: 2em;
+}
+
+.styledText h3 {
+	font-size: 1.75em;
+}
+
+.styledText h4 {
+	font-size: 1.5em;
+}
+
+.styledText p {
+	font-size: 1.1em;
+}
+
+/*Styled Text Colors*/
+
+.textColorThemeGray p, .textColorThemePeople p, .textColorThemeCommunications p, .textColorThemeJobs p, .textColorThemeDocuments p, .textColorThemeInventory p {
+	color: #606060;
+}
+
+.textColorThemeGray h1, .textColorThemeGray h2, .textColorThemeGray h3, .textColorThemeGray h4, .textColorThemeGray h5, .textColorThemeGray h6 {
+	color: var(--grayTextColorTheme);
+}
+
+.textColorThemePeople h1, .textColorThemePeople h2, .textColorThemePeople h3, .textColorThemePeople h4, .textColorThemePeople h5, .textColorThemePeople h6 {
+	color: var(--peopleColorTheme);
+}
+
+.textColorThemeCommunications h1, .textColorThemeCommunications h2, .textColorThemeCommunications h3, .textColorThemeCommunications h4, .textColorThemeCommunications h5, .textColorThemeCommunications h6  {
+	color: var(--communicationsColorTheme);
+}
+
+.textColorThemeJobs h1, .textColorThemeJobs h2, .textColorThemeJobs h3, .textColorThemeJobs h4, .textColorThemeJobs h5, .textColorThemeJobs h6 {
+	color: var(--jobsColorTheme);
+}
+
+.textColorThemeDocuments h1, .textColorThemeDocuments h2, .textColorThemeDocuments h3, .textColorThemeDocuments h4, .textColorThemeDocuments h5, .textColorThemeDocuments h6 {
+	color: var(--documentsColorTheme);
+}
+
+.textColorThemeInventory h1, .textColorThemeInventory h2, .textColorThemeInventory h3, .textColorThemeInventory h4, .textColorThemeInventory h5, .textColorThemeInventory h6 {
+	color: var(--inventoryColorTheme);
+}
+
+/*Gradients*/
+
+.gradientRadialLeftGreen1 {
+	background-image: radial-gradient( circle farthest-corner at 10% 20%,  rgba(1,150,21,1) 0%, rgba(198,239,146,1) 90% );
+}
+
+.gradientRadialLeftPeople {
+	background-image: radial-gradient( circle farthest-corner at 10% 20%,  var(--peopleColorTheme) 0%, rgb(168, 239, 146) 90% );
+}
+.gradientRadialLeftCommunications {
+	background-image: radial-gradient( circle farthest-corner at 10% 20%,  var(--communicationsColorTheme) 0%, rgb(168, 239, 146) 90% );
+}
+.gradientRadialLeftJobs {
+	background-image: radial-gradient( circle farthest-corner at 10% 20%,  var(--jobsColorTheme) 0%, rgb(168, 239, 146) 90% );
+}
+.gradientRadialLeftDocuments {
+	background-image: radial-gradient( circle farthest-corner at 10% 20%,  var(--documentsColorTheme) 0%, rgb(168, 239, 146) 90% );
+}
+.gradientRadialLeftInventory {
+	background-image: radial-gradient( circle farthest-corner at 10% 20%,  var(--inventoryColorTheme) 0%, rgb(168, 239, 146) 90% );
+}
+
+.gradientRadialLeftUltiscape {
+	background-image: radial-gradient( circle farthest-corner at 10% 20%,  var(--utliscapeColorTheme) 0%, rgb(168, 239, 146) 90% );
+}
+
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/* Scrollbar */
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+
+::-webkit-scrollbar {
+	width: .5em;
+}
+
+::-webkit-scrollbar-track {
+	background-color: transparent;
+	margin-block: .1em;
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: rgba(128, 128, 128, 0.548);
+	border: none;
+	border-radius: 100vw;
+	transition: background-color 300ms;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background-color: rgba(128, 128, 128, 0.932);
+}
+
+/*For firefox and other browsers that do not support the webkit-scrollbar*/
+
+@supports(scrollbar-color: red blue) {
+	* {
+		scrollbar-color: rgba(128, 128, 128, 0.932) transparent;
+		scrollbar-width: thin;
+	}
+}
+
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/* Buttons */
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+
+.smallButtonWrapper {
+	font-size: 1em;
+	font-weight: bold;
+
+	padding: .4em;
+	padding-left: 1em;
+	padding-right: 1em;
+
+	border: 1px solid #707070;
+	border-radius: .1em;
+
+	cursor: pointer;
+
+	transition: filter .2s ease-in;
+}
+
+.smallButtonWrapper:hover {
+	filter: brightness(.9);
+}
+
+.greenButton {
+	background-color: #65B200;
+	color: white;
+}
+
+.orangeButton {
+	background-color: #D47100;
+	color: white;
+}
+
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/* Overlays */
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+
+.overlay-dim {
+	position: absolute;
+	left: 0em;
+	top: 0em;
+	width: 100%;
+	height: 100%;
+	background: rgba(0,0,0,0.5);
+}
+
+/*OVERLAY BOXES*/
+
+.alert {
+	background-color: white;
+	border-radius: .7em;
+	display: inline-block;
+	padding: 1.5em;
+	width: 500px;
+}
+
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/* Website Init */
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+
+html, body {
+	height: 100%;
+	margin: 0px;
+}
+
+.cmsBodyWrapper { /*Changes in desktop view - see breakpoint!*/
+	height: 100%;
+	width: 100%;
+
+	display: grid;
+	overflow: auto;
+	grid-template-columns: 0em auto;
+	grid-template-rows: 4em auto 5em;
+	grid-template-areas: 
+	"topBar topBar"
+	"sideBar mainContent"
+	"sideBar mobileNavBar";
+}
+
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/* Top Bar */
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+
+.adminTopBarWrapper {
+	background-color: var(--utliscapeColorTheme);
+	grid-area: topBar;
+
+	display: grid;
+
+	grid-template-columns: 40% auto min-content min-content;
+	grid-template-rows: 3.9em;
+	grid-template-areas: "ultiscapeLogo blank businessSelector profileButton";
+
+	padding: .1em;
+}
+
+.adminTopBarWrapper #ultiscapeLogoWrapper {
+	grid-area: ultiscapeLogo;
+	
+	display: flex;
+	justify-content: left;
+
+	margin-left: 2vw;
+}
+
+.adminTopBarWrapper #ultiscapeLogoImageWrapper {
+	max-width: 10em;
+}
+
+.adminTopBarWrapper #ultiscapeLogoWrapper img{
+	width: 100%;
+}
+
+.adminTopBarWrapper #businessSelectorWrapper {
+	grid-area: businessSelector;
+}
+
+.adminTopBarWrapper #businessSelectorButton {
+	border: .1em solid gray;
+	border-radius: .1em;
+
+	background-color: white;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+
+	width: 100%;
+	max-width: 3.2em;
+	max-height: 80%;
+}
+
+.adminTopBarWrapper #profileButtonWrapper {
+	grid-area: profileButton;
+	min-width: 5em;
+
+	display: flex;
+	justify-content: right;
+
+	margin-right: 2vw;
+
+	cursor: pointer;
+}
+
+.adminTopBarWrapper #profilePictureButton {
+	
+	border: .15em solid #429A00;
+	border-radius: 50%;
+
+	background-color: white;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+
+	width: 100%;
+	max-width: 3.2em;
+	max-height: 80%;
+}
+
+/*Dropdown Menus*/
+
+.profilePictureButtonDropdownHider {
+	display: none;
+}
+
+.profilePictureButtonDropdownWrapper {
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+
+	position: absolute;
+	right: 0em;
+	top: 4em;
+	
+	width: 9em;
+	height: 6em;
+	padding: .5em;
+
+	background-color: white;
+
+	border-left: .12em solid gray;
+	border-bottom: .12em solid gray;
+	border-radius: 0 0 0 .5em;
+}
+
+.adminTopBarWrapper #chevron {
+	grid-area: chevron;
+
+	filter: brightness(100);
+}
+
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/* Side Bar */
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+
+.cmsSideBarWrapper {
+	display: none;
+	background-color: #E2E2E2;
+	grid-area: sideBar;
+	flex-direction: column;
+	align-items: center;
+}
+
+.cmsSideBarWrapper .sideBarButton {
+	height: 3.9em;
+	width: 100%;
+	color: white;
+	
+	display: flex;
+	align-items: center;
+	transition: all 300ms;
+}
+
+.cmsSideBarWrapper .sideBarButton:hover {
+	filter: brightness(.9);
+}
+
+.cmsSideBarWrapper a {
+	text-decoration: none;
+}
+
+.cmsSideBarWrapper p {
+	margin-left: .6em;
+}
+
+.cmsSideBarWrapper img {
+	height: 3.4em;
+	width: 3.4em;
+	margin-left: 1.2em;
+
+	filter: brightness(100);
+}
+
+.cmsSideBarWrapper .sideBarButton#button1 {
+	background-color: var(--peopleColorTheme);
+}
+
+.cmsSideBarWrapper .sideBarButton#button2 {
+	background-color: var(--communicationsColorTheme);
+}
+
+.cmsSideBarWrapper .sideBarButton#button3 {
+	background-color: var(--jobsColorTheme);
+}
+
+.cmsSideBarWrapper .sideBarButton#button4 {
+	background-color: var(--documentsColorTheme);
+}
+
+.cmsSideBarWrapper .sideBarButton#button5 {
+	background-color: var(--inventoryColorTheme);
+}
+
+.cmsSideBarWrapper #smallBottomLinks {
+	margin-top: .7em;
+}
+
+.cmsSideBarWrapper #smallBottomLinks, .cmsSideBarWrapper #smallBottomLinks a {
+	color: var(--grayTextColorTheme);
+}
+
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/* Footer */
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+
+.cmsFooterWrapper {
+	display: none;
+	background-color: #FFFBE8;
+	grid-area: footer;
+	align-items: center;
+	justify-content: right;
+}
+
+.cmsFooterWrapper p {
+	color: var(--grayTextColorTheme);
+	margin-right: 2em;
+}
+
+.cmsFooterWrapper a {
+	text-decoration: none;
+	color: var(--grayTextColorTheme);
+}
+
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/* Mobile Nav Bar */
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+
+.cmsMobileNavBarWrapper {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	text-align: center;
+
+	background-color: gray;
+	grid-area: mobileNavBar;
+
+	box-shadow: inset 0px 8px 8px -10px rgb(58, 58, 58), inset 0px -8px 8px -10px rgb(58, 58, 58), inset 8px 0px 8px -10px rgb(58, 58, 58), inset -8px 0px 8px -10px rgb(58, 58, 58);
+}
+
+.cmsMobileNavBarWrapper .mobileNavBarButtonArray {
+	height: 100%;
+	width: 100%;
+
+	display: grid;
+	grid-template-columns: 20% 20% 20% 20% 20%;
+	grid-template-rows: auto;
+	grid-template-areas: "button1 button2 button3 button4 button5";
+}
+
+.cmsMobileNavBarWrapper .mobileNavBarButtonArray .button {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	
+	color: white;
+	text-decoration: none;
+
+	box-shadow: inset 0px 8px 8px -10px rgb(58, 58, 58), inset 0px -8px 8px -10px rgb(58, 58, 58), inset 8px 0px 8px -10px rgb(58, 58, 58), inset -8px 0px 8px -10px rgb(58, 58, 58);
+
+	padding: .4em;
+}
+
+.cmsMobileNavBarWrapper .mobileNavBarButtonArray .button img {
+	height: 100%;
+	filter: brightness(100);
+	max-width: 100%;
+}
+
+.cmsMobileNavBarWrapper .mobileNavBarButtonArray #button1 { /*Currently Customers Button*/
+	grid-area: button1;
+	background-color: var(--peopleColorTheme);
+}
+
+.cmsMobileNavBarWrapper .mobileNavBarButtonArray #button2 { /*Currently Comunications Button*/
+	grid-area: button2;
+	background-color: var(--communicationsColorTheme);
+}
+
+.cmsMobileNavBarWrapper .mobileNavBarButtonArray #button3 { /*Currently Jobs Button*/
+	grid-area: button3;
+	background-color: var(--jobsColorTheme);
+}
+
+.cmsMobileNavBarWrapper .mobileNavBarButtonArray #button4 { /*Currently Docs Button*/
+	grid-area: button4;
+	background-color: var(--documentsColorTheme);
+}
+
+.cmsMobileNavBarWrapper .mobileNavBarButtonArray #button5 { /*Currently Inventory Button*/
+	grid-area: button5;
+	background-color: var(--inventoryColorTheme);
+}
+
+
+
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/* Main Content Area */
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+
+.cmsMainContentWrapper {
+	background-color: white;
+	grid-area: mainContent;
+	overflow: auto;
+}
+
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/* Media Queries */
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+
+/*Tablet Only*/
+@media only screen and (min-width: 500px) and (max-device-width: 1000px) {
+	
+}
+
+/*Tablet and Desktop*/
+@media only screen and (min-width: 500px) {
+	
+}
+
+/*Desktop Only*/
+@media only screen and (min-width: 1000px) {
+	.cmsBodyWrapper {
+		grid-template-columns: 15em auto;
+		grid-template-rows: 4em auto 3em;
+		grid-template-areas: 
+		"topBar topBar"
+		"sideBar mainContent"
+		"sideBar footer";
+	}
+
+	.cmsMobileNavBarWrapper {
+		display: none;
+	}
+
+	.cmsSideBarWrapper {
+		display: flex;
+	}
+
+	.cmsFooterWrapper {
+		display: flex;
+	}
+}

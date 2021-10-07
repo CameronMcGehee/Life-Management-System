@@ -1,0 +1,110 @@
+.cmsLoginBodyWrapper {
+	height: 100%;
+	width: 100%;
+
+	display: grid;
+	overflow: auto;
+	grid-template-columns: auto;
+    grid-template-rows: 4em auto 3em;
+    grid-template-areas: 
+    "topBar"
+    "mainContent"
+    "footer";
+}
+
+/*Footer*/
+
+.cmsLoginFooterWrapper {
+    display: flex;
+    align-items: center;
+	justify-content: right;
+
+	background-color: #FFFBE8;
+	grid-area: footer;
+}
+
+.cmsLoginFooterWrapper p {
+	color: var(--grayTextColorTheme);
+	margin-right: 2em;
+}
+
+.cmsLoginFooterWrapper a {
+	text-decoration: none;
+	color: var(--grayTextColorTheme);
+}
+
+.cmsLoginFormArea {
+    /* background-color: #65b2005d; */
+    background-color: white;
+
+    border: .12em solid #707070;
+    border-radius: .5em;
+
+    padding: 1em;
+    width: 80%;
+}
+
+.cmsLoginFormArea h1 {
+    color: #606060;
+    
+    padding-top: none;
+    margin-top: .5em;
+    line-height: 0;
+    margin-bottom: 1.5em;
+
+    font-size: 2.5em;
+    font-weight: 400;
+}
+
+.cmsLoginFormArea input {
+    width: 98%;
+    height: 2em;
+    outline: none;
+    border: .12em solid #707070;
+    border-radius: .3em;
+    padding-left: .3em;
+    padding-right: .3em;
+}
+
+.cmsLoginFormArea label p {
+    color: #606060;
+
+    padding-top: none;
+    line-height: 0;
+    margin-bottom: 1em;
+    margin-top: 1em;
+
+    font-size: .9em;
+
+    text-align: left;
+}
+
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/* Media Queries */
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+
+/*Tablet Only*/
+@media only screen and (min-width: 500px) and (max-device-width: 1000px) {
+
+    .cmsLoginFormArea {
+        width: 60%;
+    }
+	
+}
+
+/*Tablet and Desktop*/
+@media only screen and (min-width: 500px) {
+	
+}
+
+/*Desktop Only*/
+@media only screen and (min-width: 1000px) {
+
+    .cmsLoginFormArea {
+        width: 40%;
+        padding: 3em;
+    }
+	
+}
