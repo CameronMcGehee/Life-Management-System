@@ -28,4 +28,6 @@
 
     // }
 
+    echo '<html><p>Successfully Installed. <a href="index">Click begin using UltiScape!</a></p></html>';
+
 ?>
