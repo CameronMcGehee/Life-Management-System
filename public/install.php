@@ -2,6 +2,8 @@
 
     // INSTALL PAGE, EITHER SAYS IT IS ALREADY INSTALLED OR TAKES THE USER THROUGH THE INSTALL PROCESS (mainly connecting to and creating the database)
 
+    // Currently only makes the config file with default settings, but does not yet make the database. The database creation file will take a while to make since there are just so many tables.
+
     // _    _ _ _   _  _____                       
     // | |  | | | | (_)/ ____|                       
     // | |  | | | |_ _| (___   ___ __ _ _ __   ___ 
