@@ -1,13 +1,12 @@
 Options +FollowSymLinks -MultiViews
 # Turn mod_rewrite on
 RewriteEngine On
-RewriteBase /
 
 # For LocalHost !.php
-RewriteCond %{HTTP_HOST} !=localhost
-RewriteCond %{HTTP_HOST} !=127.0.0.1
-RewriteCond %{REMOTE_ADDR} !=127.0.0.1
-RewriteCond %{REMOTE_ADDR} !=::1
+#RewriteCond %{HTTP_HOST} !=localhost
+#RewriteCond %{HTTP_HOST} !=127.0.0.1
+#RewriteCond %{REMOTE_ADDR} !=127.0.0.1
+#RewriteCond %{REMOTE_ADDR} !=::1
 
 ## hide .php extension (OPTIONAL, keeps people from being able to use .php in the url properly an messes up some php code sometimes)
 # To externally redirect /dir/foo.php to /dir/foo
