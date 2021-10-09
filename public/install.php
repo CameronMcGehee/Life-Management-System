@@ -16,6 +16,7 @@
 
     if (!file_exists('../config/mainConfig.php')) {
         // Create the file
+        mkdir('../config');
         copy('../lib/config/defaultMainConfig.php', '../config/mainConfig.php');
     }
 
