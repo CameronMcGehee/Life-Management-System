@@ -1,6 +1,4 @@
-<?php
-
-	// Update the STRUCTURE ONLY of all the tables in the ultiscape database
+	-- Adds all tables needed for ultiscape to function
 
 	CREATE DATABASE  IF NOT EXISTS `ultiscape`;
 	USE `ultiscape`;
@@ -551,5 +549,3 @@
 	KEY `staffSavedLoginAdminId` (`adminId`),
 	CONSTRAINT `staffSavedLoginAdminId` FOREIGN KEY (`adminId`) REFERENCES `admin` (`adminId`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-?>
