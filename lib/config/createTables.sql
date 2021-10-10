@@ -85,7 +85,7 @@
 	-- Table structure for table `adminSavedLogin`
 	--
 
-	REATE TABLE IF NOT EXISTS `adminSavedLogin` (
+	CREATE TABLE IF NOT EXISTS `adminSavedLogin` (
 	`adminSavedLoginId` varchar(17) NOT NULL,
 	`businessId` varchar(17) NOT NULL,
 	`adminId` varchar(17) NOT NULL,
