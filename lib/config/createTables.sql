@@ -421,6 +421,165 @@
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
+	-- Table structure for table `docId`
+	--
+
+	CREATE TABLE IF NOT EXISTS `docId` (
+	`docIdId` varchar(17) NOT NULL,
+	`businessId` varchar(17) NOT NULL,
+	`incrementalId` varchar(17) NOT NULL,
+	`randomId` varchar(17) NOT NULL,
+	`dateTimeAdded` datetime NOT NULL,
+	PRIMARY KEY (`docIdId`),
+	KEY `docIdBusinessId` (`businessId`),
+	CONSTRAINT `docIdBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
+	-- Table structure for table `estimate`
+	--
+
+	CREATE TABLE IF NOT EXISTS `estimate` (
+	`estimateId` varchar(17) NOT NULL,
+	`businessId` varchar(17) NOT NULL,
+	`customerId` varchar(17) NOT NULL,
+	`docIdId` varchar(17) NOT NULL,
+	`createdByAdminId` varchar(17) NOT NULL,
+	`discountIsPercent` tinyint(1) NOT NULL DEFAULT 0,
+	`discount` float NOT NULL DEFAULT 0,
+	`customJobDetails` text NULL,
+	`comments` text NULL,
+	`privateNotes` text NULL,
+	`isViewed` tinyint(1) NOT NULL DEFAULT 0,
+	`isEmailed` tinyint(1) NOT NULL DEFAULT 0,
+	`dateTimeAdded` datetime NOT NULL,
+	PRIMARY KEY (`estimateId`),
+	KEY `estimateBusinessId` (`businessId`),
+	KEY `estimateCustomerId` (`customerId`),
+	KEY `estimateCreatedByAdminId` (`createdByAdminId`),
+	KEY `estimateDocIdId` (`docIdId`),
+	CONSTRAINT `estimatecreatedByAdminId` FOREIGN KEY (`createdByAdminId`) REFERENCES `admin` (`adminId`),
+	CONSTRAINT `estimateBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
+	CONSTRAINT `estimateCustomerId` FOREIGN KEY (`customerId`) REFERENCES `customer` (`customerId`),
+	CONSTRAINT `estimateDocIdId` FOREIGN KEY (`DocIdId`) REFERENCES `docId` (`docIdId`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
+	-- Table structure for table `estimateItem`
+	--
+
+	CREATE TABLE IF NOT EXISTS `estimateItem` (
+	`estimateItemId` varchar(17) NOT NULL,
+	`businessId` varchar(17) NOT NULL,
+	`estimateId` varchar(17) NOT NULL,
+	`name` varchar(100) NOT NULL,
+	`price` float NOT NULL DEFAULT 0,
+	`taxIsPercent` tinyint(1) NOT NULL DEFAULT 0,
+	`tax` float NOT NULL DEFAULT 0,
+	`quantity` INT(11) NOT NULL,
+	`dateTimeAdded` datetime NOT NULL,
+	PRIMARY KEY (`estimateItemId`),
+	KEY `estimateItemBusinessId` (`businessId`),
+	KEY `estimateItemEstimateId` (`estimateId`),
+	CONSTRAINT `estimateItemBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
+	CONSTRAINT `estimateItemEstimateId` FOREIGN KEY (`estimateId`) REFERENCES `estimate` (`estimateId`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
+	-- Table structure for table `estimateApproval`
+	--
+
+	CREATE TABLE IF NOT EXISTS `estimateApproval` (
+	`estimateApprovalId` varchar(17) NOT NULL,
+	`businessId` varchar(17) NOT NULL,
+	`estimateId` varchar(17) NOT NULL,
+	`approvedByAdminId` varchar(17) NULL,
+	`adminReason` varchar(200) NOT NULL,
+	`dateTimeApproved` datetime NOT NULL,
+	PRIMARY KEY (`estimateApprovalId`),
+	KEY `estimateApprovalBusinessId` (`businessId`),
+	KEY `estimateApprovalEstimateId` (`estimateId`),
+	KEY `estimateApprovalapprovedByAdminId` (`approvedByAdminId`),
+	CONSTRAINT `estimateApprovalBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
+	CONSTRAINT `estimateApprovalEstimateId` FOREIGN KEY (`estimateId`) REFERENCES `estimate` (`estimateId`),
+	CONSTRAINT `estimateApprovalapprovedByAdminId` FOREIGN KEY (`approvedByAdminId`) REFERENCES `admin` (`adminId`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
+	-- Table structure for table `invoice`
+	--
+
+	CREATE TABLE IF NOT EXISTS `invoice` (
+	`invoiceId` varchar(17) NOT NULL,
+	`businessId` varchar(17) NOT NULL,
+	`customerId` varchar(17) NOT NULL,
+	`docIdId` varchar(17) NOT NULL,
+	`createdByAdminId` varchar(17) NOT NULL,
+	`discountIsPercent` tinyint(1) NOT NULL DEFAULT 0,
+	`discount` float NOT NULL DEFAULT 0,
+	`customJobDetails` text NULL,
+	`comments` text NULL,
+	`privateNotes` text NULL,
+	`isManualPaid` tinyint(1) NOT NULL DEFAULT 0,
+	`isViewed` tinyint(1) NOT NULL DEFAULT 0,
+	`isEmailed` tinyint(1) NOT NULL DEFAULT 0,
+	`isOverdueNotified` tinyint(1) NOT NULL DEFAULT 0,
+	`dateTimeAdded` datetime NOT NULL,
+	PRIMARY KEY (`invoiceId`),
+	KEY `invoiceBusinessId` (`businessId`),
+	KEY `invoiceCustomerId` (`customerId`),
+	KEY `invoiceCreatedByAdminId` (`createdByAdminId`),
+	KEY `invoiceDocIdId` (`docIdId`),
+	CONSTRAINT `invoicecreatedByAdminId` FOREIGN KEY (`createdByAdminId`) REFERENCES `admin` (`adminId`),
+	CONSTRAINT `invoiceBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
+	CONSTRAINT `invoiceCustomerId` FOREIGN KEY (`customerId`) REFERENCES `customer` (`customerId`),
+	CONSTRAINT `invoiceDocIdId` FOREIGN KEY (`DocIdId`) REFERENCES `docId` (`docIdId`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
+	-- Table structure for table `invoiceItem`
+	--
+
+	CREATE TABLE IF NOT EXISTS `invoiceItem` (
+	`invoiceItemId` varchar(17) NOT NULL,
+	`businessId` varchar(17) NOT NULL,
+	`invoiceId` varchar(17) NOT NULL,
+	`name` varchar(100) NOT NULL,
+	`price` float NOT NULL DEFAULT 0,
+	`taxIsPercent` tinyint(1) NOT NULL DEFAULT 0,
+	`tax` float NOT NULL DEFAULT 0,
+	`quantity` INT(11) NOT NULL,
+	`dateTimeAdded` datetime NOT NULL,
+	PRIMARY KEY (`invoiceItemId`),
+	KEY `invoiceItemBusinessId` (`businessId`),
+	KEY `invoiceItemInvoiceId` (`invoiceId`),
+	CONSTRAINT `invoiceItemBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
+	CONSTRAINT `invoiceItemInvoiceId` FOREIGN KEY (`invoiceId`) REFERENCES `invoice` (`invoiceId`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
+	-- Table structure for table `payment`
+	--
+
+	CREATE TABLE IF NOT EXISTS `payment` (
+	`paymentId` varchar(17) NOT NULL,
+	`businessId` varchar(17) NOT NULL,
+	`customerId` varchar(17) NOT NULL,
+	`addedByAdminId` varchar(17) NULL COMMENT 'Optional FK',
+	`method` varchar(20) NOT NULL,
+	`amount` float NOT NULL,
+	`notes` varchar(50) NULL,
+	`excessWasAddedToCredit` tinyint(1) NOT NULL DEFAULT 0,
+	`dateTimeAdded` datetime NOT NULL,
+	PRIMARY KEY (`paymentId`),
+	KEY `paymentBusinessId` (`businessId`),
+	KEY `paymentCustomerId` (`customerId`),
+	KEY `paymentAddedByAdminId` (`addedByAdminId`),
+	CONSTRAINT `paymentBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
+	CONSTRAINT `paymentCustomerId` FOREIGN KEY (`customerId`) REFERENCES `customer` (`customerId`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
 	-- Table structure for table `quoteRequest`
 	--
 
