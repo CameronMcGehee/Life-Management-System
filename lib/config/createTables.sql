@@ -85,13 +85,16 @@
 	-- Table structure for table `adminSavedLogin`
 	--
 
-	CREATE TABLE IF NOT EXISTS `adminSavedLogin` (
-	`adminSavedLoginAttemptId` varchar(17) NOT NULL,
+	REATE TABLE IF NOT EXISTS `adminSavedLogin` (
+	`adminSavedLoginId` varchar(17) NOT NULL,
+	`businessId` varchar(17) NOT NULL,
 	`adminId` varchar(17) NOT NULL,
 	`code` varchar(17) NOT NULL,
 	`dateTimeAdded` datetime NOT NULL,
-	PRIMARY KEY (`adminSavedLoginAttemptId`),
+	PRIMARY KEY (`adminSavedLoginId`),
+	KEY `adminSavedLoginBusinessId` (`businessId`),
 	KEY `adminSavedLoginAdminId` (`adminId`),
+	CONSTRAINT `adminSavedLoginBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
 	CONSTRAINT `adminSavedLoginAdminId` FOREIGN KEY (`adminId`) REFERENCES `admin` (`adminId`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -363,13 +366,16 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `customerSavedLogin` (
-	`customerSavedLoginAttemptId` varchar(17) NOT NULL,
-	`adminId` varchar(17) NOT NULL,
+	`customerSavedLoginId` varchar(17) NOT NULL,
+	`businessId` varchar(17) NOT NULL,
+	`customerId` varchar(17) NOT NULL,
 	`code` varchar(17) NOT NULL,
 	`dateTimeAdded` datetime NOT NULL,
-	PRIMARY KEY (`customerSavedLoginAttemptId`),
-	KEY `customerSavedLoginAdminId` (`adminId`),
-	CONSTRAINT `customerSavedLoginAdminId` FOREIGN KEY (`adminId`) REFERENCES `admin` (`adminId`)
+	PRIMARY KEY (`customerSavedLoginId`),
+	KEY `customerSavedLoginBusinessId` (`businessId`),
+	KEY `customerSavedLoginCustomerId` (`customerId`),
+	CONSTRAINT `customerSavedLoginBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
+	CONSTRAINT `customerSavedLoginCustomerId` FOREIGN KEY (`customerId`) REFERENCES `customer` (`customerId`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -541,11 +547,14 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `staffSavedLogin` (
-	`staffSavedLoginAttemptId` varchar(17) NOT NULL,
-	`adminId` varchar(17) NOT NULL,
+	`staffSavedLoginId` varchar(17) NOT NULL,
+	`businessId` varchar(17) NOT NULL,
+	`staffId` varchar(17) NOT NULL,
 	`code` varchar(17) NOT NULL,
 	`dateTimeAdded` datetime NOT NULL,
-	PRIMARY KEY (`staffSavedLoginAttemptId`),
-	KEY `staffSavedLoginAdminId` (`adminId`),
-	CONSTRAINT `staffSavedLoginAdminId` FOREIGN KEY (`adminId`) REFERENCES `admin` (`adminId`)
+	PRIMARY KEY (`staffSavedLoginId`),
+	KEY `staffSavedLoginBusinessId` (`businessId`),
+	KEY `staffSavedLoginStaffId` (`staffId`),
+	CONSTRAINT `staffSavedLoginBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
+	CONSTRAINT `staffSavedLoginStaffId` FOREIGN KEY (`staffId`) REFERENCES `staff` (`staffId`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
