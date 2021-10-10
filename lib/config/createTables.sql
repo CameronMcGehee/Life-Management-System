@@ -200,6 +200,8 @@
 	`phone3` int(11) DEFAULT NULL,
 	`email` varchar(64) DEFAULT NULL,
 	`currencySymbol` varchar(1) NOT NULL DEFAULT '$',
+	`areaSymbol` varchar(5) NOT NULL DEFAULT 'ft',
+	`distanceSymbol` varchar(5) NOT NULL DEFAULT 'mi',
 	`timeZone` varchar(30) NOT NULL,
 	`modCust` tinyint(1) NOT NULL DEFAULT 0,
 	`modInv` tinyint(1) NOT NULL DEFAULT 0,
@@ -312,24 +314,25 @@
 	`customerId` varchar(17) NOT NULL,
 	`businessId` varchar(17) NOT NULL,
 	`addedByAdminId` varchar(17) NOT NULL,
-	`surname` varchar(10) NOT NULL,
+	`surname` varchar(10) NULL,
 	`firstName` varchar(20) NOT NULL,
 	`lastName` varchar(20) NOT NULL,
-	`billAddress` varchar(150) DEFAULT NULL,
-	`billCity` varchar(50) DEFAULT NULL,
-	`billState` varchar(50) DEFAULT NULL,
-	`billZipCode` int(11) DEFAULT NULL,
+	`billAddress1` varchar(150) NULL,
+	`billAddress2` varchar(150) NULL,
+	`billCity` varchar(50) NULL,
+	`billState` varchar(50) NULL,
+	`billZipCode` int(11) NULL,
 	`creditCache` float NOT NULL DEFAULT 0,
-	`overrideCreditAlertIsEnabled` tinyint(1) DEFAULT NULL,
-	`overrideCreditAlertAmount` float DEFAULT NULL,
-	`overrideAutoApplyCredit` tinyint(1) DEFAULT NULL,
+	`overrideCreditAlertIsEnabled` tinyint(1) NULL DEFAULT NULL,
+	`overrideCreditAlertAmount` float NOT NULL DEFAULT 25,
+	`overrideAutoApplyCredit` tinyint(1) NULL DEFAULT NULL,
 	`balanceCache` float NOT NULL DEFAULT 0,
-	`overrideBalanceAlertIsEnabled` tinyint(1) DEFAULT NULL,
-	`overrideBalanceAlertAmount` float DEFAULT NULL,
+	`overrideBalanceAlertIsEnabled` tinyint(1) NULL DEFAULT NULL,
+	`overrideBalanceAlertAmount` float NOT NULL DEFAULT 500,
 	`allowCZSignIn` tinyint(1) NOT NULL DEFAULT 0,
 	`password` varchar(64) NOT NULL,
-	`discountPercent` int(11) DEFAULT NULL,
-	`overridePaymentTerm` int(11) DEFAULT NULL,
+	`discountPercent` int(11) NULL,
+	`overridePaymentTerm` int(11) NULL,
 	`notes` text NOT NULL,
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`customerId`),
@@ -580,6 +583,33 @@
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
+	-- Table structure for table `payment`
+	--
+
+	CREATE TABLE IF NOT EXISTS `property` (
+	`propertyId` varchar(17) NOT NULL,
+	`businessId` varchar(17) NOT NULL,
+	`customerId` varchar(17) NOT NULL,
+	`addedByAdminId` varchar(17) NOT NULL,
+	`address1` varchar(150) NOT NULL,
+	`address2` varchar(100) NULL,
+	`city` varchar(50) NULL,
+	`state` varchar(50) NULL,
+	`zipCode` int(11) NULL,
+	`lawnSize` int(11) NULL,
+	`mulchQuantity`int(11) NULL,
+	`pricePerMow` float NULL,
+	`dateTimeAdded` datetime NOT NULL,
+	PRIMARY KEY (`propertyId`),
+	KEY `propertyBusinessId` (`businessId`),
+	KEY `propertyCustomerId` (`customerId`),
+	KEY `propertyAddedByAdminId` (`addedByAdminId`),
+	CONSTRAINT `propertyBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
+	CONSTRAINT `propertyCustomerId` FOREIGN KEY (`customerId`) REFERENCES `customer` (`customerId`),
+	CONSTRAINT `propertyAddedByAdminId` FOREIGN KEY (`addedByAdminId`) REFERENCES `admin` (`adminId`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
 	-- Table structure for table `quoteRequest`
 	--
 
@@ -589,7 +619,7 @@
 	`linkedToCustomerId` varchar(17) NULL COMMENT 'Optional FK',
 	`name` varchar(50) NULL,
 	`email` varchar(64) NULL,
-	`address1` varchar(100) NULL,
+	`address1` varchar(150) NULL,
 	`address2` varchar(100) NULL,
 	`state` varchar(50) NULL,
 	`zipCode` int(11) NULL,
