@@ -583,6 +583,57 @@
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
+	-- Table structure for table `payrollDue`
+	--
+
+	CREATE TABLE IF NOT EXISTS `payrollDue` (
+	`payrollDueId` varchar(17) NOT NULL,
+	`businessId` varchar(17) NOT NULL,
+	`staffId` varchar(17) NOT NULL,
+	`linkedToTimeLogId` varchar(17) NULL COMMENT 'Optional FK',
+	`linkedToCompletedJobId` varchar(17) NULL COMMENT 'Optional FK',
+	`createdByAdminId` varchar(17) NOT NULL,
+	`amount` float NOT NULL,
+	`notes` text NULL,
+	`isManualPaid` tinyint(1) NOT NULL DEFAULT 0,
+	`dateTimeAdded` datetime NOT NULL,
+	PRIMARY KEY (`payrollDueId`),
+	KEY `payrollDueBusinessId` (`businessId`),
+	KEY `payrollDueStaffId` (`staffId`),
+	KEY `payrollDueLinkedToTimeLogId` (`linkedToTimeLogId`),
+	KEY `payrollDueLinkedToCompletedJobId` (`linkedToCompletedJobId`),
+	KEY `payrollDueCreatedByAdminId` (`createdByAdminId`),
+	CONSTRAINT `payrollDueBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
+	CONSTRAINT `payrollDueStaffId` FOREIGN KEY (`staffId`) REFERENCES `staff` (`staffId`),
+	CONSTRAINT `payrollDueCreatedByAdminId` FOREIGN KEY (`createdByAdminId`) REFERENCES `admin` (`adminId`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
+	-- Table structure for table `payrollSatisfaction`
+	--
+
+	CREATE TABLE IF NOT EXISTS `payrollSatisfaction` (
+	`payrollSatisfactionId` varchar(17) NOT NULL,
+	`businessId` varchar(17) NOT NULL,
+	`staffId` varchar(17) NOT NULL,
+	`linkedToPayrollDueId` varchar(17) NULL COMMENT 'Optional FK',
+	`createdByAdminId` varchar(17) NOT NULL,
+	`method` varchar(10) NOT NULL,
+	`amount` float NOT NULL,
+	`notes` text NULL,
+	`excessIsAddedToAdvancePay` tinyint(1) NOT NULL DEFAULT 0,
+	`dateTimeAdded` datetime NOT NULL,
+	PRIMARY KEY (`payrollSatisfactionId`),
+	KEY `payrollSatisfactionBusinessId` (`businessId`),
+	KEY `payrollSatisfactionStaffId` (`staffId`),
+	KEY `payrollSatisfactionLinkedToPayrollDueId` (`linkedToPayrollDueId`),
+	KEY `payrollSatisfactionCreatedByAdminId` (`createdByAdminId`),
+	CONSTRAINT `payrollSatisfactionBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
+	CONSTRAINT `payrollSatisfactionStaffId` FOREIGN KEY (`staffId`) REFERENCES `staff` (`staffId`),
+	CONSTRAINT `payrollSatisfactionCreatedByAdminId` FOREIGN KEY (`createdByAdminId`) REFERENCES `admin` (`adminId`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
 	-- Table structure for table `payment`
 	--
 
@@ -746,4 +797,25 @@
 	KEY `staffSavedLoginStaffId` (`staffId`),
 	CONSTRAINT `staffSavedLoginBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
 	CONSTRAINT `staffSavedLoginStaffId` FOREIGN KEY (`staffId`) REFERENCES `staff` (`staffId`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
+	-- Table structure for table `timeLog`
+	--
+
+	CREATE TABLE IF NOT EXISTS `timeLog` (
+	`timeLogId` varchar(17) NOT NULL,
+	`businessId` varchar(17) NOT NULL,
+	`staffId` varchar(17) NOT NULL,
+	`addedByAdminId` varchar(17) NULL COMMENT 'Optional FK',
+	`dateTimeStart` datetime NOT NULL,
+	`dateTimeEnd` datetime NULL,
+	`notes` text NULL,
+	`dateTimeAdded` datetime NOT NULL,
+	PRIMARY KEY (`timeLogId`),
+	KEY `timeLogBusinessId` (`businessId`),
+	KEY `timeLogStaffId` (`staffId`),
+	KEY `timeLogAddedByAdminId` (`addedByAdminId`),
+	CONSTRAINT `timeLogBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
+	CONSTRAINT `timeLogStaffId` FOREIGN KEY (`staffId`) REFERENCES `staff` (`staffId`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
