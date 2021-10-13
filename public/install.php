@@ -22,13 +22,21 @@
             mkdir('../config');
         }
         copy('../lib/config/defaultMainConfig.php', '../config/mainConfig.php');
+        echo '<html><p>Config File has been created at <pre>/config/mainConfig.php</pre>. Input SQL database login credentials in the config to continue setup.</p></html>';
+        exit();
+    }
+    include_once '../config/mainConfig.php';
+    error_reporting($ULTISCAPECONFIG['phpErrors']);
+
+    mysqli_connect($ULTISCAPECONFIG['databaseServer'], $ULTISCAPECONFIG['databaseUsername'], $ULTISCAPECONFIG['databasePassword'], $ULTISCAPECONFIG['databaseDb']);
+
+    // Check connection
+    if (mysqli_connect_errno()) {
+        echo '<html><p><b>SQL Server Authentication Error: </b>Input SQL server login credentials in the config to continue setup.</p></html>';
+        exit();
     }
 
-    // If database exists and there are tables
-
-    // if () {
-
-    // }
+    // Create all the tables in the /lib/config/createTables.sql file (NF)
 
     echo '<html><p>Successfully Installed. <a href="index">Click begin using UltiScape!</a></p></html>';
 
