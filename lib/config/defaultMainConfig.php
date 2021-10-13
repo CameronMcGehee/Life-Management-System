@@ -15,6 +15,7 @@
     $ULTISCAPECONFIG['databaseDb'] = 'ultiscape';
 
     $ULTISCAPECONFIG['allowAccess'] = true;
+    $ULTISCAPECONFIG['denyAccessTitle'] = 'UltiScape - Down for Maintenance';
     $ULTISCAPECONFIG['denyAccessMessage'] = '<h1>UltiScape is current down for maintenance and will be back up in a few moments. Reload the page in a few minutes to try again.</h1>';
 
     $ULTISCAPECONFIG['databaseErrTitle'] = 'UltiScape - No Database Connection';
