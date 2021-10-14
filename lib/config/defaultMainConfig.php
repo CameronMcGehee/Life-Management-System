@@ -31,11 +31,13 @@
 
         // Min lengths of admin details when singing up or editing profile.
         // Not recommended to have these set less than 1. Setting any to less than 0 will break things!
-        "adminNameTitleMinLength" => 0, 
-        "adminFirstNameMinLength" => 3, 
+        "adminEmailMinLength" => 5,
+        "adminUseEmailValidation" => true,
+        "adminNameTitleMinLength" => 0,
+        "adminFirstNameMinLength" => 3,
         "adminLastNameMinLength" => 3,
         "adminUsernameMinLength" => 5,
-        "adminPasswordMinLength" => 8,
+        "adminPasswordMinLength" => 8
     );
 
 ?>
