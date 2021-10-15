@@ -52,18 +52,24 @@
 
 			$output .= '<div class="xyCenteredFlex" id="ultiscapeLogoWrapper">';
 				if ($showLogo) {
-					$output .= '<a id="ultiscapeLogoImageWrapper" href="'.$rootPathPrefix.'"><img src="'.$rootPathPrefix.'images/logos/mainLogoTopBarWhiteTrans.png"></a>';
+					$output .= '<a id="ultiscapeLogoImageWrapper" href="'.$rootPathPrefix.'"><img src="'.$rootPathPrefix.'images/ultiscape/logos/mainLogoTopBarWhiteTrans.png"></a>';
 				}
 			$output .= '</div>';
 
 			// Blank Space
-			$output .= '<div>';
-			$output .= '</div>';
+			$output .= '<div></div>';
 
 			// Business Selector Button
 			$output .= '<div id="businessSelectorWrapper">';
 				if ($showBusinessSelector) {
-					
+					$currentBusinessLogo = $businessManager->getFullLogoFile($_SESSION['ultiscape_businessId']);
+					// If the currently selected business does not have a logo file, display the default one
+					if (!$currentBusinessLogo) {
+						$currentBusinessLogo = 'noBusiness.png';
+					}
+					$bsImgPath = $rootPathPrefix.'images/ultiscape/uploads/business/fullLogoFile'.$fileName;
+					// Render the button itself
+					$output .= '<img id="businessSelectorSelectedImg" src="'.$bsImgPath.'"><img src="'.$rootPathPrefix.'images/ultiscape/icons/chevron_down.svg" id="chevron">';
 				}
 			$output .= '</div>';
 
@@ -74,12 +80,12 @@
 					$fileName = '';
 					if (false) {
 						if (false) {
-							$pfpPath = $rootPathPrefix.'images/uploads/profile/'.$fileName;
+							$pfpPath = $rootPathPrefix.'images/ultiscape/uploads/profile/'.$fileName;
 						}
 					} else {
-						$pfpPath = $rootPathPrefix.'images/icons/user_male.svg';
+						$pfpPath = $rootPathPrefix.'images/uliscape/icons/user_male.svg';
 					}
-					$output .= '<img id="profilePictureButton" src="'.$pfpPath.'"><img src="'.$rootPathPrefix.'images/icons/chevron_down.svg" id="chevron">';
+					$output .= '<img id="profilePictureButton" src="'.$pfpPath.'"><img src="'.$rootPathPrefix.'images/ultiscape/icons/chevron_down.svg" id="chevron">';
 				}
 			$output .= '</div>';
 			
@@ -96,7 +102,7 @@
 
 			$output .= '<span class="profilePictureButtonDropdownHider" id="pfpMenu"><div class="profilePictureButtonDropdownWrapper xyCenteredFlex flexDirectionColumn">';
 				$output .= '<a href="'.$rootPathPrefix.'admin/editprofile"><p>Edit Profile</p></a>';
-				$output .= '<a href="'.$rootPathPrefix.'admin/scripts/standalone/logout.script" class="smallButtonWrapper orangeButton xyCenteredFlex defaultMainShadows" style="padding: .2em;"><img style="width: 2em; height: 2em;" src="'.$rootPathPrefix.'images/icons/exit_right.svg"></a>';
+				$output .= '<a href="'.$rootPathPrefix.'admin/scripts/standalone/logout.script" class="smallButtonWrapper orangeButton xyCenteredFlex defaultMainShadows" style="padding: .2em;"><img style="width: 2em; height: 2em;" src="'.$rootPathPrefix.'images/ultiscape/icons/exit_right.svg"></a>';
 			$output .= '</div></span>';
 
 			return $output;
@@ -129,11 +135,11 @@
 
 			$output .= '<div class="cmsSideBarWrapper">';
 
-			$output .= '<a class="sideBarButton defaultAll4InsetShadow" id="button1" href="'.$rootPathPrefix.'admin/people"><img src="'.$rootPathPrefix.'images/icons/users.svg"><p>People</p></a>';
-			$output .= '<a class="sideBarButton defaultAll4InsetShadow" id="button2" href="'.$rootPathPrefix.'admin/communications"><img src="'.$rootPathPrefix.'images/icons/thread.svg"><p>Communications</p></a>';
-			$output .= '<a class="sideBarButton defaultAll4InsetShadow" id="button3" href="'.$rootPathPrefix.'admin/jobs"><img src="'.$rootPathPrefix.'images/icons/calendar_month.svg"><p>Jobs</p></a>';
-			$output .= '<a class="sideBarButton defaultAll4InsetShadow" id="button4" href="'.$rootPathPrefix.'admin/documents"><img src="'.$rootPathPrefix.'images/icons/document.svg"><p>Documents</p></a>';
-			$output .= '<a class="sideBarButton defaultAll4InsetShadow" id="button5" href="'.$rootPathPrefix.'admin/inventory"><img src="'.$rootPathPrefix.'images/icons/archive.svg"><p>Inventory</p></a>';
+			$output .= '<a class="sideBarButton defaultAll4InsetShadow" id="button1" href="'.$rootPathPrefix.'admin/people"><img src="'.$rootPathPrefix.'images/ultiscape/icons/users.svg"><p>People</p></a>';
+			$output .= '<a class="sideBarButton defaultAll4InsetShadow" id="button2" href="'.$rootPathPrefix.'admin/communications"><img src="'.$rootPathPrefix.'images/ultiscape/icons/thread.svg"><p>Communications</p></a>';
+			$output .= '<a class="sideBarButton defaultAll4InsetShadow" id="button3" href="'.$rootPathPrefix.'admin/jobs"><img src="'.$rootPathPrefix.'images/ultiscape/icons/calendar_month.svg"><p>Jobs</p></a>';
+			$output .= '<a class="sideBarButton defaultAll4InsetShadow" id="button4" href="'.$rootPathPrefix.'admin/documents"><img src="'.$rootPathPrefix.'images/ultiscape/icons/document.svg"><p>Documents</p></a>';
+			$output .= '<a class="sideBarButton defaultAll4InsetShadow" id="button5" href="'.$rootPathPrefix.'admin/inventory"><img src="'.$rootPathPrefix.'images/ultiscape/icons/archive.svg"><p>Inventory</p></a>';
 			$output .= '<div id="smallBottomLinks"><a href="'.$rootPathPrefix.'admin/overview">Overview</a> | <a href="'.$rootPathPrefix.'admin/sitemap">Sitemap</a></div>';
 
 			$output .= '</div>';
@@ -166,11 +172,11 @@
 
 			if (isset($_SESSION['ultiscape_adminId']) && isset($_SESSION['ultiscape_businessId'])) {
 				$output .= '<div class="mobileNavBarButtonArray">';
-					$output .= '<a class="button" id="button1" href="'.$rootPathPrefix.'admin/people"><img src="'.$rootPathPrefix.'images/icons/users.svg"><p>People</p></a>';
-					$output .= '<a class="button" id="button2" href="'.$rootPathPrefix.'admin/communications"><img src="'.$rootPathPrefix.'images/icons/thread.svg"><p>Comms</p></a>';
-					$output .= '<a class="button" id="button3" href="'.$rootPathPrefix.'admin/jobs"><img src="'.$rootPathPrefix.'images/icons/calendar_month.svg"><p>Jobs</p></a>';
-					$output .= '<a class="button" id="button4" href="'.$rootPathPrefix.'admin/documents"><img src="'.$rootPathPrefix.'images/icons/document.svg"><p>Docs</p></a>';
-					$output .= '<a class="button" id="button5" href="'.$rootPathPrefix.'admin/inventory"><img src="'.$rootPathPrefix.'images/icons/archive.svg"><p>Inventory</p></a>';
+					$output .= '<a class="button" id="button1" href="'.$rootPathPrefix.'admin/people"><img src="'.$rootPathPrefix.'images/ultiscape/icons/users.svg"><p>People</p></a>';
+					$output .= '<a class="button" id="button2" href="'.$rootPathPrefix.'admin/communications"><img src="'.$rootPathPrefix.'images/ultiscape/icons/thread.svg"><p>Comms</p></a>';
+					$output .= '<a class="button" id="button3" href="'.$rootPathPrefix.'admin/jobs"><img src="'.$rootPathPrefix.'images/ultiscape/icons/calendar_month.svg"><p>Jobs</p></a>';
+					$output .= '<a class="button" id="button4" href="'.$rootPathPrefix.'admin/documents"><img src="'.$rootPathPrefix.'images/ultiscape/icons/document.svg"><p>Docs</p></a>';
+					$output .= '<a class="button" id="button5" href="'.$rootPathPrefix.'admin/inventory"><img src="'.$rootPathPrefix.'images/ultiscape/icons/archive.svg"><p>Inventory</p></a>';
 				$output .= '</div>';
 			} else {
 				$output .= '<p class="margin90 textCentered">Please login and select business.</p>';
