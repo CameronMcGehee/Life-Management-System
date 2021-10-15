@@ -1,8 +1,5 @@
 	-- Adds all tables needed for ultiscape to function
 
-	CREATE DATABASE  IF NOT EXISTS `ultiscape`;
-	USE `ultiscape`;
-
 	--
 	-- Table structure for table `admin`
 	--
@@ -204,6 +201,7 @@
 	`distanceSymbol` varchar(5) NOT NULL DEFAULT 'mi',
 	`timeZone` varchar(30) NOT NULL,
 	`modCust` tinyint(1) NOT NULL DEFAULT 0,
+	`modEmail` tinyint(1) NOT NULL DEFAULT 0,
 	`modInv` tinyint(1) NOT NULL DEFAULT 0,
 	`modInvIncludePastBal` tinyint(1) NOT NULL DEFAULT 0,
 	`modEst` tinyint(1) NOT NULL DEFAULT 0,

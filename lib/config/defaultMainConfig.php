@@ -9,35 +9,74 @@
         // Whether or not PHP errors should be output to the browser as text. 
         // Should be turned off for production and only used for debugging!
         //0 for none, E_ERROR, E_WARNING, E_PARSE, or E_ALL
-        "phpErrors" => 0,
+            "phpErrors" => 0,
+
+        // Root user
+            "rootUserUsername" => 'root',
+            "rootUserPassword" => '1234567890', // Change this!!
 
         // Database Credentials
-        "databaseServer" => 'localhost',
-        "databaseUsername" => 'USERNAME',
-        "databasePassword" => 'PASSWORD',
-        "databaseDb" => 'ultiscape',
+            "databaseServer" => 'localhost',
+            "databaseUsername" => 'USERNAME',
+            "databasePassword" => 'PASSWORD',
+            "databaseDb" => 'ultiscape',
 
         // Global Access Control
-        "allowAccess" => true, // Essential takes down UltiScape. Users will not be able to access the site. The message below will be shown instead.
-        "denyAccessTitle" => 'UltiScape - Down for Maintenance',
-        "denyAccessMessage" => '<h1>UltiScape is current down for maintenance and will be back up in a few moments. Reload the page in a few minutes to try again.</h1>',
+            "allowAccess" => true, // Essential takes down UltiScape. Users will not be able to access the site. The message below will be shown instead.
+            "denyAccessTitle" => 'UltiScape - Down for Maintenance',
+            "denyAccessMessage" => '<h1>UltiScape is current down for maintenance and will be back up in a few moments. Reload the page in a few minutes to try again.</h1>',
 
-        "databaseErrTitle" => 'UltiScape - No Database Connection',
-        "databaseErrMessage" => '<h1>Ultiscape currently cannot connect to the configured database. Reload the page in a few minutes to try again.</h1><p>If you are the owner of this installation, please check the database credentials in your config and the status of the server hosting the database.</p>',
+            "databaseErrTitle" => 'UltiScape - No Database Connection',
+            "databaseErrMessage" => '<h1>Ultiscape currently cannot connect to the configured database. Reload the page in a few minutes to try again.</h1><p>If you are the owner of this installation, please check the database credentials in your config and the status of the server hosting the database.</p>',
+        
+        // Self-Hosting Options
+            "singleBusinessMode" => false, // Turn on if you only want the root user to make new businesses and admin accounts. Useful when self hosting for a single company
 
-        // Global Admin Constraints and Settings
+        // Business Settings
 
-        "askForNameTitleOnRegister" => false, // nameTitle just means Mr., Ms., etc.
+            // Available modules:
+            // - customers
+            // - invoices
+            // - estimates
+            // - properties
+            // - jobs
+            // - equipment
+            // - chemicals
+            // - staff
+            // - crews
+            // - payroll
+            // - email
 
-        // Min lengths of admin details when singing up or editing profile.
-        // Not recommended to have these set less than 1. Setting any to less than 0 will break things!
-        "adminEmailMinLength" => 5,
-        "adminUseEmailValidation" => true,
-        "adminNameTitleMinLength" => 0,
-        "adminFirstNameMinLength" => 3,
-        "adminLastNameMinLength" => 3,
-        "adminUsernameMinLength" => 5,
-        "adminPasswordMinLength" => 8
+            // Default Modules to enable when a new business is created by an admin.
+            "defaultBusinessModules" => array("customers", "properties", "jobs", "invoices"),
+
+            // What modules can be enabled. You might want to disable the email module if you do not have an SMTP server.
+            "allowedBusinessModules" => array("customers", "invoices", "estimates", "properties", "jobs", "equipment", "chemicals", "staff", "crews", "payroll", "email"),
+
+        // Email SMTP settings - It's recommended to use something like Amazon SES for your email sending to avoid being blacklisted for using a private server
+        // These settings are NOT REQUIRED as long as you do not intend to use the email module in UltiScape.
+            "SMTPUseAuth" => true, // Set to false if your SMTP server does not use SMTP authentication...although it really should
+            "SMTPAuthUsername" => 'username',
+            "SMTPAuthPassword" => 'password',
+            "SMTPAuthHost" => 'host',
+            "SMTPAuthUsername" => 587,
+            "SMTPAuthSecure" => 'tls', // Set to whatever you want to encrypt messages with. Usually depends on what your SMTP server supports
+        
+        // Admin Settings
+
+            "askForNameTitleOnRegister" => false, // ask for 'Mr.', 'Ms.', etc. name prefix on new admin registrations
+
+            // Min lengths of admin details when singing up or editing profile.
+            // Not recommended to have these set less than 1. Setting any to less than 0 will break things!
+            "adminEmailMinLength" => 5,
+            "adminUseEmailValidation" => true,
+            "adminNameTitleMinLength" => 0,
+            "adminFirstNameMinLength" => 3,
+            "adminLastNameMinLength" => 3,
+            "adminUsernameMinLength" => 5,
+            "adminPasswordMinLength" => 8
+
+        // Staff Settings
     );
 
 ?>
