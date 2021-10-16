@@ -33,7 +33,6 @@
     // Check connection
 
     if (mysqli_connect_errno()) {
-        echo "there is indeed an error";
         // 1049 is database error for an unknown database, meaning the database has not been created yet
         if (mysqli_connect_errno() == 1049) {
             // Reconnect without a database
