@@ -41,7 +41,7 @@
             $conn = mysqli_connect($ULTISCAPECONFIG['databaseServer'], $ULTISCAPECONFIG['databaseUsername'], $ULTISCAPECONFIG['databasePassword'], $ULTISCAPECONFIG['databaseDb']);
             if (!mysqli_connect_errno()) {
                 // Add all the tables since if the database wasn't there to begin with they obviously need to be added
-                mysqli_query($conn, file_get_contents('../lib/config/createTables.sql'));
+                $result = mysqli_query($conn, file_get_contents('../lib/config/createTables.sql'));
             }
         // Otherwise it must be some other error
         } else { 
@@ -52,9 +52,11 @@
 
     // Function that checks the number of tables in the selected database, since it is used twice
 
-    function countTables($dbName) {
-        if (!$tablesResult = mysqli_query($conn, "SHOW TABLES FROM ".mysqli_real_escape_string($dbName))) {
-            echo '<html><p><b>SQL Server Initialization Error: </b>Error verifying tables. Check your config and make sure you have the correct database selected and that the database user has access to the database specified.</p></html>';
+    function countTables($conn) {
+        $tablesResult = mysqli_query($conn, "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES");
+        var_dump($tablesResult);
+        if (!$tablesResult) {
+            echo '<html><p><b>1 SQL Server Initialization Error: </b>Error verifying tables. Check your config and make sure you have the correct database selected and that the database user has access to the database specified.</p></html>';
             exit;
         }
     
@@ -70,7 +72,7 @@
 
     $minTables = 25; // How many tables are created in the createTables.sql file
 
-    if (countTables($ULTISCAPECONFIG['databaseDb']) < $minTables) { 
+    if (countTables($ULTISCAPECONFIG['databaseDb']) < $minTables) {
         // Run the create tables script if there are not enough tables
         mysqli_query($conn, file_get_contents('../lib/config/createTables.sql'));
         // Count new tables
