@@ -33,51 +33,40 @@
     // Check connection
 
     if (mysqli_connect_errno()) {
-        // 1049 is database error for an unknown database, meaning the database has not been created yet but the connection was successful
+        echo "there is indeed an error";
+        // 1049 is database error for an unknown database, meaning the database has not been created yet
         if (mysqli_connect_errno() == 1049) {
+            // Reconnect without a database
+            $conn = mysqli_connect($ULTISCAPECONFIG['databaseServer'], $ULTISCAPECONFIG['databaseUsername'], $ULTISCAPECONFIG['databasePassword']);
             // Create the database
-            mysqli_query($conn, "CREATE DATABASE IF NOT EXISTS `".mysqli_real_escape_string($ULTISCAPECONFIG['databaseDb'])."`");
+            mysqli_query($conn, "CREATE DATABASE IF NOT EXISTS `".$ULTISCAPECONFIG['databaseDb']."`");
             // Try connecting again with the new database
             $conn = mysqli_connect($ULTISCAPECONFIG['databaseServer'], $ULTISCAPECONFIG['databaseUsername'], $ULTISCAPECONFIG['databasePassword'], $ULTISCAPECONFIG['databaseDb']);
             if (!mysqli_connect_errno()) {
                 // Add all the tables since if the database wasn't there to begin with they obviously need to be added
-                $result = mysqli_query($conn, file_get_contents('../lib/config/createTables.sql'));
+                if (mysqli_multi_query($conn, file_get_contents('../lib/config/createTables.sql'))) {
+                    do {
+                      // Store first result set
+                      if ($result = mysqli_store_result($conn)) {
+                        while ($row = mysqli_fetch_row($result)) {
+                        //   printf("%s\n", $row[0]);
+                        }
+                        mysqli_free_result($result);
+                      }
+                      // if there are more result-sets, the print a divider
+                      if (mysqli_more_results($conn)) {
+                        // printf("-------------\n");
+                      }
+                       //Prepare next result set
+                    } while (mysqli_next_result($conn));
+                } else {
+                    echo '<html><p><b>SQL Server Initialization Error: </b> Error creating tables in database. Check your config and make sure you have the correct database selected and that the database user has access to the database specified.</p></html>';
+                    exit;
+                }
             }
         // Otherwise it must be some other error
         } else { 
             echo '<html><p><b>SQL Server Authentication Error: </b>Input SQL server login credentials in the config to continue setup. (Error code: '.mysqli_connect_errno().')</p></html>';
-            exit;
-        }
-    }
-
-    // Function that checks the number of tables in the selected database, since it is used twice
-
-    function countTables($conn) {
-        $tablesResult = mysqli_query($conn, "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES");
-        var_dump($tablesResult);
-        if (!$tablesResult) {
-            echo '<html><p><b>1 SQL Server Initialization Error: </b>Error verifying tables. Check your config and make sure you have the correct database selected and that the database user has access to the database specified.</p></html>';
-            exit;
-        }
-    
-        // Count tables
-        $numTables = 0;
-        while ($row = mysqli_fetch_assoc($tablesResult)) {
-            $numTables++;
-        }
-        return $numTables;
-    }
-
-    // Check if all the tables are there.
-
-    $minTables = 25; // How many tables are created in the createTables.sql file
-
-    if (countTables($ULTISCAPECONFIG['databaseDb']) < $minTables) {
-        // Run the create tables script if there are not enough tables
-        mysqli_query($conn, file_get_contents('../lib/config/createTables.sql'));
-        // Count new tables
-        if (countTables($ULTISCAPECONFIG['databaseDb']) < $minTables) {
-            echo '<html><p><b>SQL Server Initialization Error: </b>Error creating tables. Check your config and make sure you have the correct database selected and that the database user has access to the database specified.</p></html>';
             exit;
         }
     }
