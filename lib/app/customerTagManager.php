@@ -22,6 +22,9 @@
 			if ($result) {
 				if (gettype($result) == 'array') {
 					$output = $result[0][$field];
+					if ($output === NULL) {
+						return false;
+					}
 					if ($stripTags) {
 						$output = strip_tags($output);
 					}
