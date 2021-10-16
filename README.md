@@ -1,6 +1,6 @@
 # UltiScape
 
-Ultiscape is planned to be a one-stop site for full automation when operating a lawn/landscaping service business. It will offer features pertaining to:
+Ultiscape is planned to be a one-stop site for full automation when operating a lawn/landscaping service business. It will offer:
 
 - Customers
 - Properties
@@ -12,11 +12,9 @@ Ultiscape is planned to be a one-stop site for full automation when operating a 
 - Staff
 - Crews
 - Payroll
+- Custom website for your business and customer portal for your customers to access their scheduled jobs, invoices, pay online, and more.
+- Self-Hosted version fully configurable to your own needs
 
-It will be designed to be as speedy as possible, which means there will be limited libraries used, no bloated javascript frameworks etc. It will be 100% from scratch apart from very small amounts of jQuery for working with html and async functions.
+The idea is to allow you to either install it on your own hosting environment, or use it at UltiScape.com with a subscription fee or lifetime access purchase. Donations will also be accepted on https://www.ultiscape.com. I feel safe offering it for download since most lawn/landscaping business owners will most likely get the subscription/lifetime ultiscape.com access due to the likelyhood that they are not super tech-savy and will not bother trying to host and install it themselves.
 
-# Dev To-do List
-
-- The main database still needs to be completed. For the sake intelectual property rights and functionality of the site, I will not release the exact database structure and code will not be made to build it. I'll be working on this for a while since it's quite a few tables that need to be added. Until then, just use the functions defined as managers in the lib/app folder since there is a manager class for each group of tables to retrieve data related to them.
-
-- Admin business selection page
+It will be designed to be as speedy as possible, which means there will be limited libraries used, no bloated javascript frameworks etc. It will be mostly PHP/HTML/CSS from scratch apart from very small amounts of jQuery for working with dynamic HTML (popups, for example) and async functions.
