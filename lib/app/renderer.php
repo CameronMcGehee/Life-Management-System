@@ -60,18 +60,22 @@
 			$output .= '<div></div>';
 
 			// Business Selector Button
-			$output .= '<div id="businessSelectorWrapper">';
+			require_once dirname(__FILE__)."/businessManager.php";
+			$businessManager = new businessManager;
+			$output .= '<div class="yCenteredFlex flexDirectionRow" id="businessSelectorButtonWrapper"><div class="yCenteredFlex flexDirectionRow" id="businessSelectorButton">';
 				if ($showBusinessSelector) {
 					$currentBusinessLogo = $businessManager->getFullLogoFile($_SESSION['ultiscape_businessId']);
 					// If the currently selected business does not have a logo file, display the default one
 					if (!$currentBusinessLogo) {
-						$currentBusinessLogo = 'noBusiness.png';
+						$bsImgPath = $rootPathPrefix.'images/ultiscape/etc/noBusiness.png';
+					} else {
+						$bsImgPath = $rootPathPrefix.'images/ultiscape/uploads/business/fullLogoFile/'.$currentBusinessLogo;
 					}
-					$bsImgPath = $rootPathPrefix.'images/ultiscape/uploads/business/fullLogoFile'.$fileName;
+					
 					// Render the button itself
-					$output .= '<img id="businessSelectorSelectedImg" src="'.$bsImgPath.'"><img src="'.$rootPathPrefix.'images/ultiscape/icons/chevron_down.svg" id="chevron">';
+					$output .= '<img id="businessSelectorSelectedImg" src="'.$bsImgPath.'"><img src="'.$rootPathPrefix.'images/ultiscape/icons/chevron_down.svg">';
 				}
-			$output .= '</div>';
+			$output .= '</div></div>';
 
 			// Profile Picture Button
 			$output .= '<div class="yCenteredFlex flexDirectionRow" id="profileButtonWrapper">';
@@ -83,9 +87,9 @@
 							$pfpPath = $rootPathPrefix.'images/ultiscape/uploads/profile/'.$fileName;
 						}
 					} else {
-						$pfpPath = $rootPathPrefix.'images/uliscape/icons/user_male.svg';
+						$pfpPath = $rootPathPrefix.'images/ultiscape/icons/user_male.svg';
 					}
-					$output .= '<img id="profilePictureButton" src="'.$pfpPath.'"><img src="'.$rootPathPrefix.'images/ultiscape/icons/chevron_down.svg" id="chevron">';
+					$output .= '<img id="profilePictureButton" src="'.$pfpPath.'"><img src="'.$rootPathPrefix.'images/ultiscape/icons/chevron_down.svg" class="whiteChevron">';
 				}
 			$output .= '</div>';
 			

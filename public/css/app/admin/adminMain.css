@@ -10,7 +10,7 @@
                                  |_|                                      
    Copyright McGehee Enterprises 2021 */
 
-*, *::before, *::after {
+   *, *::before, *::after {
 	font-family: 'Roboto', sans-serif;
 	margin: 0;
 	padding: 0;
@@ -394,24 +394,30 @@ html, body {
 	width: 100%;
 }
 
-.adminTopBarWrapper #businessSelectorWrapper {
+.adminTopBarWrapper #businessSelectorButtonWrapper {
 	grid-area: businessSelector;
+	cursor: pointer;
+    min-width: 8em;
+    
 }
 
 .adminTopBarWrapper #businessSelectorButton {
-	border: .1em solid gray;
-	border-radius: .1em;
-
-	background-color: white;
+	width: 80%;
+	height: 85%;
 
 	display: flex;
-	align-items: center;
+	align-content: center;
 	justify-content: center;
-	text-align: center;
 
-	width: 100%;
-	max-width: 3.2em;
-	max-height: 80%;
+	background-color: white;
+	border: .08em solid gray;
+	border-radius: .3em;
+    padding-left: .3em;
+}
+
+.adminTopBarWrapper #businessSelectorSelectedImg {
+	min-width: 5em;
+    max-height: 90%;
 }
 
 .adminTopBarWrapper #profileButtonWrapper {
@@ -469,9 +475,7 @@ html, body {
 	border-radius: 0 0 0 .5em;
 }
 
-.adminTopBarWrapper #chevron {
-	grid-area: chevron;
-
+.adminTopBarWrapper .whiteChevron {
 	filter: brightness(100);
 }
 
