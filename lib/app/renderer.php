@@ -60,10 +60,10 @@
 			$output .= '<div></div>';
 
 			// Business Selector Button
-			require_once dirname(__FILE__)."/businessManager.php";
-			$businessManager = new businessManager;
 			$output .= '<div class="yCenteredFlex flexDirectionRow" id="businessSelectorButtonWrapper"><div class="yCenteredFlex flexDirectionRow" id="businessSelectorButton">';
 				if ($showBusinessSelector) {
+					require_once dirname(__FILE__)."/businessManager.php";
+					$businessManager = new businessManager;
 					$currentBusinessLogo = $businessManager->getFullLogoFile($_SESSION['ultiscape_businessId']);
 					// If the currently selected business does not have a logo file, display the default one
 					if (!$currentBusinessLogo) {
@@ -101,9 +101,17 @@
 
 		function renderAdminTopBarDropdowns(string $rootPathPrefix = './') {
 			$output = '';
+
+			// Business Selector button dropdown
+			$output .= '<span class="businessSelectorButtonDropdownHider" id="bsMenu"><div class="businessSelectorButtonDropdownWrapper xyCenteredFlex flexDirectionColumn">';
+			
+			// For each business that belongs to the admin, output a button to switch to that business
+			require_once dirname(__FILE__)."/adminManager.php";
+			$adminManager = new adminManager;
+			$businessIds = $adminManager->getBusinesses($_SESSION['ultiscape_adminId']);
+			$output .= '</div></span>';
 			
 			// Profile Picture button dropdown
-
 			$output .= '<span class="profilePictureButtonDropdownHider" id="pfpMenu"><div class="profilePictureButtonDropdownWrapper xyCenteredFlex flexDirectionColumn">';
 				$output .= '<a href="'.$rootPathPrefix.'admin/editprofile"><p>Edit Profile</p></a>';
 				$output .= '<a href="'.$rootPathPrefix.'admin/scripts/standalone/logout.script" class="smallButtonWrapper orangeButton xyCenteredFlex defaultMainShadows" style="padding: .2em;"><img style="width: 2em; height: 2em;" src="'.$rootPathPrefix.'images/ultiscape/icons/exit_right.svg"></a>';

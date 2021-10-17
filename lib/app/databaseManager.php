@@ -31,6 +31,10 @@
 			return $str;
 		}
 
+		function getLastError() {
+			return mysqli_error($this->conn);
+		}
+
 		function select($tableName, $columns = '*', $parameters = '', $array = true) {
 
 			if (is_array($columns)) {
