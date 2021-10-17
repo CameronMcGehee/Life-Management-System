@@ -4,11 +4,11 @@
 
 	class uuid {
 
-		private $db;
-		private $table;
-		private $idColumn;
+		private databaseManager $db;
+		private string $table;
+		private string $idColumn;
 
-		public $generatedId;
+		public string $generatedId;
 
 		function __construct($table, $idColumn) {
 
