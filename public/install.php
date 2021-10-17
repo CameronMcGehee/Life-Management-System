@@ -43,6 +43,10 @@
             $conn = mysqli_connect($ULTISCAPECONFIG['databaseServer'], $ULTISCAPECONFIG['databaseUsername'], $ULTISCAPECONFIG['databasePassword'], $ULTISCAPECONFIG['databaseDb']);
             if (!mysqli_connect_errno()) {
                 // Add all the tables since if the database wasn't there to begin with they obviously need to be added
+
+                set_time_limit(0); // Make sure it runs all the way as that could cause issues
+                ignore_user_abort(1);
+
                 if (mysqli_multi_query($conn, file_get_contents('../lib/config/createTables.sql'))) {
                     do {
                       // Store first result set
