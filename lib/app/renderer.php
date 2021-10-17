@@ -60,8 +60,9 @@
 			$output .= '<div></div>';
 
 			// Business Selector Button
-			$output .= '<div class="yCenteredFlex flexDirectionRow" id="businessSelectorButtonWrapper"><div class="yCenteredFlex flexDirectionRow" id="businessSelectorButton">';
+			$output .= '<div class="yCenteredFlex flexDirectionRow" id="businessSelectorButtonWrapper">';
 				if ($showBusinessSelector) {
+					$output .= '<div class="yCenteredFlex flexDirectionRow" id="businessSelectorButton">';
 					require_once dirname(__FILE__)."/businessManager.php";
 					$businessManager = new businessManager;
 					$currentBusinessLogo = $businessManager->getFullLogoFile($_SESSION['ultiscape_businessId']);
@@ -73,9 +74,9 @@
 					}
 					
 					// Render the button itself
-					$output .= '<img id="businessSelectorSelectedImg" src="'.$bsImgPath.'"><img src="'.$rootPathPrefix.'images/ultiscape/icons/chevron_down.svg">';
+					$output .= '<img id="businessSelectorSelectedImg" src="'.$bsImgPath.'"><img src="'.$rootPathPrefix.'images/ultiscape/icons/chevron_down.svg"></div>';
 				}
-			$output .= '</div></div>';
+			$output .= '</div>';
 
 			// Profile Picture Button
 			$output .= '<div class="yCenteredFlex flexDirectionRow" id="profileButtonWrapper">';
