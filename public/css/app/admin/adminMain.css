@@ -412,12 +412,15 @@ html, body {
 	background-color: white;
 	border: .08em solid gray;
 	border-radius: .3em;
-    padding-left: .3em;
+    padding-left: .4em;
 }
 
 .adminTopBarWrapper #businessSelectorSelectedImg {
 	min-width: 5em;
-    max-height: 90%;
+    max-height: 85%;
+
+	border: .08em solid gray;
+	border-radius: .1em;
 }
 
 .adminTopBarWrapper #profileButtonWrapper {
