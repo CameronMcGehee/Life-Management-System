@@ -478,6 +478,31 @@ html, body {
 	border-radius: 0 0 0 .5em;
 }
 
+.businessSelectorButtonDropdownHider {
+	display: none;
+}
+
+.businessSelectorButtonDropdownWrapper {
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+
+	position: absolute;
+	right: 8em;
+	top: 4em;
+	
+	width: 9em;
+	max-height: 80vh;
+	padding: .5em;
+
+	background-color: white;
+
+	border-left: .12em solid gray;
+	border-right: .12em solid gray;
+	border-bottom: .12em solid gray;
+	border-radius: 0 0 .5em .5em;
+}
+
 .adminTopBarWrapper .whiteChevron {
 	filter: brightness(100);
 }

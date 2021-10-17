@@ -106,10 +106,9 @@
 			// Business Selector button dropdown
 			$output .= '<span class="businessSelectorButtonDropdownHider" id="bsMenu"><div class="businessSelectorButtonDropdownWrapper xyCenteredFlex flexDirectionColumn">';
 			
-			// For each business that belongs to the admin, output a button to switch to that business
-			require_once dirname(__FILE__)."/adminManager.php";
-			$adminManager = new adminManager;
-			// $businessIds = $adminManager->getBusinesses($_SESSION['ultiscape_adminId']);
+				// For each business that belongs to the admin, output a button to switch to that business
+				$output .= '<p>Test</p>';
+
 			$output .= '</div></span>';
 			
 			// Profile Picture button dropdown
@@ -133,7 +132,7 @@
 					$("#pfpMenu").toggle();
 				});
 
-				$("#businessSelectorWrapper").click(function() {
+				$("#businessSelectorButtonWrapper").click(function() {
 					$("#bsMenu").toggle();
 				});
 			});
