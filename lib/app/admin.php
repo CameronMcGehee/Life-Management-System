@@ -28,7 +28,7 @@
 			if ($adminId == '') {
 				// Make a new admin Id from a random id
 				require_once dirname(__FILE__)."/uuid.php";
-				$newUuid = new uuid('admin', 'adminId');
+				$newUuid = new uuid('table', 'admin', 'adminId');
 				$newUuid = $newUuid->generatedId;
 			}
 

@@ -10,7 +10,7 @@
 
 		public string $generatedId;
 
-		function __construct($table, $idColumn) {
+		function __construct($type, $table, $idColumn) {
 
 			$this->table = $table;
 			$this->idColumn = $idColumn;
@@ -23,8 +23,12 @@
 			$this->generatedId = mt_rand(1, 9999).uniqid();
 
 			// Check if there is already an id in the given table in the given column with that id
-			if ($this->db->select($this->table, $this->idColumn, "WHERE $this->idColumn = '$this->generatedId'")) {
-				$this->regenerate();
+			switch ($type) {
+				case 'table':
+					if ($this->db->select($this->table, $this->idColumn, "WHERE $this->idColumn = '$this->generatedId'")) {
+						$this->regenerate();
+					}
+					break;
 			}
 		}
 

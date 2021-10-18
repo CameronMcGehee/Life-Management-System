@@ -3,10 +3,14 @@
     // HTML OUTPUT/DISPLAY FUNCTIONS ------------------------------------------------------------------------------------------------------------------------------------------
 
 	class renderer {
+
+		public array $config;
 		
 		function __construct() {
 			require_once dirname(__FILE__)."/databaseManager.php";
 			$this->databaseManager = new databaseManager;
+
+			$this->config = $GLOBALS['ULTISCAPECONFIG'];
 		}
 
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -15,7 +19,7 @@
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 
-		function renderAdminHtmlTop (string $rootPathPrefix = './', string $pageTitle = '', string $pageDescription = 'UltiScape CMS') {
+		function renderAdminHtmlTop (string $rootPathPrefix = './', string $pageTitle = '', string $pageDescription = 'UltiScape') {
 			$output = '';
 
 			$output .= '<!DOCTYPE html>';
@@ -146,6 +150,8 @@
 			$output = '';
 
 			$output .= '<div class="cmsSideBarWrapper">';
+
+			// Eventually will add checks to see if the currently selected business has the modules enabled for the buttons to show accordingly
 
 			$output .= '<a class="sideBarButton defaultAll4InsetShadow" id="button1" href="'.$rootPathPrefix.'admin/people"><img src="'.$rootPathPrefix.'images/ultiscape/icons/users.svg"><p>People</p></a>';
 			$output .= '<a class="sideBarButton defaultAll4InsetShadow" id="button2" href="'.$rootPathPrefix.'admin/communications"><img src="'.$rootPathPrefix.'images/ultiscape/icons/thread.svg"><p>Communications</p></a>';
