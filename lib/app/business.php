@@ -7,6 +7,8 @@
 		private string $setType;
 		private databaseManager $db;
 
+		public string $originalBusinessId;
+
 		public string $businessId;
 		public string $ownerAdminId;
 		public string $displayName;
@@ -131,30 +133,13 @@
 			require_once dirname(__FILE__)."/databaseManager.php";
 			$this->db = new databaseManager;
 
-			// If businessId is blank then make a new one
-
-			if ($businessId == '') {
-				// Make a new business Id from a random id
-				require_once dirname(__FILE__)."/uuid.php";
-				$newUuid = new uuid('table', 'business', 'businessId');
-				$newUuid = $newUuid->generatedId;
-			}
-
 			// Fetch from database
-			$fetch = $this->db->select('business', '*', "WHERE businessId ='$businessId'");
+			$fetch = $this->db->select('business', '*', "WHERE businessId ='".$this->db->sanitize($businessId)."'");
 
 			// If businessId already exists then set the set method type to UPDATE and fetch the values for the business
 			if ($fetch) {
 				$this->setType = 'UPDATE';
 				$this->businessId = $businessId;
-				$this->username = $fetch[0]['username'];
-				$this->password = $fetch[0]['password'];
-				$this->email = $fetch[0]['email'];
-				$this->surname = $fetch[0]['surname'];
-				$this->firstName = $fetch[0]['firstName'];
-				$this->lastName = $fetch[0]['lastName'];
-				$this->profilePicture = $fetch[0]['profilePicture'];
-				$this->allowSignIn = $fetch[0]['allowSignIn'];
 				$this->ownerAdminId = $fetch[0]['ownerAdminId'];
 				$this->displayName = $fetch[0]['displayName'];
 				$this->adminDisplayName = $fetch[0]['adminDisplayName'];
@@ -274,16 +259,12 @@
 			// If businessId does not exist then set the set method type to INSERT and inititialize default values
 			} else {
 				$this->setType = 'INSERT';
-				$this->businessId = $newUuid;
 
-				$this->username = '';
-				$this->password = '';
-				$this->email = '';
-				$this->surname = '';
-				$this->firstName = '';
-				$this->lastName = '';
-				$this->profilePicture = '';
-				$this->allowSignIn = '';
+				// Make a new business Id from a random id
+				require_once dirname(__FILE__)."/uuid.php";
+				$newUuid = new uuid('table', 'business', 'businessId');
+				$this->businessId = $newUuid->generatedId;
+
 				$this->ownerAdminId = '';
 				$this->displayName = '';
 				$this->adminDisplayName = '';
@@ -404,6 +385,8 @@
 				$currentDateTime = new DateTime();
 				$this->dateTimeAdded = $currentDateTime->format('Y-m-d H:i:s');
 			}
+
+			$this->originalBusinessId = $this->businessId;
 			
 		}
 
@@ -412,8 +395,126 @@
 
 			if ($this->setType == 'UPDATE') {
 
-				// Update the values in the database
-				if ($this->db->update('business', array("username" => $this->username /* etc */), 1)) {
+				// Update the values in the database after sanitizing them
+				if ($this->db->update('business', array(
+					'businessId' => $this->db->sanitize($this->businessId),
+					'ownerAdminId' => $this->db->sanitize($this->ownerAdminId),
+					'displayName' => $this->db->sanitize($this->displayName),
+					'adminDisplayName' => $this->db->sanitize($this->adminDisplayName),
+					'fullLogoFile' => $this->db->sanitize($this->fullLogoFile),
+					'address' => $this->db->sanitize($this->address),
+					'state' => $this->db->sanitize($this->state),
+					'city' => $this->db->sanitize($this->city),
+					'zipCode' => $this->db->sanitize($this->zipCode),
+					'phonePrefix' => $this->db->sanitize($this->phonePrefix),
+					'phone1' => $this->db->sanitize($this->phone1),
+					'phone2' => $this->db->sanitize($this->phone2),
+					'phone3' => $this->db->sanitize($this->phone3),
+					'email' => $this->db->sanitize($this->email),
+					'currencySymbol' => $this->db->sanitize($this->currencySymbol),
+					'areaSymbol' => $this->db->sanitize($this->areaSymbol),
+					'distanceSymbol' => $this->db->sanitize($this->distanceSymbol),
+					'timeZone' => $this->db->sanitize($this->timeZone),
+					'modCust' => $this->db->sanitize($this->modCust),
+					'modEmail' => $this->db->sanitize($this->modEmail),
+					'modInv' => $this->db->sanitize($this->modInv),
+					'modInvIncludePastBal' => $this->db->sanitize($this->modInvIncludePastBal),
+					'modEst' => $this->db->sanitize($this->modEst),
+					'modEstExtName' => $this->db->sanitize($this->modEstExtName),
+					'modProp' => $this->db->sanitize($this->modProp),
+					'modPropExtName' => $this->db->sanitize($this->modPropExtName),
+					'modJobs' => $this->db->sanitize($this->modJobs),
+					'modEquip'=> $this->db->sanitize($this->modEquip),
+					'modChem' => $this->db->sanitize($this->modChem),
+					'modStaff' => $this->db->sanitize($this->modStaff),
+					'modStaffExtName' => $this->db->sanitize($this->modStaffExtName),
+					'modCrews' => $this->db->sanitize($this->modCrews),
+					'modCrewsExtName' => $this->db->sanitize($this->modCrewsExtName),
+					'modPayr' => $this->db->sanitize($this->modPayr),
+					'modPayrSatLinkedToDue' => $this->db->sanitize($this->modPayrSatLinkedToDue),
+					'modPayrSalDefaultType' => $this->db->sanitize($this->modPayrSalDefaultType),
+					'modPayrSalBaseHourlyRate' => $this->db->sanitize($this->modPayrSalBaseHourlyRate),
+					'modPayrSalBaseJobPercent' => $this->db->sanitize($this->modPayrSalBaseJobPercent),
+					'modPayrSalBasePerJob' => $this->db->sanitize($this->modPayrSalBasePerJob),
+					'docIdMin' => $this->db->sanitize($this->docIdMin),
+					'docIdIsRandom' => $this->db->sanitize($this->docIdIsRandom),
+					'invoiceTerm' => $this->db->sanitize($this->invoiceTerm),
+					'estimateValidity' => $this->db->sanitize($this->estimateValidity),
+					'creditAlertIsEnabled' => $this->db->sanitize($this->creditAlertIsEnabled),
+					'creditAlertAmount' => $this->db->sanitize($this->creditAlertAmount),
+					'autoApplyCredit' => $this->db->sanitize($this->autoApplyCredit),
+					'balanceAlertIsEnabled' => $this->db->sanitize($this->balanceAlertIsEnabled),
+					'balanceAlertAmount' => $this->db->sanitize($this->balanceAlertAmount),
+					'SZEnabled' => $this->db->sanitize($this->SZEnabled),
+					'SZModInfoForStaffPage' => $this->db->sanitize($this->SZModInfoForStaffPage),
+					'SZModInfoForStaffPageShowBody' => $this->db->sanitize($this->SZModInfoForStaffPageShowBody),
+					'SZModInfoForStaffPageBodyFile' => $this->db->sanitize($this->SZModInfoForStaffPageBodyFile),
+					'SZModPersInfo' => $this->db->sanitize($this->SZModPersInfo),
+					'SZModPersInfoAllowEditName' => $this->db->sanitize($this->SZModPersInfoAllowEditName),
+					'SZModPersInfoAllowEditPhone' => $this->db->sanitize($this->SZModPersInfoAllowEditPhone),
+					'SZModPersInfoAllowEditEmail' => $this->db->sanitize($this->SZModPersInfoAllowEditEmail),
+					'SZModPersInfoAllowEditAddress' => $this->db->sanitize($this->SZModPersInfoAllowEditAddress),
+					'SZModPersInfoAllowEditUsername' => $this->db->sanitize($this->SZModPersInfoAllowEditUsername),
+					'SZModPersInfoAllowEditPassword' => $this->db->sanitize($this->SZModPersInfoAllowEditPassword),
+					'SZModCrews' => $this->db->sanitize($this->SZModCrews),
+					'SZModJobs' => $this->db->sanitize($this->SZModJobs),
+					'SZModJobsShowCrewJobs' => $this->db->sanitize($this->SZModJobsShowCrewJobs),
+					'SZModPayr' => $this->db->sanitize($this->SZModPayr),
+					'SZModPayrShowDetails' => $this->db->sanitize($this->SZModPayrShowDetails),
+					'SZModContactAdmin' => $this->db->sanitize($this->SZModContactAdmin),
+					'SZModQuit' => $this->db->sanitize($this->SZModQuit),
+					'SZModQuitNoticeTerm' => $this->db->sanitize($this->SZModQuitNoticeTerm),
+					'CPEnabled' => $this->db->sanitize($this->CPEnabled),
+					'CPModHomeShowBody' => $this->db->sanitize($this->CPModHomeShowBody),
+					'CPModHomeBodyFile' => $this->db->sanitize($this->CPModHomeBodyFile),
+					'CPModTopBar' => $this->db->sanitize($this->CPModTopBar),
+					'CPModTopBarShowLogo' => $this->db->sanitize($this->CPModTopBarShowLogo),
+					'CPModTopBarLogoFile' => $this->db->sanitize($this->CPModTopBarLogoFile),
+					'CPModTopBarShowQuote' => $this->db->sanitize($this->CPModTopBarShowQuote),
+					'CPModTopBarShowNav' => $this->db->sanitize($this->CPModTopBarShowNav),
+					'CPModServices' => $this->db->sanitize($this->CPModServices),
+					'CPModServicesShowBody' => $this->db->sanitize($this->CPModServicesShowBody),
+					'CPModServicesBodyFile' => $this->db->sanitize($this->CPModServicesBodyFile),
+					'CPModServicesShowList' => $this->db->sanitize($this->CPModServicesShowList),
+					'CPModContact' => $this->db->sanitize($this->CPModContact),
+					'CPModContactShowBody' => $this->db->sanitize($this->CPModContactShowBody),
+					'CPModContactBodyFile' => $this->db->sanitize($this->CPModContactBodyFile),
+					'CPModContactShowForm' => $this->db->sanitize($this->CPModContactShowForm),
+					'CPModContactShowInfo' => $this->db->sanitize($this->CPModContactShowInfo),
+					'CPModAbout' => $this->db->sanitize($this->CPModAbout),
+					'CPModAboutShowBody' => $this->db->sanitize($this->CPModAboutShowBody),
+					'CPModAboutBodyFile' => $this->db->sanitize($this->CPModAboutBodyFile),
+					'CPModQuote' => $this->db->sanitize($this->CPModQuote),
+					'CPModQuoteShowBody' => $this->db->sanitize($this->CPModQuoteShowBody),
+					'CPModQuoteBodyFile' => $this->db->sanitize($this->CPModQuoteBodyFile),
+					'CPModQuoteShowForm' => $this->db->sanitize($this->CPModQuoteShowForm),
+					'CPModBlog' => $this->db->sanitize($this->CPModBlog),
+					'CPModBlogShowBody' => $this->db->sanitize($this->CPModBlogShowBody),
+					'CPModBlogBodyFile' => $this->db->sanitize($this->CPModBlogBodyFile),
+					'CPModBlogShowPosts' => $this->db->sanitize($this->CPModBlogShowPosts),
+					'CPModTOS' => $this->db->sanitize($this->CPModTOS),
+					'CPModTOSShowBody' => $this->db->sanitize($this->CPModTOSShowBody),
+					'CPModTOSBodyFile' => $this->db->sanitize($this->CPModTOSBodyFile),
+					'CPModTOSShowInvTerm' => $this->db->sanitize($this->CPModTOSShowInvTerm),
+					'CPModTOSShowEstTerm' => $this->db->sanitize($this->CPModTOSShowEstTerm),
+					'CPModCZ' => $this->db->sanitize($this->CPModCZ),
+					'CPModCZJobs' => $this->db->sanitize($this->CPModCZJobs),
+					'CPModCZInvoices' => $this->db->sanitize($this->CPModCZInvoices),
+					'CPModCZEstimates' => $this->db->sanitize($this->CPModCZEstimates),
+					'CPModCZPersInfo' => $this->db->sanitize($this->CPModCZPersInfo),
+					'CPModCZPersInfoAllowEditName' => $this->db->sanitize($this->CPModCZPersInfoAllowEditName),
+					'CPModCZPersInfoAllowEditPhone' => $this->db->sanitize($this->CPModCZPersInfoAllowEditPhone),
+					'CPModCZPersInfoAllowEditEmail' => $this->db->sanitize($this->CPModCZPersInfoAllowEditEmail),
+					'CPModCZPersInfoAllowEditAddress' => $this->db->sanitize($this->CPModCZPersInfoAllowEditAddress),
+					'CPModCZPersInfoAllowEditUsername' => $this->db->sanitize($this->CPModCZPersInfoAllowEditUsername),
+					'CPModCZPersInfoAllowEditPassword' => $this->db->sanitize($this->CPModCZPersInfoAllowEditPassword),
+					'CPModCZContactStaff' => $this->db->sanitize($this->CPModCZContactStaff),
+					'CPModCZContactStaffAllowOwnerContact' => $this->db->sanitize($this->CPModCZContactStaffAllowOwnerContact),
+					'CPModCZContactStaffAllowAdminContact' => $this->db->sanitize($this->CPModCZContactStaffAllowAdminContact),
+					'CPModCZServiceRequest' => $this->db->sanitize($this->CPModCZServiceRequest),
+					'isArchived' => $this->db->sanitize($this->isArchived),
+					'dateTimeAdded' => $this->db->sanitize($this->dateTimeAdded)
+				), "WHERE businessId = ".$this->db->sanitize($this->originalBusinessId), 1)) {
 					return true;
 				} else {
 					return $this->db->getLastError();
@@ -421,8 +522,126 @@
 
 			} else {
 
-				// Insert the values to the database
-				if ($this->db->insert('business', array("businessId" => $this->businessId /* etc */))) {
+				// Insert the values to the database after sanitizing them
+				if ($this->db->insert('business', array(
+					'businessId' => $this->db->sanitize($this->businessId),
+					'ownerAdminId' => $this->db->sanitize($this->ownerAdminId),
+					'displayName' => $this->db->sanitize($this->displayName),
+					'adminDisplayName' => $this->db->sanitize($this->adminDisplayName),
+					'fullLogoFile' => $this->db->sanitize($this->fullLogoFile),
+					'address' => $this->db->sanitize($this->address),
+					'state' => $this->db->sanitize($this->state),
+					'city' => $this->db->sanitize($this->city),
+					'zipCode' => $this->db->sanitize($this->zipCode),
+					'phonePrefix' => $this->db->sanitize($this->phonePrefix),
+					'phone1' => $this->db->sanitize($this->phone1),
+					'phone2' => $this->db->sanitize($this->phone2),
+					'phone3' => $this->db->sanitize($this->phone3),
+					'email' => $this->db->sanitize($this->email),
+					'currencySymbol' => $this->db->sanitize($this->currencySymbol),
+					'areaSymbol' => $this->db->sanitize($this->areaSymbol),
+					'distanceSymbol' => $this->db->sanitize($this->distanceSymbol),
+					'timeZone' => $this->db->sanitize($this->timeZone),
+					'modCust' => $this->db->sanitize($this->modCust),
+					'modEmail' => $this->db->sanitize($this->modEmail),
+					'modInv' => $this->db->sanitize($this->modInv),
+					'modInvIncludePastBal' => $this->db->sanitize($this->modInvIncludePastBal),
+					'modEst' => $this->db->sanitize($this->modEst),
+					'modEstExtName' => $this->db->sanitize($this->modEstExtName),
+					'modProp' => $this->db->sanitize($this->modProp),
+					'modPropExtName' => $this->db->sanitize($this->modPropExtName),
+					'modJobs' => $this->db->sanitize($this->modJobs),
+					'modEquip'=> $this->db->sanitize($this->modEquip),
+					'modChem' => $this->db->sanitize($this->modChem),
+					'modStaff' => $this->db->sanitize($this->modStaff),
+					'modStaffExtName' => $this->db->sanitize($this->modStaffExtName),
+					'modCrews' => $this->db->sanitize($this->modCrews),
+					'modCrewsExtName' => $this->db->sanitize($this->modCrewsExtName),
+					'modPayr' => $this->db->sanitize($this->modPayr),
+					'modPayrSatLinkedToDue' => $this->db->sanitize($this->modPayrSatLinkedToDue),
+					'modPayrSalDefaultType' => $this->db->sanitize($this->modPayrSalDefaultType),
+					'modPayrSalBaseHourlyRate' => $this->db->sanitize($this->modPayrSalBaseHourlyRate),
+					'modPayrSalBaseJobPercent' => $this->db->sanitize($this->modPayrSalBaseJobPercent),
+					'modPayrSalBasePerJob' => $this->db->sanitize($this->modPayrSalBasePerJob),
+					'docIdMin' => $this->db->sanitize($this->docIdMin),
+					'docIdIsRandom' => $this->db->sanitize($this->docIdIsRandom),
+					'invoiceTerm' => $this->db->sanitize($this->invoiceTerm),
+					'estimateValidity' => $this->db->sanitize($this->estimateValidity),
+					'creditAlertIsEnabled' => $this->db->sanitize($this->creditAlertIsEnabled),
+					'creditAlertAmount' => $this->db->sanitize($this->creditAlertAmount),
+					'autoApplyCredit' => $this->db->sanitize($this->autoApplyCredit),
+					'balanceAlertIsEnabled' => $this->db->sanitize($this->balanceAlertIsEnabled),
+					'balanceAlertAmount' => $this->db->sanitize($this->balanceAlertAmount),
+					'SZEnabled' => $this->db->sanitize($this->SZEnabled),
+					'SZModInfoForStaffPage' => $this->db->sanitize($this->SZModInfoForStaffPage),
+					'SZModInfoForStaffPageShowBody' => $this->db->sanitize($this->SZModInfoForStaffPageShowBody),
+					'SZModInfoForStaffPageBodyFile' => $this->db->sanitize($this->SZModInfoForStaffPageBodyFile),
+					'SZModPersInfo' => $this->db->sanitize($this->SZModPersInfo),
+					'SZModPersInfoAllowEditName' => $this->db->sanitize($this->SZModPersInfoAllowEditName),
+					'SZModPersInfoAllowEditPhone' => $this->db->sanitize($this->SZModPersInfoAllowEditPhone),
+					'SZModPersInfoAllowEditEmail' => $this->db->sanitize($this->SZModPersInfoAllowEditEmail),
+					'SZModPersInfoAllowEditAddress' => $this->db->sanitize($this->SZModPersInfoAllowEditAddress),
+					'SZModPersInfoAllowEditUsername' => $this->db->sanitize($this->SZModPersInfoAllowEditUsername),
+					'SZModPersInfoAllowEditPassword' => $this->db->sanitize($this->SZModPersInfoAllowEditPassword),
+					'SZModCrews' => $this->db->sanitize($this->SZModCrews),
+					'SZModJobs' => $this->db->sanitize($this->SZModJobs),
+					'SZModJobsShowCrewJobs' => $this->db->sanitize($this->SZModJobsShowCrewJobs),
+					'SZModPayr' => $this->db->sanitize($this->SZModPayr),
+					'SZModPayrShowDetails' => $this->db->sanitize($this->SZModPayrShowDetails),
+					'SZModContactAdmin' => $this->db->sanitize($this->SZModContactAdmin),
+					'SZModQuit' => $this->db->sanitize($this->SZModQuit),
+					'SZModQuitNoticeTerm' => $this->db->sanitize($this->SZModQuitNoticeTerm),
+					'CPEnabled' => $this->db->sanitize($this->CPEnabled),
+					'CPModHomeShowBody' => $this->db->sanitize($this->CPModHomeShowBody),
+					'CPModHomeBodyFile' => $this->db->sanitize($this->CPModHomeBodyFile),
+					'CPModTopBar' => $this->db->sanitize($this->CPModTopBar),
+					'CPModTopBarShowLogo' => $this->db->sanitize($this->CPModTopBarShowLogo),
+					'CPModTopBarLogoFile' => $this->db->sanitize($this->CPModTopBarLogoFile),
+					'CPModTopBarShowQuote' => $this->db->sanitize($this->CPModTopBarShowQuote),
+					'CPModTopBarShowNav' => $this->db->sanitize($this->CPModTopBarShowNav),
+					'CPModServices' => $this->db->sanitize($this->CPModServices),
+					'CPModServicesShowBody' => $this->db->sanitize($this->CPModServicesShowBody),
+					'CPModServicesBodyFile' => $this->db->sanitize($this->CPModServicesBodyFile),
+					'CPModServicesShowList' => $this->db->sanitize($this->CPModServicesShowList),
+					'CPModContact' => $this->db->sanitize($this->CPModContact),
+					'CPModContactShowBody' => $this->db->sanitize($this->CPModContactShowBody),
+					'CPModContactBodyFile' => $this->db->sanitize($this->CPModContactBodyFile),
+					'CPModContactShowForm' => $this->db->sanitize($this->CPModContactShowForm),
+					'CPModContactShowInfo' => $this->db->sanitize($this->CPModContactShowInfo),
+					'CPModAbout' => $this->db->sanitize($this->CPModAbout),
+					'CPModAboutShowBody' => $this->db->sanitize($this->CPModAboutShowBody),
+					'CPModAboutBodyFile' => $this->db->sanitize($this->CPModAboutBodyFile),
+					'CPModQuote' => $this->db->sanitize($this->CPModQuote),
+					'CPModQuoteShowBody' => $this->db->sanitize($this->CPModQuoteShowBody),
+					'CPModQuoteBodyFile' => $this->db->sanitize($this->CPModQuoteBodyFile),
+					'CPModQuoteShowForm' => $this->db->sanitize($this->CPModQuoteShowForm),
+					'CPModBlog' => $this->db->sanitize($this->CPModBlog),
+					'CPModBlogShowBody' => $this->db->sanitize($this->CPModBlogShowBody),
+					'CPModBlogBodyFile' => $this->db->sanitize($this->CPModBlogBodyFile),
+					'CPModBlogShowPosts' => $this->db->sanitize($this->CPModBlogShowPosts),
+					'CPModTOS' => $this->db->sanitize($this->CPModTOS),
+					'CPModTOSShowBody' => $this->db->sanitize($this->CPModTOSShowBody),
+					'CPModTOSBodyFile' => $this->db->sanitize($this->CPModTOSBodyFile),
+					'CPModTOSShowInvTerm' => $this->db->sanitize($this->CPModTOSShowInvTerm),
+					'CPModTOSShowEstTerm' => $this->db->sanitize($this->CPModTOSShowEstTerm),
+					'CPModCZ' => $this->db->sanitize($this->CPModCZ),
+					'CPModCZJobs' => $this->db->sanitize($this->CPModCZJobs),
+					'CPModCZInvoices' => $this->db->sanitize($this->CPModCZInvoices),
+					'CPModCZEstimates' => $this->db->sanitize($this->CPModCZEstimates),
+					'CPModCZPersInfo' => $this->db->sanitize($this->CPModCZPersInfo),
+					'CPModCZPersInfoAllowEditName' => $this->db->sanitize($this->CPModCZPersInfoAllowEditName),
+					'CPModCZPersInfoAllowEditPhone' => $this->db->sanitize($this->CPModCZPersInfoAllowEditPhone),
+					'CPModCZPersInfoAllowEditEmail' => $this->db->sanitize($this->CPModCZPersInfoAllowEditEmail),
+					'CPModCZPersInfoAllowEditAddress' => $this->db->sanitize($this->CPModCZPersInfoAllowEditAddress),
+					'CPModCZPersInfoAllowEditUsername' => $this->db->sanitize($this->CPModCZPersInfoAllowEditUsername),
+					'CPModCZPersInfoAllowEditPassword' => $this->db->sanitize($this->CPModCZPersInfoAllowEditPassword),
+					'CPModCZContactStaff' => $this->db->sanitize($this->CPModCZContactStaff),
+					'CPModCZContactStaffAllowOwnerContact' => $this->db->sanitize($this->CPModCZContactStaffAllowOwnerContact),
+					'CPModCZContactStaffAllowAdminContact' => $this->db->sanitize($this->CPModCZContactStaffAllowAdminContact),
+					'CPModCZServiceRequest' => $this->db->sanitize($this->CPModCZServiceRequest),
+					'isArchived' => $this->db->sanitize($this->isArchived),
+					'dateTimeAdded' => $this->db->sanitize($this->dateTimeAdded)
+				))) {
 					return true;
 				} else {
 					return $this->db->getLastError();
