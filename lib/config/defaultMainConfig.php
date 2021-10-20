@@ -6,12 +6,12 @@
 
     $ULTISCAPECONFIG = array(
 
-        // Whether or not PHP errors should be output to the browser as text. 
+        // Whether or not PHP errors should be output to the browser as text.
         // Should be turned off for production and only used for debugging!
         //0 for none, E_ERROR, E_WARNING, E_PARSE, or E_ALL
             "phpErrors" => 0,
 
-        // Root user
+        // Root user - Can create new admin accounts and businesses in single-business mode.
             "rootUserUsername" => 'root',
             "rootUserPassword" => '1234567890', // Change this!!
 
