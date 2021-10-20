@@ -72,7 +72,7 @@
 					$currentBusinessLogo = $businessManager->getFullLogoFile($_SESSION['ultiscape_businessId']);
 					// If the currently selected business does not have a logo file, display the default one
 					if (!$currentBusinessLogo) {
-						$bsImgPath = $rootPathPrefix.'images/ultiscape/etc/noBusiness.png';
+						$bsImgPath = $rootPathPrefix.'images/ultiscape/etc/noLogo.png';
 					} else {
 						$bsImgPath = $rootPathPrefix.'images/ultiscape/uploads/business/fullLogoFile/'.$currentBusinessLogo;
 					}
