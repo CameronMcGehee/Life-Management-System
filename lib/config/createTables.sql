@@ -642,6 +642,117 @@
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
+	-- Table structure for table `jobCancellation`
+	--
+
+	CREATE TABLE IF NOT EXISTS `jobCancellation` (
+	`jobCancellationId` varchar(17) NOT NULL,
+	`businessId` varchar(17) NOT NULL,
+	`linkedToJobSingularId` varchar(17) NULL COMMENT 'Optional FK',
+	`linkedToJobRecurringId` varchar(17) NULL COMMENT 'Optional FK',
+	`createdByAdminId` varchar(17) NULL DEFAULT NULL COMMENT 'Optional FK',
+	`startDateTime` datetime NOT NULL,
+	`endDateTime` datetime NOT NULL,
+	`dateTimeAdded` datetime NOT NULL,
+	PRIMARY KEY (`jobCancellationId`),
+	KEY `jobCancellationBusinessId` (`businessId`),
+	KEY `jobCancellationLinkedToJobSingularId` (`linkedToJobSingularId`),
+	KEY `jobCancellationLinkedToJobRecurringId` (`linkedToJobRecurringId`),
+	KEY `jobCancellationCreatedByAdminId` (`createdByAdminId`),
+	CONSTRAINT `jobCancellationBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+	
+	--
+	-- Table structure for table `jobCompleted`
+	--
+
+	CREATE TABLE IF NOT EXISTS `jobCompleted` (
+	`jobCompletedId` varchar(17) NOT NULL,
+	`businessId` varchar(17) NOT NULL,
+	`linkedToJobRecurringId` varchar(17) NULL COMMENT 'Optional FK',
+	`propertyId` varchar(17) NOT NULL,
+	`createdByAdminId` varchar(17) NOT NULL,
+	`completedByCrewId` varchar(17) NULL COMMENT 'Optional FK',
+	`completedByEmployeeId` varchar(17) NULL COMMENT 'Optional FK',
+	`name` varchar(100) NOT NULL,
+	`description` text NULL,
+	`privateNotes` text NULL,
+	`price` float NULL,
+	`estHours` int(11) NULL,
+	`wasPrepaid` tinyint(1) NOT NULL default 0,
+	`startDateTime` datetime NOT NULL,
+	`endDateTime` datetime NULL,
+	`dateTimeAdded` datetime NOT NULL,
+	PRIMARY KEY (`jobCompletedId`),
+	KEY `jobCompletedBusinessId` (`businessId`),
+	KEY `jobCompletedLinkedToJobRecurringId` (`linkedToJobRecurringId`),
+	KEY `jobCompletedPropertyId` (`propertyId`),
+	KEY `jobCompletedCreatedByAdminId` (`createdByAdminId`),
+	KEY `jobCompletedCompletedByCrewId` (`completedByCrewId`),
+	KEY `jobCompletedCompletedByEmployeeId` (`completedByEmployeeId`),
+	CONSTRAINT `jobCompletedBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
+	CONSTRAINT `jobCompletedPropertyId` FOREIGN KEY (`propertyId`) REFERENCES `property` (`propertyId`),
+	CONSTRAINT `jobCompletedCreatedByAdminId` FOREIGN KEY (`createdByAdminId`) REFERENCES `admin` (`adminId`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
+	-- Table structure for table `jobRecurring`
+	--
+
+	CREATE TABLE IF NOT EXISTS `jobRecurring` (
+	`jobRecurringId` varchar(17) NOT NULL,
+	`businessId` varchar(17) NOT NULL,
+	`propertyId` varchar(17) NOT NULL,
+	`createdByAdminId` varchar(17) NOT NULL,
+	`name` varchar(100) NOT NULL,
+	`description` text NULL,
+	`privateNotes` text NULL,
+	`price` float NULL,
+	`estHours` int(11) NULL,
+	`isPrepaid` tinyint(1) NOT NULL default 0,
+	`frequency` int(11) NOT NULL,
+	`startDateTime` datetime NOT NULL,
+	`endDateTime` datetime NULL,
+	`dateTimeAdded` datetime NOT NULL,
+	PRIMARY KEY (`jobRecurringId`),
+	KEY `jobRecurringBusinessId` (`businessId`),
+	KEY `jobRecurringPropertyId` (`propertyId`),
+	KEY `jobRecurringCreatedByAdminId` (`createdByAdminId`),
+	CONSTRAINT `jobRecurringBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
+	CONSTRAINT `jobRecurringPropertyId` FOREIGN KEY (`propertyId`) REFERENCES `property` (`propertyId`),
+	CONSTRAINT `jobRecurringCreatedByAdminId` FOREIGN KEY (`createdByAdminId`) REFERENCES `admin` (`adminId`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
+	-- Table structure for table `jobSingular`
+	--
+
+	CREATE TABLE IF NOT EXISTS `jobSingular` (
+	`jobSingularId` varchar(17) NOT NULL,
+	`businessId` varchar(17) NOT NULL,
+	`linkedToJobRecurringId` varchar(17) NULL COMMENT 'Optional FK',
+	`propertyId` varchar(17) NOT NULL,
+	`createdByAdminId` varchar(17) NOT NULL,
+	`name` varchar(100) NOT NULL,
+	`description` text NULL,
+	`privateNotes` text NULL,
+	`price` float NULL,
+	`estHours` int(11) NULL,
+	`isPrepaid` tinyint(1) NOT NULL default 0,
+	`startDateTime` datetime NOT NULL,
+	`endDateTime` datetime NULL,
+	`dateTimeAdded` datetime NOT NULL,
+	PRIMARY KEY (`jobSingularId`),
+	KEY `jobSingularBusinessId` (`businessId`),
+	KEY `jobSingularLinkedToJobRecurringId` (`linkedToJobRecurringId`),
+	KEY `jobSingularPropertyId` (`propertyId`),
+	KEY `jobSingularCreatedByAdminId` (`createdByAdminId`),
+	CONSTRAINT `jobSingularBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
+	CONSTRAINT `jobSingularPropertyId` FOREIGN KEY (`propertyId`) REFERENCES `property` (`propertyId`),
+	CONSTRAINT `jobSingularCreatedByAdminId` FOREIGN KEY (`createdByAdminId`) REFERENCES `admin` (`adminId`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
 	-- Table structure for table `quoteRequest`
 	--
 
