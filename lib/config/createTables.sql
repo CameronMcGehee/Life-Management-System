@@ -381,9 +381,9 @@
 	`customerServiceTicketId` varchar(17) NOT NULL,
 	`businessId` varchar(17) NOT NULL,
 	`fromCustomerId` varchar(17) NOT NULL,
-	`linkedToInvoiceId` varchar(17) DEFAULT NULL COMMENT 'Optional FK',
-	`linkedToEstimateId` varchar(17) DEFAULT NULL COMMENT 'Optional FK',
-	`linkedToQuoteRequestId` varchar(17) DEFAULT NULL COMMENT 'Optional FK',
+	`linkedToInvoiceId` varchar(17) NULL DEFAULT NULL COMMENT 'Optional FK',
+	`linkedToEstimateId` varchar(17) NULL DEFAULT NULL COMMENT 'Optional FK',
+	`linkedToQuoteRequestId` varchar(17) NULL DEFAULT NULL COMMENT 'Optional FK',
 	`docIdId` varchar(17) NOT NULL,
 	`subject` varchar(100) NOT NULL,
 	`isResolved` tinyint(1) NOT NULL DEFAULT 0,
@@ -428,6 +428,29 @@
 	PRIMARY KEY (`docIdId`),
 	KEY `docIdBusinessId` (`businessId`),
 	CONSTRAINT `docIdBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
+	-- Table structure for table `fileUpload`
+	--
+
+	CREATE TABLE IF NOT EXISTS `fileUpload` (
+	`fileUploadId` varchar(17) NOT NULL,
+	`businessId` varchar(17) NOT NULL,
+	`linkedToStaffId` varchar(17) NULL DEFAULT NULL COMMENT 'Optional FK',
+	`linkedToCustomerId` varchar(17) NULL DEFAULT NULL COMMENT 'Optional FK',
+	`docIdId` varchar(17) NOT NULL,
+	`addedByAdminId` varchar(17) NOT NULL,
+	`dateTimeAdded` datetime NOT NULL,
+	PRIMARY KEY (`fileUploadId`),
+	KEY `fileUploadBusinessId` (`businessId`),
+	KEY `fileUploadLinkedToStaffId` (`linkedToStaffId`),
+	KEY `fileUploadLinkedToCustomerId` (`linkedToCustomerId`),
+	KEY `fileUploadDocIdId` (`docIdId`),
+	KEY `fileUploadAddedByAdminId` (`addedByAdminId`),
+	CONSTRAINT `fileUploadBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
+	CONSTRAINT `fileUploadDocIdId` FOREIGN KEY (`docIdId`) REFERENCES `docId` (`docIdId`),
+	CONSTRAINT `fileUploadAddedByAdminId` FOREIGN KEY (`addedByAdminId`) REFERENCES `admin` (`adminId`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -738,6 +761,26 @@
 	KEY `staffSavedLoginStaffId` (`staffId`),
 	CONSTRAINT `staffSavedLoginBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
 	CONSTRAINT `staffSavedLoginStaffId` FOREIGN KEY (`staffId`) REFERENCES `staff` (`staffId`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
+	-- Table structure for table `staffTag`
+	--
+
+	CREATE TABLE IF NOT EXISTS `staffTag` (
+	`staffTagId` varchar(17) NOT NULL,
+	`businessId` varchar(17) NOT NULL,
+	`staffId` varchar(17) NOT NULL,
+	`addedByAdminId` varchar(17) NOT NULL,
+	`tagName` varchar(50) NOT NULL,
+	`dateTimeAdded` datetime NOT NULL,
+	PRIMARY KEY (`staffTagId`),
+	KEY `staffTagBusinessId` (`businessId`),
+	KEY `staffTagstaffId` (`staffId`),
+	KEY `staffTagAddedByAdminId` (`addedByAdminId`),
+	CONSTRAINT `staffTagAddedByAdminId` FOREIGN KEY (`addedByAdminId`) REFERENCES `admin` (`adminId`),
+	CONSTRAINT `staffTagBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
+	CONSTRAINT `staffTagstaffId` FOREIGN KEY (`staffId`) REFERENCES `staff` (`staffId`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
