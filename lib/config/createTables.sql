@@ -180,6 +180,23 @@
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
+	-- Table structure for table `authToken`
+	--
+
+	CREATE TABLE IF NOT EXISTS `authToken` (
+	`authTokenId` varchar(17) NOT NULL,
+	`businessId` varchar(17) NOT NULL,
+	`formName` varchar(50) NULL,
+	`token` varchar(17) NOT NULL,
+	`dateTimeUsed` datetime NULL,
+	`clientIpUsed` varchar(150) NOT NULL,
+	`dateTimeAdded` datetime NOT NULL,
+	PRIMARY KEY (`authTokenId`),
+	KEY `authTokenBusinessId` (`businessId`),
+	CONSTRAINT `authTokenBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
 	-- Table structure for table `blogPost`
 	--
 
