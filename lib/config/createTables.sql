@@ -557,6 +557,26 @@
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
+	-- Table structure for table `equipmentTag`
+	--
+
+	CREATE TABLE IF NOT EXISTS `equipmentTag` (
+	`equipmentTagId` varchar(17) NOT NULL,
+	`businessId` varchar(17) NOT NULL,
+	`createdByAdminId` varchar(17) NOT NULL,
+	`name` varchar(50) NOT NULL,
+	`description` text DEFAULT NULL,
+	`color` varchar(15) DEFAULT NULL,
+	`imgFile` varchar(17) DEFAULT NULL,
+	`dateTimeAdded` datetime NOT NULL,
+	PRIMARY KEY (`equipmentTagId`),
+	KEY `equipmentTagBusinessId` (`businessId`),
+	KEY `equipmentTagCreatedByAdminId` (`createdByAdminId`),
+	CONSTRAINT `equipmentTagBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
+	CONSTRAINT `equipmentTagCreatedByAdminId` FOREIGN KEY (`createdByAdminId`) REFERENCES `admin` (`adminId`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
 	-- Table structure for table `fileUpload`
 	--
 
