@@ -466,6 +466,76 @@
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
+	-- Table structure for table `equipment`
+	--
+
+	CREATE TABLE IF NOT EXISTS `equipment` (
+	`equipmentId` varchar(17) NOT NULL,
+	`businessId` varchar(17) NOT NULL,
+	`linkedToCrewId` varchar(17) NULL COMMENT 'Optional FK',
+	`linkedToStaffId` varchar(17) NULL COMMENT 'Optional FK',
+	`addedByAdminId` varchar(17) NOT NULL,
+	`name` varchar(50) NULL,
+	`description` text NULL,
+	`condition` varchar(50) NULL,
+	`model` varchar(50) NULL,
+	`serialNumber` varchar(50) NULL,
+	`purchaseDate` datetime NULL,
+	`purchasePrice` float NULL,
+	`storageLocation` varchar(50) NULL,
+	`dateTimeAdded` datetime NOT NULL,
+	PRIMARY KEY (`equipmentId`),
+	KEY `equipmentBusinessId` (`businessId`),
+	KEY `equipmentLinkedToCrewId` (`linkedToCrewId`),
+	KEY `equipmentLinkedToStaffId` (`linkedToStaffId`),
+	KEY `equipmentAddedByAdminId` (`addedByAdminId`),
+	CONSTRAINT `equipmentBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
+	CONSTRAINT `equipmentAddedByAdminId` FOREIGN KEY (`addedByAdminId`) REFERENCES `admin` (`adminId`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
+	-- Table structure for table `equipmentMaintenanceLog`
+	--
+
+	CREATE TABLE IF NOT EXISTS `equipmentMaintenanceLog` (
+	`equipmentMaintenanceLogId` varchar(17) NOT NULL,
+	`businessId` varchar(17) NOT NULL,
+	`equipmentId` varchar(17) NOT NULL,
+	`addedByAdminId` varchar(17) NOT NULL,
+	`title` varchar(50) NOT NULL,
+	`details` text NULL,
+	`dateTimeAdded` datetime NOT NULL,
+	PRIMARY KEY (`equipmentMaintenanceLogId`),
+	KEY `equipmentMaintenanceLogBusinessId` (`businessId`),
+	KEY `equipmentMaintenanceLogEquipmentId` (`equipmentId`),
+	KEY `equipmentMaintenanceLogAddedByAdminId` (`addedByAdminId`),
+	CONSTRAINT `equipmentMaintenanceLogBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
+	CONSTRAINT `equipmentMaintenanceLogEquipmentId` FOREIGN KEY (`equipmentId`) REFERENCES `equipment` (`equipmentId`),
+	CONSTRAINT `equipmentMaintenanceLogAddedByAdminId` FOREIGN KEY (`addedByAdminId`) REFERENCES `admin` (`adminId`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
+	-- Table structure for table `equipmentMaintenanceLogImage`
+	--
+
+	CREATE TABLE IF NOT EXISTS `equipmentMaintenanceLogImage` (
+	`equipmentMaintenanceLogImageId` varchar(17) NOT NULL,
+	`businessId` varchar(17) NOT NULL,
+	`equipmentMaintenanceLogId` varchar(17) NOT NULL,
+	`addedByAdminId` varchar(17) NOT NULL,
+	`imageFile` varchar(17) NOT NULL,
+	`caption` varchar(50) NOT NULL,
+	`dateTimeAdded` datetime NOT NULL,
+	PRIMARY KEY (`equipmentMaintenanceLogImageId`),
+	KEY `equipmentMaintenanceLogImageBusinessId` (`businessId`),
+	KEY `equipmentMaintenanceLogImageEquipmentMaintenanceLogId` (`equipmentMaintenanceLogId`),
+	KEY `equipmentMaintenanceLogImageAddedByAdminId` (`addedByAdminId`),
+	CONSTRAINT `equipmentMaintenanceLogImageBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
+	CONSTRAINT `equipmentMaintenanceLogImageEquipmentMaintenanceLogId` FOREIGN KEY (`equipmentMaintenanceLogId`) REFERENCES `equipmentMaintenanceLog` (`equipmentMaintenanceLogId`),
+	CONSTRAINT `equipmentMaintenanceLogImageAddedByAdminId` FOREIGN KEY (`addedByAdminId`) REFERENCES `admin` (`adminId`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
 	-- Table structure for table `fileUpload`
 	--
 
