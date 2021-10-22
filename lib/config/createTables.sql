@@ -317,6 +317,86 @@
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
+	-- Table structure for table `chemical`
+	--
+
+	CREATE TABLE IF NOT EXISTS `chemical` (
+	`chemicalId` varchar(17) NOT NULL,
+	`businessId` varchar(17) NOT NULL,
+	`linkedToCrewId` varchar(17) NULL COMMENT 'Optional FK',
+	`linkedToStaffId` varchar(17) NULL COMMENT 'Optional FK',
+	`addedByAdminId` varchar(17) NOT NULL,
+	`name` varchar(50) NOT NULL,
+	`epa` varchar(50) NULL,
+	`ingeredients` text NULL,
+	`manufacturer` varchar(100) NULL,
+	`dilution` varchar(100) NULL,
+	`targets` varchar(100) NULL,
+	`applicationMethod` varchar(100) NULL,
+	`applicationRate` float NULL,
+	`defaultAmountApplied` float NULL,
+	`defaultAmountAppliedUnit` varchar(10) NOT NULL DEFAULT 'ml/ft²',
+	`amountInStock` float NULL,
+	`amountInStockUnit` varchar(10) NOT NULL DEFAULT 'ml',
+	`notesToCustomer` text NULL,
+	`notesToStaff` text NULL,
+	`description` text NULL,
+	`condition` varchar(50) NULL,
+	`purchaseDate` datetime NULL,
+	`purchasePrice` float NULL,
+	`storageLocation` varchar(50) NULL,
+	`dateTimeAdded` datetime NOT NULL,
+	PRIMARY KEY (`chemicalId`),
+	KEY `chemicalBusinessId` (`businessId`),
+	KEY `chemicalLinkedToCrewId` (`linkedToCrewId`),
+	KEY `chemicalLinkedToStaffId` (`linkedToStaffId`),
+	KEY `chemicalAddedByAdminId` (`addedByAdminId`),
+	CONSTRAINT `chemicalBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
+	CONSTRAINT `chemicalAddedByAdminId` FOREIGN KEY (`addedByAdminId`) REFERENCES `admin` (`adminId`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
+	-- Table structure for table `chemicalImage`
+	--
+
+	CREATE TABLE IF NOT EXISTS `chemicalImage` (
+	`chemicalImageId` varchar(17) NOT NULL,
+	`businessId` varchar(17) NOT NULL,
+	`chemicalId` varchar(17) NOT NULL,
+	`addedByAdminId` varchar(17) NOT NULL,
+	`imageFile` varchar(17) NOT NULL,
+	`caption` varchar(50) NOT NULL,
+	`dateTimeAdded` datetime NOT NULL,
+	PRIMARY KEY (`chemicalImageId`),
+	KEY `chemicalImageBusinessId` (`businessId`),
+	KEY `chemicalImageChemicalId` (`chemicalId`),
+	KEY `chemicalImageAddedByAdminId` (`addedByAdminId`),
+	CONSTRAINT `chemicalImageBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
+	CONSTRAINT `chemicalImageChemicalId` FOREIGN KEY (`chemicalId`) REFERENCES `chemical` (`chemicalId`),
+	CONSTRAINT `chemicalImageAddedByAdminId` FOREIGN KEY (`addedByAdminId`) REFERENCES `admin` (`adminId`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
+	-- Table structure for table `chemicalTag`
+	--
+
+	CREATE TABLE IF NOT EXISTS `chemicalTag` (
+	`chemicalTagId` varchar(17) NOT NULL,
+	`businessId` varchar(17) NOT NULL,
+	`createdByAdminId` varchar(17) NOT NULL,
+	`name` varchar(50) NOT NULL,
+	`description` text DEFAULT NULL,
+	`color` varchar(15) DEFAULT NULL,
+	`imgFile` varchar(17) DEFAULT NULL,
+	`dateTimeAdded` datetime NOT NULL,
+	PRIMARY KEY (`chemicalTagId`),
+	KEY `chemicalTagBusinessId` (`businessId`),
+	KEY `chemicalTagCreatedByAdminId` (`createdByAdminId`),
+	CONSTRAINT `chemicalTagBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
+	CONSTRAINT `chemicalTagCreatedByAdminId` FOREIGN KEY (`createdByAdminId`) REFERENCES `admin` (`adminId`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
 	-- Table structure for table `crew`
 	--
 
@@ -476,7 +556,7 @@
 	`linkedToCrewId` varchar(17) NULL COMMENT 'Optional FK',
 	`linkedToStaffId` varchar(17) NULL COMMENT 'Optional FK',
 	`addedByAdminId` varchar(17) NOT NULL,
-	`name` varchar(50) NULL,
+	`name` varchar(50) NOT NULL,
 	`description` text NULL,
 	`condition` varchar(50) NULL,
 	`model` varchar(50) NULL,
@@ -492,6 +572,25 @@
 	KEY `equipmentAddedByAdminId` (`addedByAdminId`),
 	CONSTRAINT `equipmentBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
 	CONSTRAINT `equipmentAddedByAdminId` FOREIGN KEY (`addedByAdminId`) REFERENCES `admin` (`adminId`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
+	-- Table structure for table `equipmentChemicalBridge`
+	--
+
+	CREATE TABLE IF NOT EXISTS `equipmentChemicalBridge` (
+	`equipmentChemicalId` varchar(17) NOT NULL,
+	`businessId` varchar(17) NOT NULL,
+	`equipmentId` varchar(17) NOT NULL,
+	`chemicalId` varchar(17) NOT NULL,
+	`dateTimeAdded` datetime NOT NULL,
+	PRIMARY KEY (`equipmentChemicalId`),
+	KEY `equipmentChemicalBridgeBusinessId` (`businessId`),
+	KEY `equipmentChemicalBridgeEquipmentId` (`equipmentId`),
+	KEY `equipmentChemicalBridgeChemicalId` (`chemicalId`),
+	CONSTRAINT `equipmentChemicalBridgeBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
+	CONSTRAINT `equipmentChemicalBridgeEquipmentId` FOREIGN KEY (`equipmentId`) REFERENCES `equipment` (`equipmentId`),
+	CONSTRAINT `equipmentChemicalBridgeChemicalId` FOREIGN KEY (`chemicalId`) REFERENCES `chemical` (`chemicalId`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -745,7 +844,7 @@
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
-	-- Table structure for table `payment`
+	-- Table structure for table `property`
 	--
 
 	CREATE TABLE IF NOT EXISTS `property` (
@@ -769,6 +868,26 @@
 	CONSTRAINT `propertyBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
 	CONSTRAINT `propertyCustomerId` FOREIGN KEY (`customerId`) REFERENCES `customer` (`customerId`),
 	CONSTRAINT `propertyAddedByAdminId` FOREIGN KEY (`addedByAdminId`) REFERENCES `admin` (`adminId`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	CREATE TABLE IF NOT EXISTS `chemicalApplication` (
+	`chemicalApplicationId` varchar(17) NOT NULL,
+	`businessId` varchar(17) NOT NULL,
+	`propertyId` varchar(17) NOT NULL,
+	`linkedToCrewId` varchar(17) NULL COMMENT 'Optional FK',
+	`linkedToStaffId` varchar(17) NULL COMMENT 'Optional FK',
+	`addedByAdminId` varchar(17) NULL COMMENT 'Optional FK',
+	`linkedToCompletedJobId` varchar(17) NULL COMMENT 'Optional FK',
+	`dateTimeAdded` datetime NOT NULL,
+	PRIMARY KEY (`chemicalApplicationId`),
+	KEY `chemicalApplicationBusinessId` (`businessId`),
+	KEY `chemicalApplicationPropertyId` (`propertyId`),
+	KEY `chemicalApplicationLinkedToCrewId` (`linkedToCrewId`),
+	KEY `chemicalApplicationLinkedToStaffId` (`linkedToStaffId`),
+	KEY `chemicalApplicationAddedByAdminId` (`addedByAdminId`),
+	KEY `chemicalApplicationLinkedToCompletedJobId` (`linkedToCompletedJobId`),
+	CONSTRAINT `chemicalApplicationBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
+	CONSTRAINT `chemicalApplicationPropertyId` FOREIGN KEY (`propertyId`) REFERENCES `property` (`propertyId`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -997,9 +1116,9 @@
 	KEY `crewLeaderBridgeBusinessId` (`businessId`),
 	KEY `crewLeaderBridgeCrewId` (`crewId`),
 	KEY `crewLeaderBridgeStaffId` (`staffId`),
+	CONSTRAINT `crewLeaderBridgeBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
 	CONSTRAINT `crewLeaderBridgeCrewId` FOREIGN KEY (`crewId`) REFERENCES `crew` (`crewId`),
-	CONSTRAINT `crewLeaderBridgeStaffId` FOREIGN KEY (`staffId`) REFERENCES `staff` (`staffId`),
-	CONSTRAINT `crewLeaderBridgeBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`)
+	CONSTRAINT `crewLeaderBridgeStaffId` FOREIGN KEY (`staffId`) REFERENCES `staff` (`staffId`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -1016,9 +1135,9 @@
 	KEY `crewStaffBridgeBusinessId` (`businessId`),
 	KEY `crewStaffBridgeCrewId` (`crewId`),
 	KEY `crewStaffBridgeStaffId` (`staffId`),
+	CONSTRAINT `crewStaffBridgeBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
 	CONSTRAINT `crewStaffBridgeCrewId` FOREIGN KEY (`crewId`) REFERENCES `crew` (`crewId`),
-	CONSTRAINT `crewStaffBridgeStaffId` FOREIGN KEY (`staffId`) REFERENCES `staff` (`staffId`),
-	CONSTRAINT `crewStaffBridgeBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`)
+	CONSTRAINT `crewStaffBridgeStaffId` FOREIGN KEY (`staffId`) REFERENCES `staff` (`staffId`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
