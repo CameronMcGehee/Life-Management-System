@@ -691,7 +691,7 @@
 	`propertyId` varchar(17) NOT NULL,
 	`createdByAdminId` varchar(17) NOT NULL,
 	`completedByCrewId` varchar(17) NULL COMMENT 'Optional FK',
-	`completedByEmployeeId` varchar(17) NULL COMMENT 'Optional FK',
+	`completedByStaffId` varchar(17) NULL COMMENT 'Optional FK',
 	`name` varchar(100) NOT NULL,
 	`description` text NULL,
 	`privateNotes` text NULL,
@@ -707,7 +707,7 @@
 	KEY `jobCompletedPropertyId` (`propertyId`),
 	KEY `jobCompletedCreatedByAdminId` (`createdByAdminId`),
 	KEY `jobCompletedCompletedByCrewId` (`completedByCrewId`),
-	KEY `jobCompletedCompletedByEmployeeId` (`completedByEmployeeId`),
+	KEY `jobCompletedCompletedByStaffId` (`completedByStaffId`),
 	CONSTRAINT `jobCompletedBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
 	CONSTRAINT `jobCompletedPropertyId` FOREIGN KEY (`propertyId`) REFERENCES `property` (`propertyId`),
 	CONSTRAINT `jobCompletedCreatedByAdminId` FOREIGN KEY (`createdByAdminId`) REFERENCES `admin` (`adminId`)
