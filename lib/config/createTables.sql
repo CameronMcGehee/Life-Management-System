@@ -316,6 +316,24 @@
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
+	-- Table structure for table `crew`
+	--
+
+	CREATE TABLE IF NOT EXISTS `crew` (
+	`crewId` varchar(17) NOT NULL,
+	`businessId` varchar(17) NOT NULL,
+	`createdByAdminId` varchar(17) NOT NULL,
+	`name` varchar(50) NOT NULL,
+	`description` text NULL,
+	`dateTimeAdded` datetime NOT NULL,
+	PRIMARY KEY (`crewId`),
+	KEY `crewBusinessId` (`businessId`),
+	KEY `crewCreatedByAdminId` (`createdByAdminId`),
+	CONSTRAINT `crewCreatedByAdminId` FOREIGN KEY (`createdByAdminId`) REFERENCES `admin` (`adminId`),
+	CONSTRAINT `crewBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
 	-- Table structure for table `customer`
 	--
 
@@ -851,6 +869,44 @@
 	KEY `staffAddedByAdminId` (`addedByAdminId`),
 	CONSTRAINT `staffAddedByAdminId` FOREIGN KEY (`addedByAdminId`) REFERENCES `admin` (`adminId`),
 	CONSTRAINT `staffBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
+	-- Table structure for table `crewLeaderBridge`
+	--
+
+	CREATE TABLE IF NOT EXISTS `crewLeaderBridge` (
+	`crewLeaderId` varchar(17) NOT NULL,
+	`businessId` varchar(17) NOT NULL,
+	`crewId` varchar(17) NOT NULL,
+	`staffId` varchar(17) NOT NULL,
+	`dateTimeAdded` datetime NOT NULL,
+	PRIMARY KEY (`crewLeaderId`),
+	KEY `crewLeaderBridgeBusinessId` (`businessId`),
+	KEY `crewLeaderBridgeCrewId` (`crewId`),
+	KEY `crewLeaderBridgeStaffId` (`staffId`),
+	CONSTRAINT `crewLeaderBridgeCrewId` FOREIGN KEY (`crewId`) REFERENCES `crew` (`crewId`),
+	CONSTRAINT `crewLeaderBridgeStaffId` FOREIGN KEY (`staffId`) REFERENCES `staff` (`staffId`),
+	CONSTRAINT `crewLeaderBridgeBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
+	-- Table structure for table `crewStaffBridge`
+	--
+
+	CREATE TABLE IF NOT EXISTS `crewStaffBridge` (
+	`crewStaffId` varchar(17) NOT NULL,
+	`businessId` varchar(17) NOT NULL,
+	`crewId` varchar(17) NOT NULL,
+	`staffId` varchar(17) NOT NULL,
+	`dateTimeAdded` datetime NOT NULL,
+	PRIMARY KEY (`crewStaffId`),
+	KEY `crewStaffBridgeBusinessId` (`businessId`),
+	KEY `crewStaffBridgeCrewId` (`crewId`),
+	KEY `crewStaffBridgeStaffId` (`staffId`),
+	CONSTRAINT `crewStaffBridgeCrewId` FOREIGN KEY (`crewId`) REFERENCES `crew` (`crewId`),
+	CONSTRAINT `crewStaffBridgeStaffId` FOREIGN KEY (`staffId`) REFERENCES `staff` (`staffId`),
+	CONSTRAINT `crewStaffBridgeBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
