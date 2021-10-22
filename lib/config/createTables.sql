@@ -1,4 +1,4 @@
-	-- Adds all tables needed for ultiscape to function
+	-- Adds all tables needed for UltiScape to function. Order is mostly alphabetical, but not exactly due to foreign key requirements.
 
 	--
 	-- Table structure for table `admin`
@@ -16,7 +16,8 @@
 	`allowSignIn` tinyint(1) NOT NULL,
 	`dateTimeJoined` datetime NOT NULL,
 	`dateTimeLeft` datetime DEFAULT NULL,
-	PRIMARY KEY (`adminId`)
+	PRIMARY KEY (`adminId`),
+	UNIQUE KEY `adminUsername` (`username`) USING BTREE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
