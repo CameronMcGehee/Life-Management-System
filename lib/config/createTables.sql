@@ -17,7 +17,8 @@
 	`dateTimeJoined` datetime NOT NULL,
 	`dateTimeLeft` datetime DEFAULT NULL,
 	PRIMARY KEY (`adminId`),
-	UNIQUE KEY `adminUsername` (`username`) USING BTREE
+	UNIQUE KEY `adminUsername` (`username`) USING BTREE,
+	UNIQUE KEY `adminEmail` (`email`) USING BTREE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
