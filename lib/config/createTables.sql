@@ -1003,6 +1003,63 @@
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
+	-- Table structure for table `jobSingularCrewBridge`
+	--
+
+	CREATE TABLE IF NOT EXISTS `jobSingularCrewBridge` (
+	`jobSingularCrewBridgeId` varchar(17) NOT NULL,
+	`businessId` varchar(17) NOT NULL,
+	`jobSingularId` varchar(17) NOT NULL,
+	`crewId` varchar(17) NOT NULL,
+	`dateTimeAdded` datetime NOT NULL,
+	PRIMARY KEY (`jobSingularCrewBridgeId`),
+	KEY `jobSingularCrewBridgeBusinessId` (`businessId`),
+	KEY `jobSingularCrewBridgeJobSingularId` (`jobSingularId`),
+	KEY `jobSingularCrewBridgecrewId` (`crewId`),
+	CONSTRAINT `jobSingularCrewBridgeBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
+	CONSTRAINT `jobSingularCrewBridgeJobSingularId` FOREIGN KEY (`jobSingularId`) REFERENCES `jobSingular` (`jobSingularId`),
+	CONSTRAINT `jobSingularCrewBridgecrewId` FOREIGN KEY (`crewId`) REFERENCES `crew` (`crewId`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
+	-- Table structure for table `jobRecurringCrewBridge`
+	--
+
+	CREATE TABLE IF NOT EXISTS `jobRecurringCrewBridge` (
+	`jobRecurringCrewBridgeId` varchar(17) NOT NULL,
+	`businessId` varchar(17) NOT NULL,
+	`jobRecurringId` varchar(17) NOT NULL,
+	`crewId` varchar(17) NOT NULL,
+	`dateTimeAdded` datetime NOT NULL,
+	PRIMARY KEY (`jobRecurringCrewBridgeId`),
+	KEY `jobRecurringCrewBridgeBusinessId` (`businessId`),
+	KEY `jobRecurringCrewBridgeJobRecurringId` (`jobRecurringId`),
+	KEY `jobRecurringCrewBridgecrewId` (`crewId`),
+	CONSTRAINT `jobRecurringCrewBridgeBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
+	CONSTRAINT `jobRecurringCrewBridgeJobRecurringId` FOREIGN KEY (`jobRecurringId`) REFERENCES `jobRecurring` (`jobRecurringId`),
+	CONSTRAINT `jobRecurringCrewBridgecrewId` FOREIGN KEY (`crewId`) REFERENCES `crew` (`crewId`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
+	-- Table structure for table `jobCompletedCrewBridge`
+	--
+
+	CREATE TABLE IF NOT EXISTS `jobCompletedCrewBridge` (
+	`jobCompletedCrewBridge` varchar(17) NOT NULL,
+	`businessId` varchar(17) NOT NULL,
+	`jobCompletedId` varchar(17) NOT NULL,
+	`crewId` varchar(17) NOT NULL,
+	`dateTimeAdded` datetime NOT NULL,
+	PRIMARY KEY (`jobCompletedCrewBridge`),
+	KEY `jobCompletedCrewBridgeBusinessId` (`businessId`),
+	KEY `jobCompletedCrewBridgeJobCompletedId` (`jobCompletedId`),
+	KEY `jobCompletedCrewBridgecrewId` (`crewId`),
+	CONSTRAINT `jobCompletedCrewBridgeBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
+	CONSTRAINT `jobCompletedCrewBridgeJobCompletedId` FOREIGN KEY (`jobCompletedId`) REFERENCES `jobCompleted` (`jobCompletedId`),
+	CONSTRAINT `jobCompletedCrewBridgecrewId` FOREIGN KEY (`crewId`) REFERENCES `crew` (`crewId`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
 	-- Table structure for table `quoteRequest`
 	--
 
@@ -1197,6 +1254,63 @@
 	CONSTRAINT `staffTagAddedByAdminId` FOREIGN KEY (`addedByAdminId`) REFERENCES `admin` (`adminId`),
 	CONSTRAINT `staffTagBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
 	CONSTRAINT `staffTagstaffId` FOREIGN KEY (`staffId`) REFERENCES `staff` (`staffId`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
+	-- Table structure for table `jobSingularStaffBridge`
+	--
+
+	CREATE TABLE IF NOT EXISTS `jobSingularStaffBridge` (
+	`jobSingularStaffBridgeId` varchar(17) NOT NULL,
+	`businessId` varchar(17) NOT NULL,
+	`jobSingularId` varchar(17) NOT NULL,
+	`staffId` varchar(17) NOT NULL,
+	`dateTimeAdded` datetime NOT NULL,
+	PRIMARY KEY (`jobSingularStaffBridgeId`),
+	KEY `jobSingularStaffBridgeBusinessId` (`businessId`),
+	KEY `jobSingularStaffBridgeJobSingularId` (`jobSingularId`),
+	KEY `jobSingularStaffBridgeStaffId` (`staffId`),
+	CONSTRAINT `jobSingularStaffBridgeBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
+	CONSTRAINT `jobSingularStaffBridgeJobSingularId` FOREIGN KEY (`jobSingularId`) REFERENCES `jobSingular` (`jobSingularId`),
+	CONSTRAINT `jobSingularStaffBridgeStaffId` FOREIGN KEY (`staffId`) REFERENCES `staff` (`staffId`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
+	-- Table structure for table `jobRecurringStaffBridge`
+	--
+
+	CREATE TABLE IF NOT EXISTS `jobRecurringStaffBridge` (
+	`jobRecurringStaffBridgeId` varchar(17) NOT NULL,
+	`businessId` varchar(17) NOT NULL,
+	`jobRecurringId` varchar(17) NOT NULL,
+	`staffId` varchar(17) NOT NULL,
+	`dateTimeAdded` datetime NOT NULL,
+	PRIMARY KEY (`jobRecurringStaffBridgeId`),
+	KEY `jobRecurringStaffBridgeBusinessId` (`businessId`),
+	KEY `jobRecurringStaffBridgeJobRecurringId` (`jobRecurringId`),
+	KEY `jobRecurringStaffBridgeStaffId` (`staffId`),
+	CONSTRAINT `jobRecurringStaffBridgeBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
+	CONSTRAINT `jobRecurringStaffBridgeJobRecurringId` FOREIGN KEY (`jobRecurringId`) REFERENCES `jobRecurring` (`jobRecurringId`),
+	CONSTRAINT `jobRecurringStaffBridgeStaffId` FOREIGN KEY (`staffId`) REFERENCES `staff` (`staffId`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
+	-- Table structure for table `jobCompletedStaffBridge`
+	--
+
+	CREATE TABLE IF NOT EXISTS `jobCompletedStaffBridge` (
+	`jobCompletedStaffBridge` varchar(17) NOT NULL,
+	`businessId` varchar(17) NOT NULL,
+	`jobCompletedId` varchar(17) NOT NULL,
+	`staffId` varchar(17) NOT NULL,
+	`dateTimeAdded` datetime NOT NULL,
+	PRIMARY KEY (`jobCompletedStaffBridge`),
+	KEY `jobCompletedStaffBridgeBusinessId` (`businessId`),
+	KEY `jobCompletedStaffBridgeJobCompletedId` (`jobCompletedId`),
+	KEY `jobCompletedStaffBridgeStaffId` (`staffId`),
+	CONSTRAINT `jobCompletedStaffBridgeBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
+	CONSTRAINT `jobCompletedStaffBridgeJobCompletedId` FOREIGN KEY (`jobCompletedId`) REFERENCES `jobCompleted` (`jobCompletedId`),
+	CONSTRAINT `jobCompletedStaffBridgeStaffId` FOREIGN KEY (`staffId`) REFERENCES `staff` (`staffId`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
