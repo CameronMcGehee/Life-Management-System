@@ -30,7 +30,7 @@
 	`adminId` varchar(17) DEFAULT NULL,
 	`loginCode` varchar(17) NOT NULL,
 	`dateTimeCodeUsed` datetime DEFAULT NULL,
-	`clientIp` varchar(20) NOT NULL,
+	`clientIp` varchar(150) NOT NULL,
 	`enteredUsername` varchar(25) NOT NULL,
 	`enteredPassword` varchar(64) NOT NULL,
 	`result` varchar(5) NOT NULL,
@@ -345,7 +345,7 @@
 	`customerId` varchar(17) DEFAULT NULL,
 	`loginCode` varchar(17) NOT NULL,
 	`dateTimeCodeUsed` datetime DEFAULT NULL,
-	`clientIp` varchar(20) NOT NULL,
+	`clientIp` varchar(150) NOT NULL,
 	`enteredPassword` varchar(64) NOT NULL,
 	`result` varchar(5) NOT NULL,
 	`dateTimeAdded` datetime NOT NULL,
@@ -992,7 +992,8 @@
 	`price` float NULL,
 	`estHours` int(11) NULL,
 	`isPrepaid` tinyint(1) NOT NULL default 0,
-	`frequency` int(11) NOT NULL,
+	`frequencyInterval` varchar(10) NOT NULL DEFAULT 'none',
+	`frequency` int(11) NOT NULL DEFAULT 0,
 	`startDateTime` datetime NOT NULL,
 	`endDateTime` datetime NULL,
 	`dateTimeAdded` datetime NOT NULL,
@@ -1216,7 +1217,7 @@
 	`staffId` varchar(17) DEFAULT NULL,
 	`loginCode` varchar(17) NOT NULL,
 	`dateTimeCodeUsed` datetime DEFAULT NULL,
-	`clientIp` varchar(20) NOT NULL,
+	`clientIp` varchar(150) NOT NULL,
 	`enteredPassword` varchar(64) NOT NULL,
 	`result` varchar(5) NOT NULL,
 	`dateTimeAdded` datetime NOT NULL,
@@ -1322,6 +1323,27 @@
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
+	-- Table structure for table `timeLog`
+	--
+
+	CREATE TABLE IF NOT EXISTS `timeLog` (
+	`timeLogId` varchar(17) NOT NULL,
+	`businessId` varchar(17) NOT NULL,
+	`staffId` varchar(17) NOT NULL,
+	`addedByAdminId` varchar(17) NULL COMMENT 'Optional FK',
+	`dateTimeStart` datetime NOT NULL,
+	`dateTimeEnd` datetime NULL,
+	`notes` text NULL,
+	`dateTimeAdded` datetime NOT NULL,
+	PRIMARY KEY (`timeLogId`),
+	KEY `timeLogBusinessId` (`businessId`),
+	KEY `timeLogStaffId` (`staffId`),
+	KEY `timeLogAddedByAdminId` (`addedByAdminId`),
+	CONSTRAINT `timeLogBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
+	CONSTRAINT `timeLogStaffId` FOREIGN KEY (`staffId`) REFERENCES `staff` (`staffId`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
 	-- Table structure for table `payrollDue`
 	--
 
@@ -1373,24 +1395,106 @@
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
-	-- Table structure for table `timeLog`
+	-- Table structure for table `mailoutCampaignTemplate`
 	--
 
-	CREATE TABLE IF NOT EXISTS `timeLog` (
-	`timeLogId` varchar(17) NOT NULL,
+	CREATE TABLE IF NOT EXISTS `mailoutCampaignTemplate` (
+	`mailoutCampaignTemplateId` varchar(17) NOT NULL,
 	`businessId` varchar(17) NOT NULL,
-	`staffId` varchar(17) NOT NULL,
-	`addedByAdminId` varchar(17) NULL COMMENT 'Optional FK',
-	`dateTimeStart` datetime NOT NULL,
-	`dateTimeEnd` datetime NULL,
-	`notes` text NULL,
+	`createdByAdminId` varchar(17) NOT NULL,
+	`subject` varchar(200) NOT NULL,
+	`headerFile` varchar(17) NOT NULL,
+	`bodyFile` varchar(17) NOT NULL,
+	`footerFile` varchar(17) NOT NULL,
 	`dateTimeAdded` datetime NOT NULL,
-	PRIMARY KEY (`timeLogId`),
-	KEY `timeLogBusinessId` (`businessId`),
-	KEY `timeLogStaffId` (`staffId`),
-	KEY `timeLogAddedByAdminId` (`addedByAdminId`),
-	CONSTRAINT `timeLogBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
-	CONSTRAINT `timeLogStaffId` FOREIGN KEY (`staffId`) REFERENCES `staff` (`staffId`)
+	PRIMARY KEY (`mailoutCampaignTemplateId`),
+	KEY `mailoutCampaignTemplateBusinessId` (`businessId`),
+	KEY `mailoutCampaignTemplateCreatedByAdminId` (`createdByAdminId`),
+	CONSTRAINT `mailoutCampaignTemplateBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
+	CONSTRAINT `mailoutCampaignTemplateCreatedByAdminId` FOREIGN KEY (`createdByAdminId`) REFERENCES `admin` (`adminId`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
+	-- Table structure for table `mailoutSubscriptionBridge`
+	--
+
+	CREATE TABLE IF NOT EXISTS `mailoutSubscriptionBridge` (
+	`mailoutSubscriptionId` varchar(17) NOT NULL,
+	`businessId` varchar(17) NOT NULL,
+	`customerEmailAddressId` varchar(17) NOT NULL,
+	`mailoutCampaignTemplateId` varchar(17) NOT NULL,
+	`frequencyInterval` varchar(10) NOT NULL DEFAULT 'none',
+	`frequency` int(11) NOT NULL DEFAULT 0,
+	`dateTimeAdded` datetime NOT NULL,
+	PRIMARY KEY (`mailoutSubscriptionId`),
+	KEY `mailoutSubscriptionBridgeBusinessId` (`businessId`),
+	KEY `mailoutSubscriptionBridgeCustomerEmailAddressId` (`customerEmailAddressId`),
+	KEY `mailoutSubscriptionBridgeMailoutCampaignTemplateId` (`mailoutCampaignTemplateId`),
+	CONSTRAINT `mailoutSubscriptionBridgeBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
+	CONSTRAINT `mailoutSubscriptionBridgeCustomerEmailAddressId` FOREIGN KEY (`customerEmailAddressId`) REFERENCES `customerEmailAddress` (`customerEmailAddressId`),
+	CONSTRAINT `mailoutSubscriptionBridgeMailoutCampaignTemplateId` FOREIGN KEY (`mailoutCampaignTemplateId`) REFERENCES `mailoutCampaignTemplate` (`mailoutCampaignTemplateId`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
+	-- Table structure for table `emailSend`
+	--
+
+	CREATE TABLE IF NOT EXISTS `emailSend` (
+	`emailSendId` varchar(17) NOT NULL,
+	`businessId` varchar(17) NOT NULL,
+	`createdByAdminId` varchar(17) NOT NULL,
+	`linkedToMailoutSubscriptionId` varchar(17) NULL COMMENT 'Optional FK',
+	`linkedToMailoutCampaignTemplateId` varchar(17) NULL COMMENT 'Optional FK',
+	`subject` varchar(200) NOT NULL,
+	`headerFile` varchar(17) NOT NULL,
+	`bodyFile` varchar(17) NOT NULL,
+	`footerFile` varchar(17) NOT NULL,
+	`dateTimeAdded` datetime NOT NULL,
+	PRIMARY KEY (`emailSendId`),
+	KEY `emailSendBusinessId` (`businessId`),
+	KEY `emailSendCreatedByAdminId` (`createdByAdminId`),
+	KEY `emailSendLinkedToMailoutSubscriptionId` (`linkedToMailoutSubscriptionId`),
+	KEY `emailSendLinkedToMailoutCampaignTemplateId` (`linkedToMailoutCampaignTemplateId`),
+	CONSTRAINT `emailSendBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
+	CONSTRAINT `emailSendCreatedByAdminId` FOREIGN KEY (`createdByAdminId`) REFERENCES `admin` (`adminId`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
+	-- Table structure for table `emailPixel`
+	--
+
+	CREATE TABLE IF NOT EXISTS `emailPixel` (
+	`emailPixelId` varchar(17) NOT NULL,
+	`businessId` varchar(17) NOT NULL,
+	`emailSendId` varchar(17) NOT NULL,
+	`pixelFile` varchar(17) NOT NULL,
+	`dateTimeRead` datetime NULL,
+	`clientIpRead` varchar(150) NULL,
+	`dateTimeAdded` datetime NOT NULL,
+	PRIMARY KEY (`emailPixelId`),
+	KEY `emailPixelBusinessId` (`businessId`),
+	KEY `emailPixelEmailSendId` (`emailSendId`),
+	CONSTRAINT `emailPixelBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
+	CONSTRAINT `emailPixelEmailSendId` FOREIGN KEY (`emailSendId`) REFERENCES `emailSend` (`emailSendId`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
+	-- Table structure for table `customerEmailAddressEmailSendBridge`
+	--
+
+	CREATE TABLE IF NOT EXISTS `customerEmailAddressEmailSendBridge` (
+	`customerEmailAddressEmailSendId` varchar(17) NOT NULL,
+	`businessId` varchar(17) NOT NULL,
+	`customerEmailAddressId` varchar(17) NOT NULL,
+	`emailSendId` varchar(17) NOT NULL,
+	`dateTimeAdded` datetime NOT NULL,
+	PRIMARY KEY (`customerEmailAddressEmailSendId`),
+	KEY `customerEmailAddressEmailSendBridgeBusinessId` (`businessId`),
+	KEY `customerEmailAddressEmailSendBridgeCustomerEmailAddressId` (`customerEmailAddressId`),
+	KEY `customerEmailAddressEmailSendBridgeEmailSendId` (`emailSendId`),
+	CONSTRAINT `customerEmailAddressEmailSendBridgeBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
+	CONSTRAINT `customerEmailAddressEmailSendBridgeCustomerEmailAddressId` FOREIGN KEY (`customerEmailAddressId`) REFERENCES `customerEmailAddress` (`customerEmailAddressId`),
+	CONSTRAINT `customerEmailAddressEmailSendBridgeEmailSendId` FOREIGN KEY (`emailSendId`) REFERENCES `emailSend` (`emailSendId`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -1466,7 +1570,7 @@
 	`blogPostId` varchar(17) NOT NULL,
 	`token` varchar(17) NOT NULL,
 	`dateTimeUsed` datetime NOT NULL,
-	`clientIP` varchar(20) NOT NULL,
+	`clientIP` varchar(150) NOT NULL,
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`blogPostReadTokenId`),
 	KEY `blogPostReadTokenBusinessId` (`businessId`),
