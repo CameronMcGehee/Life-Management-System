@@ -51,7 +51,7 @@
 	$username = $_POST['username'];
 	$password = $_POST['password'];
 
-	require_once '../../../../lib/app/adminLoginManager.php';
+	require_once '../../../../lib/manager/adminLoginManager.php';
 	$adminLoginManager = new adminLoginManager();
 
 	if ($adminLoginManager->usernameExists($_POST['usernameEmail'])) {

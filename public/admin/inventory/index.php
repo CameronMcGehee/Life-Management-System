@@ -4,10 +4,10 @@
     require_once '../../php/startSession.php';
 
     // If not signed in, just redirect to the login page
-    require_once '../../../lib/app/adminLoginManager.php';
+    require_once '../../../lib/manager/adminLoginManager.php';
     adminLoginManager::cmsVerifyAdminLoginRedirect('../login', '../businessselect');
 
-    require_once '../../../lib/app/renderer.php';
+    require_once '../../../lib/manager/renderer.php';
     $renderer = new renderer();
 
     echo $renderer->renderAdminHtmlTop('../../', 'Inventory', 'Manage your business\'s inventory.');

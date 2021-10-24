@@ -1,7 +1,7 @@
 <?php
 
     require_once '../../../php/startSession.php';
-    require_once '../../../../lib/app/adminLoginManager.php';
+    require_once '../../../../lib/manager/adminLoginManager.php';
 
     $adminLoginManager = new adminLoginManager();
 
