@@ -63,10 +63,8 @@
 				$this->lastName = '';
 				$this->profilePicture = NULL;
 				$this->allowSignIn = '1';
-
 				// Default dateTimeJoined to now since it is likely going to be inserted at this time
-				$currentDateTime = new DateTime();
-				$this->dateTimeJoined = $currentDateTime->format('Y-m-d H:i:s');
+				$currentDateTime = new DateTime(); $this->dateTimeJoined = $currentDateTime->format('Y-m-d H:i:s');
 
 				$this->dateTimeLeft = NULL;
 			}
