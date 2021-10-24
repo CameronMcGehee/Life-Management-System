@@ -67,11 +67,11 @@
 			$output .= '<div class="yCenteredFlex flexDirectionRow" id="businessSelectorButtonWrapper">';
 				if ($showBusinessSelector) {
 					$output .= '<div class="yCenteredFlex flexDirectionRow" id="businessSelectorButton">';
-					require_once dirname(__FILE__)."/manager/businessManager.php";
-					$businessManager = new businessManager;
-					$currentBusinessLogo = $businessManager->getFullLogoFile($_SESSION['ultiscape_businessId']);
+					require_once dirname(__FILE__)."/class/business.php";
+					$business = new business($_SESSION['ultiscape_businessId']);
+					$currentBusinessLogo = $business->fullLogoFile;
 					// If the currently selected business does not have a logo file, display the default one
-					if (!$currentBusinessLogo) {
+					if ($currentBusinessLogo == NULL) {
 						$bsImgPath = $rootPathPrefix.'images/ultiscape/etc/noLogo.png';
 					} else {
 						$bsImgPath = $rootPathPrefix.'images/ultiscape/uploads/business/fullLogoFile/'.$currentBusinessLogo;

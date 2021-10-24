@@ -7,7 +7,7 @@
     require_once '../../lib/manager/adminLoginManager.php';
     adminLoginManager::cmsVerifyAdminLoginRedirect('./login', './businessselect');
 
-    require_once '../../lib/manager/renderer.php';
+    require_once '../../lib/renderer.php';
     $renderer = new renderer();
 
     echo $renderer->renderAdminHtmlTop('../', 'Sitemap', 'Listing of all pages in the UltiScape CMS.');
@@ -45,14 +45,14 @@
 
                     <?php
 
-                        require_once '../../lib/manager/businessManager.php';
-                        $businessManager = new businessManager();
+                        require_once '../../lib/class/business.php';
+                        $business = new business();
 
                         // var_dump($businessManager->getLocation($_SESSION['ultiscape_businessId']));
 
                     ?>
                 
-                    <p class="mainPageTitle"><a href="./overview">Overview of <span id="overviewButtonBusinessName" style="text-decoration: underline;"><i><?php echo $businessManager->getAdminDisplayName($_SESSION['ultiscape_businessId']); ?></i></span></p>
+                    <p class="mainPageTitle"><a href="./overview">Overview of <span id="overviewButtonBusinessName" style="text-decoration: underline;"><i><?php echo htmlspecialchars($business->adminDisplayName); ?></i></span></p>
 
                     <br>
                     

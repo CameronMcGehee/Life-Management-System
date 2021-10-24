@@ -7,7 +7,7 @@
     require_once '../../lib/manager/adminLoginManager.php';
     adminLoginManager::cmsVerifyAdminLoginRedirect('./login', './businessselect');
 
-    require_once '../../lib/manager/renderer.php';
+    require_once '../../lib/renderer.php';
     $renderer = new renderer();
 
     echo $renderer->renderAdminHtmlTop('../', 'Overview', 'Overview of your UltiScape Business.');
@@ -32,11 +32,11 @@
     <div class="cmsMainContentWrapper styledText textColorThemeGray">
             <div class="margin2em">
                 <?php
-                    require_once '../../lib/manager/businessManager.php';
-                    $businessManager = new businessManager();
+                    require_once '../../lib/class/business.php';
+                    $business = new business();
                 ?>
 
-                <h2>Overview of <span style="font-size: .8em;"><?php echo strip_tags($businessManager->getAdminDisplayName($_SESSION['ultiscape_businessId'])); ?></span></h2>
+                <h2>Overview of <span style="font-size: .8em;"><?php echo htmlspecialchars($business->adminDisplayName); ?></span></h2>
                 <p>A quick glance at your business.</p>
             </div>
 

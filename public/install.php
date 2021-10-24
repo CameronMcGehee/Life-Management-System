@@ -25,7 +25,7 @@
         echo '<html><p>Config File has been created at <pre>/config/mainConfig.php</pre>. Input SQL database login credentials in the config to continue setup.</p></html>';
         exit;
     }
-    include_once '../config/mainConfig.php';
+    $ULTISCAPECONFIG = include('../config/mainConfig.php');
     error_reporting($ULTISCAPECONFIG['phpErrors']);
 
     $conn = mysqli_connect($ULTISCAPECONFIG['databaseServer'], $ULTISCAPECONFIG['databaseUsername'], $ULTISCAPECONFIG['databasePassword'], $ULTISCAPECONFIG['databaseDb']);

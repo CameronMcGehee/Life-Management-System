@@ -7,7 +7,7 @@
     require_once '../../../lib/manager/adminLoginManager.php';
     adminLoginManager::cmsVerifyAdminLoginRedirect('../login', '../businessselect');
 
-    require_once '../../../lib/manager/renderer.php';
+    require_once '../../../lib/renderer.php';
     $renderer = new renderer();
 
     echo $renderer->renderAdminHtmlTop('../../', 'Documents', 'Create, edit, and view invoices, esimates, and document uploads.');

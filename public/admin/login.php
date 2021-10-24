@@ -11,7 +11,7 @@
         header("location: ./businessselect");
     }
 
-    require_once '../../lib/manager/renderer.php';
+    require_once '../../lib/renderer.php';
     $renderer = new renderer();
 
     echo $renderer->renderAdminHtmlTop('../', 'Login', 'Login to your UltiScape account.');

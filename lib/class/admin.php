@@ -8,22 +8,22 @@
 		public string $originalAdminId; // Used when updating the table incase the adminId has been changed after instantiation
 		public bool $existed; // Can be used to see whether the given entity existed already at the time of instantiation
 
-		public string $adminId;
-		public string $username;
-		public string $password;
-		public string $email;
-		public string $surname;
-		public string $firstName;
-		public string $lastName;
-		public string $profilePicture;
-		public string $allowSignIn;
-		public string $dateTimeJoined;
-		public string $dateTimeLeft;
+		public $adminId;
+		public $username;
+		public $password;
+		public $email;
+		public $surname;
+		public $firstName;
+		public $lastName;
+		public $profilePicture;
+		public $allowSignIn;
+		public $dateTimeJoined;
+		public $dateTimeLeft;
 
 		function __construct(string $adminId = '') {
 
 			// Connect to the database
-			require_once dirname(__FILE__)."/databaseManager.php";
+			require_once dirname(__FILE__)."/../manager/databaseManager.php";
 			$this->db = new databaseManager;
 
 			// Fetch from database
@@ -35,16 +35,16 @@
 				$this->adminId = $adminId;
 				$this->existed = true;
 
-				$this->username = $fetch[0]['username'];
-				$this->password = $fetch[0]['password'];
-				$this->email = $fetch[0]['email'];
-				$this->surname = $fetch[0]['surname'];
-				$this->firstName = $fetch[0]['firstName'];
-				$this->lastName = $fetch[0]['lastName'];
-				$this->profilePicture = $fetch[0]['profilePicture'];
-				$this->allowSignIn = $fetch[0]['allowSignIn'];
-				$this->dateTimeJoined = $fetch[0]['dateTimeJoined'];
-				$this->dateTimeLeft = $fetch[0]['dateTimeLeft'];
+				$this->username = (string)$fetch[0]['username'];
+				$this->password = (string)$fetch[0]['password'];
+				$this->email = (string)$fetch[0]['email'];
+				$this->surname = (string)$fetch[0]['surname'];
+				$this->firstName = (string)$fetch[0]['firstName'];
+				$this->lastName = (string)$fetch[0]['lastName'];
+				$this->profilePicture = (string)$fetch[0]['profilePicture'];
+				$this->allowSignIn = (string)$fetch[0]['allowSignIn'];
+				$this->dateTimeJoined = (string)$fetch[0]['dateTimeJoined'];
+				$this->dateTimeLeft = (string)$fetch[0]['dateTimeLeft'];
 			// If adminId does not exist then set the set method type to INSERT and inititialize default values
 			} else {
 				$this->setType = 'INSERT';
@@ -58,17 +58,17 @@
 				$this->username = '';
 				$this->password = '';
 				$this->email = '';
-				$this->surname = 'NULL';
+				$this->surname = NULL;
 				$this->firstName = '';
 				$this->lastName = '';
-				$this->profilePicture = 'NULL';
+				$this->profilePicture = NULL;
 				$this->allowSignIn = '1';
 
 				// Default dateTimeJoined to now since it is likely going to be inserted at this time
 				$currentDateTime = new DateTime();
 				$this->dateTimeJoined = $currentDateTime->format('Y-m-d H:i:s');
 
-				$this->dateTimeLeft = 'NULL';
+				$this->dateTimeLeft = NULL;
 			}
 
 			$this->$originalAdminId = $this->adminId;

@@ -19,7 +19,7 @@
 			$this->idColumn = $input3;
 			
 			// Connect to the database
-			require_once dirname(__FILE__)."/databaseManager.php";
+			require_once dirname(__FILE__)."/../manager/databaseManager.php";
 			$this->db = new databaseManager;
 
 			// Generate the first id
