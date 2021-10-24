@@ -5,15 +5,18 @@
 	class uuid {
 
 		private databaseManager $db;
-		private string $table;
-		private string $idColumn;
+		private string $input2;
+		private string $input3;
 
 		public string $generatedId;
 
-		function __construct($type, $table, $idColumn) {
+		// If looking to create a new table entry, use ('table', $tableName, $idColumn) syntax.
+		// If looking to create a new file entry, use ('file', $rootPath) syntax.
 
-			$this->table = $table;
-			$this->idColumn = $idColumn;
+		function __construct($type, $input2, $input3 = '') {
+
+			$this->table = $input2;
+			$this->idColumn = $input3;
 			
 			// Connect to the database
 			require_once dirname(__FILE__)."/databaseManager.php";
@@ -28,6 +31,9 @@
 					if ($this->db->select($this->table, $this->idColumn, "WHERE $this->idColumn = '$this->generatedId'")) {
 						$this->regenerate();
 					}
+					break;
+				case 'file':
+					// While the file exists in the given path, regenerate
 					break;
 			}
 		}
