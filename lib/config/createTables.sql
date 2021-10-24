@@ -1,4 +1,4 @@
-	-- Adds all tables needed for UltiScape to function. Order is mostly alphabetical, but not exactly due to foreign key requirements.
+	-- Adds all tables needed for UltiScape to function. Not in any particular order, but related tables are generally put together.
 
 	--
 	-- Table structure for table `admin`
@@ -182,105 +182,6 @@
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
-	-- Table structure for table `authToken`
-	--
-
-	CREATE TABLE IF NOT EXISTS `authToken` (
-	`authTokenId` varchar(17) NOT NULL,
-	`businessId` varchar(17) NOT NULL,
-	`formName` varchar(50) NULL,
-	`token` varchar(17) NOT NULL,
-	`dateTimeUsed` datetime NULL,
-	`clientIpUsed` varchar(150) NOT NULL,
-	`dateTimeAdded` datetime NOT NULL,
-	PRIMARY KEY (`authTokenId`),
-	KEY `authTokenBusinessId` (`businessId`),
-	CONSTRAINT `authTokenBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`)
-	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-	--
-	-- Table structure for table `blogPost`
-	--
-
-	CREATE TABLE IF NOT EXISTS `blogPost` (
-	`blogPostId` varchar(17) NOT NULL,
-	`businessId` varchar(17) NOT NULL,
-	`createdByAdminId` varchar(17) NOT NULL,
-	`author` varchar(50) DEFAULT NULL,
-	`title` varchar(100) NOT NULL,
-	`description` text DEFAULT NULL,
-	`bodyFile` varchar(17) NOT NULL,
-	`imgFile` varchar(17) DEFAULT NULL,
-	`published` tinyint(1) NOT NULL DEFAULT 0,
-	`numViewsCache` int(11) NOT NULL DEFAULT 0,
-	`dateTimeAdded` datetime NOT NULL,
-	`dateTimeEdited` datetime DEFAULT NULL,
-	PRIMARY KEY (`blogPostId`),
-	KEY `blogPostBusinessId` (`businessId`),
-	KEY `blogPostCreatedByAdminId` (`createdByAdminId`),
-	CONSTRAINT `blogPostBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
-	CONSTRAINT `blogPostCreatedByAdminId` FOREIGN KEY (`createdByAdminId`) REFERENCES `admin` (`adminId`)
-	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-	--
-	-- Table structure for table `blogTag`
-	--
-
-	CREATE TABLE IF NOT EXISTS `blogTag` (
-	`blogTagId` varchar(17) NOT NULL,
-	`businessId` varchar(17) NOT NULL,
-	`createdByAdminId` varchar(17) NOT NULL,
-	`name` varchar(50) NOT NULL,
-	`description` text DEFAULT NULL,
-	`color` varchar(15) DEFAULT NULL,
-	`imgFile` varchar(17) DEFAULT NULL,
-	`dateTimeAdded` datetime NOT NULL,
-	PRIMARY KEY (`blogTagId`),
-	KEY `blogTagBusinessId` (`businessId`),
-	KEY `blogTagCreatedByAdminId` (`createdByAdminId`),
-	CONSTRAINT `blogTagBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
-	CONSTRAINT `blogTagCreatedByAdminId` FOREIGN KEY (`createdByAdminId`) REFERENCES `admin` (`adminId`)
-	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-	--
-	-- Table structure for table `blogPostBlogTagBridge`
-	--
-
-	CREATE TABLE IF NOT EXISTS `blogPostBlogTagBridge` (
-	`blogPostBlogTagId` varchar(17) NOT NULL,
-	`businessId` varchar(17) NOT NULL,
-	`blogPostId` varchar(17) NOT NULL,
-	`blogTagId` varchar(17) NOT NULL,
-	`dateTimeAdded` datetime NOT NULL,
-	PRIMARY KEY (`blogPostBlogTagId`),
-	KEY `blogPostBlogTagBridgeBusinessId` (`businessId`),
-	KEY `blogPostBlogTagBridgeBlogPostId` (`blogPostId`),
-	KEY `blogPostBlogTagBridgeBlogTagId` (`blogTagId`),
-	CONSTRAINT `blogPostBlogTagBridgeBlogPostId` FOREIGN KEY (`blogPostId`) REFERENCES `blogPost` (`blogPostId`),
-	CONSTRAINT `blogPostBlogTagBridgeBlogTagId` FOREIGN KEY (`blogTagId`) REFERENCES `blogTag` (`blogTagId`),
-	CONSTRAINT `blogPostBlogTagBridgeBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`)
-	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-	--
-	-- Table structure for table `blogPostReadToken`
-	--
-
-	CREATE TABLE IF NOT EXISTS `blogPostReadToken` (
-	`blogPostReadTokenId` varchar(17) NOT NULL,
-	`businessId` varchar(17) NOT NULL,
-	`blogPostId` varchar(17) NOT NULL,
-	`token` varchar(17) NOT NULL,
-	`dateTimeUsed` datetime NOT NULL,
-	`clientIP` varchar(20) NOT NULL,
-	`dateTimeAdded` datetime NOT NULL,
-	PRIMARY KEY (`blogPostReadTokenId`),
-	KEY `blogPostReadTokenBusinessId` (`businessId`),
-	KEY `blogPostReadTokenBlogPostId` (`blogPostId`),
-	CONSTRAINT `blogPostReadTokenBlogPostId` FOREIGN KEY (`blogPostId`) REFERENCES `blogPost` (`blogPostId`),
-	CONSTRAINT `blogPostReadTokenBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`)
-	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-	--
 	-- Table structure for table `adminBusinessBridge`
 	--
 
@@ -318,83 +219,20 @@
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
-	-- Table structure for table `chemical`
+	-- Table structure for table `authToken`
 	--
 
-	CREATE TABLE IF NOT EXISTS `chemical` (
-	`chemicalId` varchar(17) NOT NULL,
+	CREATE TABLE IF NOT EXISTS `authToken` (
+	`authTokenId` varchar(17) NOT NULL,
 	`businessId` varchar(17) NOT NULL,
-	`linkedToCrewId` varchar(17) NULL COMMENT 'Optional FK',
-	`linkedToStaffId` varchar(17) NULL COMMENT 'Optional FK',
-	`addedByAdminId` varchar(17) NOT NULL,
-	`name` varchar(50) NOT NULL,
-	`epa` varchar(50) NULL,
-	`ingeredients` text NULL,
-	`manufacturer` varchar(100) NULL,
-	`dilution` varchar(100) NULL,
-	`targets` varchar(100) NULL,
-	`applicationMethod` varchar(100) NULL,
-	`applicationRate` float NULL,
-	`defaultAmountApplied` float NULL,
-	`defaultAmountAppliedUnit` varchar(10) NOT NULL DEFAULT 'ml/ft²',
-	`amountInStock` float NULL,
-	`amountInStockUnit` varchar(10) NOT NULL DEFAULT 'ml',
-	`notesToCustomer` text NULL,
-	`notesToStaff` text NULL,
-	`description` text NULL,
-	`condition` varchar(50) NULL,
-	`purchaseDate` datetime NULL,
-	`purchasePrice` float NULL,
-	`storageLocation` varchar(50) NULL,
+	`formName` varchar(50) NULL,
+	`token` varchar(17) NOT NULL,
+	`dateTimeUsed` datetime NULL,
+	`clientIpUsed` varchar(150) NOT NULL,
 	`dateTimeAdded` datetime NOT NULL,
-	PRIMARY KEY (`chemicalId`),
-	KEY `chemicalBusinessId` (`businessId`),
-	KEY `chemicalLinkedToCrewId` (`linkedToCrewId`),
-	KEY `chemicalLinkedToStaffId` (`linkedToStaffId`),
-	KEY `chemicalAddedByAdminId` (`addedByAdminId`),
-	CONSTRAINT `chemicalBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
-	CONSTRAINT `chemicalAddedByAdminId` FOREIGN KEY (`addedByAdminId`) REFERENCES `admin` (`adminId`)
-	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-	--
-	-- Table structure for table `chemicalImage`
-	--
-
-	CREATE TABLE IF NOT EXISTS `chemicalImage` (
-	`chemicalImageId` varchar(17) NOT NULL,
-	`businessId` varchar(17) NOT NULL,
-	`chemicalId` varchar(17) NOT NULL,
-	`addedByAdminId` varchar(17) NOT NULL,
-	`imageFile` varchar(17) NOT NULL,
-	`caption` varchar(50) NOT NULL,
-	`dateTimeAdded` datetime NOT NULL,
-	PRIMARY KEY (`chemicalImageId`),
-	KEY `chemicalImageBusinessId` (`businessId`),
-	KEY `chemicalImageChemicalId` (`chemicalId`),
-	KEY `chemicalImageAddedByAdminId` (`addedByAdminId`),
-	CONSTRAINT `chemicalImageBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
-	CONSTRAINT `chemicalImageChemicalId` FOREIGN KEY (`chemicalId`) REFERENCES `chemical` (`chemicalId`),
-	CONSTRAINT `chemicalImageAddedByAdminId` FOREIGN KEY (`addedByAdminId`) REFERENCES `admin` (`adminId`)
-	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-	--
-	-- Table structure for table `chemicalTag`
-	--
-
-	CREATE TABLE IF NOT EXISTS `chemicalTag` (
-	`chemicalTagId` varchar(17) NOT NULL,
-	`businessId` varchar(17) NOT NULL,
-	`createdByAdminId` varchar(17) NOT NULL,
-	`name` varchar(50) NOT NULL,
-	`description` text DEFAULT NULL,
-	`color` varchar(15) DEFAULT NULL,
-	`imgFile` varchar(17) DEFAULT NULL,
-	`dateTimeAdded` datetime NOT NULL,
-	PRIMARY KEY (`chemicalTagId`),
-	KEY `chemicalTagBusinessId` (`businessId`),
-	KEY `chemicalTagCreatedByAdminId` (`createdByAdminId`),
-	CONSTRAINT `chemicalTagBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
-	CONSTRAINT `chemicalTagCreatedByAdminId` FOREIGN KEY (`createdByAdminId`) REFERENCES `admin` (`adminId`)
+	PRIMARY KEY (`authTokenId`),
+	KEY `authTokenBusinessId` (`businessId`),
+	CONSTRAINT `authTokenBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -536,6 +374,95 @@
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
+	-- Table structure for table `customerTag`
+	--
+
+	CREATE TABLE IF NOT EXISTS `customerTag` (
+	`customerTagId` varchar(17) NOT NULL,
+	`businessId` varchar(17) NOT NULL,
+	`customerId` varchar(17) NOT NULL,
+	`addedByAdminId` varchar(17) NOT NULL,
+	`tagName` varchar(50) NOT NULL,
+	`dateTimeAdded` datetime NOT NULL,
+	PRIMARY KEY (`customerTagId`),
+	KEY `customerTagBusinessId` (`businessId`),
+	KEY `customerTagCustomerId` (`customerId`),
+	KEY `customerTagAddedByAdminId` (`addedByAdminId`),
+	CONSTRAINT `customerTagAddedByAdminId` FOREIGN KEY (`addedByAdminId`) REFERENCES `admin` (`adminId`),
+	CONSTRAINT `customerTagBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
+	CONSTRAINT `customerTagCustomerId` FOREIGN KEY (`customerId`) REFERENCES `customer` (`customerId`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
+	-- Table structure for table `quoteRequest`
+	--
+
+	CREATE TABLE IF NOT EXISTS `quoteRequest` (
+	`quoteRequestId` varchar(17) NOT NULL,
+	`businessId` varchar(17) NOT NULL,
+	`linkedToCustomerId` varchar(17) NULL COMMENT 'Optional FK',
+	`name` varchar(50) NULL,
+	`email` varchar(64) NULL,
+	`address1` varchar(150) NULL,
+	`address2` varchar(100) NULL,
+	`state` varchar(50) NULL,
+	`zipCode` int(11) NULL,
+	`dateTimeAdded` datetime NOT NULL,
+	PRIMARY KEY (`quoteRequestId`),
+	KEY `quoteRequestBusinessId` (`businessId`),
+	KEY `quoteRequestlinkedToCustomerId` (`linkedToCustomerId`),
+	CONSTRAINT `quoteRequestBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
+	CONSTRAINT `quoteRequestlinkedToCustomerId` FOREIGN KEY (`linkedToCustomerId`) REFERENCES `customer` (`customerId`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
+	-- Table structure for table `quoteRequestService`
+	--
+
+	CREATE TABLE IF NOT EXISTS `quoteRequestService` (
+	`quoteRequestServiceId` varchar(17) NOT NULL,
+	`businessId` varchar(17) NOT NULL,
+	`quoteRequestId` varchar(17) NOT NULL,
+	`linkedToServiceListingId` varchar(17) NULL COMMENT 'Optional FK',
+	`currentName` varchar(50) NOT NULL,
+	`currentDescription` varchar(200) NOT NULL,
+	`currentImgFile` varchar(17) NULL,
+	`currentPrice` int(11) NULL,
+	`currentMinPrice` int(11) NULL,
+	`currentMaxPrice` int(11) NULL,
+	`dateTimeAdded` datetime NOT NULL,
+	PRIMARY KEY (`quoteRequestServiceId`),
+	KEY `quoteRequestServiceBusinessId` (`businessId`),
+	KEY `quoteRequestServiceQuoteRequestId` (`quoteRequestId`),
+	KEY `quoteRequestServicelinkedToServiceListingId` (`linkedToServiceListingId`),
+	CONSTRAINT `quoteRequestServiceBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
+	CONSTRAINT `quoteRequestServiceQuoteRequestId` FOREIGN KEY (`quoteRequestId`) REFERENCES `quoteRequest` (`quoteRequestId`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
+	-- Table structure for table `serviceListing`
+	--
+
+	CREATE TABLE IF NOT EXISTS `serviceListing` (
+	`serviceListingId` varchar(17) NOT NULL,
+	`businessId` varchar(17) NOT NULL,
+	`addedByAdminId` varchar(17) NOT NULL,
+	`name` varchar(50) NOT NULL,
+	`description` varchar(200) NOT NULL,
+	`imgFile` varchar(17) NULL,
+	`price` int(11) NULL,
+	`minPrice` int(11) NULL,
+	`maxPrice` int(11) NULL,
+	`isRequestable` tinyint(1) NOT NULL DEFAULT 1,
+	`dateTimeAdded` datetime NOT NULL,
+	PRIMARY KEY (`serviceListingId`),
+	KEY `serviceListingBusinessId` (`businessId`),
+	KEY `serviceListingAddedByAdminId` (`addedByAdminId`),
+	CONSTRAINT `serviceListingBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
+	CONSTRAINT `serviceListingAddedByAdminId` FOREIGN KEY (`addedByAdminId`) REFERENCES `admin` (`adminId`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
 	-- Table structure for table `customerServiceTicket`
 	--
 
@@ -558,38 +485,83 @@
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
-	-- Table structure for table `customerTag`
+	-- Table structure for table `chemical`
 	--
 
-	CREATE TABLE IF NOT EXISTS `customerTag` (
-	`customerTagId` varchar(17) NOT NULL,
+	CREATE TABLE IF NOT EXISTS `chemical` (
+	`chemicalId` varchar(17) NOT NULL,
 	`businessId` varchar(17) NOT NULL,
-	`customerId` varchar(17) NOT NULL,
+	`linkedToCrewId` varchar(17) NULL COMMENT 'Optional FK',
+	`linkedToStaffId` varchar(17) NULL COMMENT 'Optional FK',
 	`addedByAdminId` varchar(17) NOT NULL,
-	`tagName` varchar(50) NOT NULL,
+	`name` varchar(50) NOT NULL,
+	`epa` varchar(50) NULL,
+	`ingeredients` text NULL,
+	`manufacturer` varchar(100) NULL,
+	`dilution` varchar(100) NULL,
+	`targets` varchar(100) NULL,
+	`applicationMethod` varchar(100) NULL,
+	`applicationRate` float NULL,
+	`defaultAmountApplied` float NULL,
+	`defaultAmountAppliedUnit` varchar(10) NOT NULL DEFAULT 'ml/ft²',
+	`amountInStock` float NULL,
+	`amountInStockUnit` varchar(10) NOT NULL DEFAULT 'ml',
+	`notesToCustomer` text NULL,
+	`notesToStaff` text NULL,
+	`description` text NULL,
+	`condition` varchar(50) NULL,
+	`purchaseDate` datetime NULL,
+	`purchasePrice` float NULL,
+	`storageLocation` varchar(50) NULL,
 	`dateTimeAdded` datetime NOT NULL,
-	PRIMARY KEY (`customerTagId`),
-	KEY `customerTagBusinessId` (`businessId`),
-	KEY `customerTagCustomerId` (`customerId`),
-	KEY `customerTagAddedByAdminId` (`addedByAdminId`),
-	CONSTRAINT `customerTagAddedByAdminId` FOREIGN KEY (`addedByAdminId`) REFERENCES `admin` (`adminId`),
-	CONSTRAINT `customerTagBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
-	CONSTRAINT `customerTagCustomerId` FOREIGN KEY (`customerId`) REFERENCES `customer` (`customerId`)
+	PRIMARY KEY (`chemicalId`),
+	KEY `chemicalBusinessId` (`businessId`),
+	KEY `chemicalLinkedToCrewId` (`linkedToCrewId`),
+	KEY `chemicalLinkedToStaffId` (`linkedToStaffId`),
+	KEY `chemicalAddedByAdminId` (`addedByAdminId`),
+	CONSTRAINT `chemicalBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
+	CONSTRAINT `chemicalAddedByAdminId` FOREIGN KEY (`addedByAdminId`) REFERENCES `admin` (`adminId`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
-	-- Table structure for table `docId`
+	-- Table structure for table `chemicalImage`
 	--
 
-	CREATE TABLE IF NOT EXISTS `docId` (
-	`docIdId` varchar(17) NOT NULL,
+	CREATE TABLE IF NOT EXISTS `chemicalImage` (
+	`chemicalImageId` varchar(17) NOT NULL,
 	`businessId` varchar(17) NOT NULL,
-	`incrementalId` varchar(17) NOT NULL,
-	`randomId` varchar(17) NOT NULL,
+	`chemicalId` varchar(17) NOT NULL,
+	`addedByAdminId` varchar(17) NOT NULL,
+	`imageFile` varchar(17) NOT NULL,
+	`caption` varchar(50) NOT NULL,
 	`dateTimeAdded` datetime NOT NULL,
-	PRIMARY KEY (`docIdId`),
-	KEY `docIdBusinessId` (`businessId`),
-	CONSTRAINT `docIdBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`)
+	PRIMARY KEY (`chemicalImageId`),
+	KEY `chemicalImageBusinessId` (`businessId`),
+	KEY `chemicalImageChemicalId` (`chemicalId`),
+	KEY `chemicalImageAddedByAdminId` (`addedByAdminId`),
+	CONSTRAINT `chemicalImageBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
+	CONSTRAINT `chemicalImageChemicalId` FOREIGN KEY (`chemicalId`) REFERENCES `chemical` (`chemicalId`),
+	CONSTRAINT `chemicalImageAddedByAdminId` FOREIGN KEY (`addedByAdminId`) REFERENCES `admin` (`adminId`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
+	-- Table structure for table `chemicalTag`
+	--
+
+	CREATE TABLE IF NOT EXISTS `chemicalTag` (
+	`chemicalTagId` varchar(17) NOT NULL,
+	`businessId` varchar(17) NOT NULL,
+	`createdByAdminId` varchar(17) NOT NULL,
+	`name` varchar(50) NOT NULL,
+	`description` text DEFAULT NULL,
+	`color` varchar(15) DEFAULT NULL,
+	`imgFile` varchar(17) DEFAULT NULL,
+	`dateTimeAdded` datetime NOT NULL,
+	PRIMARY KEY (`chemicalTagId`),
+	KEY `chemicalTagBusinessId` (`businessId`),
+	KEY `chemicalTagCreatedByAdminId` (`createdByAdminId`),
+	CONSTRAINT `chemicalTagBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
+	CONSTRAINT `chemicalTagCreatedByAdminId` FOREIGN KEY (`createdByAdminId`) REFERENCES `admin` (`adminId`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -720,6 +692,21 @@
 	KEY `equipmentTagCreatedByAdminId` (`createdByAdminId`),
 	CONSTRAINT `equipmentTagBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
 	CONSTRAINT `equipmentTagCreatedByAdminId` FOREIGN KEY (`createdByAdminId`) REFERENCES `admin` (`adminId`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
+	-- Table structure for table `docId`
+	--
+
+	CREATE TABLE IF NOT EXISTS `docId` (
+	`docIdId` varchar(17) NOT NULL,
+	`businessId` varchar(17) NOT NULL,
+	`incrementalId` varchar(17) NOT NULL,
+	`randomId` varchar(17) NOT NULL,
+	`dateTimeAdded` datetime NOT NULL,
+	PRIMARY KEY (`docIdId`),
+	KEY `docIdBusinessId` (`businessId`),
+	CONSTRAINT `docIdBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -1105,75 +1092,6 @@
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
-	-- Table structure for table `quoteRequest`
-	--
-
-	CREATE TABLE IF NOT EXISTS `quoteRequest` (
-	`quoteRequestId` varchar(17) NOT NULL,
-	`businessId` varchar(17) NOT NULL,
-	`linkedToCustomerId` varchar(17) NULL COMMENT 'Optional FK',
-	`name` varchar(50) NULL,
-	`email` varchar(64) NULL,
-	`address1` varchar(150) NULL,
-	`address2` varchar(100) NULL,
-	`state` varchar(50) NULL,
-	`zipCode` int(11) NULL,
-	`dateTimeAdded` datetime NOT NULL,
-	PRIMARY KEY (`quoteRequestId`),
-	KEY `quoteRequestBusinessId` (`businessId`),
-	KEY `quoteRequestlinkedToCustomerId` (`linkedToCustomerId`),
-	CONSTRAINT `quoteRequestBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
-	CONSTRAINT `quoteRequestlinkedToCustomerId` FOREIGN KEY (`linkedToCustomerId`) REFERENCES `customer` (`customerId`)
-	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-	--
-	-- Table structure for table `quoteRequestService`
-	--
-
-	CREATE TABLE IF NOT EXISTS `quoteRequestService` (
-	`quoteRequestServiceId` varchar(17) NOT NULL,
-	`businessId` varchar(17) NOT NULL,
-	`quoteRequestId` varchar(17) NOT NULL,
-	`linkedToServiceListingId` varchar(17) NULL COMMENT 'Optional FK',
-	`currentName` varchar(50) NOT NULL,
-	`currentDescription` varchar(200) NOT NULL,
-	`currentImgFile` varchar(17) NULL,
-	`currentPrice` int(11) NULL,
-	`currentMinPrice` int(11) NULL,
-	`currentMaxPrice` int(11) NULL,
-	`dateTimeAdded` datetime NOT NULL,
-	PRIMARY KEY (`quoteRequestServiceId`),
-	KEY `quoteRequestServiceBusinessId` (`businessId`),
-	KEY `quoteRequestServiceQuoteRequestId` (`quoteRequestId`),
-	KEY `quoteRequestServicelinkedToServiceListingId` (`linkedToServiceListingId`),
-	CONSTRAINT `quoteRequestServiceBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
-	CONSTRAINT `quoteRequestServiceQuoteRequestId` FOREIGN KEY (`quoteRequestId`) REFERENCES `quoteRequest` (`quoteRequestId`)
-	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-	--
-	-- Table structure for table `serviceListing`
-	--
-
-	CREATE TABLE IF NOT EXISTS `serviceListing` (
-	`serviceListingId` varchar(17) NOT NULL,
-	`businessId` varchar(17) NOT NULL,
-	`addedByAdminId` varchar(17) NOT NULL,
-	`name` varchar(50) NOT NULL,
-	`description` varchar(200) NOT NULL,
-	`imgFile` varchar(17) NULL,
-	`price` int(11) NULL,
-	`minPrice` int(11) NULL,
-	`maxPrice` int(11) NULL,
-	`isRequestable` tinyint(1) NOT NULL DEFAULT 1,
-	`dateTimeAdded` datetime NOT NULL,
-	PRIMARY KEY (`serviceListingId`),
-	KEY `serviceListingBusinessId` (`businessId`),
-	KEY `serviceListingAddedByAdminId` (`addedByAdminId`),
-	CONSTRAINT `serviceListingBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
-	CONSTRAINT `serviceListingAddedByAdminId` FOREIGN KEY (`addedByAdminId`) REFERENCES `admin` (`adminId`)
-	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-	--
 	-- Table structure for table `staff`
 	--
 
@@ -1473,4 +1391,86 @@
 	KEY `timeLogAddedByAdminId` (`addedByAdminId`),
 	CONSTRAINT `timeLogBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
 	CONSTRAINT `timeLogStaffId` FOREIGN KEY (`staffId`) REFERENCES `staff` (`staffId`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
+	-- Table structure for table `blogPost`
+	--
+
+	CREATE TABLE IF NOT EXISTS `blogPost` (
+	`blogPostId` varchar(17) NOT NULL,
+	`businessId` varchar(17) NOT NULL,
+	`createdByAdminId` varchar(17) NOT NULL,
+	`author` varchar(50) DEFAULT NULL,
+	`title` varchar(100) NOT NULL,
+	`description` text DEFAULT NULL,
+	`bodyFile` varchar(17) NOT NULL,
+	`imgFile` varchar(17) DEFAULT NULL,
+	`published` tinyint(1) NOT NULL DEFAULT 0,
+	`numViewsCache` int(11) NOT NULL DEFAULT 0,
+	`dateTimeAdded` datetime NOT NULL,
+	`dateTimeEdited` datetime DEFAULT NULL,
+	PRIMARY KEY (`blogPostId`),
+	KEY `blogPostBusinessId` (`businessId`),
+	KEY `blogPostCreatedByAdminId` (`createdByAdminId`),
+	CONSTRAINT `blogPostBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
+	CONSTRAINT `blogPostCreatedByAdminId` FOREIGN KEY (`createdByAdminId`) REFERENCES `admin` (`adminId`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
+	-- Table structure for table `blogTag`
+	--
+
+	CREATE TABLE IF NOT EXISTS `blogTag` (
+	`blogTagId` varchar(17) NOT NULL,
+	`businessId` varchar(17) NOT NULL,
+	`createdByAdminId` varchar(17) NOT NULL,
+	`name` varchar(50) NOT NULL,
+	`description` text DEFAULT NULL,
+	`color` varchar(15) DEFAULT NULL,
+	`imgFile` varchar(17) DEFAULT NULL,
+	`dateTimeAdded` datetime NOT NULL,
+	PRIMARY KEY (`blogTagId`),
+	KEY `blogTagBusinessId` (`businessId`),
+	KEY `blogTagCreatedByAdminId` (`createdByAdminId`),
+	CONSTRAINT `blogTagBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
+	CONSTRAINT `blogTagCreatedByAdminId` FOREIGN KEY (`createdByAdminId`) REFERENCES `admin` (`adminId`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
+	-- Table structure for table `blogPostBlogTagBridge`
+	--
+
+	CREATE TABLE IF NOT EXISTS `blogPostBlogTagBridge` (
+	`blogPostBlogTagId` varchar(17) NOT NULL,
+	`businessId` varchar(17) NOT NULL,
+	`blogPostId` varchar(17) NOT NULL,
+	`blogTagId` varchar(17) NOT NULL,
+	`dateTimeAdded` datetime NOT NULL,
+	PRIMARY KEY (`blogPostBlogTagId`),
+	KEY `blogPostBlogTagBridgeBusinessId` (`businessId`),
+	KEY `blogPostBlogTagBridgeBlogPostId` (`blogPostId`),
+	KEY `blogPostBlogTagBridgeBlogTagId` (`blogTagId`),
+	CONSTRAINT `blogPostBlogTagBridgeBlogPostId` FOREIGN KEY (`blogPostId`) REFERENCES `blogPost` (`blogPostId`),
+	CONSTRAINT `blogPostBlogTagBridgeBlogTagId` FOREIGN KEY (`blogTagId`) REFERENCES `blogTag` (`blogTagId`),
+	CONSTRAINT `blogPostBlogTagBridgeBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
+	-- Table structure for table `blogPostReadToken`
+	--
+
+	CREATE TABLE IF NOT EXISTS `blogPostReadToken` (
+	`blogPostReadTokenId` varchar(17) NOT NULL,
+	`businessId` varchar(17) NOT NULL,
+	`blogPostId` varchar(17) NOT NULL,
+	`token` varchar(17) NOT NULL,
+	`dateTimeUsed` datetime NOT NULL,
+	`clientIP` varchar(20) NOT NULL,
+	`dateTimeAdded` datetime NOT NULL,
+	PRIMARY KEY (`blogPostReadTokenId`),
+	KEY `blogPostReadTokenBusinessId` (`businessId`),
+	KEY `blogPostReadTokenBlogPostId` (`blogPostId`),
+	CONSTRAINT `blogPostReadTokenBlogPostId` FOREIGN KEY (`blogPostId`) REFERENCES `blogPost` (`blogPostId`),
+	CONSTRAINT `blogPostReadTokenBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
