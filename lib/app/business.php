@@ -7,7 +7,8 @@
 		private string $setType;
 		private databaseManager $db;
 
-		public string $originalBusinessId;
+		public string $originalBusinessId; // Used when updating the table incase the adminId has been changed after instantiation.
+		public bool $existed; // Can be used to see whether the given entity existed already at the time of instantiation
 
 		public string $businessId;
 		public string $ownerAdminId;
@@ -140,6 +141,8 @@
 			if ($fetch) {
 				$this->setType = 'UPDATE';
 				$this->businessId = $businessId;
+				$this->existed = true;
+
 				$this->ownerAdminId = $fetch[0]['ownerAdminId'];
 				$this->displayName = $fetch[0]['displayName'];
 				$this->adminDisplayName = $fetch[0]['adminDisplayName'];
@@ -259,6 +262,7 @@
 			// If businessId does not exist then set the set method type to INSERT and inititialize default values
 			} else {
 				$this->setType = 'INSERT';
+				$this->existed = false;
 
 				// Make a new business Id from a random id
 				require_once dirname(__FILE__)."/uuid.php";

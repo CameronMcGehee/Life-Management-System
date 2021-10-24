@@ -5,7 +5,8 @@
 		private string $setType;
 		private databaseManager $db;
 
-		public string $originalAdminId;
+		public string $originalAdminId; // Used when updating the table incase the adminId has been changed after instantiation
+		public bool $existed; // Can be used to see whether the given entity existed already at the time of instantiation
 
 		public string $adminId;
 		public string $username;
@@ -32,6 +33,7 @@
 			if ($fetch) {
 				$this->setType = 'UPDATE';
 				$this->adminId = $adminId;
+				$this->existed = true;
 
 				$this->username = $fetch[0]['username'];
 				$this->password = $fetch[0]['password'];
@@ -46,6 +48,7 @@
 			// If adminId does not exist then set the set method type to INSERT and inititialize default values
 			} else {
 				$this->setType = 'INSERT';
+				$this->existed = false;
 
 				// Make a new admin Id from a random id
 				require_once dirname(__FILE__)."/uuid.php";
