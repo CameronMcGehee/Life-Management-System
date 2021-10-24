@@ -453,6 +453,51 @@
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
+	-- Table structure for table `customerPhoneNumber`
+	--
+
+	CREATE TABLE IF NOT EXISTS `customerPhoneNumber` (
+	`customerPhoneNumberId` varchar(17) NOT NULL,
+	`businessId` varchar(17) NOT NULL,
+	`customerId` varchar(17) DEFAULT NULL,
+	`addedByAdminId` varchar(17) NULL COMMENT 'Optional FK',
+	`phonePrefix` int(11) DEFAULT NULL,
+	`phone1` int(11) DEFAULT NULL,
+	`phone2` int(11) DEFAULT NULL,
+	`phone3` int(11) DEFAULT NULL,
+	`description` varchar(50) NULL,
+	`dateTimeAdded` datetime NOT NULL,
+	`dateTimeRemoved` datetime NULL,
+	PRIMARY KEY (`customerPhoneNumberId`),
+	KEY `customerPhoneNumberBusinessId` (`businessId`),
+	KEY `customerPhoneNumberCustomerId` (`customerId`),
+	KEY `customerPhoneNumberAddedByAdminId` (`addedByAdminId`),
+	CONSTRAINT `customerPhoneNumberBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
+	CONSTRAINT `customerPhoneNumberCustomerId` FOREIGN KEY (`customerId`) REFERENCES `customer` (`customerId`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
+	-- Table structure for table `customerEmailAddress`
+	--
+
+	CREATE TABLE IF NOT EXISTS `customerEmailAddress` (
+	`customerEmailAddressId` varchar(17) NOT NULL,
+	`businessId` varchar(17) NOT NULL,
+	`customerId` varchar(17) DEFAULT NULL,
+	`addedByAdminId` varchar(17) NULL COMMENT 'Optional FK',
+	`email` varchar(64) DEFAULT NULL,
+	`description` varchar(50) NULL,
+	`dateTimeAdded` datetime NOT NULL,
+	`dateTimeRemoved` datetime NULL,
+	PRIMARY KEY (`customerEmailAddressId`),
+	KEY `customerEmailAddressBusinessId` (`businessId`),
+	KEY `customerEmailAddressCustomerId` (`customerId`),
+	KEY `customerEmailAddressAddedByAdminId` (`addedByAdminId`),
+	CONSTRAINT `customerEmailAddressBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
+	CONSTRAINT `customerEmailAddressCustomerId` FOREIGN KEY (`customerId`) REFERENCES `customer` (`customerId`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
 	-- Table structure for table `customerLoginAttempt`
 	--
 
@@ -1158,6 +1203,51 @@
 	KEY `staffAddedByAdminId` (`addedByAdminId`),
 	CONSTRAINT `staffAddedByAdminId` FOREIGN KEY (`addedByAdminId`) REFERENCES `admin` (`adminId`),
 	CONSTRAINT `staffBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
+	-- Table structure for table `staffPhoneNumber`
+	--
+
+	CREATE TABLE IF NOT EXISTS `staffPhoneNumber` (
+	`staffPhoneNumberId` varchar(17) NOT NULL,
+	`businessId` varchar(17) NOT NULL,
+	`staffId` varchar(17) DEFAULT NULL,
+	`addedByAdminId` varchar(17) NULL COMMENT 'Optional FK',
+	`phonePrefix` int(11) DEFAULT NULL,
+	`phone1` int(11) DEFAULT NULL,
+	`phone2` int(11) DEFAULT NULL,
+	`phone3` int(11) DEFAULT NULL,
+	`description` varchar(50) NULL,
+	`dateTimeAdded` datetime NOT NULL,
+	`dateTimeRemoved` datetime NULL,
+	PRIMARY KEY (`staffPhoneNumberId`),
+	KEY `staffPhoneNumberBusinessId` (`businessId`),
+	KEY `staffPhoneNumberStaffId` (`staffId`),
+	KEY `staffPhoneNumberAddedByAdminId` (`addedByAdminId`),
+	CONSTRAINT `staffPhoneNumberBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
+	CONSTRAINT `staffPhoneNumberStaffId` FOREIGN KEY (`staffId`) REFERENCES `staff` (`staffId`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
+	-- Table structure for table `staffEmailAddress`
+	--
+
+	CREATE TABLE IF NOT EXISTS `staffEmailAddress` (
+	`staffEmailAddressId` varchar(17) NOT NULL,
+	`businessId` varchar(17) NOT NULL,
+	`staffId` varchar(17) DEFAULT NULL,
+	`addedByAdminId` varchar(17) NULL COMMENT 'Optional FK',
+	`email` varchar(64) DEFAULT NULL,
+	`description` varchar(50) NULL,
+	`dateTimeAdded` datetime NOT NULL,
+	`dateTimeRemoved` datetime NULL,
+	PRIMARY KEY (`staffEmailAddressId`),
+	KEY `staffEmailAddressBusinessId` (`businessId`),
+	KEY `staffEmailAddressStaffId` (`staffId`),
+	KEY `staffEmailAddressAddedByAdminId` (`addedByAdminId`),
+	CONSTRAINT `staffEmailAddressBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
+	CONSTRAINT `staffEmailAddressStaffId` FOREIGN KEY (`staffId`) REFERENCES `staff` (`staffId`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
