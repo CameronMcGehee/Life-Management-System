@@ -1,6 +1,6 @@
 <?php
 
-    require_once dirname(__DIR__)."../../config/mainConfig.php";
+    $ULTISCAPECONFIG = include(dirname(__DIR__)."../../config/mainConfig.php");
 
     error_reporting($ULTISCAPECONFIG['phpErrors']);
 
