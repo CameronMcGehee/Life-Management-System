@@ -27,7 +27,7 @@
 
 	CREATE TABLE IF NOT EXISTS `adminLoginAttempt` (
 	`adminLoginAttemptId` varchar(17) NOT NULL,
-	`adminId` varchar(17) DEFAULT NULL,
+	`adminId` varchar(17) NULL DEFAULT NULL,
 	`loginCode` varchar(17) NOT NULL,
 	`dateTimeCodeUsed` datetime DEFAULT NULL,
 	`clientIp` varchar(150) NOT NULL,
@@ -47,7 +47,6 @@
 	CREATE TABLE IF NOT EXISTS `adminSavedLogin` (
 	`adminSavedLoginId` varchar(17) NOT NULL,
 	`adminId` varchar(17) NOT NULL,
-	`code` varchar(17) NOT NULL,
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`adminSavedLoginId`),
 	KEY `adminSavedLoginAdminId` (`adminId`),

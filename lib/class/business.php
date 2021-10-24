@@ -264,8 +264,8 @@
 
 				// Make a new business Id from a random id
 				require_once dirname(__FILE__)."/uuid.php";
-				$newUuid = new uuid('table', 'business', 'businessId');
-				$this->businessId = $newUuid->generatedId;
+				$uuid = new uuid('table', 'business', 'businessId');
+				$this->businessId = $uuid->generatedId;
 
 				$this->ownerAdminId = '';
 				$this->displayName = '';

@@ -52,8 +52,8 @@
 
 				// Make a new admin Id from a random id
 				require_once dirname(__FILE__)."/uuid.php";
-				$newUuid = new uuid('table', 'admin', 'adminId');
-				$this->adminId = $newUuid->generatedId;
+				$uuid = new uuid('table', 'admin', 'adminId');
+				$this->adminId = $uuid->generatedId;
 
 				$this->username = '';
 				$this->password = '';
