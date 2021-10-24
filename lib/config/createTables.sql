@@ -469,19 +469,60 @@
 	CREATE TABLE IF NOT EXISTS `customerServiceTicket` (
 	`customerServiceTicketId` varchar(17) NOT NULL,
 	`businessId` varchar(17) NOT NULL,
-	`fromCustomerId` varchar(17) NOT NULL,
-	`linkedToInvoiceId` varchar(17) NULL DEFAULT NULL COMMENT 'Optional FK',
-	`linkedToEstimateId` varchar(17) NULL DEFAULT NULL COMMENT 'Optional FK',
-	`linkedToQuoteRequestId` varchar(17) NULL DEFAULT NULL COMMENT 'Optional FK',
+	`linkedToCustomerId` varchar(17) NULL COMMENT 'Optional FK',
+	`linkedToInvoiceId` varchar(17) NULL COMMENT 'Optional FK',
+	`linkedToEstimateId` varchar(17) NULL COMMENT 'Optional FK',
+	`linkedToQuoteRequestId` varchar(17) NULL COMMENT 'Optional FK',
+	`name` varchar(50) NULL COMMENT 'NULL if linkedToCustomerId',
+	`email` varchar(64) NULL COMMENT 'NULL if linkedToCustomerId',
 	`docIdId` varchar(17) NOT NULL,
 	`subject` varchar(100) NOT NULL,
 	`isResolved` tinyint(1) NOT NULL DEFAULT 0,
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`customerServiceTicketId`),
 	KEY `customerServiceTicketBusinessId` (`businessId`),
-	KEY `customerServiceTicketFromCustomerId` (`fromCustomerId`),
+	KEY `customerServiceTicketLinkedToCustomerId` (`linkedToCustomerId`),
 	CONSTRAINT `customerServiceTicketBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
-	CONSTRAINT `customerServiceTicketFromCustomerId` FOREIGN KEY (`fromCustomerId`) REFERENCES `customer` (`customerId`)
+	CONSTRAINT `customerServiceTicketLinkedToCustomerId` FOREIGN KEY (`linkedToCustomerId`) REFERENCES `customer` (`customerId`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
+	-- Table structure for table `adminCustomerServiceMessage`
+	--
+
+	CREATE TABLE IF NOT EXISTS `adminCustomerServiceMessage` (
+	`adminCustomerServiceMessageId` varchar(17) NOT NULL,
+	`businessId` varchar(17) NOT NULL,
+	`adminId` varchar(17) NOT NULL,
+	`customerServiceTicketId` varchar(17) NOT NULL,
+	`message` text NOT NULL,
+	`isReadByCustomer` tinyint(1) NOT NULL DEFAULT 0,
+	`dateTimeAdded` datetime NOT NULL,
+	PRIMARY KEY (`adminCustomerServiceMessageId`),
+	KEY `adminCustomerServiceMessageBusinessId` (`businessId`),
+	KEY `adminCustomerServiceMessageAdminId` (`adminId`),
+	KEY `adminCustomerServiceMessageCustomerServiceTicketId` (`customerServiceTicketId`),
+	CONSTRAINT `adminCustomerServiceMessageBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
+	CONSTRAINT `adminCustomerServiceMessageAdminId` FOREIGN KEY (`adminId`) REFERENCES `admin` (`adminId`),
+	CONSTRAINT `adminCustomerServiceMessageCustomerServiceTicketId` FOREIGN KEY (`customerServiceTicketId`) REFERENCES `customerServiceTicket` (`customerServiceTicketId`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
+	-- Table structure for table `customerCustomerServiceMessage`
+	--
+
+	CREATE TABLE IF NOT EXISTS `customerCustomerServiceMessage` (
+	`customerCustomerServiceMessageId` varchar(17) NOT NULL,
+	`businessId` varchar(17) NOT NULL,
+	`customerServiceTicketId` varchar(17) NOT NULL,
+	`message` text NOT NULL,
+	`isReadByAdmin` tinyint(1) NOT NULL DEFAULT 0,
+	`dateTimeAdded` datetime NOT NULL,
+	PRIMARY KEY (`customerCustomerServiceMessageId`),
+	KEY `customerCustomerServiceMessageBusinessId` (`businessId`),
+	KEY `customerCustomerServiceMessageCustomerServiceTicketId` (`customerServiceTicketId`),
+	CONSTRAINT `customerCustomerServiceMessageBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
+	CONSTRAINT `customerCustomerServiceMessageCustomerServiceTicketId` FOREIGN KEY (`customerServiceTicketId`) REFERENCES `customerServiceTicket` (`customerServiceTicketId`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
