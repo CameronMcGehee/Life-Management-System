@@ -7,7 +7,7 @@
 		public array $config;
 		
 		function __construct() {
-			require_once dirname(__FILE__)."/databaseManager.php";
+			require_once dirname(__FILE__)."/manager/databaseManager.php";
 			$this->databaseManager = new databaseManager;
 
 			$this->config = $GLOBALS['ULTISCAPECONFIG'];
@@ -67,7 +67,7 @@
 			$output .= '<div class="yCenteredFlex flexDirectionRow" id="businessSelectorButtonWrapper">';
 				if ($showBusinessSelector) {
 					$output .= '<div class="yCenteredFlex flexDirectionRow" id="businessSelectorButton">';
-					require_once dirname(__FILE__)."/businessManager.php";
+					require_once dirname(__FILE__)."/manager/businessManager.php";
 					$businessManager = new businessManager;
 					$currentBusinessLogo = $businessManager->getFullLogoFile($_SESSION['ultiscape_businessId']);
 					// If the currently selected business does not have a logo file, display the default one
