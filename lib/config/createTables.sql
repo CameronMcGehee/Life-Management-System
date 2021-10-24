@@ -1402,6 +1402,7 @@
 	`mailoutCampaignTemplateId` varchar(17) NOT NULL,
 	`businessId` varchar(17) NOT NULL,
 	`createdByAdminId` varchar(17) NOT NULL,
+	`campaignName` varchar(200) NOT NULL,
 	`subject` varchar(200) NOT NULL,
 	`headerFile` varchar(17) NOT NULL,
 	`bodyFile` varchar(17) NOT NULL,
@@ -1460,6 +1461,25 @@
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
+	-- Table structure for table `customerEmailAddressEmailSendBridge`
+	--
+
+	CREATE TABLE IF NOT EXISTS `customerEmailAddressEmailSendBridge` (
+	`customerEmailAddressEmailSendId` varchar(17) NOT NULL,
+	`businessId` varchar(17) NOT NULL,
+	`customerEmailAddressId` varchar(17) NOT NULL,
+	`emailSendId` varchar(17) NOT NULL,
+	`dateTimeAdded` datetime NOT NULL,
+	PRIMARY KEY (`customerEmailAddressEmailSendId`),
+	KEY `customerEmailAddressEmailSendBridgeBusinessId` (`businessId`),
+	KEY `customerEmailAddressEmailSendBridgeCustomerEmailAddressId` (`customerEmailAddressId`),
+	KEY `customerEmailAddressEmailSendBridgeEmailSendId` (`emailSendId`),
+	CONSTRAINT `customerEmailAddressEmailSendBridgeBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
+	CONSTRAINT `customerEmailAddressEmailSendBridgeCustomerEmailAddressId` FOREIGN KEY (`customerEmailAddressId`) REFERENCES `customerEmailAddress` (`customerEmailAddressId`),
+	CONSTRAINT `customerEmailAddressEmailSendBridgeEmailSendId` FOREIGN KEY (`emailSendId`) REFERENCES `emailSend` (`emailSendId`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
 	-- Table structure for table `emailPixel`
 	--
 
@@ -1479,22 +1499,82 @@
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
-	-- Table structure for table `customerEmailAddressEmailSendBridge`
+	-- Table structure for table `smsCampaignTemplate`
 	--
 
-	CREATE TABLE IF NOT EXISTS `customerEmailAddressEmailSendBridge` (
-	`customerEmailAddressEmailSendId` varchar(17) NOT NULL,
+	CREATE TABLE IF NOT EXISTS `smsCampaignTemplate` (
+	`smsCampaignTemplateId` varchar(17) NOT NULL,
 	`businessId` varchar(17) NOT NULL,
-	`customerEmailAddressId` varchar(17) NOT NULL,
-	`emailSendId` varchar(17) NOT NULL,
+	`createdByAdminId` varchar(17) NOT NULL,
+	`campaignName` varchar(200) NOT NULL,
+	`message` text NOT NULL,
 	`dateTimeAdded` datetime NOT NULL,
-	PRIMARY KEY (`customerEmailAddressEmailSendId`),
-	KEY `customerEmailAddressEmailSendBridgeBusinessId` (`businessId`),
-	KEY `customerEmailAddressEmailSendBridgeCustomerEmailAddressId` (`customerEmailAddressId`),
-	KEY `customerEmailAddressEmailSendBridgeEmailSendId` (`emailSendId`),
-	CONSTRAINT `customerEmailAddressEmailSendBridgeBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
-	CONSTRAINT `customerEmailAddressEmailSendBridgeCustomerEmailAddressId` FOREIGN KEY (`customerEmailAddressId`) REFERENCES `customerEmailAddress` (`customerEmailAddressId`),
-	CONSTRAINT `customerEmailAddressEmailSendBridgeEmailSendId` FOREIGN KEY (`emailSendId`) REFERENCES `emailSend` (`emailSendId`)
+	PRIMARY KEY (`smsCampaignTemplateId`),
+	KEY `smsCampaignTemplateBusinessId` (`businessId`),
+	KEY `smsCampaignTemplateCreatedByAdminId` (`createdByAdminId`),
+	CONSTRAINT `smsCampaignTemplateBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
+	CONSTRAINT `smsCampaignTemplateCreatedByAdminId` FOREIGN KEY (`createdByAdminId`) REFERENCES `admin` (`adminId`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
+	-- Table structure for table `smsSubscriptionBridge`
+	--
+
+	CREATE TABLE IF NOT EXISTS `smsSubscriptionBridge` (
+	`smsSubscriptionId` varchar(17) NOT NULL,
+	`businessId` varchar(17) NOT NULL,
+	`customerPhoneNumberId` varchar(17) NOT NULL,
+	`smsCampaignTemplateId` varchar(17) NOT NULL,
+	`frequencyInterval` varchar(10) NOT NULL DEFAULT 'none',
+	`frequency` int(11) NOT NULL DEFAULT 0,
+	`dateTimeAdded` datetime NOT NULL,
+	PRIMARY KEY (`smsSubscriptionId`),
+	KEY `smsSubscriptionBridgeBusinessId` (`businessId`),
+	KEY `smsSubscriptionBridgeCustomerPhoneNumberId` (`customerPhoneNumberId`),
+	KEY `smsSubscriptionBridgeMailoutCampaignTemplateId` (`smsCampaignTemplateId`),
+	CONSTRAINT `smsSubscriptionBridgeBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
+	CONSTRAINT `smsSubscriptionBridgeCustomerPhoneNumberId` FOREIGN KEY (`customerPhoneNumberId`) REFERENCES `customerPhoneNumber` (`customerPhoneNumberId`),
+	CONSTRAINT `smsSubscriptionBridgeMailoutCampaignTemplateId` FOREIGN KEY (`smsCampaignTemplateId`) REFERENCES `smsCampaignTemplate` (`smsCampaignTemplateId`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
+	-- Table structure for table `smsSend`
+	--
+
+	CREATE TABLE IF NOT EXISTS `smsSend` (
+	`smsSendId` varchar(17) NOT NULL,
+	`businessId` varchar(17) NOT NULL,
+	`createdByAdminId` varchar(17) NOT NULL,
+	`linkedToSmsSubscriptionId` varchar(17) NULL COMMENT 'Optional FK',
+	`linkedToSmsCampaignTemplateId` varchar(17) NULL COMMENT 'Optional FK',
+	`message` text NOT NULL,
+	`dateTimeAdded` datetime NOT NULL,
+	PRIMARY KEY (`smsSendId`),
+	KEY `smsSendBusinessId` (`businessId`),
+	KEY `smsSendCreatedByAdminId` (`createdByAdminId`),
+	KEY `smsSendLinkedToSmsSubscriptionId` (`linkedToSmsSubscriptionId`),
+	KEY `smsSendLinkedToSmsCampaignTemplateId` (`linkedToSmsCampaignTemplateId`),
+	CONSTRAINT `smsSendBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
+	CONSTRAINT `smsSendCreatedByAdminId` FOREIGN KEY (`createdByAdminId`) REFERENCES `admin` (`adminId`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
+	-- Table structure for table `customerPhoneNumberSmsSendBridge`
+	--
+
+	CREATE TABLE IF NOT EXISTS `customerPhoneNumberSmsSendBridge` (
+	`customerPhoneNumberSmsSendId` varchar(17) NOT NULL,
+	`businessId` varchar(17) NOT NULL,
+	`customerPhoneNumberId` varchar(17) NOT NULL,
+	`smsSendId` varchar(17) NOT NULL,
+	`dateTimeAdded` datetime NOT NULL,
+	PRIMARY KEY (`customerPhoneNumberSmsSendId`),
+	KEY `customerPhoneNumberSmsSendBridgeBusinessId` (`businessId`),
+	KEY `customerPhoneNumberSmsSendBridgeCustomerPhoneNumberId` (`customerPhoneNumberId`),
+	KEY `customerPhoneNumberSmsSendBridgeSmsSendId` (`smsSendId`),
+	CONSTRAINT `customerPhoneNumberSmsSendBridgeBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
+	CONSTRAINT `customerPhoneNumberSmsSendBridgeCustomerPhoneNumberId` FOREIGN KEY (`customerPhoneNumberId`) REFERENCES `customerPhoneNumber` (`customerPhoneNumberId`),
+	CONSTRAINT `customerPhoneNumberSmsSendBridgeSmsSendId` FOREIGN KEY (`smsSendId`) REFERENCES `smsSend` (`smsSendId`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
