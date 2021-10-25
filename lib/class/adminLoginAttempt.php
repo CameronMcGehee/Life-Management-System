@@ -70,20 +70,22 @@
 		// Adds the adminLoginAttempt to the database or updates the values
 		public function set() {
 
+			$attributes = array(
+				'adminLoginAttemptId' => $this->db->sanitize($this->adminLoginAttemptId),
+				'adminId' => $this->db->sanitize($this->adminId),
+				'loginCode' => $this->db->sanitize($this->loginCode),
+				'dateTimeCodeUsed' => $this->db->sanitize($this->dateTimeCodeUsed),
+				'clientIp' => $this->db->sanitize($this->clientIp),
+				'enteredUsername' => $this->db->sanitize($this->enteredUsername),
+				'enteredPassword' => $this->db->sanitize($this->enteredPassword),
+				'result' => $this->db->sanitize($this->result),
+				'dateTimeAdded' => $this->db->sanitize($this->dateTimeAdded)
+			);
+
 			if ($this->setType == 'UPDATE') {
 
 				// Update the values in the database after sanitizing them
-				if ($this->db->update('adminLoginAttempt', array(
-					'adminLoginAttemptId' => $this->db->sanitize($this->adminLoginAttemptId),
-					'adminId' => $this->db->sanitize($this->adminId),
-					'loginCode' => $this->db->sanitize($this->loginCode),
-					'dateTimeCodeUsed' => $this->db->sanitize($this->dateTimeCodeUsed),
-					'clientIp' => $this->db->sanitize($this->clientIp),
-					'enteredUsername' => $this->db->sanitize($this->enteredUsername),
-					'enteredPassword' => $this->db->sanitize($this->enteredPassword),
-					'result' => $this->db->sanitize($this->result),
-					'dateTimeAdded' => $this->db->sanitize($this->dateTimeAdded)
-				), "WHERE adminLoginAttemptId = ".$this->db->sanitize($this->originalAdminLoginAttemptId), 1)) {
+				if ($this->db->update('adminLoginAttempt', $attributes, "WHERE adminLoginAttemptId = ".$this->db->sanitize($this->originalAdminLoginAttemptId), 1)) {
 					return true;
 				} else {
 					return $this->db->getLastError();
@@ -92,17 +94,7 @@
 			} else {
 
 				// Insert the values to the database after sanitizing them
-				if ($this->db->insert('adminLoginAttempt', array(
-					'adminLoginAttemptId' => $this->db->sanitize($this->adminLoginAttemptId),
-					'adminId' => $this->db->sanitize($this->adminId),
-					'loginCode' => $this->db->sanitize($this->loginCode),
-					'dateTimeCodeUsed' => $this->db->sanitize($this->dateTimeCodeUsed),
-					'clientIp' => $this->db->sanitize($this->clientIp),
-					'enteredUsername' => $this->db->sanitize($this->enteredUsername),
-					'enteredPassword' => $this->db->sanitize($this->enteredPassword),
-					'result' => $this->db->sanitize($this->result),
-					'dateTimeAdded' => $this->db->sanitize($this->dateTimeAdded)
-				))) {
+				if ($this->db->insert('adminLoginAttempt', $attributes)) {
 					return true;
 				} else {
 					return $this->db->getLastError();

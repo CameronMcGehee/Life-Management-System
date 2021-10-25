@@ -62,17 +62,19 @@
 		// Adds the authToken to the database or updates the values
 		public function set() {
 
+			$attributes = array(
+				'authTokenId' => $this->db->sanitize($this->authTokenId),
+				'businessId' => $this->db->sanitize($this->businessId),
+				'authName' => $this->db->sanitize($this->authName),
+				'dateTimeUsed' => $this->db->sanitize($this->dateTimeUsed),
+				'clientIpUsed' => $this->db->sanitize($this->clientIpUsed),
+				'dateTimeAdded' => $this->db->sanitize($this->dateTimeAdded)
+			);
+
 			if ($this->setType == 'UPDATE') {
 
 				// Update the values in the database after sanitizing them
-				if ($this->db->update('authToken', array(
-					'authTokenId' => $this->db->sanitize($this->authTokenId),
-					'businessId' => $this->db->sanitize($this->businessId),
-					'authName' => $this->db->sanitize($this->authName),
-					'dateTimeUsed' => $this->db->sanitize($this->dateTimeUsed),
-					'clientIpUsed' => $this->db->sanitize($this->clientIpUsed),
-					'dateTimeAdded' => $this->db->sanitize($this->dateTimeAdded)
-				), "WHERE authTokenId = ".$this->db->sanitize($this->originalAuthTokenId), 1)) {
+				if ($this->db->update('authToken', $attributes, "WHERE authTokenId = ".$this->db->sanitize($this->originalAuthTokenId), 1)) {
 					return true;
 				} else {
 					return $this->db->getLastError();
@@ -81,14 +83,7 @@
 			} else {
 
 				// Insert the values to the database after sanitizing them
-				if ($this->db->insert('authToken', array(
-					'authTokenId' => $this->db->sanitize($this->authTokenId),
-					'businessId' => $this->db->sanitize($this->businessId),
-					'authName' => $this->db->sanitize($this->authName),
-					'dateTimeUsed' => $this->db->sanitize($this->dateTimeUsed),
-					'clientIpUsed' => $this->db->sanitize($this->clientIpUsed),
-					'dateTimeAdded' => $this->db->sanitize($this->dateTimeAdded)
-				))) {
+				if ($this->db->insert('authToken', $attributes)) {
 					return true;
 				} else {
 					return $this->db->getLastError();

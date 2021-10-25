@@ -77,22 +77,24 @@
 		// Adds the admin to the database or updates the values
 		public function set() {
 
+			$attributes = array(
+				'adminId' => $this->db->sanitize($this->adminId),
+				'username' => $this->db->sanitize($this->username),
+				'password' => $this->db->sanitize($this->password),
+				'email' => $this->db->sanitize($this->email),
+				'surname' => $this->db->sanitize($this->surname),
+				'firstName' => $this->db->sanitize($this->firstName),
+				'lastName' => $this->db->sanitize($this->lastName),
+				'profilePicture' => $this->db->sanitize($this->profilePicture),
+				'allowSignIn' => $this->db->sanitize($this->allowSignIn),
+				'dateTimeJoined' => $this->db->sanitize($this->dateTimeJoined),
+				'dateTimeLeft' => $this->db->sanitize($this->dateTimeLeft)
+			);
+
 			if ($this->setType == 'UPDATE') {
 
 				// Update the values in the database after sanitizing them
-				if ($this->db->update('admin', array(
-					'adminId' => $this->db->sanitize($this->adminId),
-					'username' => $this->db->sanitize($this->username),
-					'password' => $this->db->sanitize($this->password),
-					'email' => $this->db->sanitize($this->email),
-					'surname' => $this->db->sanitize($this->surname),
-					'firstName' => $this->db->sanitize($this->firstName),
-					'lastName' => $this->db->sanitize($this->lastName),
-					'profilePicture' => $this->db->sanitize($this->profilePicture),
-					'allowSignIn' => $this->db->sanitize($this->allowSignIn),
-					'dateTimeJoined' => $this->db->sanitize($this->dateTimeJoined),
-					'dateTimeLeft' => $this->db->sanitize($this->dateTimeLeft)
-				), "WHERE adminId = ".$this->db->sanitize($this->originalAdminId), 1)) {
+				if ($this->db->update('admin', $attributes, "WHERE adminId = ".$this->db->sanitize($this->originalAdminId), 1)) {
 					return true;
 				} else {
 					return $this->db->getLastError();
@@ -101,19 +103,7 @@
 			} else {
 
 				// Insert the values to the database after sanitizing them
-				if ($this->db->insert('admin', array(
-					'adminId' => $this->db->sanitize($this->adminId),
-					'username' => $this->db->sanitize($this->username),
-					'password' => $this->db->sanitize($this->password),
-					'email' => $this->db->sanitize($this->email),
-					'surname' => $this->db->sanitize($this->surname),
-					'firstName' => $this->db->sanitize($this->firstName),
-					'lastName' => $this->db->sanitize($this->lastName),
-					'profilePicture' => $this->db->sanitize($this->profilePicture),
-					'allowSignIn' => $this->db->sanitize($this->allowSignIn),
-					'dateTimeJoined' => $this->db->sanitize($this->dateTimeJoined),
-					'dateTimeLeft' => $this->db->sanitize($this->dateTimeLeft)
-				))) {
+				if ($this->db->insert('admin', $attributes)) {
 					return true;
 				} else {
 					return $this->db->getLastError();

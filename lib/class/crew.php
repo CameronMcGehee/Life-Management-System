@@ -62,17 +62,19 @@
 		// Adds the crew to the database or updates the values
 		public function set() {
 
+			$attributes = array(
+				'crewId' => $this->db->sanitize($this->crewId),
+				'businessId' => $this->db->sanitize($this->businessId),
+				'createdByAdminId' => $this->db->sanitize($this->createdByAdminId),
+				'name' => $this->db->sanitize($this->name),
+				'description' => $this->db->sanitize($this->description),
+				'dateTimeAdded' => $this->db->sanitize($this->dateTimeAdded)
+			);
+
 			if ($this->setType == 'UPDATE') {
 
 				// Update the values in the database after sanitizing them
-				if ($this->db->update('crew', array(
-					'crewId' => $this->db->sanitize($this->crewId),
-					'businessId' => $this->db->sanitize($this->businessId),
-					'createdByAdminId' => $this->db->sanitize($this->createdByAdminId),
-					'name' => $this->db->sanitize($this->name),
-					'description' => $this->db->sanitize($this->description),
-					'dateTimeAdded' => $this->db->sanitize($this->dateTimeAdded)
-				), "WHERE crewId = ".$this->db->sanitize($this->originalcrewId), 1)) {
+				if ($this->db->update('crew', $attributes, "WHERE crewId = ".$this->db->sanitize($this->originalcrewId), 1)) {
 					return true;
 				} else {
 					return $this->db->getLastError();
@@ -81,14 +83,7 @@
 			} else {
 
 				// Insert the values to the database after sanitizing them
-				if ($this->db->insert('crew', array(
-					'crewId' => $this->db->sanitize($this->crewId),
-					'businessId' => $this->db->sanitize($this->businessId),
-					'createdByAdminId' => $this->db->sanitize($this->createdByAdminId),
-					'name' => $this->db->sanitize($this->name),
-					'description' => $this->db->sanitize($this->description),
-					'dateTimeAdded' => $this->db->sanitize($this->dateTimeAdded)
-				))) {
+				if ($this->db->insert('crew', $attributes)) {
 					return true;
 				} else {
 					return $this->db->getLastError();

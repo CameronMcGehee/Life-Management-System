@@ -116,35 +116,37 @@
 		// Adds the customer to the database or updates the values
 		public function set() {
 
+			$attributes = array(
+				'customerId' => $this->db->sanitize($this->customerId),
+				'businessId' => $this->db->sanitize($this->businessId),
+				'addedByAdminId' => $this->db->sanitize($this->addedByAdminId),
+				'surname' => $this->db->sanitize($this->surname),
+				'firstName' => $this->db->sanitize($this->firstName),
+				'lastName' => $this->db->sanitize($this->lastName),
+				'billAddress1' => $this->db->sanitize($this->billAddress1),
+				'billAddress2' => $this->db->sanitize($this->billAddress2),
+				'billCity' => $this->db->sanitize($this->billCity),
+				'billState' => $this->db->sanitize($this->billState),
+				'billZipCode' => $this->db->sanitize($this->billZipCode),
+				'creditCache' => $this->db->sanitize($this->creditCache),
+				'overrideCreditAlertIsEnabled' => $this->db->sanitize($this->overrideCreditAlertIsEnabled),
+				'overrideCreditAlertAmount' => $this->db->sanitize($this->overrideCreditAlertAmount),
+				'overrideAutoApplyCredit' => $this->db->sanitize($this->overrideAutoApplyCredit),
+				'balanceCache' => $this->db->sanitize($this->balanceCache),
+				'overrideBalanceAlertIsEnabled' => $this->db->sanitize($this->overrideBalanceAlertIsEnabled),
+				'overrideBalanceAlertAmount' => $this->db->sanitize($this->overrideBalanceAlertAmount),
+				'allowCZSignIn' => $this->db->sanitize($this->allowCZSignIn),
+				'password' => $this->db->sanitize($this->password),
+				'discountPercent' => $this->db->sanitize($this->discountPercent),
+				'overridePaymentTerm' => $this->db->sanitize($this->overridePaymentTerm),
+				'notes' => $this->db->sanitize($this->notes),
+				'dateTimeAdded' => $this->db->sanitize($this->dateTimeAdded)
+			);
+
 			if ($this->setType == 'UPDATE') {
 
 				// Update the values in the database after sanitizing them
-				if ($this->db->update('customer', array(
-					'customerId' => $this->db->sanitize($this->customerId),
-					'businessId' => $this->db->sanitize($this->businessId),
-					'addedByAdminId' => $this->db->sanitize($this->addedByAdminId),
-					'surname' => $this->db->sanitize($this->surname),
-					'firstName' => $this->db->sanitize($this->firstName),
-					'lastName' => $this->db->sanitize($this->lastName),
-					'billAddress1' => $this->db->sanitize($this->billAddress1),
-					'billAddress2' => $this->db->sanitize($this->billAddress2),
-					'billCity' => $this->db->sanitize($this->billCity),
-					'billState' => $this->db->sanitize($this->billState),
-					'billZipCode' => $this->db->sanitize($this->billZipCode),
-					'creditCache' => $this->db->sanitize($this->creditCache),
-					'overrideCreditAlertIsEnabled' => $this->db->sanitize($this->overrideCreditAlertIsEnabled),
-					'overrideCreditAlertAmount' => $this->db->sanitize($this->overrideCreditAlertAmount),
-					'overrideAutoApplyCredit' => $this->db->sanitize($this->overrideAutoApplyCredit),
-					'balanceCache' => $this->db->sanitize($this->balanceCache),
-					'overrideBalanceAlertIsEnabled' => $this->db->sanitize($this->overrideBalanceAlertIsEnabled),
-					'overrideBalanceAlertAmount' => $this->db->sanitize($this->overrideBalanceAlertAmount),
-					'allowCZSignIn' => $this->db->sanitize($this->allowCZSignIn),
-					'password' => $this->db->sanitize($this->password),
-					'discountPercent' => $this->db->sanitize($this->discountPercent),
-					'overridePaymentTerm' => $this->db->sanitize($this->overridePaymentTerm),
-					'notes' => $this->db->sanitize($this->notes),
-					'dateTimeAdded' => $this->db->sanitize($this->dateTimeAdded)
-				), "WHERE customerId = ".$this->db->sanitize($this->originalcustomerId), 1)) {
+				if ($this->db->update('customer', $attributes, "WHERE customerId = ".$this->db->sanitize($this->originalcustomerId), 1)) {
 					return true;
 				} else {
 					return $this->db->getLastError();
@@ -153,32 +155,7 @@
 			} else {
 
 				// Insert the values to the database after sanitizing them
-				if ($this->db->insert('customer', array(
-					'customerId' => $this->db->sanitize($this->customerId),
-					'businessId' => $this->db->sanitize($this->businessId),
-					'addedByAdminId' => $this->db->sanitize($this->addedByAdminId),
-					'surname' => $this->db->sanitize($this->surname),
-					'firstName' => $this->db->sanitize($this->firstName),
-					'lastName' => $this->db->sanitize($this->lastName),
-					'billAddress1' => $this->db->sanitize($this->billAddress1),
-					'billAddress2' => $this->db->sanitize($this->billAddress2),
-					'billCity' => $this->db->sanitize($this->billCity),
-					'billState' => $this->db->sanitize($this->billState),
-					'billZipCode' => $this->db->sanitize($this->billZipCode),
-					'creditCache' => $this->db->sanitize($this->creditCache),
-					'overrideCreditAlertIsEnabled' => $this->db->sanitize($this->overrideCreditAlertIsEnabled),
-					'overrideCreditAlertAmount' => $this->db->sanitize($this->overrideCreditAlertAmount),
-					'overrideAutoApplyCredit' => $this->db->sanitize($this->overrideAutoApplyCredit),
-					'balanceCache' => $this->db->sanitize($this->balanceCache),
-					'overrideBalanceAlertIsEnabled' => $this->db->sanitize($this->overrideBalanceAlertIsEnabled),
-					'overrideBalanceAlertAmount' => $this->db->sanitize($this->overrideBalanceAlertAmount),
-					'allowCZSignIn' => $this->db->sanitize($this->allowCZSignIn),
-					'password' => $this->db->sanitize($this->password),
-					'discountPercent' => $this->db->sanitize($this->discountPercent),
-					'overridePaymentTerm' => $this->db->sanitize($this->overridePaymentTerm),
-					'notes' => $this->db->sanitize($this->notes),
-					'dateTimeAdded' => $this->db->sanitize($this->dateTimeAdded)
-				))) {
+				if ($this->db->insert('customer', $attributes)) {
 					return true;
 				} else {
 					return $this->db->getLastError();

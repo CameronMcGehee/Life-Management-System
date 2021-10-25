@@ -53,14 +53,16 @@
 		// Adds the adminSavedLogin to the database or updates the values
 		public function set() {
 
+			$attributes = array(
+				'adminSavedLoginId' => $this->db->sanitize($this->adminSavedLoginId),
+				'adminId' => $this->db->sanitize($this->adminId),
+				'dateTimeAdded' => $this->db->sanitize($this->dateTimeAdded)
+			);
+
 			if ($this->setType == 'UPDATE') {
 
 				// Update the values in the database after sanitizing them
-				if ($this->db->update('adminSavedLogin', array(
-					'adminSavedLoginId' => $this->db->sanitize($this->adminSavedLoginId),
-					'adminId' => $this->db->sanitize($this->adminId),
-					'dateTimeAdded' => $this->db->sanitize($this->dateTimeAdded)
-				), "WHERE adminSavedLoginId = ".$this->db->sanitize($this->originalAdminSavedLoginId), 1)) {
+				if ($this->db->update('adminSavedLogin', $attributes, "WHERE adminSavedLoginId = ".$this->db->sanitize($this->originalAdminSavedLoginId), 1)) {
 					return true;
 				} else {
 					return $this->db->getLastError();
@@ -69,11 +71,7 @@
 			} else {
 
 				// Insert the values to the database after sanitizing them
-				if ($this->db->insert('adminSavedLogin', array(
-					'adminSavedLoginId' => $this->db->sanitize($this->adminSavedLoginId),
-					'adminId' => $this->db->sanitize($this->adminId),
-					'dateTimeAdded' => $this->db->sanitize($this->dateTimeAdded)
-				))) {
+				if ($this->db->insert('adminSavedLogin', $attributes)) {
 					return true;
 				} else {
 					return $this->db->getLastError();
