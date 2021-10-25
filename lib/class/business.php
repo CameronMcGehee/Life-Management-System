@@ -262,7 +262,7 @@
 				$this->setType = 'INSERT';
 				$this->existed = false;
 
-				// Make a new business Id from a random id
+				// Make a new businessId
 				require_once dirname(__FILE__)."/uuid.php";
 				$uuid = new uuid('table', 'business', 'businessId');
 				$this->businessId = $uuid->generatedId;

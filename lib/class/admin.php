@@ -50,7 +50,7 @@
 				$this->setType = 'INSERT';
 				$this->existed = false;
 
-				// Make a new admin Id from a random id
+				// Make a new adminId
 				require_once dirname(__FILE__)."/uuid.php";
 				$uuid = new uuid('table', 'admin', 'adminId');
 				$this->adminId = $uuid->generatedId;
@@ -64,7 +64,8 @@
 				$this->profilePicture = NULL;
 				$this->allowSignIn = '1';
 				// Default dateTimeJoined to now since it is likely going to be inserted at this time
-				$currentDateTime = new DateTime(); $this->dateTimeJoined = $currentDateTime->format('Y-m-d H:i:s');
+				$currentDateTime = new DateTime();
+				$this->dateTimeJoined = $currentDateTime->format('Y-m-d H:i:s');
 
 				$this->dateTimeLeft = NULL;
 			}

@@ -46,7 +46,7 @@
 				$this->setType = 'INSERT';
 				$this->existed = false;
 
-				// Make a new adminLoginAttempt Id from a random id
+				// Make a new adminLoginAttemptId
 				require_once dirname(__FILE__)."/uuid.php";
 				$uuid = new uuid('table', 'adminLoginAttempt', 'adminLoginAttemptId');
 				$this->adminLoginAttemptId = $uuid->generatedId;
@@ -59,7 +59,8 @@
 				$this->enteredPassword = '';
 				$this->result = '';
 				// Default dateTimeAdded to now since it is likely going to be inserted at this time
-				$currentDateTime = new DateTime(); $this->dateTimeAdded = $currentDateTime->format('Y-m-d H:i:s');
+				$currentDateTime = new DateTime();
+				$this->dateTimeAdded = $currentDateTime->format('Y-m-d H:i:s');
 			}
 
 			$this->$originalAdminLoginAttemptId = $this->adminLoginAttemptId;

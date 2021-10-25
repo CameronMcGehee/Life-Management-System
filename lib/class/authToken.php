@@ -11,7 +11,6 @@
 		public $authTokenId;
 		public $businessId;
 		public $authName;
-		public $token;
 		public $dateTimeUsed;
 		public $clientIpUsed;
 		public $dateTimeAdded;
@@ -33,7 +32,6 @@
 
 				$this->businessId = $fetch[0]['businessId'];
 				$this->authName = $fetch[0]['authName'];
-				$this->token = $fetch[0]['token'];
 				$this->dateTimeUsed = $fetch[0]['dateTimeUsed'];
 				$this->clientIpUsed = $fetch[0]['clientIpUsed'];
 				$this->dateTimeAdded = $fetch[0]['dateTimeAdded'];
@@ -42,21 +40,19 @@
 				$this->setType = 'INSERT';
 				$this->existed = false;
 
-				// Make a new authToken Id from a random id
+				// Make a new authTokenId
 				require_once dirname(__FILE__)."/uuid.php";
 				$uuid = new uuid('table', 'authToken', 'authTokenId');
 				$this->authTokenId = $uuid->generatedId;
 
 				$this->businessId = '';
-				$this->authName = '';
-				$this->token = '';
+				$this->authName = NULL;
 				$this->dateTimeUsed = NULL;
 				$this->clientIpUsed = '';
-				$this->dateTimeAdded = '';
-				// Default dateTimeJoined to now since it is likely going to be inserted at this time
-				$currentDateTime = new DateTime(); $this->dateTimeJoined = $currentDateTime->format('Y-m-d H:i:s');
 
-				$this->dateTimeLeft = NULL;
+				// Default dateTimeAdded to now since it is likely going to be inserted at this time
+				$currentDateTime = new DateTime();
+				$this->dateTimeAdded = $currentDateTime->format('Y-m-d H:i:s');
 			}
 
 			$this->$originalAuthTokenId = $this->authTokenId;
@@ -73,7 +69,6 @@
 					'authTokenId' => $this->db->sanitize($this->authTokenId),
 					'businessId' => $this->db->sanitize($this->businessId),
 					'authName' => $this->db->sanitize($this->authName),
-					'token' => $this->db->sanitize($this->token),
 					'dateTimeUsed' => $this->db->sanitize($this->dateTimeUsed),
 					'clientIpUsed' => $this->db->sanitize($this->clientIpUsed),
 					'dateTimeAdded' => $this->db->sanitize($this->dateTimeAdded)
@@ -90,7 +85,6 @@
 					'authTokenId' => $this->db->sanitize($this->authTokenId),
 					'businessId' => $this->db->sanitize($this->businessId),
 					'authName' => $this->db->sanitize($this->authName),
-					'token' => $this->db->sanitize($this->token),
 					'dateTimeUsed' => $this->db->sanitize($this->dateTimeUsed),
 					'clientIpUsed' => $this->db->sanitize($this->clientIpUsed),
 					'dateTimeAdded' => $this->db->sanitize($this->dateTimeAdded)
