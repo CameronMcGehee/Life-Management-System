@@ -35,16 +35,16 @@
 				$this->adminId = $adminId;
 				$this->existed = true;
 
-				$this->username = (string)$fetch[0]['username'];
-				$this->password = (string)$fetch[0]['password'];
-				$this->email = (string)$fetch[0]['email'];
-				$this->surname = (string)$fetch[0]['surname'];
-				$this->firstName = (string)$fetch[0]['firstName'];
-				$this->lastName = (string)$fetch[0]['lastName'];
-				$this->profilePicture = (string)$fetch[0]['profilePicture'];
-				$this->allowSignIn = (string)$fetch[0]['allowSignIn'];
-				$this->dateTimeJoined = (string)$fetch[0]['dateTimeJoined'];
-				$this->dateTimeLeft = (string)$fetch[0]['dateTimeLeft'];
+				$this->username = $fetch[0]['username'];
+				$this->password = $fetch[0]['password'];
+				$this->email = $fetch[0]['email'];
+				$this->surname = $fetch[0]['surname'];
+				$this->firstName = $fetch[0]['firstName'];
+				$this->lastName = $fetch[0]['lastName'];
+				$this->profilePicture = $fetch[0]['profilePicture'];
+				$this->allowSignIn = $fetch[0]['allowSignIn'];
+				$this->dateTimeJoined = $fetch[0]['dateTimeJoined'];
+				$this->dateTimeLeft = $fetch[0]['dateTimeLeft'];
 			// If adminId does not exist then set the set method type to INSERT and inititialize default values
 			} else {
 				$this->setType = 'INSERT';
