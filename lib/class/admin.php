@@ -20,6 +20,9 @@
 		public $dateTimeJoined;
 		public $dateTimeLeft;
 
+		public $loginAttempts;
+		public $savedLogins;
+
 		function __construct(string $adminId = '') {
 
 			// Connect to the database
@@ -45,6 +48,11 @@
 				$this->allowSignIn = $fetch[0]['allowSignIn'];
 				$this->dateTimeJoined = $fetch[0]['dateTimeJoined'];
 				$this->dateTimeLeft = $fetch[0]['dateTimeLeft'];
+
+				// Empty arrays for extra fetch data
+				$this->loginAttempts = array();
+				$this->savedLogins = array();
+
 			// If adminId does not exist then set the set method type to INSERT and inititialize default values
 			} else {
 				$this->setType = 'INSERT';
@@ -72,6 +80,28 @@
 
 			$this->$originalAdminId = $this->adminId;
 			
+		}
+
+		public function getLoginAttempts () {
+			// If there are entries for adminloginAttempt then push them to the array. load last 5 by default, use method loadAllLoginAttempts to load all.
+			$fetch = $this->db->select('adminLoginAttempt', '*', "WHERE adminId ='$adminId' ORDER BY dateTimeAdded DESC LIMIT 5");
+			if ($fetch) {
+				$loginAttempts = array();
+				foreach ($fetch as $row) {
+					array_push($loginAttempts, array('adminLoginAttemptId' =>$row['adminLoginAttemptId'], 'dateTimeUsed' => $row['dateTimeUsed'], 'clientIp' => $row['clientIp'], 'enteredUsername' => $row['enteredUsername'], 'result' => $row['result']));
+				}
+			}
+		}
+
+		public function getSavedLogins() {
+			// If there are entries for adminsavedLogin then push them to the array
+			$fetch = $this->db->select('adminSavedLogin', '*', "WHERE adminId ='$adminId' ORDER BY dateTimeAdded DESC LIMIT 5");
+			if ($fetch) {
+				$savedLogins = array();
+				foreach ($fetch as $row) {
+					array_push($savedLogins, $row['adminSavedLoginId']);
+				}
+			}
 		}
 
 		// Adds the admin to the database or updates the values
