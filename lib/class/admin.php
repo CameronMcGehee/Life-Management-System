@@ -90,7 +90,7 @@
 		}
 
 		public function getLoginAttempts () {
-			// If there are entries for adminloginAttempt then push them to the array. load last 5 by default, use method loadAllLoginAttempts to load all.
+			// If there are entries for adminloginAttempt then push them to the array
 			$fetch = $this->db->select('adminLoginAttempt', '*', "WHERE adminId ='$adminId'");
 			if ($fetch) {
 				$loginAttempts = array();
