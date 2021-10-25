@@ -23,11 +23,22 @@
 		public $loginAttempts;
 		public $savedLogins;
 
+		private bool $setLoginAttempts;
+		private bool $setSavedLogins;
+
 		function __construct(string $adminId = '') {
 
 			// Connect to the database
 			require_once dirname(__FILE__)."/../manager/databaseManager.php";
 			$this->db = new databaseManager;
+
+			// Empty arrays for extra fetch data
+			$this->loginAttempts = array();
+			$this->savedLogins = array();
+
+			// Set the loginAttempt and savedLogin set bools to false (these get set to true when the get functions are called to tell the set() function whether it should push these arrays to the database)
+			$ths->$setLoginAttempts = false;
+			$ths->$setSavedLogins = false;
 
 			// Fetch from database
 			$fetch = $this->db->select('admin', '*', "WHERE adminId ='$adminId'");
@@ -48,10 +59,6 @@
 				$this->allowSignIn = $fetch[0]['allowSignIn'];
 				$this->dateTimeJoined = $fetch[0]['dateTimeJoined'];
 				$this->dateTimeLeft = $fetch[0]['dateTimeLeft'];
-
-				// Empty arrays for extra fetch data
-				$this->loginAttempts = array();
-				$this->savedLogins = array();
 
 			// If adminId does not exist then set the set method type to INSERT and inititialize default values
 			} else {
@@ -91,6 +98,8 @@
 					array_push($loginAttempts, array('adminLoginAttemptId' =>$row['adminLoginAttemptId'], 'dateTimeUsed' => $row['dateTimeUsed'], 'clientIp' => $row['clientIp'], 'enteredUsername' => $row['enteredUsername'], 'result' => $row['result']));
 				}
 			}
+
+			$setLoginAttempts = true;
 		}
 
 		public function getSavedLogins() {
@@ -102,6 +111,7 @@
 					array_push($savedLogins, $row['adminSavedLoginId']);
 				}
 			}
+			$setSavedLogins = true;
 		}
 
 		// Adds the admin to the database or updates the values
