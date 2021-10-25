@@ -1,18 +1,18 @@
 <?php
 
     // Start Session
-    require_once '../php/startSession.php';
+    require_once '../../php/startSession.php';
 
     // If not signed in, just redirect to the login page
-    require_once '../../lib/manager/adminLoginManager.php';
+    require_once '../../../lib/manager/adminLoginManager.php';
     adminLoginManager::cmsVerifyAdminLoginRedirect('./login', './businessselect');
 
-    require_once '../../lib/renderer.php';
+    require_once '../../../lib/renderer.php';
     $renderer = new renderer();
 
-    echo $renderer->renderAdminHtmlTop('../', 'DEV SPACE', 'DEVELOPMENT TESTING SPACE');
+    echo $renderer->renderAdminHtmlTop('../../', 'DEV SPACE', 'DEVELOPMENT TESTING SPACE');
 
-    echo $renderer->renderAdminTopBarDropdownScripts('../');
+    echo $renderer->renderAdminTopBarDropdownScripts('../../');
 
 ?>
 
@@ -22,26 +22,39 @@
     <div class="cmsBodyWrapper">
 
         <?php 
-            echo $renderer->renderAdminTopBar('../');
+            echo $renderer->renderAdminTopBar('../../');
         ?>
 
         <?php 
-            echo $renderer->renderAdminSideBar('../');
+            echo $renderer->renderAdminSideBar('../../');
         ?>
 
         <div class="cmsMainContentWrapper margin2em  styledText textColorThemeGray">
 			<?php
 
-                require_once '../../lib/class/admin.php';
+                // require_once '../../../lib/class/admin.php';
 
-                $admin = new admin;
+                // $admin = new admin($_SESSION['ultiscape_adminId']);
 
-                $admin->getSavedLogins;
-                $admin->getLoginAttempts;
+                // $admin->getSavedLogins();
+                // // $admin->getLoginAttempts();
 
-                echo '<p>admin: {{{{{      ';
-                var_dump($admin);
-                echo '<p>      }}}}}';
+                // echo '<p>admin: {{{{{      ';
+                // var_dump($admin->savedLogins);
+                // echo '</p>      }}}}}';
+
+                // // Insert random savedLogin
+                // require_once '../../../lib/class/uuid.php';
+                // $uuid = new uuid('table', 'adminSavedLogin', 'adminSavedLoginId');
+                
+                // array_push($admin->savedLogins, $uuid->generatedId);
+
+                // // Set
+                // var_dump($admin->set());
+
+                // echo '<p>admin: {{{{{      ';
+                // var_dump($admin->savedLogins);
+                // echo '</p>      }}}}}';
 
             ?>
         </div>
@@ -51,15 +64,15 @@
         ?>
 
         <?php 
-            echo $renderer->renderAdminMobileNavBar('../');
+            echo $renderer->renderAdminMobileNavBar('../../');
         ?>
 
     </div>
 
     <?php
-		echo $renderer->renderAdminTopBarDropdowns('../');
+		echo $renderer->renderAdminTopBarDropdowns('../../');
 	?>
 </body>
 <?php 
-    echo $renderer->renderAdminHtmlBottom('../');
+    echo $renderer->renderAdminHtmlBottom('../../');
 ?>
