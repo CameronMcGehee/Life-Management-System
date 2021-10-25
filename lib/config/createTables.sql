@@ -224,7 +224,7 @@
 	CREATE TABLE IF NOT EXISTS `authToken` (
 	`authTokenId` varchar(17) NOT NULL,
 	`businessId` varchar(17) NOT NULL,
-	`formName` varchar(50) NULL,
+	`authName` varchar(50) NULL,
 	`token` varchar(17) NOT NULL,
 	`dateTimeUsed` datetime NULL,
 	`clientIpUsed` varchar(150) NOT NULL,
