@@ -146,7 +146,7 @@
 			if ($this->setType == 'UPDATE') {
 
 				// Update the values in the database after sanitizing them
-				if ($this->db->update('customer', $attributes, "WHERE customerId = ".$this->db->sanitize($this->originalcustomerId), 1)) {
+				if ($this->db->update('customer', $attributes, "WHERE customerId = '".$this->db->sanitize($this->originalcustomerId)."'", 1)) {
 					return true;
 				} else {
 					return $this->db->getLastError();

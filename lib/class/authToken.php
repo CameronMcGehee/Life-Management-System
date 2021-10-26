@@ -74,7 +74,7 @@
 			if ($this->setType == 'UPDATE') {
 
 				// Update the values in the database after sanitizing them
-				if ($this->db->update('authToken', $attributes, "WHERE authTokenId = ".$this->db->sanitize($this->originalAuthTokenId), 1)) {
+				if ($this->db->update('authToken', $attributes, "WHERE authTokenId = '".$this->db->sanitize($this->originalAuthTokenId)."'", 1)) {
 					return true;
 				} else {
 					return $this->db->getLastError();

@@ -74,7 +74,7 @@
 			if ($this->setType == 'UPDATE') {
 
 				// Update the values in the database after sanitizing them
-				if ($this->db->update('crew', $attributes, "WHERE crewId = ".$this->db->sanitize($this->originalcrewId), 1)) {
+				if ($this->db->update('crew', $attributes, "WHERE crewId = '".$this->db->sanitize($this->originalcrewId)."'", 1)) {
 					return true;
 				} else {
 					return $this->db->getLastError();

@@ -114,7 +114,7 @@
 			$this->setSavedLogins = true;
 		}
 
-		// Adds the admin to the database or updates the values
+		// Updates or inserts the data to the database
 		public function set() {
 
 			$attributes = array(

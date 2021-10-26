@@ -518,7 +518,7 @@
 			if ($this->setType == 'UPDATE') {
 
 				// Update the values in the database after sanitizing them
-				if ($this->db->update('business', $attributes, "WHERE businessId = ".$this->db->sanitize($this->originalBusinessId), 1)) {
+				if ($this->db->update('business', $attributes, "WHERE businessId = '".$this->db->sanitize($this->originalBusinessId)."'", 1)) {
 					return true;
 				} else {
 					return $this->db->getLastError();
