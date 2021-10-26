@@ -157,7 +157,6 @@
 					foreach ($this->loginAttempts as $loginAttempt) {
 						if (!in_array($row['adminLoginAttemptId'], $loginAttempt['adminLoginAttemptId'])) {
 							if (!$this->db->delete('adminLoginAttempt', "WHERE adminLoginAttemptId = '".$row['adminLoginAttemptId']."'", 1)) {
-								echo "<p>11111111111111111111111</p>";
 								return $this->db->getLastError();
 							}
 						}
@@ -169,13 +168,11 @@
 					if ($fetch) {
 						// Update
 						if (!$this->db->update('adminLoginAttempt', array('dateTimeUsed' => $loginAttempt['dateTimeUsed'], 'clientIp' => $loginAttempt['clientIp'], 'enteredUsername' => $loginAttempt['enteredUsername'], 'result' => $loginAttempt['result']), "WHERE adminLoginAttemptId = '".$loginAttempt['adminLoginAttemptId']."'", 1)) {
-							echo "<p>444444444444444444444444444</p>";
 							return $this->db->getLastError();
 						}
 					} else {
 						// Insert
 						if (!$this->db->insert('adminLoginAttempt', array('adminLoginAttemptId' => $loginAttempt['adminLoginAttemptId'], 'dateTimeUsed' => $loginAttempt['dateTimeUsed'], 'clientIp' => $loginAttempt['clientIp'], 'enteredUsername' => $loginAttempt['enteredUsername'], 'result' => $loginAttempt['result']), "WHERE adminLoginAttemptId = '".$loginAttempt['adminLoginAttemptId']."'")) {
-							echo "<p>55555555555555555555555555</p>";
 							return $this->db->getLastError();
 						}
 					}
@@ -184,7 +181,6 @@
 
 			// If the set bools for savedLogins have been triggered, update/insert all the entries
 			if ($this->setSavedLogins) {
-				echo '<p>Setting Saved Logins</p>';
 				// Get all the current entries of savedLogins for the current admin
 				$fetch = $this->db->select('adminSavedLogin', '*', "WHERE adminId = '$this->adminId'");
 				if (!$fetch) {
@@ -194,7 +190,6 @@
 				foreach ($fetch as $row) {
 					if (!in_array($row['adminSavedLoginId'], $this->savedLogins)) {
 						if (!$this->db->delete('adminSavedLogin', "WHERE adminSavedLoginId = '".$row['adminSavedLoginId']."'", 1)) {
-							echo "<p>222222222222222222222</p>";
 							return $this->db->getLastError();
 						}
 					}
@@ -204,10 +199,8 @@
 					$fetch = $this->db->select('adminSavedLogin', '*', "WHERE adminSavedLoginId = '".$savedLogin."'");
 					if (!$fetch) {
 						// Insert
-						echo '<p>Inserting</p>';
 						$currentDateTime = new DateTime();
 						if (!$this->db->insert('adminSavedLogin', array('adminSavedLoginId' => $savedLogin, 'adminId' => $this->adminId, 'dateTimeAdded' => $currentDateTime->format('Y-m-d H:i:s')))) {
-							echo "<p>333333333333333333333333</p>";
 							return $this->db->getLastError();
 						}
 					}
