@@ -29,34 +29,43 @@
             echo $renderer->renderAdminSideBar('../../');
         ?>
 
-        <div class="cmsMainContentWrapper margin2em  styledText textColorThemeGray">
-			<?php
+        <div class="cmsMainContentWrapper  styledText textColorThemeGray">
+            <div class="margin2em">
+                <?php
 
-                // require_once '../../../lib/class/admin.php';
+                    // require_once '../../../lib/class/admin.php';
 
-                // $admin = new admin($_SESSION['ultiscape_adminId']);
+                    // $admin = new admin($_SESSION['ultiscape_adminId']);
 
-                // $admin->getSavedLogins();
-                // // $admin->getLoginAttempts();
+                    // $admin->getLoginAttempts();
 
-                // echo '<p>admin: {{{{{      ';
-                // var_dump($admin->savedLogins);
-                // echo '</p>      }}}}}';
+                    // echo '<p>Login Attempts: ';
+                    // var_dump($admin->loginAttempts);
+                    // echo '</p>';
 
-                // // Insert random savedLogin
-                // require_once '../../../lib/class/uuid.php';
-                // $uuid = new uuid('table', 'adminSavedLogin', 'adminSavedLoginId');
-                
-                // array_push($admin->savedLogins, $uuid->generatedId);
+                    // Insert random savedLogin
+                    // require_once '../../../lib/class/uuid.php';
+                    // $uuid = new uuid('table', 'adminLoginAttempt', 'adminLoginAttemptId');
+                    
+                    // array_push($admin->loginAttempts, array('adminLoginAttemptId' => $uuid->generatedId, 'clientIp' => 'localhost', 'enteredUsername' => 'something', 'result' => 's', 'dateTimeAdded' => date('Y-m-d H:i:s')));
+                    // $uuid->regenerate();
+                    // array_push($admin->loginAttempts, array('adminLoginAttemptId' => $uuid->generatedId, 'clientIp' => 'localhost', 'enteredUsername' => 'something', 'result' => 's', 'dateTimeAdded' => date('Y-m-d H:i:s')));
+                    // $uuid->regenerate();
+                    // array_push($admin->loginAttempts, array('adminLoginAttemptId' => $uuid->generatedId, 'clientIp' => 'localhost', 'enteredUsername' => 'something', 'result' => 's', 'dateTimeAdded' => date('Y-m-d H:i:s')));
+                    // $uuid->regenerate();
+                    // array_push($admin->loginAttempts, array('adminLoginAttemptId' => $uuid->generatedId, 'clientIp' => 'localhost', 'enteredUsername' => 'something', 'result' => 's', 'dateTimeAdded' => date('Y-m-d H:i:s')));
+                    // $uuid->regenerate();
+                    // array_push($admin->loginAttempts, array('adminLoginAttemptId' => $uuid->generatedId, 'clientIp' => 'localhost', 'enteredUsername' => 'something', 'result' => 's', 'dateTimeAdded' => date('Y-m-d H:i:s')));
 
-                // // Set
-                // var_dump($admin->set());
+                    // // Set
+                    // $admin->set();
 
-                // echo '<p>admin: {{{{{      ';
-                // var_dump($admin->savedLogins);
-                // echo '</p>      }}}}}';
+                    // echo '<p>Login Attempts after insertion: ';
+                    // var_dump($admin->loginAttempts);
+                    // echo '</p>';
 
-            ?>
+                ?>
+            </div>
         </div>
         
         <?php 

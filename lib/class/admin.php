@@ -89,13 +89,24 @@
 			
 		}
 
+
+
+
+
+
+
+
+
+
+
+
 		public function getLoginAttempts () {
 			// If there are entries for adminloginAttempt then push them to the array
 			$fetch = $this->db->select('adminLoginAttempt', '*', "WHERE adminId = '$this->originalAdminId'");
 			if ($fetch) {
 				$this->loginAttempts = array();
 				foreach ($fetch as $row) {
-					array_push($this->loginAttempts,  array('adminLoginAttemptId' => $row['adminLoginAttemptId'], 'dateTimeUsed' => $row['dateTimeUsed'], 'clientIp' => $row['clientIp'], 'enteredUsername' => $row['enteredUsername'], 'result' => $row['result']));
+					array_push($this->loginAttempts,  array('adminLoginAttemptId' => $row['adminLoginAttemptId'], 'clientIp' => $row['clientIp'], 'enteredUsername' => $row['enteredUsername'], 'result' => $row['result'], 'dateTimeAdded' => $row['dateTimeAdded']));
 				}
 			}
 
@@ -113,6 +124,19 @@
 			}
 			$this->setSavedLogins = true;
 		}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 		// Updates or inserts the data to the database
 		public function set() {
@@ -152,10 +176,11 @@
 				if (!$fetch) {
 					$fetch = array();
 				}
+
 				//For each of the entries, check if it exists in the current public array. If it doesn't, delete the entry from the database.
 				foreach ($fetch as $row) {
 					foreach ($this->loginAttempts as $loginAttempt) {
-						if (!in_array($row['adminLoginAttemptId'], $loginAttempt['adminLoginAttemptId'])) {
+						if ($row['adminLoginAttemptId'] == $loginAttempt['adminLoginAttemptId']) {
 							if (!$this->db->delete('adminLoginAttempt', "WHERE adminLoginAttemptId = '".$row['adminLoginAttemptId']."'", 1)) {
 								return $this->db->getLastError();
 							}
@@ -167,12 +192,12 @@
 					$fetch = $this->db->select('adminLoginAttempt', '*', "WHERE adminLoginAttemptId = '".$loginAttempt['adminLoginAttemptId']."'");
 					if ($fetch) {
 						// Update
-						if (!$this->db->update('adminLoginAttempt', array('dateTimeUsed' => $loginAttempt['dateTimeUsed'], 'clientIp' => $loginAttempt['clientIp'], 'enteredUsername' => $loginAttempt['enteredUsername'], 'result' => $loginAttempt['result']), "WHERE adminLoginAttemptId = '".$loginAttempt['adminLoginAttemptId']."'", 1)) {
+						if (!$this->db->update('adminLoginAttempt', array('clientIp' => $loginAttempt['clientIp'], 'enteredUsername' => $loginAttempt['enteredUsername'], 'result' => $loginAttempt['result']), "WHERE adminLoginAttemptId = '".$loginAttempt['adminLoginAttemptId']."'", 1)) {
 							return $this->db->getLastError();
 						}
 					} else {
 						// Insert
-						if (!$this->db->insert('adminLoginAttempt', array('adminLoginAttemptId' => $loginAttempt['adminLoginAttemptId'], 'dateTimeUsed' => $loginAttempt['dateTimeUsed'], 'clientIp' => $loginAttempt['clientIp'], 'enteredUsername' => $loginAttempt['enteredUsername'], 'result' => $loginAttempt['result']), "WHERE adminLoginAttemptId = '".$loginAttempt['adminLoginAttemptId']."'")) {
+						if (!$this->db->insert('adminLoginAttempt', array('adminLoginAttemptId' => $loginAttempt['adminLoginAttemptId'], 'adminId' => $this->originalAdminId, 'clientIp' => $loginAttempt['clientIp'], 'enteredUsername' => $loginAttempt['enteredUsername'], 'result' => $loginAttempt['result'], 'dateTimeAdded' => $loginAttempt['dateTimeAdded']), "WHERE adminLoginAttemptId = '".$loginAttempt['adminLoginAttemptId']."'")) {
 							return $this->db->getLastError();
 						}
 					}
@@ -186,6 +211,7 @@
 				if (!$fetch) {
 					$fetch = array();
 				}
+
 				//For each of the entries, check if it exists in the current public array. If it doesn't, delete the entry from the database.
 				foreach ($fetch as $row) {
 					if (!in_array($row['adminSavedLoginId'], $this->savedLogins)) {

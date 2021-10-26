@@ -75,7 +75,12 @@
 
 			foreach ($data as $key => $value) {
 				array_push($keys, $key);
-				array_push($values, "'".$value."'");
+				if ($value !== NULL) {
+					array_push($values, "'".$value."'");
+				} else {
+					array_push($values, 'NULL');
+				}
+				
 			}
 
 			$keysString = implode(", ", $keys);
@@ -136,7 +141,12 @@
 			$assignments = array();
 
 			foreach ($columnToDataPairs as $column => $data) {
-				array_push($assignments, "$column = '$data'");
+				if ($data !== NULL) {
+					$columnToDataPairs[$column] = "'".$data."'";
+				} else {
+					$columnToDataPairs[$column] = 'NULL';
+				}
+				array_push($assignments, "$column = $data");
 			}
 
 			$assignmentsString = implode(", ", $assignments);

@@ -28,10 +28,8 @@
 	CREATE TABLE IF NOT EXISTS `adminLoginAttempt` (
 	`adminLoginAttemptId` varchar(17) NOT NULL,
 	`adminId` varchar(17) NULL DEFAULT NULL,
-	`dateTimeUsed` datetime DEFAULT NULL,
 	`clientIp` varchar(150) NOT NULL,
 	`enteredUsername` varchar(25) NOT NULL,
-	`enteredPassword` varchar(64) NOT NULL,
 	`result` varchar(5) NOT NULL,
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`adminLoginAttemptId`),
