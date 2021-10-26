@@ -23,8 +23,15 @@
 		public $loginAttempts;
 		public $savedLogins;
 
-		private bool $setLoginAttempts;
-		private bool $setSavedLogins;
+		// Arrays to track possible database updates
+		private $addedLoginAttempts; 
+		private $addedSavedLogins;
+
+		private $updatedLoginAttempts; 
+		private $updatedSavedLogins;
+
+		private $removedLoginAttempts; 
+		private $removedSavedLogins;
 
 		function __construct(string $adminId = '') {
 
@@ -32,9 +39,18 @@
 			require_once dirname(__FILE__)."/../manager/databaseManager.php";
 			$this->db = new databaseManager;
 
-			// Empty arrays for extra fetch data
+			// Init arrays
 			$this->loginAttempts = array();
 			$this->savedLogins = array();
+
+			$this->addedLoginAttempts = array();
+			$this->addedSavedLogins = array();
+
+			$this->updatedLoginAttempts = array();
+			$this->updatedSavedLogins = array();
+
+			$this->removedLoginAttempts = array();
+			$this->removedSavedLogins = array();
 
 			// Set the loginAttempt and savedLogin set bools to false (these get set to true when the get functions are called to tell the set() function whether it should push these arrays to the database)
 			$this->setLoginAttempts = false;
@@ -89,16 +105,7 @@
 			
 		}
 
-
-
-
-
-
-
-
-
-
-
+		// Get Entry Functions
 
 		public function getLoginAttempts () {
 			// If there are entries for adminloginAttempt then push them to the array
@@ -125,18 +132,35 @@
 			$this->setSavedLogins = true;
 		}
 
+		// Add entry functions
 
+		public function addLoginAttempt() {
 
+		}
 
+		public function addSavedLogin() {
+			
+		}
 
+		// Update Entry Functions
 
+		public function updateLoginAttempt() {
 
+		}
 
+		public function updateSavedLogin() {
+			
+		}
 
+		// Remove Entry Functions
 
+		public function removeLoginAttempt() {
 
+		}
 
-
+		public function removeSavedLogin() {
+			
+		}
 
 		// Updates or inserts the data to the database
 		public function set() {
@@ -169,69 +193,46 @@
 
 			}
 
-			// If the set bools for loginAttempts have been triggered, update/insert all the entries.
-			if ($this->setLoginAttempts) {
-				// Get all the current entries of loginAttempts for the current admin
-				$fetch = $this->db->select('adminLoginAttempt', '*', "WHERE adminId = '$this->adminId'");
-				if (!$fetch) {
-					$fetch = array();
-				}
+			// Linked tables --------------------------------------------------------------------------
 
-				//For each of the entries, check if it exists in the current public array. If it doesn't, delete the entry from the database.
-				foreach ($fetch as $row) {
-					foreach ($this->loginAttempts as $loginAttempt) {
-						if ($row['adminLoginAttemptId'] == $loginAttempt['adminLoginAttemptId']) {
-							if (!$this->db->delete('adminLoginAttempt', "WHERE adminLoginAttemptId = '".$row['adminLoginAttemptId']."'", 1)) {
-								return $this->db->getLastError();
-							}
-						}
-					}
-				}
-				// For each item in the current public array, check if it exists in the database. If it does, do update. If it doesn't, do insert.
-				foreach ($this->loginAttempts as $loginAttempt) {
-					$fetch = $this->db->select('adminLoginAttempt', '*', "WHERE adminLoginAttemptId = '".$loginAttempt['adminLoginAttemptId']."'");
-					if ($fetch) {
-						// Update
-						if (!$this->db->update('adminLoginAttempt', array('clientIp' => $loginAttempt['clientIp'], 'enteredUsername' => $loginAttempt['enteredUsername'], 'result' => $loginAttempt['result']), "WHERE adminLoginAttemptId = '".$loginAttempt['adminLoginAttemptId']."'", 1)) {
-							return $this->db->getLastError();
-						}
-					} else {
-						// Insert
-						if (!$this->db->insert('adminLoginAttempt', array('adminLoginAttemptId' => $loginAttempt['adminLoginAttemptId'], 'adminId' => $this->originalAdminId, 'clientIp' => $loginAttempt['clientIp'], 'enteredUsername' => $loginAttempt['enteredUsername'], 'result' => $loginAttempt['result'], 'dateTimeAdded' => $loginAttempt['dateTimeAdded']), "WHERE adminLoginAttemptId = '".$loginAttempt['adminLoginAttemptId']."'")) {
-							return $this->db->getLastError();
-						}
-					}
-				}
+			// loginAttempt Adds
+
+			foreach ($addedLoginAttempts as $entry) {
+
 			}
 
-			// If the set bools for savedLogins have been triggered, update/insert all the entries
-			if ($this->setSavedLogins) {
-				// Get all the current entries of savedLogins for the current admin
-				$fetch = $this->db->select('adminSavedLogin', '*', "WHERE adminId = '$this->adminId'");
-				if (!$fetch) {
-					$fetch = array();
-				}
+			// loginAttempt Updates
 
-				//For each of the entries, check if it exists in the current public array. If it doesn't, delete the entry from the database.
-				foreach ($fetch as $row) {
-					if (!in_array($row['adminSavedLoginId'], $this->savedLogins)) {
-						if (!$this->db->delete('adminSavedLogin', "WHERE adminSavedLoginId = '".$row['adminSavedLoginId']."'", 1)) {
-							return $this->db->getLastError();
-						}
-					}
-				}
-				// For each item in the current public array, check if it exists in the database. If it doesn't, do insert.
-				foreach ($this->savedLogins as $savedLogin) {
-					$fetch = $this->db->select('adminSavedLogin', '*', "WHERE adminSavedLoginId = '".$savedLogin."'");
-					if (!$fetch) {
-						// Insert
-						$currentDateTime = new DateTime();
-						if (!$this->db->insert('adminSavedLogin', array('adminSavedLoginId' => $savedLogin, 'adminId' => $this->adminId, 'dateTimeAdded' => $currentDateTime->format('Y-m-d H:i:s')))) {
-							return $this->db->getLastError();
-						}
-					}
-				}
+			foreach ($updatedLoginAttempts as $entry) {
+
 			}
+
+			// loginAttempt Removes
+
+			foreach ($removedLoginAttempts as $entry) {
+
+			}
+
+			// -----------------------------------------------------------------------------------------
+
+			// savedLogin Adds
+
+			foreach ($addedSavedLogins as $entry) {
+
+			}
+
+			// savedLogin Updates
+
+			foreach ($updatedSavedLogins as $entry) {
+
+			}
+
+			// savedLogin Removes
+
+			foreach ($removedSavedLogins as $entry) {
+
+			}
+
 			return true;
 		}
 	}
