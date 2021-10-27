@@ -142,11 +142,11 @@
 
 			foreach ($columnToDataPairs as $column => $data) {
 				if ($data !== NULL) {
-					$columnToDataPairs[$column] = "'".$data."'";
+					$queryDataString = "'".$data."'";
 				} else {
-					$columnToDataPairs[$column] = 'NULL';
+					$queryDataString = 'NULL';
 				}
-				array_push($assignments, "$column = $data");
+				array_push($assignments, "$column = $queryDataString");
 			}
 
 			$assignmentsString = implode(", ", $assignments);
