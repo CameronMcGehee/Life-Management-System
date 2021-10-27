@@ -5,9 +5,10 @@
 		private string $setType;
 		private databaseManager $db;
 
-		public string $originalAdminId; // Used when updating the table incase the adminId has been changed after instantiation
-		public bool $existed; // Can be used to see whether the given entity existed already at the time of instantiation
+		private string $originalAdminId; // Used when updating the table incase the adminId has been changed after instantiation
+		public bool $existed; // Used to see whether the given entity existed already (in the database) at the time of instantiation
 
+		// Main database attributes
 		public $adminId;
 		public $username;
 		public $password;
@@ -20,6 +21,7 @@
 		public $dateTimeJoined;
 		public $dateTimeLeft;
 
+		// Arrays that allow the you to see the linked data. Not used when querying the database, but are useful when retrieving data.
 		public $loginAttempts; // (adminLoginAttemptId => ('adminId' => value, 'clientIp' => value, 'enteredUsername' => value, 'result' => value, 'dateTimeAdded' => value))
 		public $savedLogins; // (adminSavedLoginId => ('dateTimeAdded' => value))
 
@@ -32,7 +34,12 @@
 		private $updatedSavedLogins; // (adminSavedLoginId => ('dateTimeAdded' => value))
 		private $removedSavedLogins; // (adminSavedLoginId)
 
-		//Init all variables
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// Init variables
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+
 		function __construct(string $adminId = '', bool $getLoginAttempts, bool $getSavedLogins) {
 
 			// Connect to the database
@@ -44,17 +51,12 @@
 			$this->savedLogins = array();
 
 			$this->addedLoginAttempts = array();
-			$this->addedSavedLogins = array();
-
 			$this->updatedLoginAttempts = array();
-			$this->updatedSavedLogins = array();
-
 			$this->removedLoginAttempts = array();
+			
+			$this->addedSavedLogins = array();
+			$this->updatedSavedLogins = array();
 			$this->removedSavedLogins = array();
-
-			// Set the loginAttempt and savedLogin set bools to false (these get set to true when the get functions are called to tell the set() function whether it should push these arrays to the database)
-			$this->setLoginAttempts = false;
-			$this->setSavedLogins = false;
 
 			// Fetch from database
 			$fetch = $this->db->select('admin', '*', "WHERE adminId ='$adminId'");
@@ -105,9 +107,13 @@
 			
 		}
 
-		// Get Entry Functions
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// Linked data pull functions. Will get the data from the database and will reset any changes made to the public arrays before calling set().
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 
-		public function getLoginAttempts () {
+		public function pullLoginAttempts () {
 			// If there are entries for adminloginAttempt then push them to the array
 			$fetch = $this->db->select('adminLoginAttempt', '*', "WHERE adminId = '$this->originalAdminId'");
 			if ($fetch) {
@@ -121,11 +127,13 @@
 					)]);
 				}
 			}
-
-			$this->setLoginAttempts = true;
+			// Clear change arrays
+			$this->addedLoginAttempts = array();
+			$this->updatedLoginAttempts = array();
+			$this->removedLoginAttempts = array();
 		}
 
-		public function getSavedLogins() {
+		public function pullSavedLogins() {
 			// If there are entries for adminsavedLogin then push them to the array
 			$fetch = $this->db->select('adminSavedLogin', '*', "WHERE adminId = '$this->originalAdminId'");
 			if ($fetch) {
@@ -136,10 +144,19 @@
 					)]);
 				}
 			}
-			$this->setSavedLogins = true;
+			// Clear change arrays
+			$this->addedSavedLogins = array();
+			$this->updatedSavedLogins = array();
+			$this->removedSavedLogins = array();
 		}
 
-		// loginAttempt Functions
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// Linked data handling functions
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+
+		// loginAttempt
 
 		public function addLoginAttempt($clientIp, $enteredUsername, $result, $dateTimeAdded = '') {
 			// If dateTimeAdded is not provided, use the current time.
@@ -196,7 +213,7 @@
 			unset($this->loginAttempts[$adminLoginAttemptId]);
 		}
 
-		// savedLogin Functions
+		// savedLogin
 
 		public function addSavedLogin($clientIp, $enteredUsername, $result, $dateTimeAdded = '') {
 			// If dateTimeAdded is not provided, use the current time.
@@ -237,7 +254,12 @@
 			unset($this->savedLogins[$adminSavedLoginId]);
 		}
 
-		// Updates or inserts the data to the database
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// Set function
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+
 		public function set() {
 
 			$attributes = array(
@@ -255,23 +277,18 @@
 			);
 
 			if ($this->setType == 'UPDATE') {
-
 				// Update the values in the database after sanitizing them
 				$this->db->update('admin', $attributes, "WHERE adminId = '".$this->db->sanitize($this->originalAdminId)."'", 1);
-
 			} else {
-
 				// Insert the values to the database after sanitizing them
 				if (!$this->db->insert('admin', $attributes)) {
 					return $this->db->getLastError();
 				}
-
 			}
 
 			// Linked tables --------------------------------------------------------------------------
 
-			// loginAttempt Adds (SANITIZE!!!!)
-
+			// loginAttempt adds
 			foreach ($addedLoginAttempts as $id => $attributes) {
 				if (!$this->db->insert('adminLoginAttempt', array(
 					'adminLoginAttemptId' => $this->db->sanitize($id),
@@ -285,8 +302,7 @@
 				}
 			}
 
-			// loginAttempt Updates (SANITIZE!!!!)
-
+			// loginAttempt updates
 			foreach ($updatedLoginAttempts as $id => $attributes) {
 				if (!$this->db->update('adminLoginAttempt', array(
 					'clientIp' => $this->db->sanitize($attributes['clientIp']),
@@ -298,8 +314,7 @@
 				}
 			}
 
-			// loginAttempt Removes (SANITIZE!!!!)
-
+			// loginAttempt removes
 			foreach ($removedLoginAttempts as $id) {
 				if (!$this->db->delete('adminLoginAttempt', "WHERE adminLoginAttemptId = '".$this->db->sanitize($id['adminLoginAttemptId'])."'", 1)) {
 					return $this->db->getLastError();
@@ -308,8 +323,7 @@
 
 			// -----------------------------------------------------------------------------------------
 
-			// savedLogin Adds
-
+			// savedLogin adds
 			foreach ($addedSavedLogins as $id => $attributes) {
 				if (!$this->db->insert('adminSavedLogin', array(
 					'adminSavedLoginId' => $this->db->sanitize($id),
@@ -320,8 +334,7 @@
 				}
 			}
 
-			// savedLogin Updates
-
+			// savedLogin updates
 			foreach ($updatedSavedLogins as $id => $attributes) {
 				if (!$this->db->update('adminSavedLogin', array(
 					'dateTimeAdded' => $this->db->sanitize($attributes['dateTimeAdded'])
@@ -330,8 +343,7 @@
 				}
 			}
 
-			// savedLogin Removes
-
+			// savedLogin removes
 			foreach ($removedSavedLogins as $id) {
 				if (!$this->db->delete('adminSavedLogin', "WHERE adminSavedLoginId = '".$this->db->sanitize($id['adminSavedLoginId'])."'", 1)) {
 					return $this->db->getLastError();
