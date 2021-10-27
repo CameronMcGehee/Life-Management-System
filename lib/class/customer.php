@@ -5,9 +5,10 @@
 		private string $setType;
 		private databaseManager $db;
 
-		public string $originalcustomerId; // Used when updating the table incase the customerId has been changed after instantiation
-		public bool $existed; // Can be used to see whether the given entity existed already at the time of instantiation
+		public string $staticCustomerId; // Used when updating the table incase the customerId has been changed after instantiation
+		public bool $existed; // Used to see whether the given entity existed already (in the database) at the time of instantiation
 
+		// Main database attributes
 		public $customerId;
 		public $businessId;
 		public $addedByAdminId;
@@ -32,6 +33,19 @@
 		public $overridePaymentTerm;
 		public $notes;
 		public $dateTimeAdded;
+
+		// Arrays that allow the you to see the linked data. Not used when querying the database, but are useful when retrieving data.
+		public $loginAttempts; // (customerLoginAttemptId => ('customerId' => value, 'clientIp' => value, 'enteredUsername' => value, 'result' => value, 'dateTimeAdded' => value))
+		public $savedLogins; // (customerSavedLoginId => ('dateTimeAdded' => value))
+
+		// Arrays to track possible database updates
+		private $addedLoginAttempts; // (customerLoginAttemptId => ('customerId' => value, 'clientIp' => value, 'enteredUsername' => value, 'result' => value, 'dateTimeAdded' => value))
+		private $updatedLoginAttempts; // (customerLoginAttemptId => ('customerId' => value, 'clientIp' => value, 'enteredUsername' => value, 'result' => value, 'dateTimeAdded' => value))
+		private $removedLoginAttempts; // (customerLoginAttemptId)
+		
+		private $addedSavedLogins; // (customerSavedLoginId => ('dateTimeAdded' => value))
+		private $updatedSavedLogins; // (customerSavedLoginId => ('dateTimeAdded' => value))
+		private $removedSavedLogins; // (customerSavedLoginId)
 
 		function __construct(string $customerId = '') {
 
@@ -81,8 +95,20 @@
 				$uuid = new uuid('table', 'customer', 'customerId');
 				$this->customerId = $uuid->generatedId;
 
-				$this->businessId = '';
-				$this->addedByAdminId = '';
+				// Default businessId to the currently selected business
+				if (isset($_SESSION['ultiscape_businessId'])) {
+					$this->businessId = $_SESSION['ultiscape_businessId'];
+				} else {
+					$this->businessId = '';
+				}
+
+				// Default addedByAdminId to the currently selected admin
+				if (isset($_SESSION['ultiscape_adminId'])) {
+					$this->addedByAdminId = $_SESSION['ultiscape_adminId'];
+				} else {
+					$this->addedByAdminId = '';
+				}
+				
 				$this->surname = NULL;
 				$this->firstName = '';
 				$this->lastName = NULL;
@@ -109,16 +135,181 @@
 				$this->dateTimeAdded = $currentDateTime->format('Y-m-d H:i:s');
 			}
 
-			$this->$originalcustomerId = $this->customerId;
+			$this->$staticCustomerId = $this->customerId;
 			
 		}
+
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// Linked data pull functions. Will get the data from the database and will reset any changes made to the public arrays before calling set().
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+
+		public function pullLoginAttempts () {
+			// If there are entries for customerloginAttempt then push them to the array
+			$fetch = $this->db->select('customerLoginAttempt', '*', "WHERE customerId = '$this->staticCustomerId'");
+			if ($fetch) {
+				$this->loginAttempts = array();
+				foreach ($fetch as $row) {
+					$this->loginAttempts[$row['customerLoginAttemptId']] = array(
+						'businessId' => $row['businessId'],
+						'clientIp' => $row['clientIp'],
+						'enteredUsername' => $row['enteredUsername'],
+						'result' => $row['result'],
+						'dateTimeAdded' => $row['dateTimeAdded']
+					);
+				}
+			}
+			// Clear change arrays
+			$this->addedLoginAttempts = array();
+			$this->updatedLoginAttempts = array();
+			$this->removedLoginAttempts = array();
+		}
+
+		public function pullSavedLogins() {
+			// If there are entries for customerSavedLogin then push them to the array
+			$fetch = $this->db->select('customerSavedLogin', '*', "WHERE customerId = '$this->staticCustomerId'");
+			if ($fetch) {
+				$this->savedLogins = array();
+				foreach ($fetch as $row) {
+					$this->savedLogins[$row['customerSavedLoginId']] = array(
+						'businessId' => $row['businessId'],
+						'dateTimeAdded' => $row['dateTimeAdded']
+					);
+				}
+			}
+			// Clear change arrays
+			$this->addedSavedLogins = array();
+			$this->updatedSavedLogins = array();
+			$this->removedSavedLogins = array();
+		}
+
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// Linked data handling functions
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+
+		// loginAttempt
+
+		public function addLoginAttempt($clientIp, $enteredUsername, $result, $dateTimeAdded = '') {
+			// If dateTimeAdded is not provided, use the current time.
+			if ($dateTimeAdded == '') {
+				$currentDateTime = new DateTime();
+				$dateTimeAdded = $currentDateTime->format('Y-m-d H:i:s');
+			}
+
+			// Generate a new id
+			require_once dirname(__FILE__)."/../class/uuid.php";
+            $uuid = new uuid('table', 'customerLoginAttempt', 'customerLoginAttemptId');
+			
+			$this->addedLoginAttempts[$uuid->generatedId] = array(
+				'businessId' => $this->staticBusinessId,
+				'customerId' => $this->staticCustomerId,
+				'clientIp' => $clientIp,
+				'enteredUsername' => $enteredUsername,
+				'result' => $result,
+				'dateTimeAdded' => $dateTimeAdded
+			);
+			$this->loginAttempts[$uuid->generatedId] = array(
+				'businessId' => $this->staticBusinessId,
+				'customerId' => $this->staticCustomerId,
+				'clientIp' => $clientIp,
+				'enteredUsername' => $enteredUsername,
+				'result' => $result,
+				'dateTimeAdded' => $dateTimeAdded
+			);
+
+			return $uuid->generatedId;
+		}
+
+		public function updateLoginAttempt($customerLoginAttemptId, $clientIp, $enteredUsername, $result, $dateTimeAdded = '') {
+			// If dateTimeAdded is not provided, use the current time.
+			if ($dateTimeAdded == '') {
+				$currentDateTime = new DateTime();
+				$dateTimeAdded = $currentDateTime->format('Y-m-d H:i:s');
+			}
+			$this->updatedLoginAttempts[$customerLoginAttemptId] = array(
+				'businessId' => $this->staticBusinessId,
+				'customerId' => $this->staticCustomerId,
+				'clientIp' => $clientIp,
+				'enteredUsername' => $enteredUsername,
+				'result' => $result,
+				'dateTimeAdded' => $dateTimeAdded
+			);
+			$this->loginAttempts[$customerLoginAttemptId] = array(
+				'businessId' => $this->staticBusinessId,
+				'customerId' => $this->staticCustomerId,
+				'clientIp' => $clientIp,
+				'enteredUsername' => $enteredUsername,
+				'result' => $result,
+				'dateTimeAdded' => $dateTimeAdded
+			);
+		}
+
+		public function removeLoginAttempt($customerLoginAttemptId) {
+			array_push($this->removedLoginAttempts, $customerLoginAttemptId);
+			unset($this->loginAttempts[$customerLoginAttemptId]);
+		}
+
+		// savedLogin
+
+		public function addSavedLogin($dateTimeAdded = '') {
+			// If dateTimeAdded is not provided, use the current time.
+			if ($dateTimeAdded == '') {
+				$currentDateTime = new DateTime();
+				$dateTimeAdded = $currentDateTime->format('Y-m-d H:i:s');
+			}
+
+			// Generate a new id
+			require_once dirname(__FILE__)."/../class/uuid.php";
+            $uuid = new uuid('table', 'customerSavedLogin', 'customerSavedLoginId');
+			
+			$this->addedSavedLogins[$uuid->generatedId] = array(
+				'businessId' => $this->staticBusinessId,
+				'dateTimeAdded' => $dateTimeAdded
+			);
+			$this->savedLogins[$uuid->generatedId] = array(
+				'businessId' => $this->staticBusinessId,
+				'dateTimeAdded' => $dateTimeAdded
+			);
+
+			return $uuid->generatedId;
+		}
+
+		public function updateSavedLogin($customerSavedLoginId, $dateTimeAdded = '') {
+			// If dateTimeAdded is not provided, use the current time.
+			if ($dateTimeAdded == '') {
+				$currentDateTime = new DateTime();
+				$dateTimeAdded = $currentDateTime->format('Y-m-d H:i:s');
+			}
+			$this->updatedSavedLogins[$customerSavedLoginId] = array(
+				'businessId' => $this->staticBusinessId,
+				'dateTimeAdded' => $dateTimeAdded
+			);
+			$this->savedLogins[$customerSavedLoginId] = array(
+				'businessId' => $this->staticBusinessId,
+				'dateTimeAdded' => $dateTimeAdded
+			);
+		}
+
+		public function removeSavedLogin($customerSavedLoginId) {
+			array_push($this->removedSavedLogins, $customerSavedLoginId);
+			unset($this->savedLogins[$customerSavedLoginId]);
+		}
+
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// Set function
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 
 		// Adds the customer to the database or updates the values
 		public function set() {
 
 			$attributes = array(
 				'customerId' => $this->db->sanitize($this->customerId),
-				'businessId' => $this->db->sanitize($this->businessId),
+				'businessId' => $this->db->sanitize($this->staticBusinessId),
 				'addedByAdminId' => $this->db->sanitize($this->addedByAdminId),
 				'surname' => $this->db->sanitize($this->surname),
 				'firstName' => $this->db->sanitize($this->firstName),
@@ -146,7 +337,7 @@
 			if ($this->setType == 'UPDATE') {
 
 				// Update the values in the database after sanitizing them
-				if ($this->db->update('customer', $attributes, "WHERE customerId = '".$this->db->sanitize($this->originalcustomerId)."'", 1)) {
+				if ($this->db->update('customer', $attributes, "WHERE customerId = '".$this->db->sanitize($this->staticCustomerId)."'", 1)) {
 					return true;
 				} else {
 					return $this->db->getLastError();

@@ -5,7 +5,7 @@
 		private string $setType;
 		private databaseManager $db;
 
-		private string $originalAdminId; // Used when updating the table incase the adminId has been changed after instantiation
+		private string $staticAdminId; // Used when updating the table incase the adminId has been changed after instantiation
 		public bool $existed; // Used to see whether the given entity existed already (in the database) at the time of instantiation
 
 		// Main database attributes
@@ -103,7 +103,7 @@
 				$this->dateTimeLeft = NULL;
 			}
 
-			$this->originalAdminId = $this->adminId;
+			$this->staticAdminId = $this->adminId;
 			
 		}
 
@@ -115,7 +115,7 @@
 
 		public function pullLoginAttempts () {
 			// If there are entries for adminloginAttempt then push them to the array
-			$fetch = $this->db->select('adminLoginAttempt', '*', "WHERE adminId = '$this->originalAdminId'");
+			$fetch = $this->db->select('adminLoginAttempt', '*', "WHERE adminId = '$this->staticAdminId'");
 			if ($fetch) {
 				$this->loginAttempts = array();
 				foreach ($fetch as $row) {
@@ -135,7 +135,7 @@
 
 		public function pullSavedLogins() {
 			// If there are entries for adminsavedLogin then push them to the array
-			$fetch = $this->db->select('adminSavedLogin', '*', "WHERE adminId = '$this->originalAdminId'");
+			$fetch = $this->db->select('adminSavedLogin', '*', "WHERE adminId = '$this->staticAdminId'");
 			if ($fetch) {
 				$this->savedLogins = array();
 				foreach ($fetch as $row) {
@@ -170,14 +170,14 @@
             $uuid = new uuid('table', 'adminLoginAttempt', 'adminLoginAttemptId');
 			
 			$this->addedLoginAttempts[$uuid->generatedId] = array(
-				'adminId' => $this->originalAdminId,
+				'adminId' => $this->staticAdminId,
 				'clientIp' => $clientIp,
 				'enteredUsername' => $enteredUsername,
 				'result' => $result,
 				'dateTimeAdded' => $dateTimeAdded
 			);
 			$this->loginAttempts[$uuid->generatedId] = array(
-				'adminId' => $this->originalAdminId,
+				'adminId' => $this->staticAdminId,
 				'clientIp' => $clientIp,
 				'enteredUsername' => $enteredUsername,
 				'result' => $result,
@@ -194,14 +194,14 @@
 				$dateTimeAdded = $currentDateTime->format('Y-m-d H:i:s');
 			}
 			$this->updatedLoginAttempts[$adminLoginAttemptId] = array(
-				'adminId' => $this->originalAdminId,
+				'adminId' => $this->staticAdminId,
 				'clientIp' => $clientIp,
 				'enteredUsername' => $enteredUsername,
 				'result' => $result,
 				'dateTimeAdded' => $dateTimeAdded
 			);
 			$this->loginAttempts[$adminLoginAttemptId] = array(
-				'adminId' => $this->originalAdminId,
+				'adminId' => $this->staticAdminId,
 				'clientIp' => $clientIp,
 				'enteredUsername' => $enteredUsername,
 				'result' => $result,
@@ -280,7 +280,7 @@
 
 			if ($this->setType == 'UPDATE') {
 				// Update the values in the database after sanitizing them
-				$this->db->update('admin', $attributes, "WHERE adminId = '".$this->db->sanitize($this->originalAdminId)."'", 1);
+				$this->db->update('admin', $attributes, "WHERE adminId = '".$this->db->sanitize($this->staticAdminId)."'", 1);
 			} else {
 				// Insert the values to the database after sanitizing them
 				if (!$this->db->insert('admin', $attributes)) {
@@ -294,7 +294,7 @@
 			foreach ($this->addedLoginAttempts as $id => $attributes) {
 				if (!$this->db->insert('adminLoginAttempt', array(
 					'adminLoginAttemptId' => $this->db->sanitize($id),
-					'adminId' => $this->db->sanitize($this->originalAdminId),
+					'adminId' => $this->db->sanitize($this->staticAdminId),
 					'clientIp' => $this->db->sanitize($attributes['clientIp']),
 					'enteredUsername' => $this->db->sanitize($attributes['enteredUsername']),
 					'result' => $this->db->sanitize($attributes['result']),
@@ -329,7 +329,7 @@
 			foreach ($this->addedSavedLogins as $id => $attributes) {
 				if (!$this->db->insert('adminSavedLogin', array(
 					'adminSavedLoginId' => $this->db->sanitize($id),
-					'adminId' => $this->db->sanitize($this->originalAdminId),
+					'adminId' => $this->db->sanitize($this->staticAdminId),
 					'dateTimeAdded' => $this->db->sanitize($attributes['dateTimeAdded'])
 				))) {
 					return $this->db->getLastError();
