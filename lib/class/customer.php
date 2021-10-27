@@ -50,8 +50,20 @@
 		function __construct(string $customerId = '') {
 
 			// Connect to the database
-			require_once dirsurname(__FILE__)."/../manager/databaseManager.php";
+			require_once dirname(__FILE__)."/../manager/databaseManager.php";
 			$this->db = new databaseManager;
+
+			// Init arrays
+			$this->loginAttempts = array();
+			$this->savedLogins = array();
+
+			$this->addedLoginAttempts = array();
+			$this->updatedLoginAttempts = array();
+			$this->removedLoginAttempts = array();
+			
+			$this->addedSavedLogins = array();
+			$this->updatedSavedLogins = array();
+			$this->removedSavedLogins = array();
 
 			// Fetch from database
 			$fetch = $this->db->select('customer', '*', "WHERE customerId ='$customerId'");
@@ -67,23 +79,23 @@
 				$this->surname = $fetch[0]['surname'];
 				$this->firstName = $fetch[0]['firstName'];
 				$this->lastName = $fetch[0]['lastName'];
-				$this->$billAddress1 = $fetch[0]['billAddress1'];
-				$this->$billAddress2 = $fetch[0]['billAddress2'];
-				$this->$billCity = $fetch[0]['billCity'];
-				$this->$billState = $fetch[0]['billState'];
-				$this->$billZipCode = $fetch[0]['billZipCode'];
-				$this->$creditCache = $fetch[0]['creditCache'];
-				$this->$overrideCreditAlertIsEnabled = $fetch[0]['overrideCreditAlertIsEnabled'];
-				$this->$overrideCreditAlertAmount = $fetch[0]['overrideCreditAlertAmount'];
-				$this->$overrideAutoApplyCredit = $fetch[0]['overrideAutoApplyCredit'];
-				$this->$balanceCache = $fetch[0]['balanceCache'];
-				$this->$overrideBalanceAlertIsEnabled = $fetch[0]['overrideBalanceAlertIsEnabled'];
-				$this->$overrideBalanceAlertAmount = $fetch[0]['overrideBalanceAlertAmount'];
-				$this->$allowCZSignIn = $fetch[0]['allowCZSignIn'];
-				$this->$password = $fetch[0]['password'];
-				$this->$discountPercent = $fetch[0]['discountPercent'];
-				$this->$overridePaymentTerm = $fetch[0]['overridePaymentTerm'];
-				$this->$notes = $fetch[0]['notes'];
+				$this->billAddress1 = $fetch[0]['billAddress1'];
+				$this->billAddress2 = $fetch[0]['billAddress2'];
+				$this->billCity = $fetch[0]['billCity'];
+				$this->billState = $fetch[0]['billState'];
+				$this->billZipCode = $fetch[0]['billZipCode'];
+				$this->creditCache = $fetch[0]['creditCache'];
+				$this->overrideCreditAlertIsEnabled = $fetch[0]['overrideCreditAlertIsEnabled'];
+				$this->overrideCreditAlertAmount = $fetch[0]['overrideCreditAlertAmount'];
+				$this->overrideAutoApplyCredit = $fetch[0]['overrideAutoApplyCredit'];
+				$this->balanceCache = $fetch[0]['balanceCache'];
+				$this->overrideBalanceAlertIsEnabled = $fetch[0]['overrideBalanceAlertIsEnabled'];
+				$this->overrideBalanceAlertAmount = $fetch[0]['overrideBalanceAlertAmount'];
+				$this->allowCZSignIn = $fetch[0]['allowCZSignIn'];
+				$this->password = $fetch[0]['password'];
+				$this->discountPercent = $fetch[0]['discountPercent'];
+				$this->overridePaymentTerm = $fetch[0]['overridePaymentTerm'];
+				$this->notes = $fetch[0]['notes'];
 				$this->dateTimeAdded = $fetch[0]['dateTimeAdded'];
 			// If customerId does not exist then set the set method type to INSERT and inititialize default values
 			} else {
@@ -91,7 +103,7 @@
 				$this->existed = false;
 
 				// Make a new customerId
-				require_once dirsurname(__FILE__)."/uuid.php";
+				require_once dirname(__FILE__)."/uuid.php";
 				$uuid = new uuid('table', 'customer', 'customerId');
 				$this->customerId = $uuid->generatedId;
 
@@ -112,30 +124,30 @@
 				$this->surname = NULL;
 				$this->firstName = '';
 				$this->lastName = NULL;
-				$this->$billAddress1 = NULL;
-				$this->$billAddress2 = NULL;
-				$this->$billCity = NULL;
-				$this->$billState = NULL;
-				$this->$billZipCode = NULL;
-				$this->$creditCache = '0';
-				$this->$overrideCreditAlertIsEnabled = NULL;
-				$this->$overrideCreditAlertAmount = NULL;
-				$this->$overrideAutoApplyCredit = NULL;
-				$this->$balanceCache = '0';
-				$this->$overrideBalanceAlertIsEnabled = NULL;
-				$this->$overrideBalanceAlertAmount = NULL;
-				$this->$allowCZSignIn = '0';
-				$this->$password = '';
-				$this->$discountPercent = NULL;
-				$this->$overridePaymentTerm = NULL;
-				$this->$notes = NULL;
+				$this->billAddress1 = NULL;
+				$this->billAddress2 = NULL;
+				$this->billCity = NULL;
+				$this->billState = NULL;
+				$this->billZipCode = NULL;
+				$this->creditCache = '0';
+				$this->overrideCreditAlertIsEnabled = NULL;
+				$this->overrideCreditAlertAmount = NULL;
+				$this->overrideAutoApplyCredit = NULL;
+				$this->balanceCache = '0';
+				$this->overrideBalanceAlertIsEnabled = NULL;
+				$this->overrideBalanceAlertAmount = NULL;
+				$this->allowCZSignIn = '0';
+				$this->password = '';
+				$this->discountPercent = NULL;
+				$this->overridePaymentTerm = NULL;
+				$this->notes = NULL;
 
 				// Default dateTimeAdded to now since it is likely going to be inserted at this time
 				$currentDateTime = new DateTime();
 				$this->dateTimeAdded = $currentDateTime->format('Y-m-d H:i:s');
 			}
 
-			$this->$staticCustomerId = $this->customerId;
+			$this->staticCustomerId = $this->customerId;
 			
 		}
 
@@ -204,7 +216,7 @@
             $uuid = new uuid('table', 'customerLoginAttempt', 'customerLoginAttemptId');
 			
 			$this->addedLoginAttempts[$uuid->generatedId] = array(
-				'businessId' => $this->staticBusinessId,
+				'businessId' => $this->businessId,
 				'customerId' => $this->staticCustomerId,
 				'clientIp' => $clientIp,
 				'enteredUsername' => $enteredUsername,
@@ -212,7 +224,7 @@
 				'dateTimeAdded' => $dateTimeAdded
 			);
 			$this->loginAttempts[$uuid->generatedId] = array(
-				'businessId' => $this->staticBusinessId,
+				'businessId' => $this->businessId,
 				'customerId' => $this->staticCustomerId,
 				'clientIp' => $clientIp,
 				'enteredUsername' => $enteredUsername,
@@ -230,7 +242,7 @@
 				$dateTimeAdded = $currentDateTime->format('Y-m-d H:i:s');
 			}
 			$this->updatedLoginAttempts[$customerLoginAttemptId] = array(
-				'businessId' => $this->staticBusinessId,
+				'businessId' => $this->businessId,
 				'customerId' => $this->staticCustomerId,
 				'clientIp' => $clientIp,
 				'enteredUsername' => $enteredUsername,
@@ -238,7 +250,7 @@
 				'dateTimeAdded' => $dateTimeAdded
 			);
 			$this->loginAttempts[$customerLoginAttemptId] = array(
-				'businessId' => $this->staticBusinessId,
+				'businessId' => $this->businessId,
 				'customerId' => $this->staticCustomerId,
 				'clientIp' => $clientIp,
 				'enteredUsername' => $enteredUsername,
@@ -266,11 +278,11 @@
             $uuid = new uuid('table', 'customerSavedLogin', 'customerSavedLoginId');
 			
 			$this->addedSavedLogins[$uuid->generatedId] = array(
-				'businessId' => $this->staticBusinessId,
+				'businessId' => $this->businessId,
 				'dateTimeAdded' => $dateTimeAdded
 			);
 			$this->savedLogins[$uuid->generatedId] = array(
-				'businessId' => $this->staticBusinessId,
+				'businessId' => $this->businessId,
 				'dateTimeAdded' => $dateTimeAdded
 			);
 
@@ -284,11 +296,11 @@
 				$dateTimeAdded = $currentDateTime->format('Y-m-d H:i:s');
 			}
 			$this->updatedSavedLogins[$customerSavedLoginId] = array(
-				'businessId' => $this->staticBusinessId,
+				'businessId' => $this->businessId,
 				'dateTimeAdded' => $dateTimeAdded
 			);
 			$this->savedLogins[$customerSavedLoginId] = array(
-				'businessId' => $this->staticBusinessId,
+				'businessId' => $this->businessId,
 				'dateTimeAdded' => $dateTimeAdded
 			);
 		}
@@ -309,7 +321,7 @@
 
 			$attributes = array(
 				'customerId' => $this->db->sanitize($this->customerId),
-				'businessId' => $this->db->sanitize($this->staticBusinessId),
+				'businessId' => $this->db->sanitize($this->businessId),
 				'addedByAdminId' => $this->db->sanitize($this->addedByAdminId),
 				'surname' => $this->db->sanitize($this->surname),
 				'firstName' => $this->db->sanitize($this->firstName),
@@ -352,6 +364,74 @@
 					return $this->db->getLastError();
 				}
 
+			}
+
+			// Linked tables --------------------------------------------------------------------------
+
+			// loginAttempt adds
+			foreach ($this->addedLoginAttempts as $id => $attributes) {
+				if (!$this->db->insert('customerLoginAttempt', array(
+					'customerLoginAttemptId' => $this->db->sanitize($id),
+					'businessId' => $this->businessId,
+					'customerId' => $this->db->sanitize($this->staticCustomerId),
+					'clientIp' => $this->db->sanitize($attributes['clientIp']),
+					'enteredUsername' => $this->db->sanitize($attributes['enteredUsername']),
+					'result' => $this->db->sanitize($attributes['result']),
+					'dateTimeAdded' => $this->db->sanitize($attributes['dateTimeAdded'])
+				))) {
+					return $this->db->getLastError();
+				}
+			}
+
+			// loginAttempt updates
+			foreach ($this->updatedLoginAttempts as $id => $attributes) {
+				if (!$this->db->update('customerLoginAttempt', array(
+					'businessId' => $this->businessId,
+					'clientIp' => $this->db->sanitize($attributes['clientIp']),
+					'enteredUsername' => $this->db->sanitize($attributes['enteredUsername']),
+					'result' => $this->db->sanitize($attributes['result']),
+					'dateTimeAdded' => $this->db->sanitize($attributes['dateTimeAdded'])
+				), "WHERE customerLoginAttemptId = '".$this->db->sanitize($id)."'", 1)) {
+					return $this->db->getLastError();
+				}
+			}
+
+			// loginAttempt removes
+			foreach ($this->removedLoginAttempts as $id) {
+				if (!$this->db->delete('customerLoginAttempt', "WHERE customerLoginAttemptId = '".$this->db->sanitize($id)."'", 1)) {
+					return $this->db->getLastError();
+				}
+			}
+
+			// -----------------------------------------------------------------------------------------
+
+			// savedLogin adds
+			foreach ($this->addedSavedLogins as $id => $attributes) {
+				if (!$this->db->insert('customerSavedLogin', array(
+					'customerSavedLoginId' => $this->db->sanitize($id),
+					'businessId' => $this->businessId,
+					'customerId' => $this->db->sanitize($this->staticCustomerId),
+					'dateTimeAdded' => $this->db->sanitize($attributes['dateTimeAdded'])
+				))) {
+					return $this->db->getLastError();
+				}
+			}
+
+			// savedLogin updates
+			foreach ($this->updatedSavedLogins as $id => $attributes) {
+				if (!$this->db->update('customerSavedLogin', array(
+					'businessId' => $this->businessId,
+					'dateTimeAdded' => $this->db->sanitize($attributes['dateTimeAdded'])
+				), "WHERE customerSavedLoginId = '".$this->db->sanitize($id)."'", 1)) {
+					return $this->db->getLastError();
+				}
+			}
+
+			// savedLogin removes
+			foreach ($this->removedSavedLogins as $id) {
+				if (!$this->db->delete('customerSavedLogin', "WHERE customerSavedLoginId = '".$this->db->sanitize($id)."'", 1)) {
+					return $this->db->getLastError();
+				}
 			}
 
 		}

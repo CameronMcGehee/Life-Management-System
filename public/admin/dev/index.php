@@ -33,28 +33,26 @@
             <div class="margin2em">
                 <?php
 
-                    // require_once '../../../lib/class/admin.php';
+                    require_once '../../../lib/class/customer.php';
 
-                    // $admin = new admin($_SESSION['ultiscape_adminId']);
+                    $customer = new customer();
 
-                    // $admin->pullSavedLogins();
+                    echo '<p>Customer: ';
+                    print_r($customer);
+                    echo '</p>';
 
-                    // echo '<p>Login Attempts: ';
-                    // var_dump($admin->savedLogins);
-                    // echo '</p>';
+                    // Remove all saved logins
 
-                    // // Remove all saved logins
-
-                    // foreach ($admin->savedLogins as $savedLogin => $attributes) {
-                    //     $admin->removeSavedLogin($savedLogin);
+                    // foreach ($customer->savedLogins as $savedLogin => $attributes) {
+                    //     $customer->removeSavedLogin($savedLogin);
                     // }
 
-                    // // Set
-                    // var_dump($admin->set());
+                    // Set
+                    // var_dump($customer->set());
 
-                    // $admin->pullSavedLogins();
+                    // $customer->pullSavedLogins();
                     // echo '<p>Login Attempts after insertion: ';
-                    // var_dump($admin->savedLogins);
+                    // var_dump($customer->savedLogins);
                     // echo '</p>';
 
                 ?>
