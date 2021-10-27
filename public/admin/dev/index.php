@@ -37,31 +37,24 @@
 
                     // $admin = new admin($_SESSION['ultiscape_adminId']);
 
-                    // $admin->getLoginAttempts();
+                    // $admin->pullSavedLogins();
 
                     // echo '<p>Login Attempts: ';
-                    // var_dump($admin->loginAttempts);
+                    // var_dump($admin->savedLogins);
                     // echo '</p>';
 
-                    // Insert random savedLogin
-                    // require_once '../../../lib/class/uuid.php';
-                    // $uuid = new uuid('table', 'adminLoginAttempt', 'adminLoginAttemptId');
-                    
-                    // array_push($admin->loginAttempts, array('adminLoginAttemptId' => $uuid->generatedId, 'clientIp' => 'localhost', 'enteredUsername' => 'something', 'result' => 's', 'dateTimeAdded' => date('Y-m-d H:i:s')));
-                    // $uuid->regenerate();
-                    // array_push($admin->loginAttempts, array('adminLoginAttemptId' => $uuid->generatedId, 'clientIp' => 'localhost', 'enteredUsername' => 'something', 'result' => 's', 'dateTimeAdded' => date('Y-m-d H:i:s')));
-                    // $uuid->regenerate();
-                    // array_push($admin->loginAttempts, array('adminLoginAttemptId' => $uuid->generatedId, 'clientIp' => 'localhost', 'enteredUsername' => 'something', 'result' => 's', 'dateTimeAdded' => date('Y-m-d H:i:s')));
-                    // $uuid->regenerate();
-                    // array_push($admin->loginAttempts, array('adminLoginAttemptId' => $uuid->generatedId, 'clientIp' => 'localhost', 'enteredUsername' => 'something', 'result' => 's', 'dateTimeAdded' => date('Y-m-d H:i:s')));
-                    // $uuid->regenerate();
-                    // array_push($admin->loginAttempts, array('adminLoginAttemptId' => $uuid->generatedId, 'clientIp' => 'localhost', 'enteredUsername' => 'something', 'result' => 's', 'dateTimeAdded' => date('Y-m-d H:i:s')));
+                    // // Remove all saved logins
+
+                    // foreach ($admin->savedLogins as $savedLogin => $attributes) {
+                    //     $admin->removeSavedLogin($savedLogin);
+                    // }
 
                     // // Set
-                    // $admin->set();
+                    // var_dump($admin->set());
 
+                    // $admin->pullSavedLogins();
                     // echo '<p>Login Attempts after insertion: ';
-                    // var_dump($admin->loginAttempts);
+                    // var_dump($admin->savedLogins);
                     // echo '</p>';
 
                 ?>
