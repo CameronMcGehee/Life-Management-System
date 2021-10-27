@@ -20,16 +20,16 @@
 		public $dateTimeJoined;
 		public $dateTimeLeft;
 
-		public $loginAttempts; // (id => ('adminLoginAttemptId' => value, 'adminId' => value, 'clientIp' => value, 'enteredUsername' => value, 'result' => value, 'dateTimeAdded' => value))
-		public $savedLogins; // (id => ('adminSavedLoginId' => value, 'dateTimeAdded' => value))
+		public $loginAttempts; // (adminLoginAttemptId => ('adminId' => value, 'clientIp' => value, 'enteredUsername' => value, 'result' => value, 'dateTimeAdded' => value))
+		public $savedLogins; // (adminSavedLoginId => ('dateTimeAdded' => value))
 
 		// Arrays to track possible database updates
-		private $addedLoginAttempts; // (id => ('adminLoginAttemptId' => value, 'adminId' => value, 'clientIp' => value, 'enteredUsername' => value, 'result' => value, 'dateTimeAdded' => value))
-		private $updatedLoginAttempts; // (id => ('adminLoginAttemptId' => value, 'adminId' => value, 'clientIp' => value, 'enteredUsername' => value, 'result' => value, 'dateTimeAdded' => value))
+		private $addedLoginAttempts; // (adminLoginAttemptId => ('adminId' => value, 'clientIp' => value, 'enteredUsername' => value, 'result' => value, 'dateTimeAdded' => value))
+		private $updatedLoginAttempts; // (adminLoginAttemptId => ('adminId' => value, 'clientIp' => value, 'enteredUsername' => value, 'result' => value, 'dateTimeAdded' => value))
 		private $removedLoginAttempts; // (adminLoginAttemptId)
 		
-		private $addedSavedLogins; // (id => ('adminSavedLoginId' => value, 'dateTimeAdded' => value))
-		private $updatedSavedLogins; // (id => ('adminSavedLoginId' => value, 'dateTimeAdded' => value))
+		private $addedSavedLogins; // (adminSavedLoginId => ('dateTimeAdded' => value))
+		private $updatedSavedLogins; // (adminSavedLoginId => ('dateTimeAdded' => value))
 		private $removedSavedLogins; // (adminSavedLoginId)
 
 		//Init all variables
@@ -113,13 +113,12 @@
 			if ($fetch) {
 				$this->loginAttempts = array();
 				foreach ($fetch as $row) {
-					array_push($this->loginAttempts,  array(
-						'adminLoginAttemptId' => $row['adminLoginAttemptId'],
+					array_push($this->loginAttempts,  [$row['adminLoginAttemptId'] => array(
 						'clientIp' => $row['clientIp'],
 						'enteredUsername' => $row['enteredUsername'],
 						'result' => $row['result'],
 						'dateTimeAdded' => $row['dateTimeAdded']
-					));
+					)]);
 				}
 			}
 
@@ -132,10 +131,9 @@
 			if ($fetch) {
 				$this->savedLogins = array();
 				foreach ($fetch as $row) {
-					array_push($this->savedLogins, array(
-						'adminSavedLoginId' => $row['adminSavedLoginId'],
+					array_push($this->savedLogins, [$row['adminSavedLoginId'] => array(
 						'dateTimeAdded' => $row['dateTimeAdded']
-				));
+					)]);
 				}
 			}
 			$this->setSavedLogins = true;
@@ -155,7 +153,6 @@
             $uuid = new uuid('table', 'adminLoginAttempt', 'adminLoginAttemptId');
 			
 			array_push($this->addedLoginAttempts, [$uuid->generatedId => array(
-				'adminLoginAttemptId' => $uuid->generatedId,
 				'adminId' => $this->originalAdminId,
 				'clientIp' => $clientIp,
 				'enteredUsername' => $enteredUsername,
@@ -163,7 +160,6 @@
 				'dateTimeAdded' => $dateTimeAdded
 			)]);
 			array_push($this->loginAttempts, [$uuid->generatedId => array(
-				'adminLoginAttemptId' => $uuid->generatedId,
 				'adminId' => $this->originalAdminId,
 				'clientIp' => $clientIp,
 				'enteredUsername' => $enteredUsername,
@@ -180,7 +176,6 @@
 			}
 			unset($this->loginAttempts[$adminLoginAttemptId]);
 			array_push($this->updatedLoginAttempts, [$adminLoginAttemptId => array(
-				'adminLoginAttemptId' => $adminLoginAttemptId,
 				'adminId' => $this->originalAdminId,
 				'clientIp' => $clientIp,
 				'enteredUsername' => $enteredUsername,
@@ -188,7 +183,6 @@
 				'dateTimeAdded' => $dateTimeAdded
 			)]);
 			array_push($this->loginAttempts, [$adminLoginAttemptId => array(
-				'adminLoginAttemptId' => $adminLoginAttemptId,
 				'adminId' => $this->originalAdminId,
 				'clientIp' => $clientIp,
 				'enteredUsername' => $enteredUsername,
@@ -216,11 +210,9 @@
             $uuid = new uuid('table', 'adminSavedLogin', 'adminSavedLoginId');
 			
 			array_push($this->addedSavedLogins, [$adminSavedLoginId => array(
-				'adminSavedLoginId' => $adminSavedLoginId,
 				'dateTimeAdded' => $dateTimeAdded
 				)]);
 			array_push($this->savedLogins, [$adminSavedLoginId => array(
-				'adminSavedLoginId' => $adminSavedLoginId,
 				'dateTimeAdded' => $dateTimeAdded
 			)]);
 		}
@@ -233,11 +225,9 @@
 			}
 			unset($this->savedLogins[$adminSavedLoginId]);
 			array_push($this->updatedSavedLogins, [$adminSavedLoginId => array(
-				'adminSavedLoginId' => $adminSavedLoginId,
 				'dateTimeAdded' => $dateTimeAdded
 			)]);
 			array_push($this->savedLogins, [$adminSavedLoginId => array(
-				'adminSavedLoginId' => $adminSavedLoginId,
 				'dateTimeAdded' => $dateTimeAdded
 			)]);
 		}
@@ -282,14 +272,14 @@
 
 			// loginAttempt Adds (SANITIZE!!!!)
 
-			foreach ($addedLoginAttempts as $entry) {
+			foreach ($addedLoginAttempts as $id => $attributes) {
 				if (!$this->db->insert('adminLoginAttempt', array(
-					'adminLoginAttemptId' => $this->db->sanitize($entry['adminLoginAttemptId']),
+					'adminLoginAttemptId' => $this->db->sanitize($id),
 					'adminId' => $this->db->sanitize($this->originalAdminId),
-					'clientIp' => $this->db->sanitize($entry['clientIp']),
-					'enteredUsername' => $this->db->sanitize($entry['enteredUsername']),
-					'result' => $this->db->sanitize($entry['result']),
-					'dateTimeAdded' => $this->db->sanitize($entry['dateTimeAdded'])
+					'clientIp' => $this->db->sanitize($attributes['clientIp']),
+					'enteredUsername' => $this->db->sanitize($attributes['enteredUsername']),
+					'result' => $this->db->sanitize($attributes['result']),
+					'dateTimeAdded' => $this->db->sanitize($attributes['dateTimeAdded'])
 				))) {
 					return $this->db->getLastError();
 				}
@@ -297,21 +287,21 @@
 
 			// loginAttempt Updates (SANITIZE!!!!)
 
-			foreach ($updatedLoginAttempts as $entry) {
+			foreach ($updatedLoginAttempts as $id => $attributes) {
 				if (!$this->db->update('adminLoginAttempt', array(
-					'clientIp' => $this->db->sanitize($entry['clientIp']),
-					'enteredUsername' => $this->db->sanitize($entry['enteredUsername']),
-					'result' => $this->db->sanitize($entry['result']),
-					'dateTimeAdded' => $this->db->sanitize($entry['dateTimeAdded'])
-				), "WHERE adminLoginAttemptId = '".$this->db->sanitize($entry['adminLoginAttemptId'])."'", 1)) {
+					'clientIp' => $this->db->sanitize($attributes['clientIp']),
+					'enteredUsername' => $this->db->sanitize($attributes['enteredUsername']),
+					'result' => $this->db->sanitize($attributes['result']),
+					'dateTimeAdded' => $this->db->sanitize($attributes['dateTimeAdded'])
+				), "WHERE adminLoginAttemptId = '".$this->db->sanitize($id)."'", 1)) {
 					return $this->db->getLastError();
 				}
 			}
 
 			// loginAttempt Removes (SANITIZE!!!!)
 
-			foreach ($removedLoginAttempts as $entry) {
-				if (!$this->db->delete('adminLoginAttempt', "WHERE adminLoginAttemptId = '".$this->db->sanitize($entry['adminLoginAttemptId'])."'", 1)) {
+			foreach ($removedLoginAttempts as $id) {
+				if (!$this->db->delete('adminLoginAttempt', "WHERE adminLoginAttemptId = '".$this->db->sanitize($id['adminLoginAttemptId'])."'", 1)) {
 					return $this->db->getLastError();
 				}
 			}
@@ -320,11 +310,11 @@
 
 			// savedLogin Adds
 
-			foreach ($addedSavedLogins as $entry) {
+			foreach ($addedSavedLogins as $id => $attributes) {
 				if (!$this->db->insert('adminSavedLogin', array(
-					'adminSavedLoginId' => $this->db->sanitize($entry['adminSavedLoginId']),
+					'adminSavedLoginId' => $this->db->sanitize($id),
 					'adminId' => $this->db->sanitize($this->originalAdminId),
-					'dateTimeAdded' => $this->db->sanitize($entry['dateTimeAdded'])
+					'dateTimeAdded' => $this->db->sanitize($attributes['dateTimeAdded'])
 				))) {
 					return $this->db->getLastError();
 				}
@@ -332,18 +322,18 @@
 
 			// savedLogin Updates
 
-			foreach ($updatedSavedLogins as $entry) {
+			foreach ($updatedSavedLogins as $id => $attributes) {
 				if (!$this->db->update('adminSavedLogin', array(
-					'dateTimeAdded' => $this->db->sanitize($entry['dateTimeAdded'])
-				), "WHERE adminSavedLoginId = '".$this->db->sanitize($entry['adminSavedLoginId'])."'", 1)) {
+					'dateTimeAdded' => $this->db->sanitize($attributes['dateTimeAdded'])
+				), "WHERE adminSavedLoginId = '".$this->db->sanitize($id)."'", 1)) {
 					return $this->db->getLastError();
 				}
 			}
 
 			// savedLogin Removes
 
-			foreach ($removedSavedLogins as $entry) {
-				if (!$this->db->delete('adminSavedLogin', "WHERE adminSavedLoginId = '".$this->db->sanitize($entry['adminSavedLoginId'])."'", 1)) {
+			foreach ($removedSavedLogins as $id) {
+				if (!$this->db->delete('adminSavedLogin', "WHERE adminSavedLoginId = '".$this->db->sanitize($id['adminSavedLoginId'])."'", 1)) {
 					return $this->db->getLastError();
 				}
 			}
