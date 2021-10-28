@@ -22,9 +22,9 @@
 		public $dateTimeJoined;
 		public $dateTimeLeft;
 
-		// Arrays that allow the you to see the linked data. Not used when querying the database, but are useful when retrieving data.
-		public $loginAttempts; // (adminLoginAttemptId => ('clientIp', 'enteredUsername', 'result', 'dateTimeAdded'))
-		public $savedLogins; // (adminSavedLoginId => ('dateTimeAdded'))
+		// Arrays to store linked data.
+		public $loginAttempts;
+		public $savedLogins;
 
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------

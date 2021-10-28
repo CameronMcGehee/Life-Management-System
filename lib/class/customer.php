@@ -35,12 +35,12 @@
 		public $notes;
 		public $dateTimeAdded;
 
-		// Arrays that allow the you to see the linked data. Not used when querying the database, but are useful when retrieving data.
-		public $loginAttempts; // (customerLoginAttemptId => ('customerId', 'clientIp', 'enteredUsername', 'result', 'dateTimeAdded'))
-		public $savedLogins; // (customerSavedLoginId => ('dateTimeAdded'))
-		public $phoneNumbers; // (customerPhoneNumberId => ('phonePrefix', 'phone1', 'phone2', 'phone3', 'description', 'dateTimeAdded'))
-		public $emailAddresses; // (customerEmailAddressId => ('email', 'description', 'dateTimeAdded'))
-		public $tags; // (customerTagId => ('tagName', 'dateTimeAdded'))
+		// Arrays to store linked data.
+		public $loginAttempts;
+		public $savedLogins;
+		public $phoneNumbers;
+		public $emailAddresses;
+		public $tags;
 
 		function __construct(string $customerId = '') {
 

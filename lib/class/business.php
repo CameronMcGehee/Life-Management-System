@@ -6,7 +6,7 @@
 		private databaseManager $db;
 
 		private string $staticBusinessId; // Used when updating the table incase the adminId has been changed after instantiation.
-		
+
 		public bool $existed; // Can be used to see whether the given entity existed already at the time of instantiation
 
 		// Main database attributes
@@ -128,6 +128,10 @@
 		public $isArchived;
 		public $dateTimeAdded;
 
+		// Arrays to store linked data.
+		public $admins;
+		public $customers;
+
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 		// Init variables
@@ -139,6 +143,10 @@
 			// Connect to the database
 			require_once dirname(__FILE__)."/../manager/databaseManager.php";
 			$this->db = new databaseManager;
+
+			// Init arrays
+			$this->admins = array();
+			$this->customers = array();
 
 			// Fetch from database
 			$fetch = $this->db->select('business', '*', "WHERE businessId ='".$this->db->sanitize($businessId)."'");
@@ -402,6 +410,65 @@
 
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// Linked data pull functions
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+
+		public function pullAdmins () {
+			$this->loginAttempts = array();
+			// If there are entries for customerloginAttempt then push them to the array
+			$fetch = $this->db->select('adminBusinessBridge', '*', "WHERE businessId = '$this->staticBusinessId'");
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->admins, $row['adminId']);
+				}
+			}
+		}
+		
+		public function pullCustomers () {
+			$this->loginAttempts = array();
+			// If there are entries for customerloginAttempt then push them to the array
+			$fetch = $this->db->select('customer', '*', "WHERE businessId = '$this->staticBusinessId'");
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->customers, $row['customerId']);
+				}
+			}
+		}
+
+		/*
+
+		customerTags
+		authTokens
+		crews
+		quoteRequests
+		serviceListings
+		customerServiceTickets
+		chemicals
+		equipment
+		docIds
+		fileUploads
+		estimates
+		invoices
+		jobSingulars
+		jobRecurrings
+		jobCompleteds
+		staff
+		staffTags
+		timeLogs
+		payrollDues
+		payrollSatisfactions
+		mailoutCampaignTemplates
+		emailSends
+		smsCampaignTemplates
+		smsSends
+		blogPosts
+		blogTags
+
+		*/
+
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 		// Set function
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -545,9 +612,8 @@
 					return $this->db->getLastError();
 				}
 			}
-
+			return true;
 		}
-
 	}
 
 ?>
