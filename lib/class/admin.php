@@ -5,7 +5,7 @@
 		private string $setType;
 		private databaseManager $db;
 
-		private string $staticAdminId; // Used when updating the table incase the adminId has been changed after instantiation
+		private string $dbAdminId; // Used when updating the table incase the adminId has been changed after instantiation
 
 		public bool $existed; // Used to see whether the given entity existed already (in the database) at the time of instantiation
 
@@ -86,7 +86,7 @@
 				$this->dateTimeLeft = NULL;
 			}
 
-			$this->staticAdminId = $this->adminId;
+			$this->dbAdminId = $this->adminId;
 			
 		}
 
@@ -103,7 +103,7 @@
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('adminLoginAttempt', 'adminLoginAttempts', "WHERE adminId = '$this->staticAdminId'".$params);
+			$fetch = $this->db->select('adminLoginAttempt', 'adminLoginAttempts', "WHERE adminId = '$this->dbAdminId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->loginAttempts, $row['adminLoginAttempts']);
@@ -123,7 +123,7 @@
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('adminSavedLogin', 'adminSavedLoginId', "WHERE adminId = '$this->staticAdminId'".$params);
+			$fetch = $this->db->select('adminSavedLogin', 'adminSavedLoginId', "WHERE adminId = '$this->dbAdminId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->savedLogins, $row['adminSavedLoginId']);
@@ -143,7 +143,7 @@
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('adminBusinessBridge', 'businessId', "WHERE adminId = '$this->staticAdminId'".$params);
+			$fetch = $this->db->select('adminBusinessBridge', 'businessId', "WHERE adminId = '$this->dbAdminId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->businesses, $row['businessId']);
@@ -163,7 +163,7 @@
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('adminCustomerServiceMessage', 'adminCustomerServiceMessageId', "WHERE adminId = '$this->staticAdminId'".$params);
+			$fetch = $this->db->select('adminCustomerServiceMessage', 'adminCustomerServiceMessageId', "WHERE adminId = '$this->dbAdminId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->customerServiceMessages, $row['adminCustomerServiceMessageId']);
@@ -183,7 +183,7 @@
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('estimateApproval', 'estimateApprovalId', "WHERE approvedByAdminId = '$this->staticAdminId'".$params);
+			$fetch = $this->db->select('estimateApproval', 'estimateApprovalId', "WHERE approvedByAdminId = '$this->dbAdminId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->businesses, $row['estimateApprovalId']);
@@ -205,7 +205,7 @@
 		public function set() {
 
 			$attributes = array(
-				'adminId' => $this->db->sanitize($this->staticAdminId),
+				'adminId' => $this->db->sanitize($this->dbAdminId),
 				'username' => $this->db->sanitize($this->username),
 				'password' => $this->db->sanitize($this->password),
 				'email' => $this->db->sanitize($this->email),
@@ -220,7 +220,7 @@
 
 			if ($this->setType == 'UPDATE') {
 				// Update the values in the database after sanitizing them
-				if ($this->db->update('admin', $attributes, "WHERE adminId = '".$this->db->sanitize($this->staticAdminId)."'", 1)) {
+				if ($this->db->update('admin', $attributes, "WHERE adminId = '".$this->db->sanitize($this->dbAdminId)."'", 1)) {
 					return true;
 				} else {
 					return $this->db->getLastError();
@@ -235,6 +235,60 @@
 					return $this->db->getLastError();
 				}
 			}
+			return true;
+		}
+
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// Delete function
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+
+		public function delete() {
+
+			// Remove row from database
+			if (!$this->db->delete('admin', "WHERE adminId = '".$this->db->sanitize($this->dbAdminId)."'", 1)) {
+				return $this->db->getLastError();
+			}
+
+			// Generate a new random id
+			require_once dirname(__FILE__)."/tableUuid.php";
+			$uuid = new tableUuid('admin', 'adminId');
+			$this->adminId = $uuid->generatedId;
+
+			// Reset all variables
+
+			$this->username = '';
+			$this->password = '';
+			$this->email = '';
+			$this->surname = NULL;
+			$this->firstName = '';
+			$this->lastName = '';
+			$this->profilePicture = NULL;
+			$this->allowSignIn = '1';
+			// Default dateTimeJoined to now since it is likely going to be inserted at this time
+			$currentDateTime = new DateTime();
+			$this->dateTimeJoined = $currentDateTime->format('Y-m-d H:i:s');
+
+			$this->dateTimeLeft = NULL;
+
+			// Clear arrays
+			$this->loginAttempts = array();
+			$this->savedLogins = array();
+			$this->businesses = array();
+			$this->customerServiceMessages = array();
+			$this->estimateApprovals = array();
+
+			// Default dateTimeAdded to now since it is likely going to be inserted at this time
+			$currentDateTime = new DateTime();
+			$this->dateTimeAdded = $currentDateTime->format('Y-m-d H:i:s');
+
+			// Set setType to INSERT since there is no longer a row to update
+			$this->setType = 'INSERT';
+
+			// Set existed to false since it no longer exists
+			$this->existed = false;
+
 			return true;
 		}
 	}
