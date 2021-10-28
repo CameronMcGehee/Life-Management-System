@@ -42,27 +42,6 @@
 		public $emailAddresses; // (customerEmailAddressId => ('email', 'description', 'dateTimeAdded'))
 		public $tags; // (customerTagId => ('tagName', 'dateTimeAdded'))
 
-		// Arrays to track possible database updates
-		private $addedLoginAttempts; // (customerLoginAttemptId => ('customerId', 'clientIp', 'enteredUsername', 'result', 'dateTimeAdded'))
-		private $updatedLoginAttempts; // (customerLoginAttemptId => ('customerId', 'clientIp', 'enteredUsername', 'result', 'dateTimeAdded'))
-		private $removedLoginAttempts; // (customerLoginAttemptId)
-		
-		private $addedSavedLogins; // (customerSavedLoginId => ('dateTimeAdded'))
-		private $updatedSavedLogins; // (customerSavedLoginId => ('dateTimeAdded'))
-		private $removedSavedLogins; // (customerSavedLoginId)
-
-		private $addedPhoneNumbers; // (customerPhoneNumberId => ('phonePrefix', 'phone1', 'phone2', 'phone3', 'description', 'dateTimeAdded'))
-		private $updatedPhoneNumbers; // (customerPhoneNumberId => ('phonePrefix', 'phone1', 'phone2', 'phone3', 'description', 'dateTimeAdded'))
-		private $removedPhoneNumbers; // (customerPhoneNumberId)
-
-		private $addedEmailAddresses; // (customerEmailAddressId => ('email', 'description', 'dateTimeAdded'))
-		private $updatedEmailAddresses; // (customerEmailAddressId => ('email', 'description', 'dateTimeAdded'))
-		private $removedEmailAddresses; // (customerEmailAddressId)
-
-		private $addedTags; // (customerTagId => ('tagName', 'dateTimeAdded'))
-		private $updatedTags; // (customerTagId => ('tagName', 'dateTimeAdded'))
-		private $removedTags; // (customerTagId)
-
 		function __construct(string $customerId = '') {
 
 			// Connect to the database
@@ -72,26 +51,9 @@
 			// Init arrays
 			$this->loginAttempts = array();
 			$this->savedLogins = array();
-
-			$this->addedLoginAttempts = array();
-			$this->updatedLoginAttempts = array();
-			$this->removedLoginAttempts = array();
-			
-			$this->addedSavedLogins = array();
-			$this->updatedSavedLogins = array();
-			$this->removedSavedLogins = array();
-
-			$this->addedPhoneNumbers = array();
-			$this->updatedPhoneNumbers = array();
-			$this->removedPhoneNumbers = array();
-
-			$this->addedEmailAddresses = array();
-			$this->updatedEmailAddresses = array();
-			$this->removedEmailAddresses = array();
-
-			$this->addedTags = array();
-			$this->updatedTags = array();
-			$this->removedTags = array();
+			$this->phoneNumbers = array();
+			$this->emailAddresses = array();
+			$this->tags = array();
 
 			// Fetch from database
 			$fetch = $this->db->select('customer', '*', "WHERE customerId ='$customerId'");
@@ -174,7 +136,7 @@
 
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
-		// Linked data pull functions. Will get the data from the database and will reset any changes made to the public arrays before calling set().
+		// Linked data pull functions
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -184,19 +146,9 @@
 			$fetch = $this->db->select('customerLoginAttempt', '*', "WHERE customerId = '$this->staticCustomerId'");
 			if ($fetch) {
 				foreach ($fetch as $row) {
-					$this->loginAttempts[$row['customerLoginAttemptId']] = array(
-						'businessId' => $row['businessId'],
-						'clientIp' => $row['clientIp'],
-						'enteredUsername' => $row['enteredUsername'],
-						'result' => $row['result'],
-						'dateTimeAdded' => $row['dateTimeAdded']
-					);
+					array_push($this->loginAttempts, $row['customerLoginAttemptId']);
 				}
 			}
-			// Clear change arrays
-			$this->addedLoginAttempts = array();
-			$this->updatedLoginAttempts = array();
-			$this->removedLoginAttempts = array();
 		}
 
 		public function pullSavedLogins() {
@@ -205,16 +157,9 @@
 			$fetch = $this->db->select('customerSavedLogin', '*', "WHERE customerId = '$this->staticCustomerId'");
 			if ($fetch) {
 				foreach ($fetch as $row) {
-					$this->savedLogins[$row['customerSavedLoginId']] = array(
-						'businessId' => $row['businessId'],
-						'dateTimeAdded' => $row['dateTimeAdded']
-					);
+					array_push($this->loginAttempts, $row['customerSavedLoginId']);
 				}
 			}
-			// Clear change arrays
-			$this->addedSavedLogins = array();
-			$this->updatedSavedLogins = array();
-			$this->removedSavedLogins = array();
 		}
 
 		public function pullPhoneNumbers() {
@@ -223,20 +168,9 @@
 			$fetch = $this->db->select('customerPhoneNumber', '*', "WHERE customerId = '$this->staticCustomerId'");
 			if ($fetch) {
 				foreach ($fetch as $row) {
-					$this->phoneNumbers[$row['customerPhoneNumberId']] = array(
-						'phonePrefix' => $row['phonePrefix'],
-						'phone1' => $row['phone1'],
-						'phone2' => $row['phone2'],
-						'phone3' => $row['phone3'],
-						'description' => $row['description'],
-						'dateTimeAdded' => $row['dateTimeAdded'],
-					);
+					array_push($this->phoneNumbers, $row['customerPhoneNumberId']);
 				}
 			}
-			// Clear change arrays
-			$this->addedPhoneNumbers = array();
-			$this->updatedPhoneNumbers = array();
-			$this->removedPhoneNumbers = array();
 		}
 
 		public function pullEmailAddresses() {
@@ -245,17 +179,9 @@
 			$fetch = $this->db->select('customerEmailAddress', '*', "WHERE customerId = '$this->staticCustomerId'");
 			if ($fetch) {
 				foreach ($fetch as $row) {
-					$this->emailAddresses[$row['customerEmailAddressId']] = array(
-						'email' => $row['email'],
-						'description' => $row['description'],
-						'dateTimeAdded' => $row['dateTimeAdded']
-					);
+					array_push($this->emailAddresses, $row['customerEmailAddressId']);
 				}
 			}
-			// Clear change arrays
-			$this->addedEmailAddresses = array();
-			$this->updatedEmailAddresses = array();
-			$this->removedEmailAddresses = array();
 		}
 
 		public function pullTags() {
@@ -264,276 +190,9 @@
 			$fetch = $this->db->select('customerTag', '*', "WHERE customerId = '$this->staticCustomerId'");
 			if ($fetch) {
 				foreach ($fetch as $row) {
-					$this->tags[$row['customerTagId']] = array(
-						'tagName' => $row['tagName'],
-						'dateTimeAdded' => $row['dateTimeAdded']
-					);
+					array_push($this->tags, $row['customerTagId']);
 				}
 			}
-			// Clear change arrays
-			$this->addedTags = array();
-			$this->updatedTags = array();
-			$this->removedTags = array();
-		}
-
-		// -------------------------------------------------------------------------------------------------------------------------------------------------------
-		// -------------------------------------------------------------------------------------------------------------------------------------------------------
-		// Linked data handling functions
-		// -------------------------------------------------------------------------------------------------------------------------------------------------------
-		// -------------------------------------------------------------------------------------------------------------------------------------------------------
-
-		// loginAttempt
-
-		public function addLoginAttempt($clientIp, $enteredUsername, $result, $dateTimeAdded = '') {
-			// If dateTimeAdded is not provided, use the current time.
-			if ($dateTimeAdded == '') {
-				$currentDateTime = new DateTime();
-				$dateTimeAdded = $currentDateTime->format('Y-m-d H:i:s');
-			}
-
-			// Generate a new id
-			require_once dirname(__FILE__)."/../class/uuid.php";
-            $uuid = new uuid('table', 'customerLoginAttempt', 'customerLoginAttemptId');
-			
-			$this->addedLoginAttempts[$uuid->generatedId] = array(
-				'clientIp' => $clientIp,
-				'enteredUsername' => $enteredUsername,
-				'result' => $result,
-				'dateTimeAdded' => $dateTimeAdded
-			);
-			$this->loginAttempts[$uuid->generatedId] = array(
-				'clientIp' => $clientIp,
-				'enteredUsername' => $enteredUsername,
-				'result' => $result,
-				'dateTimeAdded' => $dateTimeAdded
-			);
-
-			return $uuid->generatedId;
-		}
-
-		public function updateLoginAttempt($customerLoginAttemptId, $clientIp, $enteredUsername, $result, $dateTimeAdded = '') {
-			// If dateTimeAdded is not provided, use the current time.
-			if ($dateTimeAdded == '') {
-				$currentDateTime = new DateTime();
-				$dateTimeAdded = $currentDateTime->format('Y-m-d H:i:s');
-			}
-			$this->updatedLoginAttempts[$customerLoginAttemptId] = array(
-				'clientIp' => $clientIp,
-				'enteredUsername' => $enteredUsername,
-				'result' => $result,
-				'dateTimeAdded' => $dateTimeAdded
-			);
-			$this->loginAttempts[$customerLoginAttemptId] = array(
-				'clientIp' => $clientIp,
-				'enteredUsername' => $enteredUsername,
-				'result' => $result,
-				'dateTimeAdded' => $dateTimeAdded
-			);
-		}
-
-		public function removeLoginAttempt($customerLoginAttemptId) {
-			array_push($this->removedLoginAttempts, $customerLoginAttemptId);
-			unset($this->loginAttempts[$customerLoginAttemptId]);
-		}
-
-		// savedLogin
-
-		public function addSavedLogin($dateTimeAdded = '') {
-			// If dateTimeAdded is not provided, use the current time.
-			if ($dateTimeAdded == '') {
-				$currentDateTime = new DateTime();
-				$dateTimeAdded = $currentDateTime->format('Y-m-d H:i:s');
-			}
-
-			// Generate a new id
-			require_once dirname(__FILE__)."/../class/uuid.php";
-            $uuid = new uuid('table', 'customerSavedLogin', 'customerSavedLoginId');
-			
-			$this->addedSavedLogins[$uuid->generatedId] = array(
-				'dateTimeAdded' => $dateTimeAdded
-			);
-			$this->savedLogins[$uuid->generatedId] = array(
-				'dateTimeAdded' => $dateTimeAdded
-			);
-
-			return $uuid->generatedId;
-		}
-
-		public function updateSavedLogin($customerSavedLoginId, $dateTimeAdded = '') {
-			// If dateTimeAdded is not provided, use the current time.
-			if ($dateTimeAdded == '') {
-				$currentDateTime = new DateTime();
-				$dateTimeAdded = $currentDateTime->format('Y-m-d H:i:s');
-			}
-			$this->updatedSavedLogins[$customerSavedLoginId] = array(
-				'dateTimeAdded' => $dateTimeAdded
-			);
-			$this->savedLogins[$customerSavedLoginId] = array(
-				'dateTimeAdded' => $dateTimeAdded
-			);
-		}
-
-		public function removeSavedLogin($customerSavedLoginId) {
-			array_push($this->removedSavedLogins, $customerSavedLoginId);
-			unset($this->savedLogins[$customerSavedLoginId]);
-		}
-
-		// phoneNumber
-
-		public function addPhoneNumber($phonePrefix, $phone1, $phone2, $phone3, $description, $dateTimeAdded = '') {
-			// If dateTimeAdded is not provided, use the current time.
-			if ($dateTimeAdded == '') {
-				$currentDateTime = new DateTime();
-				$dateTimeAdded = $currentDateTime->format('Y-m-d H:i:s');
-			}
-
-			// Generate a new id
-			require_once dirname(__FILE__)."/../class/uuid.php";
-            $uuid = new uuid('table', 'customerPhoneNumber', 'customerPhoneNumberId');
-			
-			$this->addedPhoneNumbers[$uuid->generatedId] = array(
-				'phonePrefix' => $phonePrefix,
-				'phone1' => $phone1,
-				'phone2' => $phone2,
-				'phone3' => $phone3,
-				'description' => $description,
-				'dateTimeAdded' => $dateTimeAdded
-			);
-			$this->phoneNumbers[$uuid->generatedId] = array(
-				'phonePrefix' => $phonePrefix,
-				'phone1' => $phone1,
-				'phone2' => $phone2,
-				'phone3' => $phone3,
-				'description' => $description,
-				'dateTimeAdded' => $dateTimeAdded
-			);
-
-			return $uuid->generatedId;
-		}
-
-		public function updatePhoneNumber($customerPhoneNumberId, $phonePrefix, $phone1, $phone2, $phone3, $description, $dateTimeAdded = '') {
-			// If dateTimeAdded is not provided, use the current time.
-			if ($dateTimeAdded == '') {
-				$currentDateTime = new DateTime();
-				$dateTimeAdded = $currentDateTime->format('Y-m-d H:i:s');
-			}
-			$this->updatedPhoneNumbers[$customerPhoneNumberId] = array(
-				'phonePrefix' => $phonePrefix,
-				'phone1' => $phone1,
-				'phone2' => $phone2,
-				'phone3' => $phone3,
-				'description' => $description,
-				'dateTimeAdded' => $dateTimeAdded
-			);
-			$this->phoneNumbers[$customerPhoneNumberId] = array(
-				'phonePrefix' => $phonePrefix,
-				'phone1' => $phone1,
-				'phone2' => $phone2,
-				'phone3' => $phone3,
-				'description' => $description,
-				'dateTimeAdded' => $dateTimeAdded
-			);
-		}
-
-		public function removePhoneNumber($customerPhoneNumberId) {
-			array_push($this->removedPhoneNumbers, $customerPhoneNumberId);
-			unset($this->phoneNumbers[$customerPhoneNumberId]);
-		}
-
-		// emailAddress
-
-		public function addEmailAddress($email, $description, $dateTimeAdded = '') {
-			// If dateTimeAdded is not provided, use the current time.
-			if ($dateTimeAdded == '') {
-				$currentDateTime = new DateTime();
-				$dateTimeAdded = $currentDateTime->format('Y-m-d H:i:s');
-			}
-
-			// Generate a new id
-			require_once dirname(__FILE__)."/../class/uuid.php";
-            $uuid = new uuid('table', 'customerEmailAddress', 'customerEmailAddressId');
-			
-			$this->addedEmailAddresses[$uuid->generatedId] = array(
-				'email' => $email,
-				'description' => $description,
-				'dateTimeAdded' => $dateTimeAdded
-			);
-			$this->emailAddresses[$uuid->generatedId] = array(
-				'email' => $email,
-				'description' => $description,
-				'dateTimeAdded' => $dateTimeAdded
-			);
-
-			return $uuid->generatedId;
-		}
-
-		public function updateEmailAddress($customerEmailAddressId, $email, $description, $dateTimeAdded = '') {
-			// If dateTimeAdded is not provided, use the current time.
-			if ($dateTimeAdded == '') {
-				$currentDateTime = new DateTime();
-				$dateTimeAdded = $currentDateTime->format('Y-m-d H:i:s');
-			}
-			$this->updatedEmailAddresses[$customerEmailAddressId] = array(
-				'email' => $email,
-				'description' => $description,
-				'dateTimeAdded' => $dateTimeAdded
-			);
-			$this->emailAddresses[$customerEmailAddressId] = array(
-				'email' => $email,
-				'description' => $description,
-				'dateTimeAdded' => $dateTimeAdded
-			);
-		}
-
-		public function removeEmailAddress($customerEmailAddressId) {
-			array_push($this->removedEmailAddresses, $customerEmailAddressId);
-			unset($this->emailAddresses[$customerEmailAddressId]);
-		}
-
-		// tag
-
-		public function addTag($tagName, $dateTimeAdded = '') {
-			// If dateTimeAdded is not provided, use the current time.
-			if ($dateTimeAdded == '') {
-				$currentDateTime = new DateTime();
-				$dateTimeAdded = $currentDateTime->format('Y-m-d H:i:s');
-			}
-
-			// Generate a new id
-			require_once dirname(__FILE__)."/../class/uuid.php";
-            $uuid = new uuid('table', 'customerTag', 'customerTagId');
-			
-			$this->addedTags[$uuid->generatedId] = array(
-				'tagName' => $tagName,
-				'dateTimeAdded' => $dateTimeAdded
-			);
-			$this->Tags[$uuid->generatedId] = array(
-				'tagName' => $tagName,
-				'dateTimeAdded' => $dateTimeAdded
-			);
-
-			return $uuid->generatedId;
-		}
-
-		public function updateTag($customerTagId, $tagName, $dateTimeAdded = '') {
-			// If dateTimeAdded is not provided, use the current time.
-			if ($dateTimeAdded == '') {
-				$currentDateTime = new DateTime();
-				$dateTimeAdded = $currentDateTime->format('Y-m-d H:i:s');
-			}
-			$this->updatedTags[$customerTagId] = array(
-				'tagName' => $tagName,
-				'dateTimeAdded' => $dateTimeAdded
-			);
-			$this->tags[$customerTagId] = array(
-				'tagName' => $tagName,
-				'dateTimeAdded' => $dateTimeAdded
-			);
-		}
-
-		public function removeTag($customerTagId) {
-			array_push($this->removedTags, $customerTagId);
-			unset($this->tags[$customerTagId]);
 		}
 
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -588,148 +247,7 @@
 					return $this->db->getLastError();
 				}
 			}
-
-			// Linked tables --------------------------------------------------------------------------
-
-			// loginAttempt adds
-			foreach ($this->addedLoginAttempts as $id => $attributes) {
-				if (!$this->db->insert('customerLoginAttempt', array(
-					'customerLoginAttemptId' => $this->db->sanitize($id),
-					'businessId' => $this->db->sanitize($this->staticBusinessId),
-					'customerId' => $this->db->sanitize($this->staticCustomerId),
-					'clientIp' => $this->db->sanitize($attributes['clientIp']),
-					'enteredUsername' => $this->db->sanitize($attributes['enteredUsername']),
-					'result' => $this->db->sanitize($attributes['result']),
-					'dateTimeAdded' => $this->db->sanitize($attributes['dateTimeAdded'])
-				))) {
-					return $this->db->getLastError();
-				}
-			}
-
-			// loginAttempt updates
-			foreach ($this->updatedLoginAttempts as $id => $attributes) {
-				if (!$this->db->update('customerLoginAttempt', array(
-					'clientIp' => $this->db->sanitize($attributes['clientIp']),
-					'enteredUsername' => $this->db->sanitize($attributes['enteredUsername']),
-					'result' => $this->db->sanitize($attributes['result']),
-					'dateTimeAdded' => $this->db->sanitize($attributes['dateTimeAdded'])
-				), "WHERE customerLoginAttemptId = '".$this->db->sanitize($id)."'", 1)) {
-					return $this->db->getLastError();
-				}
-			}
-
-			// loginAttempt removes
-			foreach ($this->removedLoginAttempts as $id) {
-				if (!$this->db->delete('customerLoginAttempt', "WHERE customerLoginAttemptId = '".$this->db->sanitize($id)."'", 1)) {
-					return $this->db->getLastError();
-				}
-			}
-
-			// -----------------------------------------------------------------------------------------
-
-			// savedLogin adds
-			foreach ($this->addedSavedLogins as $id => $attributes) {
-				if (!$this->db->insert('customerSavedLogin', array(
-					'customerSavedLoginId' => $this->db->sanitize($id),
-					'businessId' => $this->db->sanitize($this->staticBusinessId),
-					'customerId' => $this->db->sanitize($this->staticCustomerId),
-					'dateTimeAdded' => $this->db->sanitize($attributes['dateTimeAdded'])
-				))) {
-					return $this->db->getLastError();
-				}
-			}
-
-			// savedLogin updates
-			foreach ($this->updatedSavedLogins as $id => $attributes) {
-				if (!$this->db->update('customerSavedLogin', array(
-					'dateTimeAdded' => $this->db->sanitize($attributes['dateTimeAdded'])
-				), "WHERE customerSavedLoginId = '".$this->db->sanitize($id)."'", 1)) {
-					return $this->db->getLastError();
-				}
-			}
-
-			// savedLogin removes
-			foreach ($this->removedSavedLogins as $id) {
-				if (!$this->db->delete('customerSavedLogin', "WHERE customerSavedLoginId = '".$this->db->sanitize($id)."'", 1)) {
-					return $this->db->getLastError();
-				}
-			}
-
-			// -----------------------------------------------------------------------------------------
-
-			// phoneNumber adds
-
-			foreach ($this->addedPhoneNumbers as $id => $attributes) {
-				if (!$this->db->insert('customerPhoneNumber', array(
-					'customerPhoneNumberId' => $this->db->sanitize($id),
-					'businessId' => $this->db->sanitize($this->staticBusinessId),
-					'customerId' => $this->db->sanitize($this->staticCustomerId),
-					'phonePrefix' => $this->db->sanitize($attributes['phonePrefix']),
-					'phone1' => $this->db->sanitize($attributes['phone1']),
-					'phone2' => $this->db->sanitize($attributes['phone2']),
-					'phone3' => $this->db->sanitize($attributes['phone3']),
-					'description' => $this->db->sanitize($attributes['description']),
-					'dateTimeAdded' => $this->db->sanitize($attributes['dateTimeAdded'])
-				))) {
-					return $this->db->getLastError();
-				}
-			}
-
-			// phoneNumber updates
-			foreach ($this->updatedPhoneNumbers as $id => $attributes) {
-				if (!$this->db->update('customerPhoneNumber', array(
-					'phonePrefix' => $this->db->sanitize($attributes['phonePrefix']),
-					'phone1' => $this->db->sanitize($attributes['phone1']),
-					'phone2' => $this->db->sanitize($attributes['phone2']),
-					'phone3' => $this->db->sanitize($attributes['phone3']),
-					'description' => $this->db->sanitize($attributes['description']),
-					'dateTimeAdded' => $this->db->sanitize($attributes['dateTimeAdded'])
-				), "WHERE customerPhoneNumberId = '".$this->db->sanitize($id)."'", 1)) {
-					return $this->db->getLastError();
-				}
-			}
-
-			// phoneNumber removes
-			foreach ($this->removedPhoneNumbers as $id) {
-				if (!$this->db->delete('customerPhoneNumber', "WHERE customerPhoneNumberId = '".$this->db->sanitize($id)."'", 1)) {
-					return $this->db->getLastError();
-				}
-			}
-
-			// -----------------------------------------------------------------------------------------
-
-			// emailAddress adds
-
-			foreach ($this->addedEmailAddresses as $id => $attributes) {
-				if (!$this->db->insert('customerEmailAddress', array(
-					'customerEmailAddressId' => $this->db->sanitize($id),
-					'businessId' => $this->db->sanitize($this->staticBusinessId),
-					'customerId' => $this->db->sanitize($this->staticCustomerId),
-					'email' => $this->db->sanitize($attributes['email']),
-					'description' => $this->db->sanitize($attributes['description']),
-					'dateTimeAdded' => $this->db->sanitize($attributes['dateTimeAdded'])
-				))) {
-					return $this->db->getLastError();
-				}
-			}
-
-			// emailAddress updates
-			foreach ($this->updatedEmailAddresses as $id => $attributes) {
-				if (!$this->db->update('customerEmailAddress', array(
-					'email' => $this->db->sanitize($attributes['email']),
-					'description' => $this->db->sanitize($attributes['description']),
-					'dateTimeAdded' => $this->db->sanitize($attributes['dateTimeAdded'])
-				), "WHERE customerEmailAddressId = '".$this->db->sanitize($id)."'", 1)) {
-					return $this->db->getLastError();
-				}
-			}
-
-			// emailAddress removes
-			foreach ($this->removedEmailAddresses as $id) {
-				if (!$this->db->delete('customerEmailAddress', "WHERE customerEmailAddressId = '".$this->db->sanitize($id)."'", 1)) {
-					return $this->db->getLastError();
-				}
-			}
+			return true;
 		}
 	}
 
