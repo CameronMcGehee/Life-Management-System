@@ -128,9 +128,60 @@
 		public $isArchived;
 		public $dateTimeAdded;
 
-		// Arrays to store linked data.
+		// Arrays to store linked data
 		public $admins;
 		public $customers;
+		public $authTokens;
+		public $customerPhoneNumbers;
+		public $customerEmailAddresses;
+		public $customerLoginAttempts;
+		public $customerSavedLogins;
+		public $customerTags;
+		public $crews;
+		public $quoteRequests;
+		public $quoteRequestServices;
+		public $serviceListings;
+		public $customerServiceTickets;
+		public $adminCustomerServiceMessages;
+		public $customerCustomerServiceMessages;
+		public $chemicals;
+		public $chemicalImages;
+		public $chemicalTags;
+		public $equipment;
+		public $equipmentImages;
+		public $equipmentTags;
+		public $equipmentMaintenanceLogs;
+		public $equipmentMaintenanceLogImages;
+		public $docIds;
+		public $fileUploads;
+		public $estimates;
+		public $estimateItems;
+		public $estimateApprovals;
+		public $invoices;
+		public $invoiceItems;
+		public $payments;
+		public $properties;
+		public $jobCancellations;
+		public $jobSingulars;
+		public $jobRecurrings;
+		public $jobCompleteds;
+		public $staff;
+		public $staffPhoneNumbers;
+		public $staffEmailAddresses;
+		public $staffLoginAttempts;
+		public $staffSavedLogins;
+		public $staffTags;
+		public $timeLogs;
+		public $payrollDues;
+		public $payrollSatisfactions;
+		public $mailoutCampaignTemplates;
+		public $emailSends;
+		public $emailPixels;
+		public $smsCampaignTemplates;
+		public $smsSends;
+		public $blogPosts;
+		public $blogTags;
+		public $blogPostReadTokens;
 
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -414,13 +465,14 @@
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 
+		// admins
 		public function pullAdmins ($params = '') {
 			$this->loginAttempts = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
 			}
-			// If there are entries for customerloginAttempt then push them to the array
+			// If there are entries, push them to the array
 			$fetch = $this->db->select('adminBusinessBridge', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
@@ -429,13 +481,14 @@
 			}
 		}
 		
+		// customers
 		public function pullCustomers ($params = '') {
 			$this->loginAttempts = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
 			}
-			// If there are entries for customerloginAttempt then push them to the array
+			// If there are entries, push them to the array
 			$fetch = $this->db->select('customer', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
@@ -444,61 +497,822 @@
 			}
 		}
 
-		/*
+		// authTokens
+		public function pullAuthTokens ($params = '') {
+			$this->loginAttempts = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('authToken', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->authTokens, $row['authTokenId']);
+				}
+			}
+		}
 
-		authTokens
-		customerPhoneNumbers
-		customerEmails
-		customerLoginAttempts
-		customerSavedLogins
-		customerTags
-		crews
-		quoteRequests
-		quoteRequestServices
-		serviceListings
-		customerServiceTickets
-		adminCustomerServiceMessages
-		customerCustomerServiceMessages
-		chemicals
-		chemicalImages
-		chemicalTags
-		equipment
-		equipmentImages
-		equipmentTags
-		equipmentMaintenanceLogs
-		equipmentMaintenanceLogImages
-		docIds
-		fileUploads
-		estimates
-		estimateItems
-		esimateApprovals
-		invoices
-		invoiceItems
-		payments
-		properties
-		jobCancellations
-		jobSingulars
-		jobRecurrings
-		jobCompleteds
-		staff
-		staffPhoneNumbers
-		staffEmails
-		staffLoginAttempts
-		staffSavedLogins
-		staffTags
-		timeLogs
-		payrollDues
-		payrollSatisfactions
-		mailoutCampaignTemplates
-		emailSends
-		emailPixels
-		smsCampaignTemplates
-		smsSends
-		blogPosts
-		blogTags
-		blogPostReadTokens
+		// customerPhoneNumbers
+		public function pullCustomerPhoneNumbers ($params = '') {
+			$this->loginAttempts = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('customerPhoneNumber', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->customerPhoneNumbers, $row['customerPhoneNumberId']);
+				}
+			}
+		}
 
-		*/
+		// customerEmailAddresses
+		public function pullCustomerEmailAddresses ($params = '') {
+			$this->loginAttempts = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('customerEmailAddress', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->customerEmailAddresses, $row['customerEmailAddressId']);
+				}
+			}
+		}
+
+		// customerLoginAttempts
+		public function pullCustomerLoginAttempts ($params = '') {
+			$this->loginAttempts = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('customerLoginAttempt', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->customerLoginAttempts, $row['customerLoginAttemptId']);
+				}
+			}
+		}
+
+		// customerSavedLogins
+		public function pullCustomerSavedLogins ($params = '') {
+			$this->loginAttempts = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('customerSavedLogin', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->customerSavedLogins, $row['customerSavedLoginId']);
+				}
+			}
+		}
+
+		// customerTags
+		public function pullCustomerTags ($params = '') {
+			$this->loginAttempts = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('customerTag', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->customerTags, $row['customerTagId']);
+				}
+			}
+		}
+
+		// crews
+		public function pullCrews ($params = '') {
+			$this->loginAttempts = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('crew', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->crews, $row['crewId']);
+				}
+			}
+		}
+
+		// quoteRequests
+		public function pullQuoteRequest ($params = '') {
+			$this->loginAttempts = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('quoteRequest', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->quoteRequests, $row['quoteRequestId']);
+				}
+			}
+		}
+
+		// quoteRequestServices
+		public function pullQuoteRequestServices ($params = '') {
+			$this->loginAttempts = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('quoteRequestService', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->quoteRequestServices, $row['quoteRequestServiceId']);
+				}
+			}
+		}
+
+		// serviceListings
+		public function pullServiceListings ($params = '') {
+			$this->loginAttempts = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('serviceListing', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->serviceListings, $row['serviceListingId']);
+				}
+			}
+		}
+
+		// customerServiceTickets
+		public function pullCustomerServiceTickets ($params = '') {
+			$this->loginAttempts = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('customerServiceTicket', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->customerServiceTickets, $row['customerServiceTicketId']);
+				}
+			}
+		}
+
+		// adminCustomerServiceMessages
+		public function pullAdminCustomerServiceMessages ($params = '') {
+			$this->loginAttempts = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('adminCustomerServiceMessage', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->adminCustomerServiceMessages, $row['adminCustomerServiceMessageId']);
+				}
+			}
+		}
+
+		// customerCustomerServiceMessages
+		public function pullCustomerCustomerServiceMessages ($params = '') {
+			$this->loginAttempts = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('customerCustomerServiceMessage', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->customerCustomerServiceMessages, $row['customerCustomerServiceMessageId']);
+				}
+			}
+		}
+
+		// chemicals
+		public function pullChemicals ($params = '') {
+			$this->loginAttempts = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('chemical', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->chemicals, $row['chemicalId']);
+				}
+			}
+		}
+
+		// chemicalImages
+		public function pullChemicalImages ($params = '') {
+			$this->loginAttempts = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('chemicalImage', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->chemicalImages, $row['chemicalImageId']);
+				}
+			}
+		}
+
+		// chemicalTags
+		public function pullChemicalTags ($params = '') {
+			$this->loginAttempts = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('chemicalTag', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->chemicalTags, $row['chemicalTagId']);
+				}
+			}
+		}
+
+		// equipment
+		public function pullEquipment ($params = '') {
+			$this->loginAttempts = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('equipment', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->equipment, $row['equipmentId']);
+				}
+			}
+		}
+
+		// equipmentImages
+		public function pullEquipmentImages ($params = '') {
+			$this->loginAttempts = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('equipmentImage', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->equipmentImages, $row['equipmentImageId']);
+				}
+			}
+		}
+
+		// equipmentTags
+		public function pullEquipmentTags ($params = '') {
+			$this->loginAttempts = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('equipmentTag', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->equipmentTags, $row['equipmentTagId']);
+				}
+			}
+		}
+
+		// equipmentMaintenanceLogs
+		public function pullEquipmentMaintenanceLogs ($params = '') {
+			$this->loginAttempts = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('equipmentMaintenanceLog', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->equipmentMaintenanceLogs, $row['equipmentMaintenanceLogId']);
+				}
+			}
+		}
+
+		// equipmentMaintenanceLogImages
+		public function pullEquipmentMaintenanceLogImages ($params = '') {
+			$this->loginAttempts = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('equipmentMaintenanceLogImage', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->equipmentMaintenanceLogImages, $row['equipmentMaintenanceLogImageId']);
+				}
+			}
+		}
+
+		// docIds
+		public function pullDocIds ($params = '') {
+			$this->loginAttempts = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('docId', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->docIds, $row['docIdId']);
+				}
+			}
+		}
+
+		// fileUploads
+		public function pullFileUploads ($params = '') {
+			$this->loginAttempts = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('fileUpload', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->fileUploads, $row['fileUploadId']);
+				}
+			}
+		}
+
+		// estimates
+		public function pullEstimates ($params = '') {
+			$this->loginAttempts = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('estimate', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->estimates, $row['estimateId']);
+				}
+			}
+		}
+
+		// estimateItems
+		public function pullEstimateItems ($params = '') {
+			$this->loginAttempts = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('estimateItem', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->estimateItems, $row['estimateItemId']);
+				}
+			}
+		}
+
+		// estimateApprovals
+		public function pullEstimateApprovals ($params = '') {
+			$this->loginAttempts = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('estimateApproval', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->estimateApprovals, $row['estimateApprovalId']);
+				}
+			}
+		}
+
+		// invoices
+		public function pullInvoices ($params = '') {
+			$this->loginAttempts = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('invoice', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->invoices, $row['invoiceId']);
+				}
+			}
+		}
+
+		// invoiceItems
+		public function pullInvoiceItems ($params = '') {
+			$this->loginAttempts = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('invoiceItem', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->invoiceItems, $row['invoiceItemId']);
+				}
+			}
+		}
+
+		// payments
+		public function pullPayments ($params = '') {
+			$this->loginAttempts = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('payment', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->payments, $row['paymentId']);
+				}
+			}
+		}
+
+		// properties
+		public function pullProperties ($params = '') {
+			$this->loginAttempts = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('property', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->properties, $row['propertyId']);
+				}
+			}
+		}
+
+		// jobCancellations
+		public function pullJobCancellations ($params = '') {
+			$this->loginAttempts = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('jobCancellation', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->jobCancellations, $row['jobCancellationId']);
+				}
+			}
+		}
+
+		// jobSingulars
+		public function pullJobSingulars ($params = '') {
+			$this->loginAttempts = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('jobSingular', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->jobSingulars, $row['jobSingularId']);
+				}
+			}
+		}
+
+		// jobRecurrings
+		public function pullJobRecurrings ($params = '') {
+			$this->loginAttempts = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('jobRecurring', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->jobRecurrings, $row['jobRecurringId']);
+				}
+			}
+		}
+
+		// jobCompleteds
+		public function pullJobCompleteds ($params = '') {
+			$this->loginAttempts = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('jobCompleted', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->jobCompleteds, $row['jobCompletedId']);
+				}
+			}
+		}
+
+		// staff
+		public function pullStaff ($params = '') {
+			$this->loginAttempts = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('staff', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->staff, $row['staffId']);
+				}
+			}
+		}
+
+		// staffPhoneNumbers
+		public function pullStaffPhoneNumbers ($params = '') {
+			$this->loginAttempts = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('staffPhoneNumber', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->staffPhoneNumbers, $row['staffPhoneNumberId']);
+				}
+			}
+		}
+
+		// staffEmailAddresses
+		public function pullStaffEmailAddresses ($params = '') {
+			$this->loginAttempts = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('staffEmailAddress', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->staffEmailAddresses, $row['staffEmailAddressId']);
+				}
+			}
+		}
+
+		// staffLoginAttempts
+		public function pullStaffLoginAttempts ($params = '') {
+			$this->loginAttempts = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('staffLoginAttempt', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->staffLoginAttempts, $row['staffLoginAttemptId']);
+				}
+			}
+		}
+
+		// staffSavedLogins
+		public function pullStaffSavedLogins ($params = '') {
+			$this->loginAttempts = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('staffSavedLogin', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->staffSavedLogins, $row['staffSavedLoginId']);
+				}
+			}
+		}
+
+		// staffTags
+		public function pullStaffTags ($params = '') {
+			$this->loginAttempts = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('staffTag', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->staffTags, $row['staffTagId']);
+				}
+			}
+		}
+
+		// timeLogs
+		public function pullTimeLogs ($params = '') {
+			$this->loginAttempts = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('timeLog', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->timeLogs, $row['timeLogId']);
+				}
+			}
+		}
+
+		// payrollDues
+		public function pullPayrollDues ($params = '') {
+			$this->loginAttempts = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('payrollDue', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->payrollDues, $row['payrollDueId']);
+				}
+			}
+		}
+
+		// payrollSatisfactions
+		public function pullPayrollSatisfactions ($params = '') {
+			$this->loginAttempts = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('payrollSatisfaction', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->payrollSatisfactions, $row['payrollSatisfactionId']);
+				}
+			}
+		}
+
+		// mailoutCampaignTemplates
+		public function pullMailoutCampaignTemplates ($params = '') {
+			$this->loginAttempts = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('mailoutCampaignTemplate', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->mailoutCampaignTemplates, $row['mailoutCampaignTemplateId']);
+				}
+			}
+		}
+
+		// emailSends
+		public function pullEmailSends ($params = '') {
+			$this->loginAttempts = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('emailSend', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->emailSends, $row['emailSendId']);
+				}
+			}
+		}
+
+		// emailPixels
+		public function pullEmailPixels ($params = '') {
+			$this->loginAttempts = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('emailPixel', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->emailPixels, $row['emailPixelId']);
+				}
+			}
+		}
+
+		// smsCampaignTemplates
+		public function pullSmsCampaignTemplates ($params = '') {
+			$this->loginAttempts = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('smsCampaignTemplate', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->smsCampaignTemplates, $row['smsCampaignTemplateId']);
+				}
+			}
+		}
+
+		// smsSends
+		public function pullSmsSends ($params = '') {
+			$this->loginAttempts = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('smsSend', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->smsSends, $row['smsSendId']);
+				}
+			}
+		}
+
+		// blogPosts
+		public function pullBlogPosts ($params = '') {
+			$this->loginAttempts = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('blogPost', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->blogPosts, $row['blogPostId']);
+				}
+			}
+		}
+
+		// blogTags
+		public function pullBlogTags ($params = '') {
+			$this->loginAttempts = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('blogTag', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->blogTags, $row['blogTagId']);
+				}
+			}
+		}
+
+		// blogPostReadTokens
+		public function pullBlogPostReadTokens ($params = '') {
+			$this->loginAttempts = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('blogPostReadToken', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->blogPostReadTokens, $row['blogPostReadTokenId']);
+				}
+			}
+		}
+
 
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
