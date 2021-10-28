@@ -108,6 +108,11 @@
 				foreach ($fetch as $row) {
 					array_push($this->loginAttempts, $row['adminLoginAttempts']);
 				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
 			}
 		}
 
@@ -123,6 +128,11 @@
 				foreach ($fetch as $row) {
 					array_push($this->savedLogins, $row['adminSavedLoginId']);
 				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
 			}
 		}
 
@@ -138,6 +148,11 @@
 				foreach ($fetch as $row) {
 					array_push($this->businesses, $row['businessId']);
 				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
 			}
 		}
 
@@ -153,6 +168,11 @@
 				foreach ($fetch as $row) {
 					array_push($this->customerServiceMessages, $row['adminCustomerServiceMessageId']);
 				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
 			}
 		}
 
@@ -168,6 +188,11 @@
 				foreach ($fetch as $row) {
 					array_push($this->businesses, $row['estimateApprovalId']);
 				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
 			}
 		}
 

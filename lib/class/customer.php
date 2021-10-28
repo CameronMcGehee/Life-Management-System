@@ -145,6 +145,11 @@
 				foreach ($fetch as $row) {
 					array_push($this->loginAttempts, $row['customerLoginAttemptId']);
 				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
 			}
 		}
 
@@ -160,6 +165,11 @@
 				foreach ($fetch as $row) {
 					array_push($this->loginAttempts, $row['customerSavedLoginId']);
 				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
 			}
 		}
 
@@ -175,6 +185,11 @@
 				foreach ($fetch as $row) {
 					array_push($this->phoneNumbers, $row['customerPhoneNumberId']);
 				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
 			}
 		}
 
@@ -190,6 +205,11 @@
 				foreach ($fetch as $row) {
 					array_push($this->emailAddresses, $row['customerEmailAddressId']);
 				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
 			}
 		}
 
@@ -205,6 +225,11 @@
 				foreach ($fetch as $row) {
 					array_push($this->tags, $row['customerTagId']);
 				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
 			}
 		}
 

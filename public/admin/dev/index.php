@@ -37,33 +37,34 @@
                     require_once '../../../lib/class/admin.php';
                     require_once '../../../lib/class/business.php';
 
-                    $customer = new customer();
+                    // $customer = new customer();
 
-                    $customer->surname = "Mrs.";
-                    $customer->firstName = 'Lois';
-                    $customer->lastName = "McGehee";
-                    $customer->billAddress1 = "3505 N. Quebec St.";
-                    $customer->billAddress2 = NULL;
-                    $customer->billCity = 'Arlington';
-                    $customer->billState = 'Virginia';
-                    $customer->billZipCode = '22207';
-                    $customer->allowCZSignIn = '1';
-                    $customer->password = 'password123';
-                    $customer->discountPercent = '50';
+                    // $customer->surname = "Mrs.";
+                    // $customer->firstName = 'Lois';
+                    // $customer->lastName = "McGehee";
+                    // $customer->billAddress1 = "3505 N. Quebec St.";
+                    // $customer->billAddress2 = NULL;
+                    // $customer->billCity = 'Arlington';
+                    // $customer->billState = 'Virginia';
+                    // $customer->billZipCode = '22207';
+                    // $customer->allowCZSignIn = '1';
+                    // $customer->password = 'password123';
+                    // $customer->discountPercent = '50';
 
-                    echo '<p>Customer: ';
-                    print_r($customer);
-                    echo '</p>';
+                    // echo '<p>Customer: ';
+                    // print_r($customer);
+                    // echo '</p>';
 
-                    $business = new business();
+                    $business = new business($_SESSION['ultiscape_businessId']);
+                    var_dump($business->pullAdmins());
                     echo '<p>Business: ';
-                    print_r($business);
+                    var_dump($business->admins);
                     echo '</p>';
 
-                    $admin = new admin();
-                    echo '<p>Admin: ';
-                    print_r($admin);
-                    echo '</p>';
+                    // $admin = new admin();
+                    // echo '<p>Admin: ';
+                    // print_r($admin);
+                    // echo '</p>';
 
                     // Remove all saved logins
 

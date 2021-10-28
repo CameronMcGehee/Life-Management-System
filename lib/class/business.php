@@ -474,6 +474,11 @@
 				foreach ($fetch as $row) {
 					array_push($this->admins, $row['adminId']);
 				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
 			}
 		}
 		
@@ -490,6 +495,11 @@
 				foreach ($fetch as $row) {
 					array_push($this->customers, $row['customerId']);
 				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+				return true;
+			} else {
+				return $this->db->getLastError();
 			}
 		}
 
@@ -506,6 +516,11 @@
 				foreach ($fetch as $row) {
 					array_push($this->authTokens, $row['authTokenId']);
 				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
 			}
 		}
 
@@ -522,6 +537,11 @@
 				foreach ($fetch as $row) {
 					array_push($this->customerPhoneNumbers, $row['customerPhoneNumberId']);
 				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
 			}
 		}
 
@@ -538,6 +558,11 @@
 				foreach ($fetch as $row) {
 					array_push($this->customerEmailAddresses, $row['customerEmailAddressId']);
 				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
 			}
 		}
 
@@ -554,6 +579,11 @@
 				foreach ($fetch as $row) {
 					array_push($this->customerLoginAttempts, $row['customerLoginAttemptId']);
 				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
 			}
 		}
 
@@ -570,6 +600,11 @@
 				foreach ($fetch as $row) {
 					array_push($this->customerSavedLogins, $row['customerSavedLoginId']);
 				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
 			}
 		}
 
@@ -586,6 +621,11 @@
 				foreach ($fetch as $row) {
 					array_push($this->customerTags, $row['customerTagId']);
 				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
 			}
 		}
 
@@ -602,6 +642,11 @@
 				foreach ($fetch as $row) {
 					array_push($this->crews, $row['crewId']);
 				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
 			}
 		}
 
@@ -618,6 +663,11 @@
 				foreach ($fetch as $row) {
 					array_push($this->quoteRequests, $row['quoteRequestId']);
 				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
 			}
 		}
 
@@ -634,6 +684,11 @@
 				foreach ($fetch as $row) {
 					array_push($this->quoteRequestServices, $row['quoteRequestServiceId']);
 				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
 			}
 		}
 
@@ -650,6 +705,11 @@
 				foreach ($fetch as $row) {
 					array_push($this->serviceListings, $row['serviceListingId']);
 				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
 			}
 		}
 
@@ -666,6 +726,11 @@
 				foreach ($fetch as $row) {
 					array_push($this->customerServiceTickets, $row['customerServiceTicketId']);
 				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
 			}
 		}
 
@@ -682,6 +747,11 @@
 				foreach ($fetch as $row) {
 					array_push($this->adminCustomerServiceMessages, $row['adminCustomerServiceMessageId']);
 				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
 			}
 		}
 
@@ -698,6 +768,11 @@
 				foreach ($fetch as $row) {
 					array_push($this->customerCustomerServiceMessages, $row['customerCustomerServiceMessageId']);
 				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
 			}
 		}
 
@@ -714,6 +789,11 @@
 				foreach ($fetch as $row) {
 					array_push($this->chemicals, $row['chemicalId']);
 				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
 			}
 		}
 
@@ -730,6 +810,11 @@
 				foreach ($fetch as $row) {
 					array_push($this->chemicalImages, $row['chemicalImageId']);
 				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
 			}
 		}
 
@@ -746,6 +831,11 @@
 				foreach ($fetch as $row) {
 					array_push($this->chemicalTags, $row['chemicalTagId']);
 				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
 			}
 		}
 
@@ -762,6 +852,11 @@
 				foreach ($fetch as $row) {
 					array_push($this->equipment, $row['equipmentId']);
 				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
 			}
 		}
 
@@ -778,6 +873,11 @@
 				foreach ($fetch as $row) {
 					array_push($this->equipmentImages, $row['equipmentImageId']);
 				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
 			}
 		}
 
@@ -794,6 +894,11 @@
 				foreach ($fetch as $row) {
 					array_push($this->equipmentTags, $row['equipmentTagId']);
 				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
 			}
 		}
 
@@ -810,6 +915,11 @@
 				foreach ($fetch as $row) {
 					array_push($this->equipmentMaintenanceLogs, $row['equipmentMaintenanceLogId']);
 				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
 			}
 		}
 
@@ -826,6 +936,11 @@
 				foreach ($fetch as $row) {
 					array_push($this->equipmentMaintenanceLogImages, $row['equipmentMaintenanceLogImageId']);
 				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
 			}
 		}
 
@@ -842,6 +957,11 @@
 				foreach ($fetch as $row) {
 					array_push($this->docIds, $row['docIdId']);
 				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
 			}
 		}
 
@@ -858,6 +978,11 @@
 				foreach ($fetch as $row) {
 					array_push($this->fileUploads, $row['fileUploadId']);
 				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
 			}
 		}
 
@@ -874,6 +999,11 @@
 				foreach ($fetch as $row) {
 					array_push($this->estimates, $row['estimateId']);
 				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
 			}
 		}
 
@@ -890,6 +1020,11 @@
 				foreach ($fetch as $row) {
 					array_push($this->estimateItems, $row['estimateItemId']);
 				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
 			}
 		}
 
@@ -906,6 +1041,11 @@
 				foreach ($fetch as $row) {
 					array_push($this->estimateApprovals, $row['estimateApprovalId']);
 				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
 			}
 		}
 
@@ -922,6 +1062,11 @@
 				foreach ($fetch as $row) {
 					array_push($this->invoices, $row['invoiceId']);
 				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
 			}
 		}
 
@@ -938,6 +1083,11 @@
 				foreach ($fetch as $row) {
 					array_push($this->invoiceItems, $row['invoiceItemId']);
 				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
 			}
 		}
 
@@ -954,6 +1104,11 @@
 				foreach ($fetch as $row) {
 					array_push($this->payments, $row['paymentId']);
 				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
 			}
 		}
 
@@ -970,6 +1125,11 @@
 				foreach ($fetch as $row) {
 					array_push($this->properties, $row['propertyId']);
 				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
 			}
 		}
 
@@ -986,6 +1146,11 @@
 				foreach ($fetch as $row) {
 					array_push($this->jobCancellations, $row['jobCancellationId']);
 				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
 			}
 		}
 
@@ -1002,6 +1167,11 @@
 				foreach ($fetch as $row) {
 					array_push($this->jobSingulars, $row['jobSingularId']);
 				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
 			}
 		}
 
@@ -1018,6 +1188,11 @@
 				foreach ($fetch as $row) {
 					array_push($this->jobRecurrings, $row['jobRecurringId']);
 				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
 			}
 		}
 
@@ -1034,6 +1209,11 @@
 				foreach ($fetch as $row) {
 					array_push($this->jobCompleteds, $row['jobCompletedId']);
 				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
 			}
 		}
 
@@ -1050,6 +1230,11 @@
 				foreach ($fetch as $row) {
 					array_push($this->staff, $row['staffId']);
 				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
 			}
 		}
 
@@ -1066,6 +1251,11 @@
 				foreach ($fetch as $row) {
 					array_push($this->staffPhoneNumbers, $row['staffPhoneNumberId']);
 				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
 			}
 		}
 
@@ -1082,6 +1272,11 @@
 				foreach ($fetch as $row) {
 					array_push($this->staffEmailAddresses, $row['staffEmailAddressId']);
 				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
 			}
 		}
 
@@ -1098,6 +1293,11 @@
 				foreach ($fetch as $row) {
 					array_push($this->staffLoginAttempts, $row['staffLoginAttemptId']);
 				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
 			}
 		}
 
@@ -1114,6 +1314,11 @@
 				foreach ($fetch as $row) {
 					array_push($this->staffSavedLogins, $row['staffSavedLoginId']);
 				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
 			}
 		}
 
@@ -1130,6 +1335,11 @@
 				foreach ($fetch as $row) {
 					array_push($this->staffTags, $row['staffTagId']);
 				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
 			}
 		}
 
@@ -1146,6 +1356,11 @@
 				foreach ($fetch as $row) {
 					array_push($this->timeLogs, $row['timeLogId']);
 				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
 			}
 		}
 
@@ -1162,6 +1377,11 @@
 				foreach ($fetch as $row) {
 					array_push($this->payrollDues, $row['payrollDueId']);
 				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
 			}
 		}
 
@@ -1178,6 +1398,11 @@
 				foreach ($fetch as $row) {
 					array_push($this->payrollSatisfactions, $row['payrollSatisfactionId']);
 				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
 			}
 		}
 
@@ -1194,6 +1419,11 @@
 				foreach ($fetch as $row) {
 					array_push($this->mailoutCampaignTemplates, $row['mailoutCampaignTemplateId']);
 				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
 			}
 		}
 
@@ -1210,6 +1440,11 @@
 				foreach ($fetch as $row) {
 					array_push($this->emailSends, $row['emailSendId']);
 				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
 			}
 		}
 
@@ -1226,6 +1461,11 @@
 				foreach ($fetch as $row) {
 					array_push($this->emailPixels, $row['emailPixelId']);
 				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
 			}
 		}
 
@@ -1242,6 +1482,11 @@
 				foreach ($fetch as $row) {
 					array_push($this->smsCampaignTemplates, $row['smsCampaignTemplateId']);
 				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
 			}
 		}
 
@@ -1258,6 +1503,11 @@
 				foreach ($fetch as $row) {
 					array_push($this->smsSends, $row['smsSendId']);
 				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
 			}
 		}
 
@@ -1274,6 +1524,11 @@
 				foreach ($fetch as $row) {
 					array_push($this->blogPosts, $row['blogPostId']);
 				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
 			}
 		}
 
@@ -1290,6 +1545,11 @@
 				foreach ($fetch as $row) {
 					array_push($this->blogTags, $row['blogTagId']);
 				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
 			}
 		}
 
@@ -1306,6 +1566,11 @@
 				foreach ($fetch as $row) {
 					array_push($this->blogPostReadTokens, $row['blogPostReadTokenId']);
 				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
 			}
 		}
 
