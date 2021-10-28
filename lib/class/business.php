@@ -438,32 +438,57 @@
 
 		/*
 
-		customerTags
 		authTokens
+		customerPhoneNumbers
+		customerEmails
+		customerLoginAttempts
+		customerSavedLogins
+		customerTags
 		crews
 		quoteRequests
+		quoteRequestServices
 		serviceListings
 		customerServiceTickets
+		adminCustomerServiceMessages
+		customerCustomerServiceMessages
 		chemicals
+		chemicalImages
+		chemicalTags
 		equipment
+		equipmentImages
+		equipmentTags
+		equipmentMaintenanceLogs
+		equipmentMaintenanceLogImages
 		docIds
 		fileUploads
 		estimates
+		estimateItems
+		esimateApprovals
 		invoices
+		invoiceItems
+		payments
+		properties
+		jobCancellations
 		jobSingulars
 		jobRecurrings
 		jobCompleteds
 		staff
+		staffPhoneNumbers
+		staffEmails
+		staffLoginAttempts
+		staffSavedLogins
 		staffTags
 		timeLogs
 		payrollDues
 		payrollSatisfactions
 		mailoutCampaignTemplates
 		emailSends
+		emailPixels
 		smsCampaignTemplates
 		smsSends
 		blogPosts
 		blogTags
+		blogPostReadTokens
 
 		*/
 
