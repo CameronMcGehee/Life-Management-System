@@ -5,8 +5,7 @@
 		private string $setType;
 		private databaseManager $db;
 
-		private string $staticCustomerId; // Used when updating the table incase the customerId has been changed after instantiation
-		private string $staticBusinessId; // Used when updating the table incase the businessId has been changed after instantiation
+		private string $dbCustomerId; // Used when updating the table incase the customerId has been changed after instantiation
 
 		public bool $existed; // Used to see whether the given entity existed already (in the database) at the time of instantiation
 
@@ -85,8 +84,8 @@
 				$this->existed = false;
 
 				// Make a new customerId
-				require_once dirname(__FILE__)."/uuid.php";
-				$uuid = new uuid('table', 'customer', 'customerId');
+				require_once dirname(__FILE__)."/tableUuid.php";
+				$uuid = new tableUuid('customer', 'customerId');
 				$this->customerId = $uuid->generatedId;
 
 				// Default businessId to the currently selected business
@@ -122,8 +121,7 @@
 				$this->dateTimeAdded = $currentDateTime->format('Y-m-d H:i:s');
 			}
 
-			$this->staticCustomerId = $this->customerId;
-			$this->staticBusinessId = $this->businessId;
+			$this->dbCustomerId = $this->customerId;
 			
 		}
 
@@ -140,7 +138,7 @@
 				$params = " ".$params;
 			}
 			// If there are entries for customerloginAttempt then push them to the array
-			$fetch = $this->db->select('customerLoginAttempt', 'customerLoginAttemptId', "WHERE customerId = '$this->staticCustomerId'".$params);
+			$fetch = $this->db->select('customerLoginAttempt', 'customerLoginAttemptId', "WHERE customerId = '$this->dbCustomerId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->loginAttempts, $row['customerLoginAttemptId']);
@@ -160,7 +158,7 @@
 				$params = " ".$params;
 			}
 			// If there are entries for customerSavedLogin then push them to the array
-			$fetch = $this->db->select('customerSavedLogin', 'customerSavedLoginId', "WHERE customerId = '$this->staticCustomerId'".$params);
+			$fetch = $this->db->select('customerSavedLogin', 'customerSavedLoginId', "WHERE customerId = '$this->dbCustomerId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->loginAttempts, $row['customerSavedLoginId']);
@@ -180,7 +178,7 @@
 				$params = " ".$params;
 			}
 			// If there are entries for customerPhoneNumber then push them to the array
-			$fetch = $this->db->select('customerPhoneNumber', 'customerPhoneNumberId', "WHERE customerId = '$this->staticCustomerId'".$params);
+			$fetch = $this->db->select('customerPhoneNumber', 'customerPhoneNumberId', "WHERE customerId = '$this->dbCustomerId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->phoneNumbers, $row['customerPhoneNumberId']);
@@ -200,7 +198,7 @@
 				$params = " ".$params;
 			}
 			// If there are entries for customerEmailAddress then push them to the array
-			$fetch = $this->db->select('customerEmailAddress', 'customerEmailAddressId', "WHERE customerId = '$this->staticCustomerId'".$params);
+			$fetch = $this->db->select('customerEmailAddress', 'customerEmailAddressId', "WHERE customerId = '$this->dbCustomerId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->emailAddresses, $row['customerEmailAddressId']);
@@ -220,7 +218,7 @@
 				$params = " ".$params;
 			}
 			// If there are entries for customerTag then push them to the array
-			$fetch = $this->db->select('customerTag', 'customerTagId', "WHERE customerId = '$this->staticCustomerId'".$params);
+			$fetch = $this->db->select('customerTag', 'customerTagId', "WHERE customerId = '$this->dbCustomerId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->tags, $row['customerTagId']);
@@ -243,8 +241,8 @@
 		public function set() {
 
 			$attributes = array(
-				'customerId' => $this->db->sanitize($this->staticCustomerId),
-				'businessId' => $this->db->sanitize($this->staticBusinessId),
+				'customerId' => $this->db->sanitize($this->dbCustomerId),
+				'businessId' => $this->db->sanitize($this->businessId),
 				'surname' => $this->db->sanitize($this->surname),
 				'firstName' => $this->db->sanitize($this->firstName),
 				'lastName' => $this->db->sanitize($this->lastName),
@@ -270,7 +268,7 @@
 
 			if ($this->setType == 'UPDATE') {
 				// Update the values in the database after sanitizing them
-				if ($this->db->update('customer', $attributes, "WHERE customerId = '".$this->db->sanitize($this->staticCustomerId)."'", 1)) {
+				if ($this->db->update('customer', $attributes, "WHERE customerId = '".$this->db->sanitize($this->dbCustomerId)."'", 1)) {
 					return true;
 				} else {
 					return $this->db->getLastError();

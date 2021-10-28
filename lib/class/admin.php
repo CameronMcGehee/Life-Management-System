@@ -67,8 +67,8 @@
 				$this->existed = false;
 
 				// Make a new adminId
-				require_once dirname(__FILE__)."/uuid.php";
-				$uuid = new uuid('table', 'admin', 'adminId');
+				require_once dirname(__FILE__)."/tableUuid.php";
+				$uuid = new tableUuid('admin', 'adminId');
 				$this->adminId = $uuid->generatedId;
 
 				$this->username = '';

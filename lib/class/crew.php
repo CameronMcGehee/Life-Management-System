@@ -5,7 +5,7 @@
 		private string $setType;
 		private databaseManager $db;
 
-		public string $originalcrewId; // Used when updating the table incase the crewId has been changed after instantiation
+		public string $dbCrewId; // Used when updating the table incase the crewId has been changed after instantiation
 		public bool $existed; // Can be used to see whether the given entity existed already at the time of instantiation
 
 		public $crewId;
@@ -41,8 +41,8 @@
 				$this->existed = false;
 
 				// Make a new crewId
-				require_once dirname(__FILE__)."/uuid.php";
-				$uuid = new uuid('table', 'crew', 'crewId');
+				require_once dirname(__FILE__)."/tableUuid.php";
+				$uuid = new tableUuid('crew', 'crewId');
 				$this->crewId = $uuid->generatedId;
 
 				$this->businessId = '';
@@ -55,7 +55,7 @@
 				$this->dateTimeAdded = $currentDateTime->format('Y-m-d H:i:s');
 			}
 
-			$this->$originalcrewId = $this->crewId;
+			$this->$dbCrewId = $this->crewId;
 			
 		}
 
@@ -63,7 +63,7 @@
 		public function set() {
 
 			$attributes = array(
-				'crewId' => $this->db->sanitize($this->crewId),
+				'crewId' => $this->db->sanitize($this->dbCrewId),
 				'businessId' => $this->db->sanitize($this->businessId),
 				'createdByAdminId' => $this->db->sanitize($this->createdByAdminId),
 				'name' => $this->db->sanitize($this->name),
@@ -74,7 +74,7 @@
 			if ($this->setType == 'UPDATE') {
 
 				// Update the values in the database after sanitizing them
-				if ($this->db->update('crew', $attributes, "WHERE crewId = '".$this->db->sanitize($this->originalcrewId)."'", 1)) {
+				if ($this->db->update('crew', $attributes, "WHERE crewId = '".$this->db->sanitize($this->dbCrewId)."'", 1)) {
 					return true;
 				} else {
 					return $this->db->getLastError();

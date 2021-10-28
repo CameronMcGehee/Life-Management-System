@@ -5,7 +5,7 @@
 		private string $setType;
 		private databaseManager $db;
 
-		public string $originalAuthTokenId; // Used when updating the table incase the authTokenId has been changed after instantiation
+		public string $dbAuthTokenId; // Used when updating the table incase the authTokenId has been changed after instantiation
 		public bool $existed; // Can be used to see whether the given entity existed already at the time of instantiation
 
 		public $authTokenId;
@@ -41,8 +41,8 @@
 				$this->existed = false;
 
 				// Make a new authTokenId
-				require_once dirname(__FILE__)."/uuid.php";
-				$uuid = new uuid('table', 'authToken', 'authTokenId');
+				require_once dirname(__FILE__)."/tableUuid.php";
+				$uuid = new tableUuid('authToken', 'authTokenId');
 				$this->authTokenId = $uuid->generatedId;
 
 				$this->businessId = '';
@@ -55,7 +55,7 @@
 				$this->dateTimeAdded = $currentDateTime->format('Y-m-d H:i:s');
 			}
 
-			$this->$originalAuthTokenId = $this->authTokenId;
+			$this->$dbAuthTokenId = $this->authTokenId;
 			
 		}
 
@@ -63,7 +63,7 @@
 		public function set() {
 
 			$attributes = array(
-				'authTokenId' => $this->db->sanitize($this->authTokenId),
+				'authTokenId' => $this->db->sanitize($this->dbAuthTokenId),
 				'businessId' => $this->db->sanitize($this->businessId),
 				'authName' => $this->db->sanitize($this->authName),
 				'dateTimeUsed' => $this->db->sanitize($this->dateTimeUsed),
@@ -74,7 +74,7 @@
 			if ($this->setType == 'UPDATE') {
 
 				// Update the values in the database after sanitizing them
-				if ($this->db->update('authToken', $attributes, "WHERE authTokenId = '".$this->db->sanitize($this->originalAuthTokenId)."'", 1)) {
+				if ($this->db->update('authToken', $attributes, "WHERE authTokenId = '".$this->db->sanitize($this->dbAuthTokenId)."'", 1)) {
 					return true;
 				} else {
 					return $this->db->getLastError();
