@@ -23,11 +23,11 @@
 		public $dateTimeLeft;
 
 		// Arrays to store linked data.
-		public $loginAttempts;
-		public $savedLogins;
-		public $businesses;
-		public $customerServiceMessages;
-		public $estimateApprovals;
+		public $loginAttempts = array();
+		public $savedLogins = array();
+		public $businesses = array();
+		public $customerServiceMessages = array();
+		public $estimateApprovals = array();
 
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -40,13 +40,6 @@
 			// Connect to the database
 			require_once dirname(__FILE__)."/../manager/databaseManager.php";
 			$this->db = new databaseManager;
-
-			// Init arrays
-			$this->loginAttempts = array();
-			$this->savedLogins = array();
-			$this->businesses = array();
-			$this->customerServiceMessages = array();
-			$this->estimateApprovals = array();
 
 			// Fetch from database
 			$fetch = $this->db->select('admin', '*', "WHERE adminId ='$adminId'");

@@ -36,24 +36,17 @@
 		public $dateTimeAdded;
 
 		// Arrays to store linked data.
-		public $loginAttempts;
-		public $savedLogins;
-		public $phoneNumbers;
-		public $emailAddresses;
-		public $tags;
+		public $loginAttempts = array();
+		public $savedLogins = array();
+		public $phoneNumbers = array();
+		public $emailAddresses = array();
+		public $tags = array();
 
 		function __construct(string $customerId = '') {
 
 			// Connect to the database
 			require_once dirname(__FILE__)."/../manager/databaseManager.php";
 			$this->db = new databaseManager;
-
-			// Init arrays
-			$this->loginAttempts = array();
-			$this->savedLogins = array();
-			$this->phoneNumbers = array();
-			$this->emailAddresses = array();
-			$this->tags = array();
 
 			// Fetch from database
 			$fetch = $this->db->select('customer', '*', "WHERE customerId ='$customerId'");
