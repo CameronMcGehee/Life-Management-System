@@ -255,7 +255,6 @@
 	CREATE TABLE IF NOT EXISTS `customer` (
 	`customerId` varchar(17) NOT NULL,
 	`businessId` varchar(17) NOT NULL,
-	`addedByAdminId` varchar(17) NOT NULL,
 	`surname` varchar(10) NULL,
 	`firstName` varchar(20) NOT NULL,
 	`lastName` varchar(20) NULL,
@@ -280,8 +279,6 @@
 	PRIMARY KEY (`customerId`),
 	UNIQUE KEY `customerPassword` (`password`) USING BTREE,
 	KEY `customerBusinessId` (`businessId`),
-	KEY `customerAddedByAdminId` (`addedByAdminId`),
-	CONSTRAINT `customerAddedByAdminId` FOREIGN KEY (`addedByAdminId`) REFERENCES `admin` (`adminId`),
 	CONSTRAINT `customerBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -293,18 +290,15 @@
 	`customerPhoneNumberId` varchar(17) NOT NULL,
 	`businessId` varchar(17) NOT NULL,
 	`customerId` varchar(17) DEFAULT NULL,
-	`addedByAdminId` varchar(17) NULL COMMENT 'Optional FK',
 	`phonePrefix` int(11) DEFAULT NULL,
 	`phone1` int(11) DEFAULT NULL,
 	`phone2` int(11) DEFAULT NULL,
 	`phone3` int(11) DEFAULT NULL,
 	`description` varchar(50) NULL,
 	`dateTimeAdded` datetime NOT NULL,
-	`dateTimeRemoved` datetime NULL,
 	PRIMARY KEY (`customerPhoneNumberId`),
 	KEY `customerPhoneNumberBusinessId` (`businessId`),
 	KEY `customerPhoneNumberCustomerId` (`customerId`),
-	KEY `customerPhoneNumberAddedByAdminId` (`addedByAdminId`),
 	CONSTRAINT `customerPhoneNumberBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
 	CONSTRAINT `customerPhoneNumberCustomerId` FOREIGN KEY (`customerId`) REFERENCES `customer` (`customerId`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -317,15 +311,12 @@
 	`customerEmailAddressId` varchar(17) NOT NULL,
 	`businessId` varchar(17) NOT NULL,
 	`customerId` varchar(17) DEFAULT NULL,
-	`addedByAdminId` varchar(17) NULL COMMENT 'Optional FK',
 	`email` varchar(64) DEFAULT NULL,
 	`description` varchar(50) NULL,
 	`dateTimeAdded` datetime NOT NULL,
-	`dateTimeRemoved` datetime NULL,
 	PRIMARY KEY (`customerEmailAddressId`),
 	KEY `customerEmailAddressBusinessId` (`businessId`),
 	KEY `customerEmailAddressCustomerId` (`customerId`),
-	KEY `customerEmailAddressAddedByAdminId` (`addedByAdminId`),
 	CONSTRAINT `customerEmailAddressBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
 	CONSTRAINT `customerEmailAddressCustomerId` FOREIGN KEY (`customerId`) REFERENCES `customer` (`customerId`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -373,14 +364,11 @@
 	`customerTagId` varchar(17) NOT NULL,
 	`businessId` varchar(17) NOT NULL,
 	`customerId` varchar(17) NOT NULL,
-	`addedByAdminId` varchar(17) NOT NULL,
 	`tagName` varchar(50) NOT NULL,
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`customerTagId`),
 	KEY `customerTagBusinessId` (`businessId`),
 	KEY `customerTagCustomerId` (`customerId`),
-	KEY `customerTagAddedByAdminId` (`addedByAdminId`),
-	CONSTRAINT `customerTagAddedByAdminId` FOREIGN KEY (`addedByAdminId`) REFERENCES `admin` (`adminId`),
 	CONSTRAINT `customerTagBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
 	CONSTRAINT `customerTagCustomerId` FOREIGN KEY (`customerId`) REFERENCES `customer` (`customerId`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -438,7 +426,6 @@
 	CREATE TABLE IF NOT EXISTS `serviceListing` (
 	`serviceListingId` varchar(17) NOT NULL,
 	`businessId` varchar(17) NOT NULL,
-	`addedByAdminId` varchar(17) NOT NULL,
 	`name` varchar(50) NOT NULL,
 	`description` varchar(200) NOT NULL,
 	`imgFile` varchar(17) NULL,
@@ -449,9 +436,7 @@
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`serviceListingId`),
 	KEY `serviceListingBusinessId` (`businessId`),
-	KEY `serviceListingAddedByAdminId` (`addedByAdminId`),
-	CONSTRAINT `serviceListingBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
-	CONSTRAINT `serviceListingAddedByAdminId` FOREIGN KEY (`addedByAdminId`) REFERENCES `admin` (`adminId`)
+	CONSTRAINT `serviceListingBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -526,7 +511,6 @@
 	`businessId` varchar(17) NOT NULL,
 	`linkedToCrewId` varchar(17) NULL COMMENT 'Optional FK',
 	`linkedToStaffId` varchar(17) NULL COMMENT 'Optional FK',
-	`addedByAdminId` varchar(17) NOT NULL,
 	`name` varchar(50) NOT NULL,
 	`epa` varchar(50) NULL,
 	`ingeredients` text NULL,
@@ -551,9 +535,7 @@
 	KEY `chemicalBusinessId` (`businessId`),
 	KEY `chemicalLinkedToCrewId` (`linkedToCrewId`),
 	KEY `chemicalLinkedToStaffId` (`linkedToStaffId`),
-	KEY `chemicalAddedByAdminId` (`addedByAdminId`),
-	CONSTRAINT `chemicalBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
-	CONSTRAINT `chemicalAddedByAdminId` FOREIGN KEY (`addedByAdminId`) REFERENCES `admin` (`adminId`)
+	CONSTRAINT `chemicalBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -564,17 +546,14 @@
 	`chemicalImageId` varchar(17) NOT NULL,
 	`businessId` varchar(17) NOT NULL,
 	`chemicalId` varchar(17) NOT NULL,
-	`addedByAdminId` varchar(17) NOT NULL,
 	`imageFile` varchar(17) NOT NULL,
 	`caption` varchar(50) NOT NULL,
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`chemicalImageId`),
 	KEY `chemicalImageBusinessId` (`businessId`),
 	KEY `chemicalImageChemicalId` (`chemicalId`),
-	KEY `chemicalImageAddedByAdminId` (`addedByAdminId`),
 	CONSTRAINT `chemicalImageBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
-	CONSTRAINT `chemicalImageChemicalId` FOREIGN KEY (`chemicalId`) REFERENCES `chemical` (`chemicalId`),
-	CONSTRAINT `chemicalImageAddedByAdminId` FOREIGN KEY (`addedByAdminId`) REFERENCES `admin` (`adminId`)
+	CONSTRAINT `chemicalImageChemicalId` FOREIGN KEY (`chemicalId`) REFERENCES `chemical` (`chemicalId`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -606,7 +585,6 @@
 	`businessId` varchar(17) NOT NULL,
 	`linkedToCrewId` varchar(17) NULL COMMENT 'Optional FK',
 	`linkedToStaffId` varchar(17) NULL COMMENT 'Optional FK',
-	`addedByAdminId` varchar(17) NOT NULL,
 	`name` varchar(50) NOT NULL,
 	`description` text NULL,
 	`condition` varchar(50) NULL,
@@ -620,9 +598,7 @@
 	KEY `equipmentBusinessId` (`businessId`),
 	KEY `equipmentLinkedToCrewId` (`linkedToCrewId`),
 	KEY `equipmentLinkedToStaffId` (`linkedToStaffId`),
-	KEY `equipmentAddedByAdminId` (`addedByAdminId`),
-	CONSTRAINT `equipmentBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
-	CONSTRAINT `equipmentAddedByAdminId` FOREIGN KEY (`addedByAdminId`) REFERENCES `admin` (`adminId`)
+	CONSTRAINT `equipmentBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -652,17 +628,14 @@
 	`equipmentImageId` varchar(17) NOT NULL,
 	`businessId` varchar(17) NOT NULL,
 	`equipmentId` varchar(17) NOT NULL,
-	`addedByAdminId` varchar(17) NOT NULL,
 	`imageFile` varchar(17) NOT NULL,
 	`caption` varchar(50) NOT NULL,
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`equipmentImageId`),
 	KEY `equipmentImageBusinessId` (`businessId`),
 	KEY `equipmentImageEquipmentId` (`equipmentId`),
-	KEY `equipmentImageAddedByAdminId` (`addedByAdminId`),
 	CONSTRAINT `equipmentImageBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
-	CONSTRAINT `equipmentImageEquipmentId` FOREIGN KEY (`equipmentId`) REFERENCES `equipment` (`equipmentId`),
-	CONSTRAINT `equipmentImageAddedByAdminId` FOREIGN KEY (`addedByAdminId`) REFERENCES `admin` (`adminId`)
+	CONSTRAINT `equipmentImageEquipmentId` FOREIGN KEY (`equipmentId`) REFERENCES `equipment` (`equipmentId`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -673,17 +646,14 @@
 	`equipmentMaintenanceLogId` varchar(17) NOT NULL,
 	`businessId` varchar(17) NOT NULL,
 	`equipmentId` varchar(17) NOT NULL,
-	`addedByAdminId` varchar(17) NOT NULL,
 	`title` varchar(50) NOT NULL,
 	`details` text NULL,
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`equipmentMaintenanceLogId`),
 	KEY `equipmentMaintenanceLogBusinessId` (`businessId`),
 	KEY `equipmentMaintenanceLogEquipmentId` (`equipmentId`),
-	KEY `equipmentMaintenanceLogAddedByAdminId` (`addedByAdminId`),
 	CONSTRAINT `equipmentMaintenanceLogBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
-	CONSTRAINT `equipmentMaintenanceLogEquipmentId` FOREIGN KEY (`equipmentId`) REFERENCES `equipment` (`equipmentId`),
-	CONSTRAINT `equipmentMaintenanceLogAddedByAdminId` FOREIGN KEY (`addedByAdminId`) REFERENCES `admin` (`adminId`)
+	CONSTRAINT `equipmentMaintenanceLogEquipmentId` FOREIGN KEY (`equipmentId`) REFERENCES `equipment` (`equipmentId`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -694,17 +664,14 @@
 	`equipmentMaintenanceLogImageId` varchar(17) NOT NULL,
 	`businessId` varchar(17) NOT NULL,
 	`equipmentMaintenanceLogId` varchar(17) NOT NULL,
-	`addedByAdminId` varchar(17) NOT NULL,
 	`imageFile` varchar(17) NOT NULL,
 	`caption` varchar(50) NOT NULL,
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`equipmentMaintenanceLogImageId`),
 	KEY `equipmentMaintenanceLogImageBusinessId` (`businessId`),
 	KEY `equipmentMaintenanceLogImageEquipmentMaintenanceLogId` (`equipmentMaintenanceLogId`),
-	KEY `equipmentMaintenanceLogImageAddedByAdminId` (`addedByAdminId`),
 	CONSTRAINT `equipmentMaintenanceLogImageBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
-	CONSTRAINT `equipmentMaintenanceLogImageEquipmentMaintenanceLogId` FOREIGN KEY (`equipmentMaintenanceLogId`) REFERENCES `equipmentMaintenanceLog` (`equipmentMaintenanceLogId`),
-	CONSTRAINT `equipmentMaintenanceLogImageAddedByAdminId` FOREIGN KEY (`addedByAdminId`) REFERENCES `admin` (`adminId`)
+	CONSTRAINT `equipmentMaintenanceLogImageEquipmentMaintenanceLogId` FOREIGN KEY (`equipmentMaintenanceLogId`) REFERENCES `equipmentMaintenanceLog` (`equipmentMaintenanceLogId`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -752,17 +719,14 @@
 	`linkedToStaffId` varchar(17) NULL DEFAULT NULL COMMENT 'Optional FK',
 	`linkedToCustomerId` varchar(17) NULL DEFAULT NULL COMMENT 'Optional FK',
 	`docIdId` varchar(17) NOT NULL,
-	`addedByAdminId` varchar(17) NOT NULL,
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`fileUploadId`),
 	KEY `fileUploadBusinessId` (`businessId`),
 	KEY `fileUploadLinkedToStaffId` (`linkedToStaffId`),
 	KEY `fileUploadLinkedToCustomerId` (`linkedToCustomerId`),
 	KEY `fileUploadDocIdId` (`docIdId`),
-	KEY `fileUploadAddedByAdminId` (`addedByAdminId`),
 	CONSTRAINT `fileUploadBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
-	CONSTRAINT `fileUploadDocIdId` FOREIGN KEY (`docIdId`) REFERENCES `docId` (`docIdId`),
-	CONSTRAINT `fileUploadAddedByAdminId` FOREIGN KEY (`addedByAdminId`) REFERENCES `admin` (`adminId`)
+	CONSTRAINT `fileUploadDocIdId` FOREIGN KEY (`docIdId`) REFERENCES `docId` (`docIdId`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -895,7 +859,6 @@
 	`paymentId` varchar(17) NOT NULL,
 	`businessId` varchar(17) NOT NULL,
 	`customerId` varchar(17) NOT NULL,
-	`addedByAdminId` varchar(17) NULL COMMENT 'Optional FK',
 	`method` varchar(20) NOT NULL,
 	`amount` float NOT NULL,
 	`notes` varchar(50) NULL,
@@ -904,7 +867,6 @@
 	PRIMARY KEY (`paymentId`),
 	KEY `paymentBusinessId` (`businessId`),
 	KEY `paymentCustomerId` (`customerId`),
-	KEY `paymentAddedByAdminId` (`addedByAdminId`),
 	CONSTRAINT `paymentBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
 	CONSTRAINT `paymentCustomerId` FOREIGN KEY (`customerId`) REFERENCES `customer` (`customerId`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -917,7 +879,6 @@
 	`propertyId` varchar(17) NOT NULL,
 	`businessId` varchar(17) NOT NULL,
 	`customerId` varchar(17) NOT NULL,
-	`addedByAdminId` varchar(17) NOT NULL,
 	`address1` varchar(150) NOT NULL,
 	`address2` varchar(100) NULL,
 	`city` varchar(50) NULL,
@@ -930,10 +891,8 @@
 	PRIMARY KEY (`propertyId`),
 	KEY `propertyBusinessId` (`businessId`),
 	KEY `propertyCustomerId` (`customerId`),
-	KEY `propertyAddedByAdminId` (`addedByAdminId`),
 	CONSTRAINT `propertyBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
-	CONSTRAINT `propertyCustomerId` FOREIGN KEY (`customerId`) REFERENCES `customer` (`customerId`),
-	CONSTRAINT `propertyAddedByAdminId` FOREIGN KEY (`addedByAdminId`) REFERENCES `admin` (`adminId`)
+	CONSTRAINT `propertyCustomerId` FOREIGN KEY (`customerId`) REFERENCES `customer` (`customerId`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	CREATE TABLE IF NOT EXISTS `chemicalApplication` (
@@ -942,7 +901,6 @@
 	`propertyId` varchar(17) NOT NULL,
 	`linkedToCrewId` varchar(17) NULL COMMENT 'Optional FK',
 	`linkedToStaffId` varchar(17) NULL COMMENT 'Optional FK',
-	`addedByAdminId` varchar(17) NULL COMMENT 'Optional FK',
 	`linkedToCompletedJobId` varchar(17) NULL COMMENT 'Optional FK',
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`chemicalApplicationId`),
@@ -950,7 +908,6 @@
 	KEY `chemicalApplicationPropertyId` (`propertyId`),
 	KEY `chemicalApplicationLinkedToCrewId` (`linkedToCrewId`),
 	KEY `chemicalApplicationLinkedToStaffId` (`linkedToStaffId`),
-	KEY `chemicalApplicationAddedByAdminId` (`addedByAdminId`),
 	KEY `chemicalApplicationLinkedToCompletedJobId` (`linkedToCompletedJobId`),
 	CONSTRAINT `chemicalApplicationBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
 	CONSTRAINT `chemicalApplicationPropertyId` FOREIGN KEY (`propertyId`) REFERENCES `property` (`propertyId`)
@@ -1132,7 +1089,6 @@
 	CREATE TABLE IF NOT EXISTS `staff` (
 	`staffId` varchar(17) NOT NULL,
 	`businessId` varchar(17) NOT NULL,
-	`addedByAdminId` varchar(17) NOT NULL,
 	`surname` varchar(10) NOT NULL,
 	`firstName` varchar(25) NOT NULL,
 	`lastName` varchar(25) NOT NULL,
@@ -1152,8 +1108,6 @@
 	`payrollJobPercentage` int(11) NOT NULL,
 	PRIMARY KEY (`staffId`),
 	KEY `staffBusinessId` (`businessId`),
-	KEY `staffAddedByAdminId` (`addedByAdminId`),
-	CONSTRAINT `staffAddedByAdminId` FOREIGN KEY (`addedByAdminId`) REFERENCES `admin` (`adminId`),
 	CONSTRAINT `staffBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -1165,7 +1119,6 @@
 	`staffPhoneNumberId` varchar(17) NOT NULL,
 	`businessId` varchar(17) NOT NULL,
 	`staffId` varchar(17) DEFAULT NULL,
-	`addedByAdminId` varchar(17) NULL COMMENT 'Optional FK',
 	`phonePrefix` int(11) DEFAULT NULL,
 	`phone1` int(11) DEFAULT NULL,
 	`phone2` int(11) DEFAULT NULL,
@@ -1176,7 +1129,6 @@
 	PRIMARY KEY (`staffPhoneNumberId`),
 	KEY `staffPhoneNumberBusinessId` (`businessId`),
 	KEY `staffPhoneNumberStaffId` (`staffId`),
-	KEY `staffPhoneNumberAddedByAdminId` (`addedByAdminId`),
 	CONSTRAINT `staffPhoneNumberBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
 	CONSTRAINT `staffPhoneNumberStaffId` FOREIGN KEY (`staffId`) REFERENCES `staff` (`staffId`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1189,7 +1141,6 @@
 	`staffEmailAddressId` varchar(17) NOT NULL,
 	`businessId` varchar(17) NOT NULL,
 	`staffId` varchar(17) DEFAULT NULL,
-	`addedByAdminId` varchar(17) NULL COMMENT 'Optional FK',
 	`email` varchar(64) DEFAULT NULL,
 	`description` varchar(50) NULL,
 	`dateTimeAdded` datetime NOT NULL,
@@ -1197,7 +1148,6 @@
 	PRIMARY KEY (`staffEmailAddressId`),
 	KEY `staffEmailAddressBusinessId` (`businessId`),
 	KEY `staffEmailAddressStaffId` (`staffId`),
-	KEY `staffEmailAddressAddedByAdminId` (`addedByAdminId`),
 	CONSTRAINT `staffEmailAddressBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
 	CONSTRAINT `staffEmailAddressStaffId` FOREIGN KEY (`staffId`) REFERENCES `staff` (`staffId`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1285,14 +1235,11 @@
 	`staffTagId` varchar(17) NOT NULL,
 	`businessId` varchar(17) NOT NULL,
 	`staffId` varchar(17) NOT NULL,
-	`addedByAdminId` varchar(17) NOT NULL,
 	`tagName` varchar(50) NOT NULL,
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`staffTagId`),
 	KEY `staffTagBusinessId` (`businessId`),
 	KEY `staffTagstaffId` (`staffId`),
-	KEY `staffTagAddedByAdminId` (`addedByAdminId`),
-	CONSTRAINT `staffTagAddedByAdminId` FOREIGN KEY (`addedByAdminId`) REFERENCES `admin` (`adminId`),
 	CONSTRAINT `staffTagBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
 	CONSTRAINT `staffTagstaffId` FOREIGN KEY (`staffId`) REFERENCES `staff` (`staffId`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1362,7 +1309,6 @@
 	`timeLogId` varchar(17) NOT NULL,
 	`businessId` varchar(17) NOT NULL,
 	`staffId` varchar(17) NOT NULL,
-	`addedByAdminId` varchar(17) NULL COMMENT 'Optional FK',
 	`dateTimeStart` datetime NOT NULL,
 	`dateTimeEnd` datetime NULL,
 	`notes` text NULL,
@@ -1370,7 +1316,6 @@
 	PRIMARY KEY (`timeLogId`),
 	KEY `timeLogBusinessId` (`businessId`),
 	KEY `timeLogStaffId` (`staffId`),
-	KEY `timeLogAddedByAdminId` (`addedByAdminId`),
 	CONSTRAINT `timeLogBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
 	CONSTRAINT `timeLogStaffId` FOREIGN KEY (`staffId`) REFERENCES `staff` (`staffId`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;

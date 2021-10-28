@@ -5,9 +5,11 @@
 		private string $setType;
 		private databaseManager $db;
 
-		public string $originalBusinessId; // Used when updating the table incase the adminId has been changed after instantiation.
+		private string $staticBusinessId; // Used when updating the table incase the adminId has been changed after instantiation.
+		
 		public bool $existed; // Can be used to see whether the given entity existed already at the time of instantiation
 
+		// Main database attributes
 		public $businessId;
 		public $ownerAdminId;
 		public $displayName;
@@ -125,6 +127,12 @@
 		public $CPModCZServiceRequest;
 		public $isArchived;
 		public $dateTimeAdded;
+
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// Init variables
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 
 		function __construct(string $businessId = '') {
 
@@ -388,11 +396,16 @@
 				$this->dateTimeAdded = $currentDateTime->format('Y-m-d H:i:s');
 			}
 
-			$this->originalBusinessId = $this->businessId;
+			$this->staticBusinessId = $this->businessId;
 			
 		}
 
-		// Adds the business to the database or updates the values
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// Set function
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+
 		public function set() {
 
 			$attributes = array(
@@ -516,23 +529,21 @@
 			);
 
 			if ($this->setType == 'UPDATE') {
-
 				// Update the values in the database after sanitizing them
-				if ($this->db->update('business', $attributes, "WHERE businessId = '".$this->db->sanitize($this->originalBusinessId)."'", 1)) {
+				if ($this->db->update('business', $attributes, "WHERE businessId = '".$this->db->sanitize($this->staticBusinessId)."'", 1)) {
 					return true;
 				} else {
 					return $this->db->getLastError();
 				}
-
 			} else {
-
 				// Insert the values to the database after sanitizing them
 				if ($this->db->insert('business', $attributes)) {
+					// Set the setType to UPDATE since it is now in the database
+					$this->setType = 'UPDATE';
 					return true;
 				} else {
 					return $this->db->getLastError();
 				}
-
 			}
 
 		}
