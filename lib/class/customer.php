@@ -140,10 +140,14 @@
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 
-		public function pullLoginAttempts () {
+		public function pullLoginAttempts($params = '') {
 			$this->loginAttempts = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
 			// If there are entries for customerloginAttempt then push them to the array
-			$fetch = $this->db->select('customerLoginAttempt', '*', "WHERE customerId = '$this->staticCustomerId'");
+			$fetch = $this->db->select('customerLoginAttempt', '*', "WHERE customerId = '$this->staticCustomerId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->loginAttempts, $row['customerLoginAttemptId']);
@@ -151,10 +155,14 @@
 			}
 		}
 
-		public function pullSavedLogins() {
+		public function pullSavedLogins($params = '') {
 			$this->savedLogins = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
 			// If there are entries for customerSavedLogin then push them to the array
-			$fetch = $this->db->select('customerSavedLogin', '*', "WHERE customerId = '$this->staticCustomerId'");
+			$fetch = $this->db->select('customerSavedLogin', '*', "WHERE customerId = '$this->staticCustomerId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->loginAttempts, $row['customerSavedLoginId']);
@@ -162,10 +170,14 @@
 			}
 		}
 
-		public function pullPhoneNumbers() {
+		public function pullPhoneNumbers($params = '') {
 			$this->phoneNumbers = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
 			// If there are entries for customerPhoneNumber then push them to the array
-			$fetch = $this->db->select('customerPhoneNumber', '*', "WHERE customerId = '$this->staticCustomerId'");
+			$fetch = $this->db->select('customerPhoneNumber', '*', "WHERE customerId = '$this->staticCustomerId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->phoneNumbers, $row['customerPhoneNumberId']);
@@ -173,10 +185,14 @@
 			}
 		}
 
-		public function pullEmailAddresses() {
+		public function pullEmailAddresses($params = '') {
 			$this->emailAddresses = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
 			// If there are entries for customerEmailAddress then push them to the array
-			$fetch = $this->db->select('customerEmailAddress', '*', "WHERE customerId = '$this->staticCustomerId'");
+			$fetch = $this->db->select('customerEmailAddress', '*', "WHERE customerId = '$this->staticCustomerId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->emailAddresses, $row['customerEmailAddressId']);
@@ -184,10 +200,14 @@
 			}
 		}
 
-		public function pullTags() {
+		public function pullTags($params = '') {
 			$this->tags = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
 			// If there are entries for customerTag then push them to the array
-			$fetch = $this->db->select('customerTag', '*', "WHERE customerId = '$this->staticCustomerId'");
+			$fetch = $this->db->select('customerTag', '*', "WHERE customerId = '$this->staticCustomerId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->tags, $row['customerTagId']);

@@ -414,10 +414,14 @@
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 
-		public function pullAdmins () {
+		public function pullAdmins ($params = '') {
 			$this->loginAttempts = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
 			// If there are entries for customerloginAttempt then push them to the array
-			$fetch = $this->db->select('adminBusinessBridge', '*', "WHERE businessId = '$this->staticBusinessId'");
+			$fetch = $this->db->select('adminBusinessBridge', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->admins, $row['adminId']);
@@ -425,10 +429,14 @@
 			}
 		}
 		
-		public function pullCustomers () {
+		public function pullCustomers ($params = '') {
 			$this->loginAttempts = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
 			// If there are entries for customerloginAttempt then push them to the array
-			$fetch = $this->db->select('customer', '*', "WHERE businessId = '$this->staticBusinessId'");
+			$fetch = $this->db->select('customer', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->customers, $row['customerId']);

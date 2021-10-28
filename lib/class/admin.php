@@ -25,6 +25,9 @@
 		// Arrays to store linked data.
 		public $loginAttempts;
 		public $savedLogins;
+		public $businesses;
+		public $customerServiceMessages;
+		public $estimateApprovals;
 
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -41,6 +44,9 @@
 			// Init arrays
 			$this->loginAttempts = array();
 			$this->savedLogins = array();
+			$this->businesses = array();
+			$this->customerServiceMessages = array();
+			$this->estimateApprovals = array();
 
 			// Fetch from database
 			$fetch = $this->db->select('admin', '*', "WHERE adminId ='$adminId'");
@@ -97,10 +103,14 @@
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 
-		public function pullLoginAttempts () {
+		public function pullLoginAttempts ($params = '') {
 			$this->loginAttempts = array();
-			// If there are entries for adminloginAttempt then push them to the array
-			$fetch = $this->db->select('adminLoginAttempt', '*', "WHERE adminId = '$this->staticAdminId'");
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('adminLoginAttempt', '*', "WHERE adminId = '$this->staticAdminId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->loginAttempts, $row['adminLoginAttempts']);
@@ -108,13 +118,62 @@
 			}
 		}
 
-		public function pullSavedLogins() {
+		public function pullSavedLogins($params = '') {
 			$this->savedLogins = array();
-			// If there are entries for adminsavedLogin then push them to the array
-			$fetch = $this->db->select('adminSavedLogin', '*', "WHERE adminId = '$this->staticAdminId'");
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('adminSavedLogin', '*', "WHERE adminId = '$this->staticAdminId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->savedLogins, $row['adminSavedLoginId']);
+				}
+			}
+		}
+
+		public function pullBusinesses($params = '') {
+			$this->businesses = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('adminBusinessBridge', '*', "WHERE adminId = '$this->staticAdminId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->businesses, $row['businessId']);
+				}
+			}
+		}
+
+		public function pullCustomerServiceMessages($params = '') {
+			$this->customerServiceMessages = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('adminCustomerServiceMessage', '*', "WHERE adminId = '$this->staticAdminId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->customerServiceMessages, $row['adminCustomerServiceMessageId']);
+				}
+			}
+		}
+
+		public function pullEstimateApprovals($params = '') {
+			$this->businesses = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('estimateApproval', '*', "WHERE approvedByAdminId = '$this->staticAdminId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->businesses, $row['estimateApprovalId']);
 				}
 			}
 		}

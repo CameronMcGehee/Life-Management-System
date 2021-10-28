@@ -775,7 +775,7 @@
 	`estimateApprovalId` varchar(17) NOT NULL,
 	`businessId` varchar(17) NOT NULL,
 	`estimateId` varchar(17) NOT NULL,
-	`approvedByAdminId` varchar(17) NULL,
+	`approvedByAdminId` varchar(17) NULL COMMENT 'Optional FK',
 	`adminReason` varchar(200) NOT NULL,
 	`dateTimeApproved` datetime NOT NULL,
 	PRIMARY KEY (`estimateApprovalId`),
