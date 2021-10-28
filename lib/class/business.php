@@ -524,7 +524,7 @@
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('adminBusinessBridge', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			$fetch = $this->db->select('adminBusinessBridge', 'adminId', "WHERE businessId = '$this->staticBusinessId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->admins, $row['adminId']);
@@ -540,7 +540,7 @@
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('customer', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			$fetch = $this->db->select('customer', 'customerId', "WHERE businessId = '$this->staticBusinessId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->customers, $row['customerId']);
@@ -556,7 +556,7 @@
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('authToken', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			$fetch = $this->db->select('authToken', 'authTokenId', "WHERE businessId = '$this->staticBusinessId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->authTokens, $row['authTokenId']);
@@ -572,7 +572,7 @@
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('customerPhoneNumber', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			$fetch = $this->db->select('customerPhoneNumber', 'customerPhoneNumberId', "WHERE businessId = '$this->staticBusinessId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->customerPhoneNumbers, $row['customerPhoneNumberId']);
@@ -588,7 +588,7 @@
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('customerEmailAddress', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			$fetch = $this->db->select('customerEmailAddress', 'customerEmailAddressId', "WHERE businessId = '$this->staticBusinessId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->customerEmailAddresses, $row['customerEmailAddressId']);
@@ -604,7 +604,7 @@
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('customerLoginAttempt', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			$fetch = $this->db->select('customerLoginAttempt', 'customerLoginAttemptId', "WHERE businessId = '$this->staticBusinessId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->customerLoginAttempts, $row['customerLoginAttemptId']);
@@ -620,7 +620,7 @@
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('customerSavedLogin', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			$fetch = $this->db->select('customerSavedLogin', 'customerSavedLoginId', "WHERE businessId = '$this->staticBusinessId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->customerSavedLogins, $row['customerSavedLoginId']);
@@ -636,7 +636,7 @@
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('customerTag', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			$fetch = $this->db->select('customerTag', 'customerTagId', "WHERE businessId = '$this->staticBusinessId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->customerTags, $row['customerTagId']);
@@ -652,7 +652,7 @@
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('crew', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			$fetch = $this->db->select('crew', 'crewId', "WHERE businessId = '$this->staticBusinessId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->crews, $row['crewId']);
@@ -668,7 +668,7 @@
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('quoteRequest', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			$fetch = $this->db->select('quoteRequest', 'quoteRequestId', "WHERE businessId = '$this->staticBusinessId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->quoteRequests, $row['quoteRequestId']);
@@ -684,7 +684,7 @@
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('quoteRequestService', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			$fetch = $this->db->select('quoteRequestService', 'quoteRequestServiceId', "WHERE businessId = '$this->staticBusinessId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->quoteRequestServices, $row['quoteRequestServiceId']);
@@ -700,7 +700,7 @@
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('serviceListing', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			$fetch = $this->db->select('serviceListing', 'serviceListingId', "WHERE businessId = '$this->staticBusinessId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->serviceListings, $row['serviceListingId']);
@@ -716,7 +716,7 @@
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('customerServiceTicket', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			$fetch = $this->db->select('customerServiceTicket', 'customerServiceTicketId', "WHERE businessId = '$this->staticBusinessId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->customerServiceTickets, $row['customerServiceTicketId']);
@@ -732,7 +732,7 @@
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('adminCustomerServiceMessage', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			$fetch = $this->db->select('adminCustomerServiceMessage', 'adminCustomerServiceMessageId', "WHERE businessId = '$this->staticBusinessId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->adminCustomerServiceMessages, $row['adminCustomerServiceMessageId']);
@@ -748,7 +748,7 @@
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('customerCustomerServiceMessage', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			$fetch = $this->db->select('customerCustomerServiceMessage', 'customerCustomerServiceMessageId', "WHERE businessId = '$this->staticBusinessId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->customerCustomerServiceMessages, $row['customerCustomerServiceMessageId']);
@@ -764,7 +764,7 @@
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('chemical', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			$fetch = $this->db->select('chemical', 'chemicalId', "WHERE businessId = '$this->staticBusinessId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->chemicals, $row['chemicalId']);
@@ -780,7 +780,7 @@
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('chemicalImage', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			$fetch = $this->db->select('chemicalImage', 'chemicalImageId', "WHERE businessId = '$this->staticBusinessId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->chemicalImages, $row['chemicalImageId']);
@@ -796,7 +796,7 @@
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('chemicalTag', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			$fetch = $this->db->select('chemicalTag', 'chemicalTagId', "WHERE businessId = '$this->staticBusinessId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->chemicalTags, $row['chemicalTagId']);
@@ -812,7 +812,7 @@
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('equipment', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			$fetch = $this->db->select('equipment', 'equipmentId', "WHERE businessId = '$this->staticBusinessId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->equipment, $row['equipmentId']);
@@ -828,7 +828,7 @@
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('equipmentImage', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			$fetch = $this->db->select('equipmentImage', 'equipmentImageId', "WHERE businessId = '$this->staticBusinessId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->equipmentImages, $row['equipmentImageId']);
@@ -844,7 +844,7 @@
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('equipmentTag', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			$fetch = $this->db->select('equipmentTag', 'equipmentTagId', "WHERE businessId = '$this->staticBusinessId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->equipmentTags, $row['equipmentTagId']);
@@ -860,7 +860,7 @@
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('equipmentMaintenanceLog', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			$fetch = $this->db->select('equipmentMaintenanceLog', 'equipmentMaintenanceLogId', "WHERE businessId = '$this->staticBusinessId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->equipmentMaintenanceLogs, $row['equipmentMaintenanceLogId']);
@@ -876,7 +876,7 @@
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('equipmentMaintenanceLogImage', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			$fetch = $this->db->select('equipmentMaintenanceLogImage', 'equipmentMaintenanceLogImageId', "WHERE businessId = '$this->staticBusinessId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->equipmentMaintenanceLogImages, $row['equipmentMaintenanceLogImageId']);
@@ -892,7 +892,7 @@
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('docId', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			$fetch = $this->db->select('docId', 'docIdId', "WHERE businessId = '$this->staticBusinessId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->docIds, $row['docIdId']);
@@ -908,7 +908,7 @@
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('fileUpload', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			$fetch = $this->db->select('fileUpload', 'fileUploadId', "WHERE businessId = '$this->staticBusinessId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->fileUploads, $row['fileUploadId']);
@@ -924,7 +924,7 @@
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('estimate', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			$fetch = $this->db->select('estimate', 'estimateId', "WHERE businessId = '$this->staticBusinessId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->estimates, $row['estimateId']);
@@ -940,7 +940,7 @@
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('estimateItem', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			$fetch = $this->db->select('estimateItem', 'estimateItemId', "WHERE businessId = '$this->staticBusinessId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->estimateItems, $row['estimateItemId']);
@@ -956,7 +956,7 @@
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('estimateApproval', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			$fetch = $this->db->select('estimateApproval', 'estimateApprovalId', "WHERE businessId = '$this->staticBusinessId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->estimateApprovals, $row['estimateApprovalId']);
@@ -972,7 +972,7 @@
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('invoice', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			$fetch = $this->db->select('invoice', 'invoiceId', "WHERE businessId = '$this->staticBusinessId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->invoices, $row['invoiceId']);
@@ -988,7 +988,7 @@
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('invoiceItem', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			$fetch = $this->db->select('invoiceItem', 'invoiceItemId', "WHERE businessId = '$this->staticBusinessId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->invoiceItems, $row['invoiceItemId']);
@@ -1004,7 +1004,7 @@
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('payment', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			$fetch = $this->db->select('payment', 'paymentId', "WHERE businessId = '$this->staticBusinessId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->payments, $row['paymentId']);
@@ -1020,7 +1020,7 @@
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('property', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			$fetch = $this->db->select('property', 'propertyId', "WHERE businessId = '$this->staticBusinessId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->properties, $row['propertyId']);
@@ -1036,7 +1036,7 @@
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('jobCancellation', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			$fetch = $this->db->select('jobCancellation', 'jobCancellationId', "WHERE businessId = '$this->staticBusinessId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->jobCancellations, $row['jobCancellationId']);
@@ -1052,7 +1052,7 @@
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('jobSingular', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			$fetch = $this->db->select('jobSingular', 'jobSingularId', "WHERE businessId = '$this->staticBusinessId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->jobSingulars, $row['jobSingularId']);
@@ -1068,7 +1068,7 @@
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('jobRecurring', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			$fetch = $this->db->select('jobRecurring', 'jobRecurringId', "WHERE businessId = '$this->staticBusinessId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->jobRecurrings, $row['jobRecurringId']);
@@ -1084,7 +1084,7 @@
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('jobCompleted', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			$fetch = $this->db->select('jobCompleted', 'jobCompletedId', "WHERE businessId = '$this->staticBusinessId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->jobCompleteds, $row['jobCompletedId']);
@@ -1100,7 +1100,7 @@
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('staff', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			$fetch = $this->db->select('staff', 'staffId', "WHERE businessId = '$this->staticBusinessId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->staff, $row['staffId']);
@@ -1116,7 +1116,7 @@
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('staffPhoneNumber', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			$fetch = $this->db->select('staffPhoneNumber', 'staffPhoneNumberId', "WHERE businessId = '$this->staticBusinessId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->staffPhoneNumbers, $row['staffPhoneNumberId']);
@@ -1132,7 +1132,7 @@
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('staffEmailAddress', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			$fetch = $this->db->select('staffEmailAddress', 'staffEmailAddressId', "WHERE businessId = '$this->staticBusinessId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->staffEmailAddresses, $row['staffEmailAddressId']);
@@ -1148,7 +1148,7 @@
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('staffLoginAttempt', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			$fetch = $this->db->select('staffLoginAttempt', 'staffLoginAttemptId', "WHERE businessId = '$this->staticBusinessId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->staffLoginAttempts, $row['staffLoginAttemptId']);
@@ -1164,7 +1164,7 @@
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('staffSavedLogin', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			$fetch = $this->db->select('staffSavedLogin', 'staffSavedLoginId', "WHERE businessId = '$this->staticBusinessId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->staffSavedLogins, $row['staffSavedLoginId']);
@@ -1180,7 +1180,7 @@
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('staffTag', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			$fetch = $this->db->select('staffTag', 'staffTagId', "WHERE businessId = '$this->staticBusinessId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->staffTags, $row['staffTagId']);
@@ -1196,7 +1196,7 @@
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('timeLog', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			$fetch = $this->db->select('timeLog', 'timeLogId', "WHERE businessId = '$this->staticBusinessId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->timeLogs, $row['timeLogId']);
@@ -1212,7 +1212,7 @@
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('payrollDue', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			$fetch = $this->db->select('payrollDue', 'payrollDueId', "WHERE businessId = '$this->staticBusinessId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->payrollDues, $row['payrollDueId']);
@@ -1228,7 +1228,7 @@
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('payrollSatisfaction', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			$fetch = $this->db->select('payrollSatisfaction', 'payrollSatisfactionId', "WHERE businessId = '$this->staticBusinessId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->payrollSatisfactions, $row['payrollSatisfactionId']);
@@ -1244,7 +1244,7 @@
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('mailoutCampaignTemplate', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			$fetch = $this->db->select('mailoutCampaignTemplate', 'mailoutCampaignTemplateId', "WHERE businessId = '$this->staticBusinessId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->mailoutCampaignTemplates, $row['mailoutCampaignTemplateId']);
@@ -1260,7 +1260,7 @@
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('emailSend', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			$fetch = $this->db->select('emailSend', 'emailSendId', "WHERE businessId = '$this->staticBusinessId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->emailSends, $row['emailSendId']);
@@ -1276,7 +1276,7 @@
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('emailPixel', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			$fetch = $this->db->select('emailPixel', 'emailPixelId', "WHERE businessId = '$this->staticBusinessId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->emailPixels, $row['emailPixelId']);
@@ -1292,7 +1292,7 @@
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('smsCampaignTemplate', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			$fetch = $this->db->select('smsCampaignTemplate', 'smsCampaignTemplateId', "WHERE businessId = '$this->staticBusinessId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->smsCampaignTemplates, $row['smsCampaignTemplateId']);
@@ -1308,7 +1308,7 @@
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('smsSend', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			$fetch = $this->db->select('smsSend', 'smsSendId', "WHERE businessId = '$this->staticBusinessId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->smsSends, $row['smsSendId']);
@@ -1324,7 +1324,7 @@
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('blogPost', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			$fetch = $this->db->select('blogPost', 'blogPostId', "WHERE businessId = '$this->staticBusinessId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->blogPosts, $row['blogPostId']);
@@ -1340,7 +1340,7 @@
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('blogTag', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			$fetch = $this->db->select('blogTag', 'blogTagId', "WHERE businessId = '$this->staticBusinessId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->blogTags, $row['blogTagId']);
@@ -1356,7 +1356,7 @@
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('blogPostReadToken', '*', "WHERE businessId = '$this->staticBusinessId'".$params);
+			$fetch = $this->db->select('blogPostReadToken', 'blogPostReadTokenId', "WHERE businessId = '$this->staticBusinessId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->blogPostReadTokens, $row['blogPostReadTokenId']);

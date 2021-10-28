@@ -110,7 +110,7 @@
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('adminLoginAttempt', '*', "WHERE adminId = '$this->staticAdminId'".$params);
+			$fetch = $this->db->select('adminLoginAttempt', 'adminLoginAttempts', "WHERE adminId = '$this->staticAdminId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->loginAttempts, $row['adminLoginAttempts']);
@@ -125,7 +125,7 @@
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('adminSavedLogin', '*', "WHERE adminId = '$this->staticAdminId'".$params);
+			$fetch = $this->db->select('adminSavedLogin', 'adminSavedLoginId', "WHERE adminId = '$this->staticAdminId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->savedLogins, $row['adminSavedLoginId']);
@@ -140,7 +140,7 @@
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('adminBusinessBridge', '*', "WHERE adminId = '$this->staticAdminId'".$params);
+			$fetch = $this->db->select('adminBusinessBridge', 'businessId', "WHERE adminId = '$this->staticAdminId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->businesses, $row['businessId']);
@@ -155,7 +155,7 @@
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('adminCustomerServiceMessage', '*', "WHERE adminId = '$this->staticAdminId'".$params);
+			$fetch = $this->db->select('adminCustomerServiceMessage', 'adminCustomerServiceMessageId', "WHERE adminId = '$this->staticAdminId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->customerServiceMessages, $row['adminCustomerServiceMessageId']);
@@ -170,7 +170,7 @@
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('estimateApproval', '*', "WHERE approvedByAdminId = '$this->staticAdminId'".$params);
+			$fetch = $this->db->select('estimateApproval', 'estimateApprovalId', "WHERE approvedByAdminId = '$this->staticAdminId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->businesses, $row['estimateApprovalId']);
