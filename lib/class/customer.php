@@ -40,6 +40,11 @@
 		public $phoneNumbers = array();
 		public $emailAddresses = array();
 		public $tags = array();
+		public $customerServiceTickets = array();
+		public $estimates = array();
+		public $invoices = array();
+		public $payments = array();
+		public $properties = array();
 
 		function __construct(string $customerId = '') {
 
@@ -130,13 +135,14 @@
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 
+		// loginAttempts
 		public function pullLoginAttempts($params = '') {
 			$this->loginAttempts = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
 			}
-			// If there are entries for customerloginAttempt then push them to the array
+			// If there are entries, push them to the array
 			$fetch = $this->db->select('customerLoginAttempt', 'customerLoginAttemptId', "WHERE customerId = '$this->dbCustomerId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
@@ -150,13 +156,14 @@
 			}
 		}
 
+		// savedLogins
 		public function pullSavedLogins($params = '') {
 			$this->savedLogins = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
 			}
-			// If there are entries for customerSavedLogin then push them to the array
+			// If there are entries, push them to the array
 			$fetch = $this->db->select('customerSavedLogin', 'customerSavedLoginId', "WHERE customerId = '$this->dbCustomerId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
@@ -170,13 +177,14 @@
 			}
 		}
 
+		// phoneNumbers
 		public function pullPhoneNumbers($params = '') {
 			$this->phoneNumbers = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
 			}
-			// If there are entries for customerPhoneNumber then push them to the array
+			// If there are entries, push them to the array
 			$fetch = $this->db->select('customerPhoneNumber', 'customerPhoneNumberId', "WHERE customerId = '$this->dbCustomerId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
@@ -190,13 +198,14 @@
 			}
 		}
 
+		// emailAddresses
 		public function pullEmailAddresses($params = '') {
 			$this->emailAddresses = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
 			}
-			// If there are entries for customerEmailAddress then push them to the array
+			// If there are entries, push them to the array
 			$fetch = $this->db->select('customerEmailAddress', 'customerEmailAddressId', "WHERE customerId = '$this->dbCustomerId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
@@ -210,17 +219,123 @@
 			}
 		}
 
+		// tags
 		public function pullTags($params = '') {
 			$this->tags = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
 			}
-			// If there are entries for customerTag then push them to the array
+			// If there are entries, push them to the array
 			$fetch = $this->db->select('customerTag', 'customerTagId', "WHERE customerId = '$this->dbCustomerId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->tags, $row['customerTagId']);
+				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
+			}
+		}
+
+		// customerServiceTickets
+		public function pullCustomerServiceTickets($params = '') {
+			$this->customerServiceTicketId = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('customerServiceTicket', 'customerServiceTicketId', "WHERE customerId = '$this->dbCustomerId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->customerServiceTicketId, $row['customerServiceTicketId']);
+				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
+			}
+		}
+
+		// estimates
+		public function pullEstimates($params = '') {
+			$this->estimates = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('estimate', 'estimateId', "WHERE customerId = '$this->dbCustomerId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->estimates, $row['estimateId']);
+				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
+			}
+		}
+
+		// invoices
+		public function pullInvoices($params = '') {
+			$this->invoices = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('invoice', 'invoiceId', "WHERE customerId = '$this->dbCustomerId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->invoices, $row['invoiceId']);
+				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
+			}
+		}
+
+		// payments
+		public function pullPayments($params = '') {
+			$this->payments = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('payments', 'paymentsId', "WHERE customerId = '$this->dbCustomerId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->payments, $row['paymentsId']);
+				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
+			}
+		}
+
+		// properties
+		public function pullProperties($params = '') {
+			$this->properties = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('property', 'propertyId', "WHERE customerId = '$this->dbCustomerId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->properties, $row['propertyId']);
 				}
 				return true;
 			} elseif ($this->db->getLastError() === '') {
