@@ -35,9 +35,9 @@
 			// If authTokenId already exists then set the set method type to UPDATE and fetch the values for the authToken
 			if ($fetch) {
 				$this->setType = 'UPDATE';
-				$this->authTokenId = $authTokenId;
 				$this->existed = true;
 
+				$this->authTokenId = $authTokenId;
 				$this->businessId = $fetch[0]['businessId'];
 				$this->authName = $fetch[0]['authName'];
 				$this->dateTimeUsed = $fetch[0]['dateTimeUsed'];
@@ -57,7 +57,6 @@
 				$this->authName = NULL;
 				$this->dateTimeUsed = NULL;
 				$this->clientIpUsed = '';
-
 				// Default dateTimeAdded to now since it is likely going to be inserted at this time
 				$currentDateTime = new DateTime();
 				$this->dateTimeAdded = $currentDateTime->format('Y-m-d H:i:s');
@@ -103,7 +102,45 @@
 				}
 
 			}
+		}
 
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// Delete function
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+
+		public function delete() {
+
+			// Remove row from database
+			if (!$this->db->delete('authToken', "WHERE authTokenId = '".$this->db->sanitize($this->dbAuthTokenId)."'", 1)) {
+				return $this->db->getLastError();
+			}
+
+			// Generate a new random id
+			require_once dirname(__FILE__)."/tableUuid.php";
+			$uuid = new tableUuid('authToken', 'authTokenId');
+			$this->authTokenId = $uuid->generatedId;
+
+			// Reset all variables
+			$this->businessId = '';
+			$this->authName = NULL;
+			$this->dateTimeUsed = NULL;
+			$this->clientIpUsed = '';
+			// Default dateTimeAdded to now since it is likely going to be inserted at this time
+			$currentDateTime = new DateTime();
+			$this->dateTimeAdded = $currentDateTime->format('Y-m-d H:i:s');
+
+			// Clear arrays
+			// (No arrays)
+
+			// Set setType to INSERT since there is no longer a row to update
+			$this->setType = 'INSERT';
+
+			// Set existed to false since it no longer exists
+			$this->existed = false;
+
+			return true;
 		}
 	}
 
