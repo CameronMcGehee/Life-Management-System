@@ -14,7 +14,7 @@
     $usernameCheck = $adminLoginManager->usernameExists($_POST['usernameEmail'], true); // These return the id so we know what admin they belong to
     $emailCheck = $adminLoginManager->emailExists($_POST['usernameEmail'], true);
     
-    // Chec if email or username exists
+    // Check if email or username exists
     if (!$usernameCheck && !$emailCheck) {
         header("location: ../../login?e=noEmailUsername");
         exit();
