@@ -40,7 +40,6 @@
 				$this->adminSavedLoginId = $uuid->generatedId;
 
 				$this->adminId = '';
-
 				// Default dateTimeAdded to now since it is likely going to be inserted at this time
 				$currentDateTime = new DateTime();
 				$this->dateTimeAdded = $currentDateTime->format('Y-m-d H:i:s');
@@ -79,6 +78,42 @@
 
 			}
 
+		}
+
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// Delete function
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+
+		public function delete() {
+
+			// Remove row from database
+			if (!$this->db->delete('adminSavedLogin', "WHERE adminSavedLoginId = '".$this->db->sanitize($this->dbAdminSavedLoginId)."'", 1)) {
+				return $this->db->getLastError();
+			}
+
+			// Generate a new random id
+			require_once dirname(__FILE__)."/tableUuid.php";
+			$uuid = new tableUuid('adminSavedLogin', 'adminSavedLoginId');
+			$this->adminSavedLoginId = $uuid->generatedId;
+
+			// Reset all variables
+			$this->adminId = '';
+			// Default dateTimeAdded to now since it is likely going to be inserted at this time
+			$currentDateTime = new DateTime();
+			$this->dateTimeAdded = $currentDateTime->format('Y-m-d H:i:s');
+
+			// Clear arrays
+			// (No arrays)
+
+			// Set setType to INSERT since there is no longer a row to update
+			$this->setType = 'INSERT';
+
+			// Set existed to false since it no longer exists
+			$this->existed = false;
+
+			return true;
 		}
 	}
 
