@@ -269,7 +269,6 @@
 			// Default dateTimeJoined to now since it is likely going to be inserted at this time
 			$currentDateTime = new DateTime();
 			$this->dateTimeJoined = $currentDateTime->format('Y-m-d H:i:s');
-
 			$this->dateTimeLeft = NULL;
 
 			// Clear arrays
@@ -278,10 +277,6 @@
 			$this->businesses = array();
 			$this->customerServiceMessages = array();
 			$this->estimateApprovals = array();
-
-			// Default dateTimeAdded to now since it is likely going to be inserted at this time
-			$currentDateTime = new DateTime();
-			$this->dateTimeAdded = $currentDateTime->format('Y-m-d H:i:s');
 
 			// Set setType to INSERT since there is no longer a row to update
 			$this->setType = 'INSERT';
