@@ -456,6 +456,11 @@
 			$this->phoneNumbers = array();
 			$this->emailAddresses = array();
 			$this->tags = array();
+			$this->customerServiceTickets = array();
+			$this->estimates = array();
+			$this->invoices = array();
+			$this->payments = array();
+			$this->properties = array();
 
 			// Set setType to INSERT since there is no longer a row to update
 			$this->setType = 'INSERT';
