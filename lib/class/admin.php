@@ -46,10 +46,7 @@
 
 			// If adminId already exists then set the set method type to UPDATE and fetch the values for the admin
 			if ($fetch) {
-				$this->setType = 'UPDATE';
 				$this->adminId = $adminId;
-				$this->existed = true;
-
 				$this->username = $fetch[0]['username'];
 				$this->password = $fetch[0]['password'];
 				$this->email = $fetch[0]['email'];
@@ -61,11 +58,11 @@
 				$this->dateTimeJoined = $fetch[0]['dateTimeJoined'];
 				$this->dateTimeLeft = $fetch[0]['dateTimeLeft'];
 
+				$this->setType = 'UPDATE';
+				$this->existed = true;
+
 			// If adminId does not exist then set the set method type to INSERT and inititialize default values
 			} else {
-				$this->setType = 'INSERT';
-				$this->existed = false;
-
 				// Make a new adminId
 				require_once dirname(__FILE__)."/tableUuid.php";
 				$uuid = new tableUuid('admin', 'adminId');
@@ -82,8 +79,10 @@
 				// Default dateTimeJoined to now since it is likely going to be inserted at this time
 				$currentDateTime = new DateTime();
 				$this->dateTimeJoined = $currentDateTime->format('Y-m-d H:i:s');
-
 				$this->dateTimeLeft = NULL;
+
+				$this->setType = 'INSERT';
+				$this->existed = false;
 			}
 
 			$this->dbAdminId = $this->adminId;
@@ -257,7 +256,6 @@
 			$this->adminId = $uuid->generatedId;
 
 			// Reset all variables
-
 			$this->username = '';
 			$this->password = '';
 			$this->email = '';

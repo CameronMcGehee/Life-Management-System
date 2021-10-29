@@ -52,10 +52,7 @@
 
 			// If customerId already exists then set the set method type to UPDATE and fetch the values for the customer
 			if ($fetch) {
-				$this->setType = 'UPDATE';
 				$this->customerId = $customerId;
-				$this->existed = true;
-
 				$this->businessId = $fetch[0]['businessId'];
 				$this->surname = $fetch[0]['surname'];
 				$this->firstName = $fetch[0]['firstName'];
@@ -78,11 +75,12 @@
 				$this->overridePaymentTerm = $fetch[0]['overridePaymentTerm'];
 				$this->notes = $fetch[0]['notes'];
 				$this->dateTimeAdded = $fetch[0]['dateTimeAdded'];
+
+				$this->setType = 'UPDATE';
+				$this->existed = true;
+
 			// If customerId does not exist then set the set method type to INSERT and inititialize default values
 			} else {
-				$this->setType = 'INSERT';
-				$this->existed = false;
-
 				// Make a new customerId
 				require_once dirname(__FILE__)."/tableUuid.php";
 				$uuid = new tableUuid('customer', 'customerId');
@@ -117,6 +115,9 @@
 				// Default dateTimeAdded to now since it is likely going to be inserted at this time
 				$currentDateTime = new DateTime();
 				$this->dateTimeAdded = $currentDateTime->format('Y-m-d H:i:s');
+
+				$this->setType = 'INSERT';
+				$this->existed = false;
 			}
 
 			$this->dbCustomerId = $this->customerId;

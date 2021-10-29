@@ -34,20 +34,18 @@
 
 			// If crewId already exists then set the set method type to UPDATE and fetch the values for the crew
 			if ($fetch) {
-				$this->setType = 'UPDATE';
 				$this->crewId = $crewId;
-				$this->existed = true;
-
 				$this->businessId = $fetch[0]['businessId'];
 				$this->createdByAdminId = $fetch[0]['createdByAdminId'];
 				$this->name = $fetch[0]['name'];
 				$this->description = $fetch[0]['description'];
 				$this->dateTimeAdded = $fetch[0]['dateTimeAdded'];
+
+				$this->setType = 'UPDATE';
+				$this->existed = true;
+
 			// If crewId does not exist then set the set method type to INSERT and inititialize default values
 			} else {
-				$this->setType = 'INSERT';
-				$this->existed = false;
-
 				// Make a new crewId
 				require_once dirname(__FILE__)."/tableUuid.php";
 				$uuid = new tableUuid('crew', 'crewId');
@@ -60,6 +58,9 @@
 				// Default dateTimeAdded to now since it is likely going to be inserted at this time
 				$currentDateTime = new DateTime();
 				$this->dateTimeAdded = $currentDateTime->format('Y-m-d H:i:s');
+
+				$this->setType = 'INSERT';
+				$this->existed = false;
 			}
 
 			$this->$dbCrewId = $this->crewId;
