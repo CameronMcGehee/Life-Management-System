@@ -1911,7 +1911,6 @@
 			$this->blogPosts = array();
 			$this->blogTags = array();
 			$this->blogPostReadTokens = array();
-
 			// Default dateTimeAdded to now since it is likely going to be inserted at this time
 			$currentDateTime = new DateTime();
 			$this->dateTimeAdded = $currentDateTime->format('Y-m-d H:i:s');
