@@ -97,6 +97,8 @@
 
 				// Insert the values to the database after sanitizing them
 				if ($this->db->insert('crew', $attributes)) {
+					// Set the setType to UPDATE since it is now in the database
+					$this->setType = 'UPDATE';
 					return true;
 				} else {
 					return $this->db->getLastError();
