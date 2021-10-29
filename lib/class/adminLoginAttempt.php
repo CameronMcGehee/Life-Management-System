@@ -67,7 +67,12 @@
 			
 		}
 
-		// Adds the adminLoginAttempt to the database or updates the values
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// Set function
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+
 		public function set() {
 
 			$attributes = array(
@@ -106,6 +111,48 @@
 
 			}
 
+		}
+
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// Delete function
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+
+		public function delete() {
+
+			// Remove row from database
+			if (!$this->db->delete('adminLoginAttempt', "WHERE adminLoginAttemptId = '".$this->db->sanitize($this->dbAdminLoginAttemptId)."'", 1)) {
+				return $this->db->getLastError();
+			}
+
+			// Generate a new random id
+			require_once dirname(__FILE__)."/tableUuid.php";
+			$uuid = new tableUuid('adminLoginAttempt', 'adminLoginAttemptId');
+			$this->adminLoginAttemptId = $uuid->generatedId;
+
+			// Reset all variables
+			$this->adminId = NULL;
+			$this->loginCode = '';
+			$this->dateTimeCodeUsed = NULL;
+			$this->clientIp = '';
+			$this->enteredUsername = '';
+			$this->enteredPassword = '';
+			$this->result = '';
+			// Default dateTimeAdded to now since it is likely going to be inserted at this time
+			$currentDateTime = new DateTime();
+			$this->dateTimeAdded = $currentDateTime->format('Y-m-d H:i:s');
+
+			// Clear arrays
+			// (No arrays)
+
+			// Set setType to INSERT since there is no longer a row to update
+			$this->setType = 'INSERT';
+
+			// Set existed to false since it no longer exists
+			$this->existed = false;
+
+			return true;
 		}
 	}
 
