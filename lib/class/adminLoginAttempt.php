@@ -6,8 +6,10 @@
 		private databaseManager $db;
 
 		public string $dbAdminLoginAttemptId; // Used when updating the table incase the adminLoginAttemptId has been changed after instantiation
+		
 		public bool $existed; // Can be used to see whether the given entity existed already at the time of instantiation
 
+		// Main database attributes
 		public $adminLoginAttemptId;
 		public $adminId;
 		public $loginCode;
@@ -17,6 +19,12 @@
 		public $enteredPassword;
 		public $result;
 		public $dateTimeAdded;
+
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// Init variables
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 
 		function __construct(string $adminLoginAttemptId = '') {
 
