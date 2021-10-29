@@ -17,11 +17,11 @@
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 
-		public static function cmsVerifyAdminLoginRedirect(string $loginLocation = './login', string $businessSelectLocation = './businessselect') {
+		public static function cmsVerifyAdminLoginRedirect(string $loginLocation = './', string $businessSelectLocation = './') {
 			if (!isset($_SESSION['ultiscape_adminId']) && !isset($_SESSION['ultiscape_businessId'])) {
-				header("location: ".$loginLocation);
+				header("location: ".$loginLocation."login");
 			} elseif (isset($_SESSION['ultiscape_adminId']) && !isset($_SESSION['ultiscape_businessId'])) {
-				header("location: ".$businessSelectLocation);
+				header("location: ".$businessSelectLocation."selectBusiness");
 			}
 		}
 

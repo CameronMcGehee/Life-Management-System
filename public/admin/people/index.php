@@ -5,7 +5,7 @@
 
     // If not signed in, just redirect to the login page
     require_once '../../../lib/manager/adminLoginManager.php';
-    adminLoginManager::cmsVerifyAdminLoginRedirect('../login', '../businessselect');
+    adminLoginManager::cmsVerifyAdminLoginRedirect('../', '../');
 
     require_once '../../../lib/renderer.php';
     $renderer = new renderer();
@@ -33,7 +33,6 @@
             <div class="margin2em">
                 <h1>People</h1>
                 <p>People are the basis for all transactions in your business. Make sure to keep updated information on all of them.</p>
-
             </div>
 
             <br><hr>
