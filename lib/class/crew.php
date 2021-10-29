@@ -51,7 +51,12 @@
 				$uuid = new tableUuid('crew', 'crewId');
 				$this->crewId = $uuid->generatedId;
 
-				$this->businessId = '';
+				// Default businessId to the currently selected business
+				if (isset($_SESSION['ultiscape_businessId'])) {
+					$this->businessId = $_SESSION['ultiscape_businessId'];
+				} else {
+					$this->businessId = '';
+				}
 				$this->createdByAdminId = '';
 				$this->name = '';
 				$this->description = NULL;
@@ -129,7 +134,12 @@
 			$this->crewId = $uuid->generatedId;
 
 			// Reset all variables
-			$this->businessId = '';
+			// Default businessId to the currently selected business
+			if (isset($_SESSION['ultiscape_businessId'])) {
+				$this->businessId = $_SESSION['ultiscape_businessId'];
+			} else {
+				$this->businessId = '';
+			}
 			$this->createdByAdminId = '';
 			$this->name = '';
 			$this->description = NULL;

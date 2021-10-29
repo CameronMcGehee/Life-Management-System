@@ -32,8 +32,8 @@
 			// If adminSavedLoginId already exists then set the set method type to UPDATE and fetch the values for the adminSavedLogin
 			if ($fetch) {
 				$this->adminSavedLoginId = $adminSavedLoginId;
-				$this->adminId = (string)$fetch[0]['adminId'];
-				$this->dateTimeAdded = (string)$fetch[0]['dateTimeAdded'];
+				$this->adminId = $fetch[0]['adminId'];
+				$this->dateTimeAdded = $fetch[0]['dateTimeAdded'];
 
 				$this->setType = 'UPDATE';
 				$this->existed = true;

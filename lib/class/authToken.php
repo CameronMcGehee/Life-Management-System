@@ -51,7 +51,13 @@
 				$uuid = new tableUuid('authToken', 'authTokenId');
 				$this->authTokenId = $uuid->generatedId;
 
-				$this->businessId = '';
+				// Default businessId to the currently selected business
+				if (isset($_SESSION['ultiscape_businessId'])) {
+					$this->businessId = $_SESSION['ultiscape_businessId'];
+				} else {
+					$this->businessId = '';
+				}
+
 				$this->authName = NULL;
 				$this->dateTimeUsed = NULL;
 				$this->clientIpUsed = '';
@@ -128,7 +134,12 @@
 			$this->authTokenId = $uuid->generatedId;
 
 			// Reset all variables
-			$this->businessId = '';
+			// Default businessId to the currently selected business
+			if (isset($_SESSION['ultiscape_businessId'])) {
+				$this->businessId = $_SESSION['ultiscape_businessId'];
+			} else {
+				$this->businessId = '';
+			}
 			$this->authName = NULL;
 			$this->dateTimeUsed = NULL;
 			$this->clientIpUsed = '';

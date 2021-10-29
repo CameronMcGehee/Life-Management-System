@@ -12,11 +12,7 @@
 		// Main database attributes
 		public $adminLoginAttemptId;
 		public $adminId;
-		public $loginCode;
-		public $dateTimeCodeUsed;
 		public $clientIp;
-		public $enteredUsername;
-		public $enteredPassword;
 		public $result;
 		public $dateTimeAdded;
 
@@ -38,14 +34,10 @@
 			// If adminLoginAttemptId already exists then set the set method type to UPDATE and fetch the values for the adminLoginAttempt
 			if ($fetch) {
 				$this->adminLoginAttemptId = $adminLoginAttemptId;
-				$this->adminId = (string)$fetch[0]['adminId'];
-				$this->loginCode = (string)$fetch[0]['loginCode'];
-				$this->dateTimeCodeUsed = (string)$fetch[0]['dateTimeCodeUsed'];
-				$this->clientIp = (string)$fetch[0]['clientIp'];
-				$this->enteredUsername = (string)$fetch[0]['enteredUsername'];
-				$this->enteredPassword = (string)$fetch[0]['enteredPassword'];
-				$this->result = (string)$fetch[0]['result'];
-				$this->dateTimeAdded = (string)$fetch[0]['dateTimeAdded'];
+				$this->adminId = $fetch[0]['adminId'];
+				$this->clientIp = $fetch[0]['clientIp'];
+				$this->result = $fetch[0]['result'];
+				$this->dateTimeAdded = $fetch[0]['dateTimeAdded'];
 
 				$this->setType = 'UPDATE';
 				$this->existed = true;
@@ -58,11 +50,7 @@
 				$this->adminLoginAttemptId = $uuid->generatedId;
 
 				$this->adminId = NULL;
-				$this->loginCode = '';
-				$this->dateTimeCodeUsed = NULL;
 				$this->clientIp = '';
-				$this->enteredUsername = '';
-				$this->enteredPassword = '';
 				$this->result = '';
 				// Default dateTimeAdded to now since it is likely going to be inserted at this time
 				$currentDateTime = new DateTime();
@@ -87,11 +75,7 @@
 			$attributes = array(
 				'adminLoginAttemptId' => $this->db->sanitize($this->adminLoginAttemptId),
 				'adminId' => $this->db->sanitize($this->adminId),
-				'loginCode' => $this->db->sanitize($this->loginCode),
-				'dateTimeCodeUsed' => $this->db->sanitize($this->dateTimeCodeUsed),
 				'clientIp' => $this->db->sanitize($this->clientIp),
-				'enteredUsername' => $this->db->sanitize($this->enteredUsername),
-				'enteredPassword' => $this->db->sanitize($this->enteredPassword),
 				'result' => $this->db->sanitize($this->result),
 				'dateTimeAdded' => $this->db->sanitize($this->dateTimeAdded)
 			);
@@ -142,11 +126,7 @@
 
 			// Reset all variables
 			$this->adminId = NULL;
-			$this->loginCode = '';
-			$this->dateTimeCodeUsed = NULL;
 			$this->clientIp = '';
-			$this->enteredUsername = '';
-			$this->enteredPassword = '';
 			$this->result = '';
 			// Default dateTimeAdded to now since it is likely going to be inserted at this time
 			$currentDateTime = new DateTime();
