@@ -89,6 +89,8 @@
 				// Update the values in the database after sanitizing them
 				if ($this->db->update('authToken', $attributes, "WHERE authTokenId = '".$this->db->sanitize($this->dbAuthTokenId)."'", 1)) {
 					return true;
+				} elseif ($this->db->getLastError() === '') {
+					return true;
 				} else {
 					return $this->db->getLastError();
 				}

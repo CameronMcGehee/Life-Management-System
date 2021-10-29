@@ -77,6 +77,8 @@
 				// Update the values in the database after sanitizing them
 				if ($this->db->update('adminSavedLogin', $attributes, "WHERE adminSavedLoginId = ".$this->db->sanitize($this->dbAdminSavedLoginId), 1)) {
 					return true;
+				} elseif ($this->db->getLastError() === '') {
+					return true;
 				} else {
 					return $this->db->getLastError();
 				}

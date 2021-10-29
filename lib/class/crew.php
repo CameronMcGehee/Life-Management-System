@@ -89,6 +89,8 @@
 				// Update the values in the database after sanitizing them
 				if ($this->db->update('crew', $attributes, "WHERE crewId = '".$this->db->sanitize($this->dbCrewId)."'", 1)) {
 					return true;
+				} elseif ($this->db->getLastError() === '') {
+					return true;
 				} else {
 					return $this->db->getLastError();
 				}

@@ -221,6 +221,8 @@
 				// Update the values in the database after sanitizing them
 				if ($this->db->update('admin', $attributes, "WHERE adminId = '".$this->db->sanitize($this->dbAdminId)."'", 1)) {
 					return true;
+				} elseif ($this->db->getLastError() === '') {
+					return true;
 				} else {
 					return $this->db->getLastError();
 				}

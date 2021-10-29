@@ -114,8 +114,6 @@
 					// Set the setType to UPDATE since it is now in the database
 					$this->setType = 'UPDATE';
 					return true;
-				} elseif ($this->db->getLastError() === '') {
-					return true;
 				} else {
 					return $this->db->getLastError();
 				}

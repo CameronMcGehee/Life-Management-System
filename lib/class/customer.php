@@ -268,6 +268,8 @@
 				// Update the values in the database after sanitizing them
 				if ($this->db->update('customer', $attributes, "WHERE customerId = '".$this->db->sanitize($this->dbCustomerId)."'", 1)) {
 					return true;
+				} elseif ($this->db->getLastError() === '') {
+					return true;
 				} else {
 					return $this->db->getLastError();
 				}
