@@ -28,11 +28,14 @@
 
 	CREATE TABLE IF NOT EXISTS `adminPlanPayment` (
 	`adminPlanPaymentId` varchar(17) NOT NULL,
+	`adminId` varchar(17) NOT NULL,
 	`method` varchar(20) NOT NULL,
 	`amount` float NOT NULL,
 	`notes` varchar(50) NULL,
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`adminPlanPaymentId`),
+	KEY `adminPlanPaymentAdminId` (`adminId`),
+	CONSTRAINT `adminPlanPaymentAdminId` FOREIGN KEY (`adminId`) REFERENCES `admin` (`adminId`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
