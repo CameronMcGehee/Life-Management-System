@@ -111,37 +111,43 @@
 			$output .= '<span class="businessSelectorButtonDropdownHider" id="bsMenu"><div class="businessSelectorButtonDropdownWrapper xyCenteredFlex flexDirectionColumn">';
 			
 				// For each business that belongs to the admin, output a button to switch to that business
-				$output .= '<p>Test</p>';
+				$output .= '<p><a href="'.$rootPathPrefix.'admin/selectbusiness">Switch Business</a></p>';
 
 			$output .= '</div></span>';
 			
 			// Profile Picture button dropdown
 			$output .= '<span class="profilePictureButtonDropdownHider" id="pfpMenu"><div class="profilePictureButtonDropdownWrapper xyCenteredFlex flexDirectionColumn">';
-				$output .= '<a href="'.$rootPathPrefix.'admin/editprofile"><p>Edit Profile</p></a>';
+				$output .= '<p><a href="'.$rootPathPrefix.'admin/editprofile">Edit Profile</a></p>';
 				$output .= '<a href="'.$rootPathPrefix.'admin/scripts/standalone/logout.script" class="smallButtonWrapper orangeButton xyCenteredFlex defaultMainShadows" style="padding: .2em;"><img style="width: 2em; height: 2em;" src="'.$rootPathPrefix.'images/ultiscape/icons/exit_right.svg"></a>';
 			$output .= '</div></span>';
 
 			return $output;
 		}
 
-		function renderAdminTopBarDropdownScripts(string $rootPathPrefix = './') {
+		function renderAdminTopBarDropdownScripts(string $rootPathPrefix = './', bool $showProfileButtonScript = true, bool $showBusinessSelectorScript = true) {
 			$output = '';
 
 			// Scripts for dropping them down
-			$output .= '
-			<script>
+			$output .= '<script>';
 			
-			$(function() {
-				$("#profileButtonWrapper").click(function() {
-					$("#pfpMenu").toggle();
-				});
+			$output .= '$(function() {';
 
-				$("#businessSelectorButtonWrapper").click(function() {
-					$("#bsMenu").toggle();
-				});
-			});
+				if ($showProfileButtonScript) {
+					$output .= '$("#profileButtonWrapper").click(function() {
+									$("#pfpMenu").toggle();
+								});';
+				}
+
+				if ($showBusinessSelectorScript) {
+					$output .= '$("#businessSelectorButtonWrapper").click(function() {
+									$("#bsMenu").toggle();
+								});';
+				}
+
+				
+			$output .= '});';
 			
-			</script>';
+			$output .= '</script>';
 
 			return $output;
 		}
