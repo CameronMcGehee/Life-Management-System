@@ -176,7 +176,7 @@
 		}
 
 		public function pullEstimateApprovals($params = '') {
-			$this->businesses = array();
+			$this->estimateApprovals = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
@@ -185,7 +185,7 @@
 			$fetch = $this->db->select('estimateApproval', 'estimateApprovalId', "WHERE approvedByAdminId = '$this->dbAdminId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
-					array_push($this->businesses, $row['estimateApprovalId']);
+					array_push($this->estimateApprovals, $row['estimateApprovalId']);
 				}
 				return true;
 			} elseif ($this->db->getLastError() === '') {

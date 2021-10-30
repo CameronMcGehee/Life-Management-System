@@ -243,7 +243,7 @@
 
 		// customerServiceTickets
 		public function pullCustomerServiceTickets($params = '') {
-			$this->customerServiceTicketId = array();
+			$this->customerServiceTickets = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;

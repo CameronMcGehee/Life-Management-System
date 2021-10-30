@@ -485,7 +485,7 @@
 		
 		// customers
 		public function pullCustomers ($params = '') {
-			$this->loginAttempts = array();
+			$this->customers = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
@@ -506,7 +506,7 @@
 
 		// authTokens
 		public function pullAuthTokens ($params = '') {
-			$this->loginAttempts = array();
+			$this->authTokens = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
@@ -527,7 +527,7 @@
 
 		// customerPhoneNumbers
 		public function pullCustomerPhoneNumbers ($params = '') {
-			$this->loginAttempts = array();
+			$this->customerPhoneNumbers = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
@@ -548,7 +548,7 @@
 
 		// customerEmailAddresses
 		public function pullCustomerEmailAddresses ($params = '') {
-			$this->loginAttempts = array();
+			$this->customerEmailAddresses = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
@@ -569,7 +569,7 @@
 
 		// customerLoginAttempts
 		public function pullCustomerLoginAttempts ($params = '') {
-			$this->loginAttempts = array();
+			$this->customerLoginAttempts = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
@@ -590,7 +590,7 @@
 
 		// customerSavedLogins
 		public function pullCustomerSavedLogins ($params = '') {
-			$this->loginAttempts = array();
+			$this->customerSavedLogins = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
@@ -611,7 +611,7 @@
 
 		// customerTags
 		public function pullCustomerTags ($params = '') {
-			$this->loginAttempts = array();
+			$this->customerTags = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
@@ -632,7 +632,7 @@
 
 		// crews
 		public function pullCrews ($params = '') {
-			$this->loginAttempts = array();
+			$this->crews = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
@@ -653,7 +653,7 @@
 
 		// quoteRequests
 		public function pullQuoteRequest ($params = '') {
-			$this->loginAttempts = array();
+			$this->quoteRequests = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
@@ -674,7 +674,7 @@
 
 		// quoteRequestServices
 		public function pullQuoteRequestServices ($params = '') {
-			$this->loginAttempts = array();
+			$this->quoteRequestServices = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
@@ -695,7 +695,7 @@
 
 		// serviceListings
 		public function pullServiceListings ($params = '') {
-			$this->loginAttempts = array();
+			$this->serviceListings = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
@@ -716,7 +716,7 @@
 
 		// customerServiceTickets
 		public function pullCustomerServiceTickets ($params = '') {
-			$this->loginAttempts = array();
+			$this->customerServiceTickets = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
@@ -737,7 +737,7 @@
 
 		// adminCustomerServiceMessages
 		public function pullAdminCustomerServiceMessages ($params = '') {
-			$this->loginAttempts = array();
+			$this->adminCustomerServiceMessages = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
@@ -758,7 +758,7 @@
 
 		// customerCustomerServiceMessages
 		public function pullCustomerCustomerServiceMessages ($params = '') {
-			$this->loginAttempts = array();
+			$this->customerCustomerServiceMessages = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
@@ -779,7 +779,7 @@
 
 		// chemicals
 		public function pullChemicals ($params = '') {
-			$this->loginAttempts = array();
+			$this->chemicals = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
@@ -800,7 +800,7 @@
 
 		// chemicalImages
 		public function pullChemicalImages ($params = '') {
-			$this->loginAttempts = array();
+			$this->chemicalImages = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
@@ -821,7 +821,7 @@
 
 		// chemicalTags
 		public function pullChemicalTags ($params = '') {
-			$this->loginAttempts = array();
+			$this->chemicalTags = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
@@ -842,7 +842,7 @@
 
 		// equipment
 		public function pullEquipment ($params = '') {
-			$this->loginAttempts = array();
+			$this->equipment = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
@@ -863,7 +863,7 @@
 
 		// equipmentImages
 		public function pullEquipmentImages ($params = '') {
-			$this->loginAttempts = array();
+			$this->equipmentImages = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
@@ -884,7 +884,7 @@
 
 		// equipmentTags
 		public function pullEquipmentTags ($params = '') {
-			$this->loginAttempts = array();
+			$this->equipmentTags = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
@@ -905,7 +905,7 @@
 
 		// equipmentMaintenanceLogs
 		public function pullEquipmentMaintenanceLogs ($params = '') {
-			$this->loginAttempts = array();
+			$this->equipmentMaintenanceLogs = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
@@ -926,7 +926,7 @@
 
 		// equipmentMaintenanceLogImages
 		public function pullEquipmentMaintenanceLogImages ($params = '') {
-			$this->loginAttempts = array();
+			$this->equipmentMaintenanceLogImages = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
@@ -947,7 +947,7 @@
 
 		// docIds
 		public function pullDocIds ($params = '') {
-			$this->loginAttempts = array();
+			$this->docIds = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
@@ -968,7 +968,7 @@
 
 		// fileUploads
 		public function pullFileUploads ($params = '') {
-			$this->loginAttempts = array();
+			$this->fileUploads = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
@@ -989,7 +989,7 @@
 
 		// estimates
 		public function pullEstimates ($params = '') {
-			$this->loginAttempts = array();
+			$this->estimates = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
@@ -1010,7 +1010,7 @@
 
 		// estimateItems
 		public function pullEstimateItems ($params = '') {
-			$this->loginAttempts = array();
+			$this->estimateItems = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
@@ -1031,7 +1031,7 @@
 
 		// estimateApprovals
 		public function pullEstimateApprovals ($params = '') {
-			$this->loginAttempts = array();
+			$this->estimateApprovals = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
@@ -1052,7 +1052,7 @@
 
 		// invoices
 		public function pullInvoices ($params = '') {
-			$this->loginAttempts = array();
+			$this->invoices = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
@@ -1073,7 +1073,7 @@
 
 		// invoiceItems
 		public function pullInvoiceItems ($params = '') {
-			$this->loginAttempts = array();
+			$this->invoiceItems = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
@@ -1094,7 +1094,7 @@
 
 		// payments
 		public function pullPayments ($params = '') {
-			$this->loginAttempts = array();
+			$this->payments = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
@@ -1115,7 +1115,7 @@
 
 		// properties
 		public function pullProperties ($params = '') {
-			$this->loginAttempts = array();
+			$this->properties = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
@@ -1136,7 +1136,7 @@
 
 		// jobCancellations
 		public function pullJobCancellations ($params = '') {
-			$this->loginAttempts = array();
+			$this->jobCancellations = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
@@ -1157,7 +1157,7 @@
 
 		// jobSingulars
 		public function pullJobSingulars ($params = '') {
-			$this->loginAttempts = array();
+			$this->jobSingulars = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
@@ -1178,7 +1178,7 @@
 
 		// jobRecurrings
 		public function pullJobRecurrings ($params = '') {
-			$this->loginAttempts = array();
+			$this->jobRecurrings = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
@@ -1199,7 +1199,7 @@
 
 		// jobCompleteds
 		public function pullJobCompleteds ($params = '') {
-			$this->loginAttempts = array();
+			$this->jobCompleteds = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
@@ -1220,7 +1220,7 @@
 
 		// staff
 		public function pullStaff ($params = '') {
-			$this->loginAttempts = array();
+			$this->staff = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
@@ -1241,7 +1241,7 @@
 
 		// staffPhoneNumbers
 		public function pullStaffPhoneNumbers ($params = '') {
-			$this->loginAttempts = array();
+			$this->staffPhoneNumbers = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
@@ -1262,7 +1262,7 @@
 
 		// staffEmailAddresses
 		public function pullStaffEmailAddresses ($params = '') {
-			$this->loginAttempts = array();
+			$this->staffEmailAddresses = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
@@ -1283,7 +1283,7 @@
 
 		// staffLoginAttempts
 		public function pullStaffLoginAttempts ($params = '') {
-			$this->loginAttempts = array();
+			$this->staffLoginAttempts = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
@@ -1304,7 +1304,7 @@
 
 		// staffSavedLogins
 		public function pullStaffSavedLogins ($params = '') {
-			$this->loginAttempts = array();
+			$this->staffSavedLogins = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
@@ -1325,7 +1325,7 @@
 
 		// staffTags
 		public function pullStaffTags ($params = '') {
-			$this->loginAttempts = array();
+			$this->staffTags = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
@@ -1346,7 +1346,7 @@
 
 		// timeLogs
 		public function pullTimeLogs ($params = '') {
-			$this->loginAttempts = array();
+			$this->timeLogs = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
@@ -1367,7 +1367,7 @@
 
 		// payrollDues
 		public function pullPayrollDues ($params = '') {
-			$this->loginAttempts = array();
+			$this->payrollDues = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
@@ -1388,7 +1388,7 @@
 
 		// payrollSatisfactions
 		public function pullPayrollSatisfactions ($params = '') {
-			$this->loginAttempts = array();
+			$this->payrollSatisfactions = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
@@ -1409,7 +1409,7 @@
 
 		// mailoutCampaignTemplates
 		public function pullMailoutCampaignTemplates ($params = '') {
-			$this->loginAttempts = array();
+			$this->mailoutCampaignTemplates = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
@@ -1430,7 +1430,7 @@
 
 		// emailSends
 		public function pullEmailSends ($params = '') {
-			$this->loginAttempts = array();
+			$this->emailSends = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
@@ -1451,7 +1451,7 @@
 
 		// emailPixels
 		public function pullEmailPixels ($params = '') {
-			$this->loginAttempts = array();
+			$this->emailPixels = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
@@ -1472,7 +1472,7 @@
 
 		// smsCampaignTemplates
 		public function pullSmsCampaignTemplates ($params = '') {
-			$this->loginAttempts = array();
+			$this->smsCampaignTemplates = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
@@ -1493,7 +1493,7 @@
 
 		// smsSends
 		public function pullSmsSends ($params = '') {
-			$this->loginAttempts = array();
+			$this->smsSends = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
@@ -1514,7 +1514,7 @@
 
 		// blogPosts
 		public function pullBlogPosts ($params = '') {
-			$this->loginAttempts = array();
+			$this->blogPosts = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
@@ -1535,7 +1535,7 @@
 
 		// blogTags
 		public function pullBlogTags ($params = '') {
-			$this->loginAttempts = array();
+			$this->blogTags = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
@@ -1556,7 +1556,7 @@
 
 		// blogPostReadTokens
 		public function pullBlogPostReadTokens ($params = '') {
-			$this->loginAttempts = array();
+			$this->blogPostReadTokens = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
