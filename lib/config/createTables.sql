@@ -929,8 +929,6 @@
 	`businessId` varchar(17) NOT NULL,
 	`linkedToJobRecurringId` varchar(17) NULL COMMENT 'Optional FK',
 	`propertyId` varchar(17) NOT NULL,
-	`completedByCrewId` varchar(17) NULL COMMENT 'Optional FK',
-	`completedByStaffId` varchar(17) NULL COMMENT 'Optional FK',
 	`name` varchar(100) NOT NULL,
 	`description` text NULL,
 	`privateNotes` text NULL,
@@ -944,8 +942,6 @@
 	KEY `jobCompletedBusinessId` (`businessId`),
 	KEY `jobCompletedLinkedToJobRecurringId` (`linkedToJobRecurringId`),
 	KEY `jobCompletedPropertyId` (`propertyId`),
-	KEY `jobCompletedCompletedByCrewId` (`completedByCrewId`),
-	KEY `jobCompletedCompletedByStaffId` (`completedByStaffId`),
 	CONSTRAINT `jobCompletedBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
 	CONSTRAINT `jobCompletedPropertyId` FOREIGN KEY (`propertyId`) REFERENCES `property` (`propertyId`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1007,12 +1003,12 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `jobSingularCrewBridge` (
-	`jobSingularCrewBridgeId` varchar(17) NOT NULL,
+	`jobSingularCrewId` varchar(17) NOT NULL,
 	`businessId` varchar(17) NOT NULL,
 	`jobSingularId` varchar(17) NOT NULL,
 	`crewId` varchar(17) NOT NULL,
 	`dateTimeAdded` datetime NOT NULL,
-	PRIMARY KEY (`jobSingularCrewBridgeId`),
+	PRIMARY KEY (`jobSingularCrewId`),
 	KEY `jobSingularCrewBridgeBusinessId` (`businessId`),
 	KEY `jobSingularCrewBridgeJobSingularId` (`jobSingularId`),
 	KEY `jobSingularCrewBridgecrewId` (`crewId`),
@@ -1026,12 +1022,12 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `jobRecurringCrewBridge` (
-	`jobRecurringCrewBridgeId` varchar(17) NOT NULL,
+	`jobRecurringCrewId` varchar(17) NOT NULL,
 	`businessId` varchar(17) NOT NULL,
 	`jobRecurringId` varchar(17) NOT NULL,
 	`crewId` varchar(17) NOT NULL,
 	`dateTimeAdded` datetime NOT NULL,
-	PRIMARY KEY (`jobRecurringCrewBridgeId`),
+	PRIMARY KEY (`jobRecurringCrewId`),
 	KEY `jobRecurringCrewBridgeBusinessId` (`businessId`),
 	KEY `jobRecurringCrewBridgeJobRecurringId` (`jobRecurringId`),
 	KEY `jobRecurringCrewBridgecrewId` (`crewId`),
@@ -1045,12 +1041,12 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `jobCompletedCrewBridge` (
-	`jobCompletedCrewBridge` varchar(17) NOT NULL,
+	`jobCompletedCrewId` varchar(17) NOT NULL,
 	`businessId` varchar(17) NOT NULL,
 	`jobCompletedId` varchar(17) NOT NULL,
 	`crewId` varchar(17) NOT NULL,
 	`dateTimeAdded` datetime NOT NULL,
-	PRIMARY KEY (`jobCompletedCrewBridge`),
+	PRIMARY KEY (`jobCompletedCrewId`),
 	KEY `jobCompletedCrewBridgeBusinessId` (`businessId`),
 	KEY `jobCompletedCrewBridgeJobCompletedId` (`jobCompletedId`),
 	KEY `jobCompletedCrewBridgecrewId` (`crewId`),
@@ -1226,12 +1222,12 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `jobSingularStaffBridge` (
-	`jobSingularStaffBridgeId` varchar(17) NOT NULL,
+	`jobSingularStaffId` varchar(17) NOT NULL,
 	`businessId` varchar(17) NOT NULL,
 	`jobSingularId` varchar(17) NOT NULL,
 	`staffId` varchar(17) NOT NULL,
 	`dateTimeAdded` datetime NOT NULL,
-	PRIMARY KEY (`jobSingularStaffBridgeId`),
+	PRIMARY KEY (`jobSingularStaffId`),
 	KEY `jobSingularStaffBridgeBusinessId` (`businessId`),
 	KEY `jobSingularStaffBridgeJobSingularId` (`jobSingularId`),
 	KEY `jobSingularStaffBridgeStaffId` (`staffId`),
@@ -1245,12 +1241,12 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `jobRecurringStaffBridge` (
-	`jobRecurringStaffBridgeId` varchar(17) NOT NULL,
+	`jobRecurringStaffId` varchar(17) NOT NULL,
 	`businessId` varchar(17) NOT NULL,
 	`jobRecurringId` varchar(17) NOT NULL,
 	`staffId` varchar(17) NOT NULL,
 	`dateTimeAdded` datetime NOT NULL,
-	PRIMARY KEY (`jobRecurringStaffBridgeId`),
+	PRIMARY KEY (`jobRecurringStaffId`),
 	KEY `jobRecurringStaffBridgeBusinessId` (`businessId`),
 	KEY `jobRecurringStaffBridgeJobRecurringId` (`jobRecurringId`),
 	KEY `jobRecurringStaffBridgeStaffId` (`staffId`),
