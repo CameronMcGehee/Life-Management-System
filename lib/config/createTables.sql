@@ -14,11 +14,25 @@
 	`lastName` varchar(25) NOT NULL,
 	`profilePicture` varchar(17) DEFAULT NULL,
 	`allowSignIn` tinyint(1) NOT NULL,
+	`plan` varchar(10) NOT NULL DEFAULT 'free',
 	`dateTimeJoined` datetime NOT NULL,
-	`dateTimeLeft` datetime DEFAULT NULL,
+	`dateTimeLeft` datetime NULL DEFAULT NULL,
 	PRIMARY KEY (`adminId`),
 	UNIQUE KEY `adminUsername` (`username`) USING BTREE,
 	UNIQUE KEY `adminEmail` (`email`) USING BTREE
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
+	-- Table structure for table `admin`
+	--
+
+	CREATE TABLE IF NOT EXISTS `adminPlanPayment` (
+	`adminPlanPaymentId` varchar(17) NOT NULL,
+	`method` varchar(20) NOT NULL,
+	`amount` float NOT NULL,
+	`notes` varchar(50) NULL,
+	`dateTimeAdded` datetime NOT NULL,
+	PRIMARY KEY (`adminPlanPaymentId`),
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
