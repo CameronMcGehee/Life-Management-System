@@ -47,7 +47,7 @@
 					$currentAdmin->pullBusinesses();
 					foreach ($currentAdmin->businesses as $businessId) {
 						$businessInfo = new business($businessId);
-						echo '<p><a href="./scripts/standalone/setBusiness.script.php?id='.$businessId.'">'.htmlspecialchars($businessInfo->adminDisplayName).'</a></p>';
+						echo '<h2><a href="./scripts/standalone/setBusiness.script.php?id='.$businessId.'">'.htmlspecialchars($businessInfo->adminDisplayName).'</a></h2>';
 					}
 
 				?>
