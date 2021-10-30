@@ -197,6 +197,46 @@
 
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// Extra bridge data pull functions
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+
+		public function getBusinessPermissions($businessId) {
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('adminBusinessBridge', '*', "WHERE adminId = '$this->dbAdminId' AND businessId = '".$this->db->sanitize($businessId)."'");
+			if ($fetch) {
+				return array(
+					'canManageTag' => $fetch[0]['adminCanManageTag'],
+					'canUploadDocument' => $fetch[0]['adminCanUploadDocument'],
+					'canManageBlog' => $fetch[0]['adminCanManageBlog'],
+					'canManageSMS' => $fetch[0]['adminCanManageSMS'],
+					'canManageEmail' => $fetch[0]['adminCanManageEmail'],
+					'canManageServiceListing' => $fetch[0]['adminCanManageServiceListing'],
+					'canManageQuoteRequest' => $fetch[0]['adminCanManageQuoteRequest'],
+					'canManageCustomerService' => $fetch[0]['adminCanManageCustomerService'],
+					'canManageTimeLog' => $fetch[0]['adminCanManageTimeLog'],
+					'canManagePayrollDue' => $fetch[0]['adminCanManagePayrollDue'],
+					'canManagePayrollSatisfaction' => $fetch[0]['adminCanManagePayrollSatisfaction'],
+					'canManageCustomer' => $fetch[0]['adminCanManageCustomer'],
+					'canManageStaff' => $fetch[0]['adminCanManageStaff'],
+					'canManageCrew' => $fetch[0]['adminCanManageCrew'],
+					'canManageEquipment' => $fetch[0]['adminCanManageEquipment'],
+					'canManageChemical' => $fetch[0]['adminCanManageChemical'],
+					'canManageJob' => $fetch[0]['adminCanManageJob'],
+					'canManageInvoice' => $fetch[0]['adminCanManageInvoice'],
+					'canManagePayment' => $fetch[0]['adminCanManagePayment'],
+					'canManageEstimate' => $fetch[0]['adminCanManageEstimate'],
+					'canApproveEstimate' => $fetch[0]['adminCanApproveEstimate']
+				);
+			} elseif ($this->db->getLastError() === '') {
+					return false;
+			} else {
+				return $this->db->getLastError();
+			}
+		}
+
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 		// Set function
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
