@@ -17,6 +17,16 @@
 		public $description;
 		public $dateTimeAdded;
 
+		// Arrays to store linked data
+		public $chemicals = array();
+		public $equipment = array();
+		public $chemicalApplications = array();
+		public $jobCompleteds = array();
+		public $jobSingulars = array();
+		public $jobRecurrings = array();
+		public $leaders = array();
+		public $staff = array();
+
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 		// Init variables
@@ -72,6 +82,180 @@
 			
 		}
 
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// Linked data pull functions
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+
+		// chemicals
+		public function pullChemicals ($params = '') {
+			$this->chemicals = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('chemical', 'chemicalId', "WHERE linkedToCrewId = '$this->dbCrewId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->chemicals, $row['chemicalId']);
+				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
+			}
+		}
+		
+		// equipment
+		public function pullEquipment ($params = '') {
+			$this->equipment = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('equipment', 'equipmentId', "WHERE linkedToCrewId = '$this->dbCrewId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->equipment, $row['equipmentId']);
+				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
+			}
+		}
+		
+		// chemicalApplications
+		public function pullChemicalApplications ($params = '') {
+			$this->chemicalApplications = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('chemicalApplication', 'chemicalApplicationId', "WHERE linkedToCrewId = '$this->dbCrewId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->chemicalApplications, $row['chemicalApplicationId']);
+				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
+			}
+		}
+		
+		// jobCompleteds
+		public function pullJobCompleteds ($params = '') {
+			$this->jobCompleteds = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('jobCompletedCrewBridge', 'jobCompletedCrewId', "WHERE crewId = '$this->dbCrewId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->jobCompleteds, $row['jobCompletedId']);
+				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
+			}
+		}
+		
+		// jobSingulars
+		public function pullJobSingulars ($params = '') {
+			$this->jobSingulars = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('jobSingularCrewBridge', 'jobSingularCrewId', "WHERE crewId = '$this->dbCrewId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->jobSingulars, $row['jobSingularId']);
+				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
+			}
+		}
+		
+		// jobRecurrings
+		public function pullJobRecurrings ($params = '') {
+			$this->jobRecurrings = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('jobRecurringCrewBridge', 'jobRecurringCrewId', "WHERE crewId = '$this->dbCrewId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->jobRecurrings, $row['jobRecurringId']);
+				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
+			}
+		}
+		
+		// leaders
+		public function pullLeaders ($params = '') {
+			$this->leaders = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('crewLeaderBridge', 'crewLeaderId', "WHERE crewId = '$this->dbCrewId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->leaders, $row['staffId']);
+				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
+			}
+		}
+		
+		// staff
+		public function pullStaff ($params = '') {
+			$this->staff = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('crewStaffBridge', 'crewStaffId', "WHERE crewId = '$this->dbCrewId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->staff, $row['staffId']);
+				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
+			}
+		}
+		
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 		// Set function
@@ -148,7 +332,14 @@
 			$this->dateTimeAdded = $currentDateTime->format('Y-m-d H:i:s');
 
 			// Clear arrays
-			// (No arrays)
+			$this->chemicals = array();
+			$this->equipment = array();
+			$this->chemicalApplications = array();
+			$this->jobCompleteds = array();
+			$this->jobSingulars = array();
+			$this->jobRecurrings = array();
+			$this->leaders = array();
+			$this->staff = array();
 
 			// Set setType to INSERT since there is no longer a row to update
 			$this->setType = 'INSERT';
