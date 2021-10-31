@@ -46,7 +46,7 @@
 		<div class="cmsMainContentWrapper">
 			
 			<div class="twoColPage-Info-Content maxHeight">
-				<div id="twoColInfoWrapper" class="paddingLeftRight90 paddingTopBottom2em">
+				<div id="twoColInfoWrapper" class="paddingLeftRight90 paddingTopBottom90">
 					<?php
 						if (count($currentAdmin->businesses) == 0) {
 							echo "<h1>Let's create your first business!</h1>
