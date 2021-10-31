@@ -37,24 +37,22 @@
                 <p>Can't find something? Here's a list of all UltiScape pages.</p>
             </div>
 
-            <br><hr>
+            <br>
+            
+            <hr>
 
-            <div class="marginLeftRight90 sitemapList">
+            <div class="sitemapList" style="margin-left: 2em; margin-right: 2em;">
 
                     <br>
 
                     <?php
 
                         require_once '../../lib/class/business.php';
-                        $business = new business();
-
-                        // var_dump($businessManager->getLocation($_SESSION['ultiscape_businessId']));
+                        $business = new business($_SESSION['ultiscape_businessId']);
 
                     ?>
                 
                     <p class="mainPageTitle"><a href="./overview">Overview of <span id="overviewButtonBusinessName" style="text-decoration: underline;"><i><?php echo htmlspecialchars($business->adminDisplayName); ?></i></span></p>
-
-                    <br>
                     
                     <p class="mainPageTitle"><a href="./people">People</a></p>
                         <p class="subPage"><a href="./people/customers">Customers</a></p>
