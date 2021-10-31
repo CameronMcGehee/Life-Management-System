@@ -330,13 +330,7 @@
 .styledText h1, .styledText h2, .styledText h3, .styledText h4, .styledText h5, .styledText h6 {
     font-weight: 400;
 	text-shadow: 2px 2px 3px #BABABA;
-	margin-top: .5em;
 	/* text-shadow: 0 1px 0px #378ab4, 1px 0 0px #5dabcd, 1px 2px 1px #378ab4, 2px 1px 1px #5dabcd, 2px 3px 2px #378ab4, 3px 2px 2px #5dabcd, 3px 4px 2px #378ab4, 4px 3px 3px #5dabcd, 4px 5px 3px #378ab4, 5px 4px 2px #5dabcd, 5px 6px 2px #378ab4, 6px 5px 2px #5dabcd, 6px 7px 1px #378ab4, 7px 6px 1px #5dabcd, 7px 8px 0px #378ab4, 8px 7px 0px #5dabcd, 2px 2px 3px rgba(47,186,13,0); */
-}
-
-.styledText p {
-	margin-top: .5em;
-	line-height: 1.5em;
 }
 
 .styledText h1 {
@@ -357,6 +351,16 @@
 
 .styledText p {
 	font-size: 1.1em;
+}
+
+.spacedText h1, .spacedText h2, .spacedText h3, .spacedText h4, .spacedText h5, .spacedText h6 {
+	margin-top: .5em;
+	/* text-shadow: 0 1px 0px #378ab4, 1px 0 0px #5dabcd, 1px 2px 1px #378ab4, 2px 1px 1px #5dabcd, 2px 3px 2px #378ab4, 3px 2px 2px #5dabcd, 3px 4px 2px #378ab4, 4px 3px 3px #5dabcd, 4px 5px 3px #378ab4, 5px 4px 2px #5dabcd, 5px 6px 2px #378ab4, 6px 5px 2px #5dabcd, 6px 7px 1px #378ab4, 7px 6px 1px #5dabcd, 7px 8px 0px #378ab4, 8px 7px 0px #5dabcd, 2px 2px 3px rgba(47,186,13,0); */
+}
+
+.spacedText p {
+	margin-top: .5em;
+	line-height: 1.5em;
 }
 
 /*Styled Text Colors*/
