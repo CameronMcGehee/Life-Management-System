@@ -30,7 +30,7 @@
         ?>
 
         <div class="cmsMainContentWrapper  styledText textColorThemeGray">
-            <div class="margin2em">
+            <div class="marginLeftRight90">
                 <?php
 
                     require_once '../../../lib/class/customer.php';

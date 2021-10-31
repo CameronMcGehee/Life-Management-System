@@ -30,7 +30,7 @@
         ?>
 
         <div class="cmsMainContentWrapper styledText textColorThemeJobs">
-            <div class="margin2em">
+            <div class="marginLeftRight90">
                 <h1>Jobs</h1>
                 <p>Create, edit, and view your scheduled jobs.</p>
                 

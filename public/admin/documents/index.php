@@ -30,7 +30,7 @@
         ?>
 
         <div class="cmsMainContentWrapper styledText textColorThemeDocuments">
-            <div class="margin2em">
+            <div class="marginLeftRight90">
                 <h1>Documents</h1>
                 <p>Create, edit, and view invoices, esimates, and document uploads.</p>
                 

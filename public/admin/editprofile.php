@@ -29,7 +29,7 @@
             echo $renderer->renderAdminSideBar('../');
         ?>
 
-        <div class="cmsMainContentWrapper margin2em  styledText textColorThemeGray">
+        <div class="cmsMainContentWrapper marginLeftRight90  styledText textColorThemeGray">
 			<h1>Edit Profile</h1>
         </div>
         

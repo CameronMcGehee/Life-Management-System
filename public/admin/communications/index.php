@@ -30,7 +30,7 @@
         ?>
 
         <div class="cmsMainContentWrapper styledText textColorThemeCommunications">
-            <div class="margin2em">
+            <div class="marginLeftRight90">
                 <h1>Communcations</h1>
                 <p>Manage Email messages and campaigns between you, your customers and your staff.</p>
 
