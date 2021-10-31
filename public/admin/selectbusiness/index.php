@@ -39,7 +39,7 @@
 
 		<div class="cmsMainContentWrapper">
 			
-			<div class="maxHeight xyCenteredFlex flexDirectionColumn margin90">
+			<div class="maxHeight xyCenteredFlex flexDirectionColumn marginLeftRight90">
 				<?php
 
 					// Until we make this page look good, just echo out links to switch to the different businesses

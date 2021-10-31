@@ -34,12 +34,12 @@
 
         <div class="cmsMainContentWrapper">
             
-        <div class="maxHeight xyCenteredFlex flexDirectionColumn margin90">
+        <div class="maxHeight xyCenteredFlex flexDirectionColumn marginLeftRight90">
                 <div class="cmsLoginFormArea centered defaultMainShadows">
                     
                     <h1>Admin Login</h1>
                     
-                    <form class="margin90" method="POST" action="./scripts/standalone/login.script">
+                    <form class="marginLeftRight90" method="POST" action="./scripts/standalone/login.script">
                         
                         <label for="usernameEmail"><p>Username/Email</p></label>
                         <input class="defaultMainShadows" type="text" name="usernameEmail" id="usernameEmail" placeholder="Username/Email...">

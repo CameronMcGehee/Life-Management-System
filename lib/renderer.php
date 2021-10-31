@@ -256,7 +256,7 @@
 				$output .= '</div>
 				';
 			} else {
-				$output .= '<p class="margin90 textCentered">Please login and select business.</p>
+				$output .= '<p class="marginLeftRight90 textCentered">Please login and select business.</p>
 				';
 			}
 			
