@@ -16,8 +16,6 @@
 	require_once '../../../lib/class/admin.php';
 	require_once '../../../lib/class/business.php';
 
-	$currentAdmin = new admin($_SESSION['ultiscape_adminId']);
-
 	echo $renderer->renderAdminHtmlTop('../../', 'Create Business', 'Create a new business to manage in UltiScape.');
 	echo $renderer->renderAdminTopBarDropdownScripts('../../');
 
@@ -30,34 +28,42 @@
 	<div class="cmsLoginBodyWrapper">
 
 		<?php 
-			echo $renderer->renderAdminTopBar('../../', true, true, true);
-		?>
+			$currentAdmin = new admin($_SESSION['ultiscape_adminId']);
+			$currentAdmin->pullBusinesses();
 
-		<?php 
-			// echo $renderer->renderAdminSideBar();
+			// Render the business selector in the menu bar only if they actually have a business on their account already. The user may be on this page creating their first business.
+			if (count($currentAdmin->businesses) == 0) {
+				echo $renderer->renderAdminTopBar('../../', true, false, true);
+			} else {
+				echo $renderer->renderAdminTopBar('../../', true, true, true);
+				if (false /*they are not on the paid plan, will be implemented later*/) {
+					echo "<p>A popup: You need to upgrade to the paid plan in order to manage more than 1 business with UltiScape.</p>
+					";
+				}
+			}
 		?>
 
 		<div class="cmsMainContentWrapper">
 			
-			<div class="maxHeight xCenteredFlex flexDirectionColumn margin90">
-				<?php
+			<div class="twoColPage-Info-Content maxHeight">
+				<div id="twoColInfoWrapper" class="paddingLeftRight90 paddingTopBottom2em">
+					<?php
+						if (count($currentAdmin->businesses) == 0) {
+							echo "<h1>Let's create your first business!</h1>
+							";
+						} else {
+							echo "<h1>Create a new Business</h1>
+							";
+						}
+					?>
 
-					// Until we make this page look good, just echo out links to switch to the different businesses
+				</div>
 
-					$currentAdmin->pullBusinesses();
-					if (count($currentAdmin->businesses) == 0) {
-						echo "<h1>Let's create your first business!</h1>";
-
-						echo file_get_contents("./includes/createBusinessForm.inc.php");
-					} elseif (false /*they are not on the paid plan*/) {
-						echo "<p>A popup: You need to upgrade to the paid plan in order to manage more than 1 business with UltiScape.</p>";
-					} else {
-						echo "<h1>Create a new Business</h1>";
-
+				<div id="twoColContentWrapper" class="padding90">
+					<?php
 						echo file_get_contents("./includes/createBusinessForm.inc.html");
-					}
-
-				?>
+					?>
+				</div>
 			</div>
 			
 		</div>
