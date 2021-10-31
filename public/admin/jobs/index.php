@@ -29,7 +29,7 @@
             echo $renderer->renderAdminSideBar('../../');
         ?>
 
-        <div class="cmsMainContentWrapper styledText textColorThemeJobs">
+        <div class="cmsMainContentWrapper styledText spacedText textColorThemeJobs">
             <div style="margin-left: 2em; margin-right: 2em;">
                 <h1>Jobs</h1>
                 <p>Create, edit, and view your scheduled jobs.</p>

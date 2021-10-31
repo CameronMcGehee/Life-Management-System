@@ -29,7 +29,7 @@
             echo $renderer->renderAdminSideBar('../../');
         ?>
 
-        <div class="cmsMainContentWrapper styledText textColorThemeInventory">
+        <div class="cmsMainContentWrapper styledText spacedText textColorThemeInventory">
             <div style="margin-left: 2em; margin-right: 2em;">
                 <h1>Inventory</h1>
                 <p>Manage your business's inventory.</p>

@@ -43,17 +43,17 @@
 			}
 		?>
 
-		<div class="cmsMainContentWrapper">
+		<div class="cmsMainContentWrapper textColorThemeGray styledText">
 			
 			<div class="twoColPage-Info-Content maxHeight">
 				<div id="twoColInfoWrapper" class="paddingLeftRight90 paddingTopBottom90">
 					<?php
 						if (count($currentAdmin->businesses) == 0) {
-							echo "<h1>Let's create your first business!</h1>
-							";
+							echo '<h1>Let\'s create your first business!</h1>
+							';
 						} else {
-							echo "<h1>Create a new Business</h1>
-							";
+							echo '<h1>Create a new Business</h1>
+							';
 						}
 					?>
 

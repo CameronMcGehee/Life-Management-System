@@ -29,7 +29,7 @@
             echo $renderer->renderAdminSideBar('../../');
         ?>
 
-        <div class="cmsMainContentWrapper styledText textColorThemePeople">
+        <div class="cmsMainContentWrapper styledText spacedText textColorThemePeople">
             <div style="margin-left: 2em; margin-right: 2em;">
                 <h1>People</h1>
                 <p>People are the basis for all transactions in your business. Make sure to keep updated information on all of them.</p>

@@ -29,7 +29,7 @@
             echo $renderer->renderAdminSideBar('../../');
         ?>
 
-        <div class="cmsMainContentWrapper styledText textColorThemeDocuments">
+        <div class="cmsMainContentWrapper styledText spacedText textColorThemeDocuments">
             <div style="margin-left: 2em; margin-right: 2em;">
                 <h1>Documents</h1>
                 <p>Create, edit, and view invoices, esimates, and document uploads.</p>
