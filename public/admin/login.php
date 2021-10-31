@@ -39,7 +39,7 @@
                     
                     <h1>Admin Login</h1>
                     
-                    <form class="marginLeftRight90" method="POST" action="./scripts/standalone/login.script">
+                    <form style="margin-left: 2em; margin-right: 2em;" method="POST" action="./scripts/standalone/login.script">
                         
                         <label for="usernameEmail"><p>Username/Email</p></label>
                         <input class="defaultMainShadows" type="text" name="usernameEmail" id="usernameEmail" placeholder="Username/Email...">

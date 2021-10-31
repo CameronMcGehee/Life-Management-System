@@ -30,14 +30,14 @@
         ?>
 
         <div class="cmsMainContentWrapper styledText textColorThemePeople">
-            <div class="marginLeftRight90">
+            <div style="margin-left: 2em; margin-right: 2em;">
                 <h1>People</h1>
                 <p>People are the basis for all transactions in your business. Make sure to keep updated information on all of them.</p>
             </div>
 
             <br><hr>
 
-            <div class="marginLeftRight90">
+            <div style="margin-left: 2em; margin-right: 2em;">
 
                 <h2>Customers</h2>
                 <!-- <p>Customers can have invoices, estimates, properties, jobs, and more.</p> -->

@@ -30,7 +30,7 @@
         ?>
 
         <div class="cmsMainContentWrapper styledText textColorThemeInventory">
-            <div class="marginLeftRight90">
+            <div style="margin-left: 2em; margin-right: 2em;">
                 <h1>Inventory</h1>
                 <p>Manage your business's inventory.</p>
                 

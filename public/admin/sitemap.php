@@ -32,7 +32,7 @@
         ?>
 
         <div class="cmsMainContentWrapper styledText textColorThemeGray">
-            <div class="marginLeftRight90">
+            <div style="margin-left: 2em; margin-right: 2em;">
                 <h1>Sitemap</h1>
                 <p>Can't find something? Here's a list of all UltiScape pages.</p>
             </div>

@@ -30,7 +30,7 @@
         ?>
 
     <div class="cmsMainContentWrapper styledText textColorThemeGray">
-            <div class="marginLeftRight90">
+            <div style="margin-left: 2em; margin-right: 2em;">
                 <?php
                     require_once '../../lib/class/business.php';
                     $business = new business();
@@ -42,7 +42,7 @@
 
             <br><hr>
 
-            <div class="marginLeftRight90">
+            <div style="margin-left: 2em; margin-right: 2em;">
                 <h2>Content...</h2>
             </div>
         </div>
