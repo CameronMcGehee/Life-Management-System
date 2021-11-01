@@ -10,7 +10,7 @@
                                  |_|                                      
    Copyright McGehee Enterprises 2021 */
 
-   *, *::before, *::after {
+*, *::before, *::after {
 	font-family: 'Roboto', sans-serif;
 	margin: 0;
 	padding: 0;
