@@ -281,6 +281,26 @@
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
+	-- Table structure for table `crewTag`
+	--
+
+	CREATE TABLE IF NOT EXISTS `crewTag` (
+	`crewTagId` varchar(17) NOT NULL,
+	`businessId` varchar(17) NOT NULL,
+	`crewId` varchar(17) NOT NULL,
+	`name` varchar(50) NOT NULL,
+	`description` text NULL DEFAULT NULL,
+	`color` varchar(15) NOT NULL DEFAULT 'gray',
+	`imgFile` varchar(17) NULL DEFAULT NULL,
+	`dateTimeAdded` datetime NOT NULL,
+	PRIMARY KEY (`crewTagId`),
+	KEY `crewTagBusinessId` (`businessId`),
+	KEY `crewTagCrewId` (`crewId`),
+	CONSTRAINT `crewTagBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
+	CONSTRAINT `crewTagCrewId` FOREIGN KEY (`crewId`) REFERENCES `crew` (`crewId`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
 	-- Table structure for table `customer`
 	--
 
@@ -395,7 +415,10 @@
 	`customerTagId` varchar(17) NOT NULL,
 	`businessId` varchar(17) NOT NULL,
 	`customerId` varchar(17) NOT NULL,
-	`tagName` varchar(50) NOT NULL,
+	`name` varchar(50) NOT NULL,
+	`description` text NULL DEFAULT NULL,
+	`color` varchar(15) NOT NULL DEFAULT 'gray',
+	`imgFile` varchar(17) NULL DEFAULT NULL,
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`customerTagId`),
 	KEY `customerTagBusinessId` (`businessId`),
@@ -595,9 +618,9 @@
 	`chemicalTagId` varchar(17) NOT NULL,
 	`businessId` varchar(17) NOT NULL,
 	`name` varchar(50) NOT NULL,
-	`description` text DEFAULT NULL,
-	`color` varchar(15) DEFAULT NULL,
-	`imgFile` varchar(17) DEFAULT NULL,
+	`description` text NULL DEFAULT NULL,
+	`color` varchar(15) NOT NULL DEFAULT 'gray',
+	`imgFile` varchar(17) NULL DEFAULT NULL,
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`chemicalTagId`),
 	KEY `chemicalTagBusinessId` (`businessId`),
@@ -710,9 +733,9 @@
 	`equipmentTagId` varchar(17) NOT NULL,
 	`businessId` varchar(17) NOT NULL,
 	`name` varchar(50) NOT NULL,
-	`description` text DEFAULT NULL,
-	`color` varchar(15) DEFAULT NULL,
-	`imgFile` varchar(17) DEFAULT NULL,
+	`description` text NULL DEFAULT NULL,
+	`color` varchar(15) NOT NULL DEFAULT 'gray',
+	`imgFile` varchar(17) NULL DEFAULT NULL,
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`equipmentTagId`),
 	KEY `equipmentTagBusinessId` (`businessId`),
@@ -1244,7 +1267,10 @@
 	`staffTagId` varchar(17) NOT NULL,
 	`businessId` varchar(17) NOT NULL,
 	`staffId` varchar(17) NOT NULL,
-	`tagName` varchar(50) NOT NULL,
+	`name` varchar(50) NOT NULL,
+	`description` text NULL DEFAULT NULL,
+	`color` varchar(15) NOT NULL DEFAULT 'gray',
+	`imgFile` varchar(17) NULL DEFAULT NULL,
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`staffTagId`),
 	KEY `staffTagBusinessId` (`businessId`),
@@ -1574,9 +1600,9 @@
 	`blogTagId` varchar(17) NOT NULL,
 	`businessId` varchar(17) NOT NULL,
 	`name` varchar(50) NOT NULL,
-	`description` text DEFAULT NULL,
-	`color` varchar(15) DEFAULT NULL,
-	`imgFile` varchar(17) DEFAULT NULL,
+	`description` text NULL DEFAULT NULL,
+	`color` varchar(15) NOT NULL DEFAULT 'gray',
+	`imgFile` varchar(17) NULL DEFAULT NULL,
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`blogTagId`),
 	KEY `blogTagBusinessId` (`businessId`),
