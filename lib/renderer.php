@@ -138,6 +138,10 @@
 				$output .= '<p><a href="'.$rootPathPrefix.'admin/selectbusiness">Switch Business</a></p>
 				';
 
+				// Button to create a new business
+				$output .= '<br><a href="'.$rootPathPrefix.'admin/createbusiness" class="smallButtonWrapper greenButton xyCenteredFlex defaultMainShadows" style="padding: .2em;"><img style="width: 2em; height: 2em;" src="'.$rootPathPrefix.'images/ultiscape/icons/plus.svg"></a>
+				';
+
 			$output .= '</div></span>
 			';
 			
