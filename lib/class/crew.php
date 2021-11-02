@@ -12,7 +12,6 @@
 		// Main database attributes
 		public $crewId;
 		public $businessId;
-		public $createdByAdminId;
 		public $name;
 		public $description;
 		public $dateTimeAdded;
@@ -46,7 +45,6 @@
 			if ($fetch) {
 				$this->crewId = $crewId;
 				$this->businessId = $fetch[0]['businessId'];
-				$this->createdByAdminId = $fetch[0]['createdByAdminId'];
 				$this->name = $fetch[0]['name'];
 				$this->description = $fetch[0]['description'];
 				$this->dateTimeAdded = $fetch[0]['dateTimeAdded'];
@@ -67,7 +65,6 @@
 				} else {
 					$this->businessId = '';
 				}
-				$this->createdByAdminId = '';
 				$this->name = '';
 				$this->description = NULL;
 				// Default dateTimeAdded to now since it is likely going to be inserted at this time
@@ -267,7 +264,6 @@
 			$attributes = array(
 				'crewId' => $this->db->sanitize($this->dbCrewId),
 				'businessId' => $this->db->sanitize($this->businessId),
-				'createdByAdminId' => $this->db->sanitize($this->createdByAdminId),
 				'name' => $this->db->sanitize($this->name),
 				'description' => $this->db->sanitize($this->description),
 				'dateTimeAdded' => $this->db->sanitize($this->dateTimeAdded)
@@ -324,7 +320,6 @@
 			} else {
 				$this->businessId = '';
 			}
-			$this->createdByAdminId = '';
 			$this->name = '';
 			$this->description = NULL;
 			// Default dateTimeAdded to now since it is likely going to be inserted at this time
