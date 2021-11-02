@@ -4,7 +4,7 @@
 
 	class adminUIRender {
 
-		public array $config;
+		private $config;
 		
 		function __construct() {
 			require_once dirname(__FILE__)."/manager/databaseManager.php";
