@@ -56,6 +56,7 @@
 				require_once dirname(__FILE__)."/tableUuid.php";
 				$uuid = new tableUuid('quoteRequest', 'quoteRequestId');
 				$this->quoteRequestId = $uuid->generatedId;
+
 				// Default businessId to the currently selected business
 				if (isset($_SESSION['ultiscape_businessId'])) {
 					$this->businessId = $_SESSION['ultiscape_businessId'];
@@ -66,7 +67,7 @@
 				if (isset($_SESSION['ultiscape_customerId'])) {
 					$this->linkedToCustomerId = $_SESSION['ultiscape_customerId'];
 				} else {
-					$this->linkedToCustomerId = '';
+					$this->linkedToCustomerId = NULL;
 				}
 				$this->name = NULL;
 				$this->email = NULL;
@@ -180,7 +181,12 @@
 			} else {
 				$this->businessId = '';
 			}
-			$this->linkedToCustomerId = NULL;
+			// Default linkedToCustomerId to the currently selected business
+			if (isset($_SESSION['ultiscape_customerId'])) {
+				$this->linkedToCustomerId = $_SESSION['ultiscape_customerId'];
+			} else {
+				$this->linkedToCustomerId = NULL;
+			}
 			$this->name = NULL;
 			$this->email = NULL;
 			$this->address1 = NULL;
