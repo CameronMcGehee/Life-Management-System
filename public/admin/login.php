@@ -8,7 +8,7 @@
     if (isset($_SESSION['ultiscape_adminId']) && isset($_SESSION['ultiscape_businessId'])) {
         header("location: ./overview");
     } elseif (isset($_SESSION['ultiscape_adminId'])) {
-        header("location: ./businessselect");
+        header("location: ./selectbusiness");
     }
 
     require_once '../../lib/adminUIRender.php';
