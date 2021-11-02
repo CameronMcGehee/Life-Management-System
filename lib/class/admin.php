@@ -35,7 +35,7 @@
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 
-		function __construct(string $adminId = '', bool $getLoginAttempts = false, bool $getSavedLogins = false) {
+		function __construct(string $adminId = '') {
 
 			// Connect to the database
 			require_once dirname(__FILE__)."/../manager/databaseManager.php";
