@@ -53,7 +53,7 @@
 			$this->db = new databaseManager;
 
 			// Fetch from database
-			$fetch = $this->db->select('customer', '*', "WHERE customerId ='$customerId'");
+			$fetch = $this->db->select('customer', '*', "WHERE customerId ='".$this->db->sanitize($customerId)."'");
 
 			// If customerId already exists then set the set method type to UPDATE and fetch the values for the customer
 			if ($fetch) {

@@ -30,7 +30,7 @@
 			$this->db = new databaseManager;
 
 			// Fetch from database
-			$fetch = $this->db->select('authToken', '*', "WHERE authTokenId ='$authTokenId'");
+			$fetch = $this->db->select('authToken', '*', "WHERE authTokenId ='".$this->db->sanitize($authTokenId)."'");
 
 			// If authTokenId already exists then set the set method type to UPDATE and fetch the values for the authToken
 			if ($fetch) {

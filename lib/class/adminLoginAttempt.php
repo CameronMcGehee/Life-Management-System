@@ -29,7 +29,7 @@
 			$this->db = new databaseManager;
 
 			// Fetch from database
-			$fetch = $this->db->select('adminLoginAttempt', '*', "WHERE adminLoginAttemptId ='$adminLoginAttemptId'");
+			$fetch = $this->db->select('adminLoginAttempt', '*', "WHERE adminLoginAttemptId ='".$this->db->sanitize($adminLoginAttemptId)."'");
 
 			// If adminLoginAttemptId already exists then set the set method type to UPDATE and fetch the values for the adminLoginAttempt
 			if ($fetch) {

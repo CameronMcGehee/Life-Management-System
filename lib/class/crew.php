@@ -40,7 +40,7 @@
 			$this->db = new databaseManager;
 
 			// Fetch from database
-			$fetch = $this->db->select('crew', '*', "WHERE crewId ='$crewId'");
+			$fetch = $this->db->select('crew', '*', "WHERE crewId ='".$this->db->sanitize($crewId)."'");
 
 			// If crewId already exists then set the set method type to UPDATE and fetch the values for the crew
 			if ($fetch) {

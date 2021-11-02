@@ -42,7 +42,7 @@
 			$this->db = new databaseManager;
 
 			// Fetch from database
-			$fetch = $this->db->select('admin', '*', "WHERE adminId ='$adminId'");
+			$fetch = $this->db->select('admin', '*', "WHERE adminId ='".$this->db->sanitize($adminId)."'");
 
 			// If adminId already exists then set the set method type to UPDATE and fetch the values for the admin
 			if ($fetch) {

@@ -33,7 +33,7 @@
 			$this->db = new databaseManager;
 
 			// Fetch from database
-			$fetch = $this->db->select('customerPhoneNumber', '*', "WHERE customerPhoneNumberId ='$customerPhoneNumberId'");
+			$fetch = $this->db->select('customerPhoneNumber', '*', "WHERE customerPhoneNumberId ='".$this->db->sanitize($customerPhoneNumberId)."'");
 
 			// If customerPhoneNumberId already exists then set the set method type to UPDATE and fetch the values for the customerPhoneNumber
 			if ($fetch) {

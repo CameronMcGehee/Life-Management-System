@@ -30,7 +30,7 @@
 			$this->db = new databaseManager;
 
 			// Fetch from database
-			$fetch = $this->db->select('customerEmailAddress', '*', "WHERE customerEmailAddressId ='$customerEmailAddressId'");
+			$fetch = $this->db->select('customerEmailAddress', '*', "WHERE customerEmailAddressId ='".$this->db->sanitize($customerEmailAddressId)."'");
 
 			// If customerEmailAddressId already exists then set the set method type to UPDATE and fetch the values for the customerEmailAddress
 			if ($fetch) {
