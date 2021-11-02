@@ -11,10 +11,10 @@
         header("location: ./businessselect");
     }
 
-    require_once '../../lib/renderer.php';
-    $renderer = new renderer();
+    require_once '../../lib/adminUIRender.php';
+    $adminUIRender = new adminUIRender();
 
-    echo $renderer->renderAdminHtmlTop('../', 'Login', 'Login to your UltiScape account.');
+    echo $adminUIRender->renderAdminHtmlTop('../', 'Login', 'Login to your UltiScape account.');
 
 ?>
 
@@ -25,11 +25,11 @@
     <div class="cmsLoginBodyWrapper">
 
         <?php 
-            echo $renderer->renderAdminTopBar('../', true, false, false);
+            echo $adminUIRender->renderAdminTopBar('../', true, false, false);
         ?>
 
         <?php 
-            // echo $renderer->renderAdminSideBar();
+            // echo $adminUIRender->renderAdminSideBar();
         ?>
 
         <div class="cmsMainContentWrapper">
@@ -63,15 +63,15 @@
         </div>
         
         <?php
-            echo $renderer->renderAdminFooter('../', true, true);
+            echo $adminUIRender->renderAdminFooter('../', true, true);
         ?>
 
         <?php 
-            // echo $renderer->renderMobileNavBar('../');
+            // echo $adminUIRender->renderMobileNavBar('../');
         ?>
 
     </div>
 </body>
 <?php 
-    echo $renderer->renderAdminHtmlBottom('../');
+    echo $adminUIRender->renderAdminHtmlBottom('../');
 ?>

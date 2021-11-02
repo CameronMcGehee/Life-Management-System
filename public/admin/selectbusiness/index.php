@@ -9,8 +9,8 @@
 		header("location: ../login");
 	}
 
-	require_once '../../../lib/renderer.php';
-	$renderer = new renderer();
+	require_once '../../../lib/adminUIRender.php';
+	$adminUIRender = new adminUIRender();
 
 	// Other required libraries
 	require_once '../../../lib/class/admin.php';
@@ -18,8 +18,8 @@
 
 	$currentAdmin = new admin($_SESSION['ultiscape_adminId']);
 
-	echo $renderer->renderAdminHtmlTop('../../', 'Business Selection', 'Select the business to use in UltiScape.');
-	echo $renderer->renderAdminTopBarDropdownScripts('../../', true, false);
+	echo $adminUIRender->renderAdminHtmlTop('../../', 'Business Selection', 'Select the business to use in UltiScape.');
+	echo $adminUIRender->renderAdminTopBarDropdownScripts('../../', true, false);
 
 ?>
 
@@ -30,11 +30,11 @@
 	<div class="cmsLoginBodyWrapper">
 
 		<?php 
-			echo $renderer->renderAdminTopBar('../../', true, false, true);
+			echo $adminUIRender->renderAdminTopBar('../../', true, false, true);
 		?>
 
 		<?php 
-			// echo $renderer->renderAdminSideBar();
+			// echo $adminUIRender->renderAdminSideBar();
 		?>
 
 		<div class="cmsMainContentWrapper">
@@ -56,19 +56,19 @@
 		</div>
 		
 		<?php
-			echo $renderer->renderAdminFooter('../../', true, true);
+			echo $adminUIRender->renderAdminFooter('../../', true, true);
 		?>
 
 		<?php 
-			// echo $renderer->renderMobileNavBar('../../');
+			// echo $adminUIRender->renderMobileNavBar('../../');
 		?>
 
 	</div>
 
 	<?php
-		echo $renderer->renderAdminTopBarDropdowns('../../');
+		echo $adminUIRender->renderAdminTopBarDropdowns('../../');
 	?>
 </body>
 <?php 
-	echo $renderer->renderAdminHtmlBottom('../../');
+	echo $adminUIRender->renderAdminHtmlBottom('../../');
 ?>

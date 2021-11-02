@@ -2,7 +2,7 @@
 
     // HTML OUTPUT/DISPLAY FUNCTIONS ------------------------------------------------------------------------------------------------------------------------------------------
 
-	class renderer {
+	class adminUIRender {
 
 		public array $config;
 		

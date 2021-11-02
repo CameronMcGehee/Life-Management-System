@@ -7,12 +7,12 @@
     require_once '../../../lib/manager/adminLoginManager.php';
     adminLoginManager::cmsVerifyAdminLoginRedirect('../', '../');
 
-    require_once '../../../lib/renderer.php';
-    $renderer = new renderer();
+    require_once '../../../lib/adminUIRender.php';
+    $adminUIRender = new adminUIRender();
 
-    echo $renderer->renderAdminHtmlTop('../../', 'Inventory', 'Manage your business\'s inventory.');
+    echo $adminUIRender->renderAdminHtmlTop('../../', 'Inventory', 'Manage your business\'s inventory.');
 
-    echo $renderer->renderAdminTopBarDropdownScripts('../../');
+    echo $adminUIRender->renderAdminTopBarDropdownScripts('../../');
 
 ?>
 
@@ -22,11 +22,11 @@
     <div class="cmsBodyWrapper">
 
         <?php 
-            echo $renderer->renderAdminTopBar('../../');
+            echo $adminUIRender->renderAdminTopBar('../../');
         ?>
 
         <?php 
-            echo $renderer->renderAdminSideBar('../../');
+            echo $adminUIRender->renderAdminSideBar('../../');
         ?>
 
         <div class="cmsMainContentWrapper styledText spacedText textColorThemeInventory">
@@ -41,19 +41,19 @@
         </div>
         
         <?php 
-            echo $renderer->renderAdminFooter('../../');
+            echo $adminUIRender->renderAdminFooter('../../');
         ?>
 
         <?php 
-            echo $renderer->renderAdminMobileNavBar('../../');
+            echo $adminUIRender->renderAdminMobileNavBar('../../');
         ?>
 
     </div>
 
     <?php
-		echo $renderer->renderAdminTopBarDropdowns('../../');
+		echo $adminUIRender->renderAdminTopBarDropdowns('../../');
 	?>
 </body>
 <?php 
-    echo $renderer->renderAdminHtmlBottom('../../');
+    echo $adminUIRender->renderAdminHtmlBottom('../../');
 ?>

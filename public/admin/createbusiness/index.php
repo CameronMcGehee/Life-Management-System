@@ -9,15 +9,15 @@
 		header("location: ../login");
 	}
 
-	require_once '../../../lib/renderer.php';
-	$renderer = new renderer();
+	require_once '../../../lib/adminUIRender.php';
+	$adminUIRender = new adminUIRender();
 
 	// Other required libraries
 	require_once '../../../lib/class/admin.php';
 	require_once '../../../lib/class/business.php';
 
-	echo $renderer->renderAdminHtmlTop('../../', 'Create Business', 'Create a new business to manage in UltiScape.');
-	echo $renderer->renderAdminTopBarDropdownScripts('../../');
+	echo $adminUIRender->renderAdminHtmlTop('../../', 'Create Business', 'Create a new business to manage in UltiScape.');
+	echo $adminUIRender->renderAdminTopBarDropdownScripts('../../');
 
 ?>
 
@@ -33,9 +33,9 @@
 
 			// Render the business selector in the menu bar only if they actually have a business on their account already. The user may be on this page creating their first business.
 			if (count($currentAdmin->businesses) == 0) {
-				echo $renderer->renderAdminTopBar('../../', true, false, true);
+				echo $adminUIRender->renderAdminTopBar('../../', true, false, true);
 			} else {
-				echo $renderer->renderAdminTopBar('../../', true, true, true);
+				echo $adminUIRender->renderAdminTopBar('../../', true, true, true);
 				if (false /*they are not on the paid plan, will be implemented later*/) {
 					echo "<p>A popup: You need to upgrade to the paid plan in order to manage more than 1 business with UltiScape.</p>
 					";
@@ -69,19 +69,19 @@
 		</div>
 		
 		<?php
-			echo $renderer->renderAdminFooter('../../', true, true);
+			echo $adminUIRender->renderAdminFooter('../../', true, true);
 		?>
 
 		<?php 
-			// echo $renderer->renderMobileNavBar('../../');
+			// echo $adminUIRender->renderMobileNavBar('../../');
 		?>
 
 	</div>
 
 	<?php
-		echo $renderer->renderAdminTopBarDropdowns('../../');
+		echo $adminUIRender->renderAdminTopBarDropdowns('../../');
 	?>
 </body>
 <?php 
-	echo $renderer->renderAdminHtmlBottom('../../');
+	echo $adminUIRender->renderAdminHtmlBottom('../../');
 ?>
