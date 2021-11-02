@@ -60,10 +60,9 @@
 				} else {
 					$this->businessId = '';
 				}
-				$this->customerId = NULL;
+				$this->customerId = '';
 				$this->name = '';
 				$this->description = NULL;
-
 				// Get a random color for the default, thanks to color randomizer from Chris Coyier: https://css-tricks.com/snippets/php/random-hex-color/
 				$rand = array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f');
 				$this->color = '#'.$rand[rand(0,15)].$rand[rand(0,15)].$rand[rand(0,15)].$rand[rand(0,15)].$rand[rand(0,15)].$rand[rand(0,15)];

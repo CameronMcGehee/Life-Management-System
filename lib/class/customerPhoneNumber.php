@@ -62,12 +62,12 @@
 				} else {
 					$this->businessId = '';
 				}
-				$this->customerId = NULL;
-				$this->phonePrefix = '';
+				$this->customerId = '';
+				$this->phonePrefix = NULL;
 				$this->phone1 = '';
 				$this->phone2 = '';
 				$this->phone3 = '';
-				$this->description = '';
+				$this->description = NULL;
 				// Default dateTimeAdded to now since it is likely going to be inserted at this time
 				$currentDateTime = new DateTime();
 				$this->dateTimeAdded = $currentDateTime->format('Y-m-d H:i:s');
