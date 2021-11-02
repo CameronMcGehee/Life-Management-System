@@ -22,39 +22,6 @@
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
-	-- Table structure for table `admin`
-	--
-
-	CREATE TABLE IF NOT EXISTS `adminPlan` (
-	`adminPlanId` varchar(17) NOT NULL,
-	`adminId` varchar(17) NOT NULL,
-	`plan` varchar(20) NOT NULL,
-	`untilDateTime` datetime NOT NULL,
-	`dateTimeAdded` datetime NOT NULL,
-	PRIMARY KEY (`adminPlanId`),
-	KEY `adminPlanAdminId` (`adminId`),
-	CONSTRAINT `adminPlanAdminId` FOREIGN KEY (`adminId`) REFERENCES `admin` (`adminId`)
-	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-	
-	--
-	-- Table structure for table `admin`
-	--
-
-	CREATE TABLE IF NOT EXISTS `adminPlanPayment` (
-	`adminPlanPaymentId` varchar(17) NOT NULL,
-	`adminId` varchar(17) NOT NULL,
-	`linkedToAdminPlanId` varchar(17) NULL COMMENT 'Optional FK',
-	`method` varchar(20) NOT NULL,
-	`amount` float NOT NULL,
-	`notes` varchar(50) NULL,
-	`dateTimeAdded` datetime NOT NULL,
-	PRIMARY KEY (`adminPlanPaymentId`),
-	KEY `adminPlanPaymentAdminId` (`adminId`),
-	KEY `adminPlanPaymentLinkedToAdminPlanId` (`linkedToAdminPlanId`),
-	CONSTRAINT `adminPlanPaymentAdminId` FOREIGN KEY (`adminId`) REFERENCES `admin` (`adminId`)
-	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-	--
 	-- Table structure for table `adminLoginAttempt`
 	--
 
@@ -207,6 +174,42 @@
 	PRIMARY KEY (`businessId`),
 	KEY `businessOwnerAdminId` (`ownerAdminId`),
 	CONSTRAINT `businessOwnerAdminId` FOREIGN KEY (`ownerAdminId`) REFERENCES `admin` (`adminId`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
+	-- Table structure for table `businessPlan`
+	--
+
+	CREATE TABLE IF NOT EXISTS `businessPlanBridge` (
+	`businessPlanId` varchar(17) NOT NULL,
+	`businessId` varchar(17) NOT NULL,
+	`plan` varchar(20) NOT NULL,
+	`untilDateTime` datetime NOT NULL,
+	`dateTimeAdded` datetime NOT NULL,
+	PRIMARY KEY (`businessPlanId`),
+	KEY `businessPlanBridgeBusinessId` (`businessId`),
+	CONSTRAINT `businessPlanBridgeBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+	
+	--
+	-- Table structure for table `businessPlanPayment`
+	--
+
+	CREATE TABLE IF NOT EXISTS `businessPlanPayment` (
+	`businessPlanPaymentId` varchar(17) NOT NULL,
+	`businessId` varchar(17) NOT NULL,
+	`adminId` varchar(17) NOT NULL,
+	`linkedToBusinessPlanId` varchar(17) NULL COMMENT 'Optional FK',
+	`method` varchar(20) NOT NULL,
+	`amount` float NOT NULL,
+	`notes` varchar(50) NULL,
+	`dateTimeAdded` datetime NOT NULL,
+	PRIMARY KEY (`businessPlanPaymentId`),
+	KEY `businessPlanPaymentBusinessId` (`businessId`),
+	KEY `businessPlanPaymentAdminId` (`adminId`),
+	KEY `businessPlanPaymentLinkedToBusinessPlanId` (`linkedToBusinessPlanId`),
+	CONSTRAINT `businessPlanPaymentBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
+	CONSTRAINT `businessPlanPaymentAdminId` FOREIGN KEY (`adminId`) REFERENCES `admin` (`adminId`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
