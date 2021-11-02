@@ -22,7 +22,7 @@
 </head>
 
 <body>
-    <div class="cmsLoginBodyWrapper">
+    <div class="appNoSidebarBodyWrapper">
 
         <?php 
             echo $adminUIRender->renderAdminTopBar('../', true, false, false);

@@ -25,7 +25,7 @@
 </head>
 
 <body>
-	<div class="cmsLoginBodyWrapper">
+	<div class="appNoSidebarBodyWrapper">
 
 		<?php 
 			$currentAdmin = new admin($_SESSION['ultiscape_adminId']);
