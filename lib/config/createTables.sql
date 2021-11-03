@@ -481,7 +481,7 @@
 	`serviceListingId` varchar(17) NOT NULL,
 	`businessId` varchar(17) NOT NULL,
 	`name` varchar(50) NOT NULL,
-	`description` varchar(200) NOT NULL,
+	`description` varchar(200) NULL,
 	`imgFile` varchar(17) NULL,
 	`price` int(11) NULL,
 	`minPrice` int(11) NULL,
