@@ -156,12 +156,12 @@
 				$this->businessId = '';
 			}
 			$this->name = '';
-			$this->description = '';
-			$this->imgFile = '';
+			$this->description = NULL;
+			$this->imgFile = NULL;
 			$this->price = NULL;
 			$this->minPrice = NULL;
 			$this->maxPrice = NULL;
-			$this->isRequestable = NULL;
+			$this->isRequestable = '1';
 			// Default dateTimeAdded to now since it is likely going to be inserted at this time
 			$currentDateTime = new DateTime();
 			$this->dateTimeAdded = $currentDateTime->format('Y-m-d H:i:s');
