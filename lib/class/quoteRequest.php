@@ -14,6 +14,10 @@
 		public $businessId;
 		public $name;
 		public $email;
+		public $address1;
+		public $address2;
+		public $state;
+		public $zipCode;
 		public $dateTimeAdded;
 
 		// Arrays to store linked data
