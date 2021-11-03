@@ -1,16 +1,16 @@
 <?php
 
-	class customerTag {
+	class crewTag {
 
 		private string $setType;
 		private databaseManager $db;
 
-		public string $dbCustomerTagId; // Used when updating the table incase the customerTagId has been changed after instantiation
+		public string $dbCrewTagId; // Used when updating the table incase the crewTagId has been changed after instantiation
 		
 		public bool $existed; // Can be used to see whether the given entity existed already at the time of instantiation
 
 		// Main database attributes
-		public $customerTagId;
+		public $crewTagId;
 		public $businessId;
 		public $name;
 		public $description;
@@ -24,18 +24,18 @@
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 
-		function __construct(string $customerTagId = '') {
+		function __construct(string $crewTagId = '') {
 
 			// Connect to the database
 			require_once dirname(__FILE__)."/../manager/databaseManager.php";
 			$this->db = new databaseManager;
 
 			// Fetch from database
-			$fetch = $this->db->select('customerTag', '*', "WHERE customerTagId ='".$this->db->sanitize($customerTagId)."'");
+			$fetch = $this->db->select('crewTag', '*', "WHERE crewTagId ='".$this->db->sanitize($crewTagId)."'");
 
-			// If customerTagId already exists then set the set method type to UPDATE and fetch the values for the customerTag
+			// If crewTagId already exists then set the set method type to UPDATE and fetch the values for the crewTag
 			if ($fetch) {
-				$this->customerTagId = $customerTagId;
+				$this->crewTagId = $crewTagId;
 				$this->businessId = $fetch[0]['businessId'];
 				$this->name = $fetch[0]['name'];
 				$this->description = $fetch[0]['description'];
@@ -46,12 +46,12 @@
 				$this->setType = 'UPDATE';
 				$this->existed = true;
 
-			// If customerTagId does not exist then set the set method type to INSERT and inititialize default values
+			// If crewTagId does not exist then set the set method type to INSERT and inititialize default values
 			} else {
-				// Make a new customerTagId
+				// Make a new crewTagId
 				require_once dirname(__FILE__)."/tableUuid.php";
-				$uuid = new tableUuid('customerTag', 'customerTagId');
-				$this->customerTagId = $uuid->generatedId;
+				$uuid = new tableUuid('crewTag', 'crewTagId');
+				$this->crewTagId = $uuid->generatedId;
 				// Default businessId to the currently selected business
 				if (isset($_SESSION['ultiscape_businessId'])) {
 					$this->businessId = $_SESSION['ultiscape_businessId'];
@@ -72,7 +72,7 @@
 				$this->existed = false;
 			}
 
-			$this->$dbCustomerTagId = $this->customerTagId;
+			$this->$dbCrewTagId = $this->crewTagId;
 			
 		}
 
@@ -85,7 +85,8 @@
 		public function set() {
 
 			$attributes = array(
-				'customerTagId' => $this->db->sanitize($this->customerTagId),
+				'crewTagId' => $this->db->sanitize($this->crewTagId),
+				'businessId' => $this->db->sanitize($this->businessId),
 				'name' => $this->db->sanitize($this->name),
 				'description' => $this->db->sanitize($this->description),
 				'color' => $this->db->sanitize($this->color),
@@ -96,7 +97,7 @@
 			if ($this->setType == 'UPDATE') {
 
 				// Update the values in the database after sanitizing them
-				if ($this->db->update('customerTag', $attributes, "WHERE customerTagId = ".$this->db->sanitize($this->dbCustomerTagId), 1)) {
+				if ($this->db->update('crewTag', $attributes, "WHERE crewTagId = ".$this->db->sanitize($this->dbCrewTagId), 1)) {
 					return true;
 				} elseif ($this->db->getLastError() === '') {
 					return true;
@@ -107,7 +108,7 @@
 			} else {
 
 				// Insert the values to the database after sanitizing them
-				if ($this->db->insert('customerTag', $attributes)) {
+				if ($this->db->insert('crewTag', $attributes)) {
 					// Set the setType to UPDATE since it is now in the database
 					$this->setType = 'UPDATE';
 					return true;
@@ -128,14 +129,14 @@
 		public function delete() {
 
 			// Remove row from database
-			if (!$this->db->delete('customerTag', "WHERE customerTagId = '".$this->db->sanitize($this->dbCustomerTagId)."'", 1)) {
+			if (!$this->db->delete('crewTag', "WHERE crewTagId = '".$this->db->sanitize($this->dbCrewTagId)."'", 1)) {
 				return $this->db->getLastError();
 			}
 
 			// Generate a new random id
 			require_once dirname(__FILE__)."/tableUuid.php";
-			$uuid = new tableUuid('customerTag', 'customerTagId');
-			$this->customerTagId = $uuid->generatedId;
+			$uuid = new tableUuid('crewTag', 'crewTagId');
+			$this->crewTagId = $uuid->generatedId;
 
 			// Reset all variables
 			// Default businessId to the currently selected business
