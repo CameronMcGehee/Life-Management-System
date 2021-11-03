@@ -75,6 +75,7 @@
 
 			$attributes = array(
 				'customerSavedLoginId' => $this->db->sanitize($this->dbCustomerSavedLoginId),
+				'businessId' => $this->db->sanitize($this->businessId),
 				'customerId' => $this->db->sanitize($this->customerId),
 				'dateTimeAdded' => $this->db->sanitize($this->dateTimeAdded)
 			);

@@ -85,7 +85,7 @@
 		public function set() {
 
 			$attributes = array(
-				'crewTagId' => $this->db->sanitize($this->crewTagId),
+				'crewTagId' => $this->db->sanitize($this->dbCrewTagId),
 				'businessId' => $this->db->sanitize($this->businessId),
 				'name' => $this->db->sanitize($this->name),
 				'description' => $this->db->sanitize($this->description),

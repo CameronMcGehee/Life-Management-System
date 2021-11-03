@@ -80,7 +80,8 @@
 		public function set() {
 
 			$attributes = array(
-				'customerEmailAddressId' => $this->db->sanitize($this->customerEmailAddressId),
+				'customerEmailAddressId' => $this->db->sanitize($this->dbCustomerEmailAddressId),
+				'businessId' => $this->db->sanitize($this->businessId),
 				'customerId' => $this->db->sanitize($this->customerId),
 				'email' => $this->db->sanitize($this->email),
 				'description' => $this->db->sanitize($this->description),

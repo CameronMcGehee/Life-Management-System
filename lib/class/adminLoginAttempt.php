@@ -73,7 +73,7 @@
 		public function set() {
 
 			$attributes = array(
-				'adminLoginAttemptId' => $this->db->sanitize($this->adminLoginAttemptId),
+				'adminLoginAttemptId' => $this->db->sanitize($this->dbAdminLoginAttemptId),
 				'adminId' => $this->db->sanitize($this->adminId),
 				'clientIp' => $this->db->sanitize($this->clientIp),
 				'result' => $this->db->sanitize($this->result),

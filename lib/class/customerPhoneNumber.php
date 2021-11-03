@@ -89,7 +89,8 @@
 		public function set() {
 
 			$attributes = array(
-				'customerPhoneNumberId' => $this->db->sanitize($this->customerPhoneNumberId),
+				'customerPhoneNumberId' => $this->db->sanitize($this->dbCustomerPhoneNumberId),
+				'businessId' => $this->db->sanitize($this->businessId),
 				'customerId' => $this->db->sanitize($this->customerId),
 				'phonePrefix' => $this->db->sanitize($this->phonePrefix),
 				'phone1' => $this->db->sanitize($this->phone1),

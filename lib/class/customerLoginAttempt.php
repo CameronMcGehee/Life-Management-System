@@ -80,7 +80,8 @@
 		public function set() {
 
 			$attributes = array(
-				'customerLoginAttemptId' => $this->db->sanitize($this->customerLoginAttemptId),
+				'customerLoginAttemptId' => $this->db->sanitize($this->dbCustomerLoginAttemptId),
+				'businessId' => $this->db->sanitize($this->businessId),
 				'customerId' => $this->db->sanitize($this->customerId),
 				'clientIp' => $this->db->sanitize($this->clientIp),
 				'result' => $this->db->sanitize($this->result),
