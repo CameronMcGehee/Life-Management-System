@@ -287,7 +287,6 @@
 	CREATE TABLE IF NOT EXISTS `crewTag` (
 	`crewTagId` varchar(17) NOT NULL,
 	`businessId` varchar(17) NOT NULL,
-	`crewId` varchar(17) NOT NULL,
 	`name` varchar(50) NOT NULL,
 	`description` text NULL DEFAULT NULL,
 	`color` varchar(15) NOT NULL DEFAULT 'gray',
@@ -295,9 +294,7 @@
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`crewTagId`),
 	KEY `crewTagBusinessId` (`businessId`),
-	KEY `crewTagCrewId` (`crewId`),
 	CONSTRAINT `crewTagBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
-	CONSTRAINT `crewTagCrewId` FOREIGN KEY (`crewId`) REFERENCES `crew` (`crewId`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -414,7 +411,6 @@
 	CREATE TABLE IF NOT EXISTS `customerTag` (
 	`customerTagId` varchar(17) NOT NULL,
 	`businessId` varchar(17) NOT NULL,
-	`customerId` varchar(17) NOT NULL,
 	`name` varchar(50) NOT NULL,
 	`description` text NULL DEFAULT NULL,
 	`color` varchar(15) NOT NULL DEFAULT 'gray',
@@ -422,9 +418,7 @@
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`customerTagId`),
 	KEY `customerTagBusinessId` (`businessId`),
-	KEY `customerTagCustomerId` (`customerId`),
 	CONSTRAINT `customerTagBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
-	CONSTRAINT `customerTagCustomerId` FOREIGN KEY (`customerId`) REFERENCES `customer` (`customerId`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -1269,7 +1263,6 @@
 	CREATE TABLE IF NOT EXISTS `staffTag` (
 	`staffTagId` varchar(17) NOT NULL,
 	`businessId` varchar(17) NOT NULL,
-	`staffId` varchar(17) NOT NULL,
 	`name` varchar(50) NOT NULL,
 	`description` text NULL DEFAULT NULL,
 	`color` varchar(15) NOT NULL DEFAULT 'gray',
@@ -1277,9 +1270,7 @@
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`staffTagId`),
 	KEY `staffTagBusinessId` (`businessId`),
-	KEY `staffTagstaffId` (`staffId`),
 	CONSTRAINT `staffTagBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
-	CONSTRAINT `staffTagstaffId` FOREIGN KEY (`staffId`) REFERENCES `staff` (`staffId`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
