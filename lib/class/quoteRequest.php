@@ -5,7 +5,7 @@
 		private string $setType;
 		private databaseManager $db;
 
-		public string $dbQuoteResquestId; // Used when updating the table incase the quoteRequestId has been changed after instantiation
+		public string $dbQuoteRequestId; // Used when updating the table incase the quoteRequestId has been changed after instantiation
 		
 		public bool $existed; // Can be used to see whether the given entity existed already at the time of instantiation
 
@@ -83,7 +83,7 @@
 				$this->existed = false;
 			}
 
-			$this->$dbQuoteResquestId = $this->quoteRequestId;
+			$this->$dbQuoteRequestId = $this->quoteRequestId;
 			
 		}
 
@@ -101,7 +101,7 @@
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('quoteRequestService', 'quoteRequestServiceId', "WHERE quoteResquestId = '$this->dbQuoteResquestId'".$params);
+			$fetch = $this->db->select('quoteRequestService', 'quoteRequestServiceId', "WHERE quoteResquestId = '$this->dbQuoteRequestId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->services, $row['quoteRequestServiceId']);
@@ -123,7 +123,7 @@
 		public function set() {
 
 			$attributes = array(
-				'quoteRequestId' => $this->db->sanitize($this->dbQuoteResquestId),
+				'quoteRequestId' => $this->db->sanitize($this->dbQuoteRequestId),
 				'businessId' => $this->db->sanitize($this->businessId),
 				'name' => $this->db->sanitize($this->name),
 				'email' => $this->db->sanitize($this->email),
@@ -133,7 +133,7 @@
 			if ($this->setType == 'UPDATE') {
 
 				// Update the values in the database after sanitizing them
-				if ($this->db->update('quoteRequest', $attributes, "WHERE quoteRequestId = '".$this->db->sanitize($this->dbQuoteResquestId)."'", 1)) {
+				if ($this->db->update('quoteRequest', $attributes, "WHERE quoteRequestId = '".$this->db->sanitize($this->dbQuoteRequestId)."'", 1)) {
 					return true;
 				} elseif ($this->db->getLastError() === '') {
 					return true;
@@ -165,7 +165,7 @@
 		public function delete() {
 
 			// Remove row from database
-			if (!$this->db->delete('quoteRequest', "WHERE quoteRequestId = '".$this->db->sanitize($this->dbQuoteResquestId)."'", 1)) {
+			if (!$this->db->delete('quoteRequest', "WHERE quoteRequestId = '".$this->db->sanitize($this->dbQuoteRequestId)."'", 1)) {
 				return $this->db->getLastError();
 			}
 
