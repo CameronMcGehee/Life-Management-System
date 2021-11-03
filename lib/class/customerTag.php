@@ -38,7 +38,6 @@
 			if ($fetch) {
 				$this->customerTagId = $customerTagId;
 				$this->businessId = $fetch[0]['businessId'];
-				$this->customerId = $fetch[0]['customerId'];
 				$this->name = $fetch[0]['name'];
 				$this->description = $fetch[0]['description'];
 				$this->color = $fetch[0]['color'];
@@ -60,7 +59,6 @@
 				} else {
 					$this->businessId = '';
 				}
-				$this->customerId = '';
 				$this->name = '';
 				$this->description = NULL;
 				// Get a random color for the default, thanks to color randomizer from Chris Coyier: https://css-tricks.com/snippets/php/random-hex-color/
@@ -89,7 +87,6 @@
 
 			$attributes = array(
 				'customerTagId' => $this->db->sanitize($this->customerTagId),
-				'customerId' => $this->db->sanitize($this->customerId),
 				'name' => $this->db->sanitize($this->name),
 				'description' => $this->db->sanitize($this->description),
 				'color' => $this->db->sanitize($this->color),
@@ -148,11 +145,12 @@
 			} else {
 				$this->businessId = '';
 			}
-			$this->customerId = NULL;
 			$this->name = '';
-			$this->description = '';
-			$this->color = '';
-			$this->imgFile = '';
+			$this->description = NULL;
+			// Get a random color for the default, thanks to color randomizer from Chris Coyier: https://css-tricks.com/snippets/php/random-hex-color/
+			$rand = array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f');
+			$this->color = '#'.$rand[rand(0,15)].$rand[rand(0,15)].$rand[rand(0,15)].$rand[rand(0,15)].$rand[rand(0,15)].$rand[rand(0,15)];
+			$this->imgFile = NULL;
 			// Default dateTimeAdded to now since it is likely going to be inserted at this time
 			$currentDateTime = new DateTime();
 			$this->dateTimeAdded = $currentDateTime->format('Y-m-d H:i:s');
