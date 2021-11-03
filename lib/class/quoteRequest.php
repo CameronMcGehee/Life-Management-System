@@ -12,6 +12,7 @@
 		// Main database attributes
 		public $quoteRequestId;
 		public $businessId;
+		public $linkedToCustomerId;
 		public $name;
 		public $email;
 		public $address1;
