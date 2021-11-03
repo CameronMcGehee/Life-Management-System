@@ -459,7 +459,7 @@
 	`quoteRequestId` varchar(17) NOT NULL,
 	`linkedToServiceListingId` varchar(17) NULL COMMENT 'Optional FK',
 	`currentName` varchar(50) NOT NULL,
-	`currentDescription` varchar(200) NOT NULL,
+	`currentDescription` varchar(200) NULL,
 	`currentImgFile` varchar(17) NULL,
 	`currentPrice` int(11) NULL,
 	`currentMinPrice` int(11) NULL,
