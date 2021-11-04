@@ -6,7 +6,7 @@
 
 		function __construct() {
 			require_once dirname(__FILE__)."/../database.php";
-			$this->databaseManager = new database;
+			$this->database = new database;
 		}
 
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -32,8 +32,8 @@
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 
 		function adminExists(string $adminId) {
-			$adminId = $this->databaseManager->sanitize($adminId);
-			$result = $this->databaseManager->select("admin", "adminId", "WHERE adminId = '$adminId'");
+			$adminId = $this->database->sanitize($adminId);
+			$result = $this->database->select("admin", "adminId", "WHERE adminId = '$adminId'");
 
 			if ($result) {
 				if (gettype($result) == 'array') {
@@ -45,8 +45,8 @@
 		}
 		
 		function emailExists(string $email, bool $returnAdminId = false) {
-			$email = $this->databaseManager->sanitize($email);
-			$result = $this->databaseManager->select("admin", "adminId", "WHERE email = '$email'");
+			$email = $this->database->sanitize($email);
+			$result = $this->database->select("admin", "adminId", "WHERE email = '$email'");
 
 			if ($result) {
 				if (gettype($result) == 'array') {
@@ -62,8 +62,8 @@
 		}
 
 		function usernameExists(string $username, bool $returnAdminId = false) {
-			$username = $this->databaseManager->sanitize($username);
-			$result = $this->databaseManager->select("admin", "adminId", "WHERE username = '$username'");
+			$username = $this->database->sanitize($username);
+			$result = $this->database->select("admin", "adminId", "WHERE username = '$username'");
 
 			if ($result) {
 				if (gettype($result) == 'array') {
@@ -79,8 +79,8 @@
 		}
 
 		function passwordExists(string $password, bool $returnAdminIds = false) {
-			$password = $this->databaseManager->sanitize($password);
-			$result = $this->databaseManager->select("admin", "adminId", "WHERE password = '$password'");
+			$password = $this->database->sanitize($password);
+			$result = $this->database->select("admin", "adminId", "WHERE password = '$password'");
 
 			if ($result) {
 				if (gettype($result) == 'array') {
@@ -100,8 +100,8 @@
 		}
 		
 		function getUsername(string $adminId) {
-			$adminId = $this->databaseManager->sanitize($adminId);
-			$result = $this->databaseManager->select("admin", "username", "WHERE adminId = '$adminId'");
+			$adminId = $this->database->sanitize($adminId);
+			$result = $this->database->select("admin", "username", "WHERE adminId = '$adminId'");
 
 			if ($result) {
 				if (gettype($result) == 'array') {
@@ -113,8 +113,8 @@
 		}
 
 		function getEmail(string $adminId) {
-			$adminId = $this->databaseManager->sanitize($adminId);
-			$result = $this->databaseManager->select("admin", "username", "WHERE adminId = '$adminId'");
+			$adminId = $this->database->sanitize($adminId);
+			$result = $this->database->select("admin", "username", "WHERE adminId = '$adminId'");
 
 			if ($result) {
 				if (gettype($result) == 'array') {
@@ -126,9 +126,9 @@
 		}
 
 		function getPassword(string $adminId) {
-			$adminId = $this->databaseManager->sanitize($adminId);
+			$adminId = $this->database->sanitize($adminId);
 			echo $adminId;
-			$result = $this->databaseManager->select("admin", "password", "WHERE adminId = '$adminId'");
+			$result = $this->database->select("admin", "password", "WHERE adminId = '$adminId'");
 
 			if ($result) {
 				if (gettype($result) == 'array') {
