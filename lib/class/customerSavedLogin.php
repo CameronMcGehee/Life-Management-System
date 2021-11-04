@@ -3,7 +3,7 @@
 	class customerSavedLogin {
 
 		private string $setType;
-		private databaseManager $db;
+		private database $db;
 
 		public string $dbCustomerSavedLoginId; // Used when updating the table incase the customerSavedLoginId has been changed after instantiation
 		
@@ -24,8 +24,8 @@
 		function __construct(string $customerSavedLoginId = '') {
 
 			// Connect to the database
-			require_once dirname(__FILE__)."/../manager/databaseManager.php";
-			$this->db = new databaseManager;
+			require_once dirname(__FILE__)."/../database.php";
+			$this->db = new database;
 
 			// Fetch from database
 			$fetch = $this->db->select('customerSavedLogin', '*', "WHERE customerSavedLoginId ='".$this->db->sanitize($customerSavedLoginId)."'");

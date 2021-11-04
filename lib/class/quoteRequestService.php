@@ -3,7 +3,7 @@
 	class quoteRequestService {
 
 		private string $setType;
-		private databaseManager $db;
+		private database $db;
 
 		public string $dbQuoteRequestServiceId; // Used when updating the table incase the quoteRequestServiceId has been changed after instantiation
 		
@@ -31,8 +31,8 @@
 		function __construct(string $quoteRequestServiceId = '') {
 
 			// Connect to the database
-			require_once dirname(__FILE__)."/../manager/databaseManager.php";
-			$this->db = new databaseManager;
+			require_once dirname(__FILE__)."/../database.php";
+			$this->db = new database;
 
 			// Fetch from database
 			$fetch = $this->db->select('quoteRequestService', '*', "WHERE quoteRequestServiceId ='".$this->db->sanitize($quoteRequestServiceId)."'");

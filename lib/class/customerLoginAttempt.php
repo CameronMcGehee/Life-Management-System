@@ -3,7 +3,7 @@
 	class customerLoginAttempt {
 
 		private string $setType;
-		private databaseManager $db;
+		private database $db;
 
 		public string $dbCustomerLoginAttemptId; // Used when updating the table incase the customerLoginAttemptId has been changed after instantiation
 		
@@ -26,8 +26,8 @@
 		function __construct(string $customerLoginAttemptId = '') {
 
 			// Connect to the database
-			require_once dirname(__FILE__)."/../manager/databaseManager.php";
-			$this->db = new databaseManager;
+			require_once dirname(__FILE__)."/../database.php";
+			$this->db = new database;
 
 			// Fetch from database
 			$fetch = $this->db->select('customerLoginAttempt', '*', "WHERE customerLoginAttemptId ='".$this->db->sanitize($customerLoginAttemptId)."'");

@@ -7,8 +7,8 @@
 		private $config;
 		
 		function __construct() {
-			require_once dirname(__FILE__)."/manager/databaseManager.php";
-			$this->databaseManager = new databaseManager;
+			require_once dirname(__FILE__)."/database.php";
+			$this->databaseManager = new database;
 
 			$this->config = $GLOBALS['ULTISCAPECONFIG'];
 		}

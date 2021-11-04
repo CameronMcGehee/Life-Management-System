@@ -3,7 +3,7 @@
 	class customerServiceTicket {
 
 		private string $setType;
-		private databaseManager $db;
+		private database $db;
 
 		public string $dbCustomerServiceTicketId; // Used when updating the table incase the customerServiceTicketId has been changed after instantiation
 		
@@ -32,8 +32,8 @@
 		function __construct(string $customerServiceTicketId = '') {
 
 			// Connect to the database
-			require_once dirname(__FILE__)."/../manager/databaseManager.php";
-			$this->db = new databaseManager;
+			require_once dirname(__FILE__)."/../database.php";
+			$this->db = new database;
 
 			// Fetch from database
 			$fetch = $this->db->select('customerServiceTicket', '*', "WHERE customerServiceTicketId ='".$this->db->sanitize($customerServiceTicketId)."'");

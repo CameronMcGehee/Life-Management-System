@@ -2,7 +2,7 @@
 
 	class tableUuid {
 
-		private databaseManager $db;
+		private database $db;
 
 		public $table;
 		public $idColumn;
@@ -17,8 +17,8 @@
 			$this->idColumn = $idColumn;
 			
 			// Connect to the database
-			require_once dirname(__FILE__)."/../manager/databaseManager.php";
-			$this->db = new databaseManager;
+			require_once dirname(__FILE__)."/../database.php";
+			$this->db = new database;
 
 			$this->regenerate();
 		}

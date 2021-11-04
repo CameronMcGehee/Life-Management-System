@@ -3,7 +3,7 @@
 	class customer {
 
 		private string $setType;
-		private databaseManager $db;
+		private database $db;
 
 		private string $dbCustomerId; // Used when updating the table incase the customerId has been changed after instantiation
 
@@ -49,8 +49,8 @@
 		function __construct(string $customerId = '') {
 
 			// Connect to the database
-			require_once dirname(__FILE__)."/../manager/databaseManager.php";
-			$this->db = new databaseManager;
+			require_once dirname(__FILE__)."/../database.php";
+			$this->db = new database;
 
 			// Fetch from database
 			$fetch = $this->db->select('customer', '*', "WHERE customerId ='".$this->db->sanitize($customerId)."'");

@@ -3,7 +3,7 @@
 	class adminSavedLogin {
 
 		private string $setType;
-		private databaseManager $db;
+		private database $db;
 
 		public string $dbAdminSavedLoginId; // Used when updating the table incase the adminSavedLoginId has been changed after instantiation
 		
@@ -23,8 +23,8 @@
 		function __construct(string $adminSavedLoginId = '') {
 
 			// Connect to the database
-			require_once dirname(__FILE__)."/../manager/databaseManager.php";
-			$this->db = new databaseManager;
+			require_once dirname(__FILE__)."/../database.php";
+			$this->db = new database;
 
 			// Fetch from database
 			$fetch = $this->db->select('adminSavedLogin', '*', "WHERE adminSavedLoginId ='".$this->db->sanitize($adminSavedLoginId)."'");

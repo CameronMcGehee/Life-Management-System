@@ -3,7 +3,7 @@
 	class crewTag {
 
 		private string $setType;
-		private databaseManager $db;
+		private database $db;
 
 		public string $dbCrewTagId; // Used when updating the table incase the crewTagId has been changed after instantiation
 		
@@ -27,8 +27,8 @@
 		function __construct(string $crewTagId = '') {
 
 			// Connect to the database
-			require_once dirname(__FILE__)."/../manager/databaseManager.php";
-			$this->db = new databaseManager;
+			require_once dirname(__FILE__)."/../database.php";
+			$this->db = new database;
 
 			// Fetch from database
 			$fetch = $this->db->select('crewTag', '*', "WHERE crewTagId ='".$this->db->sanitize($crewTagId)."'");
