@@ -9,7 +9,6 @@
 		public $generatedId;
 
 		// If looking to create a new table entry, use ('table', $tableName, $idColumn) syntax.
-		// If looking to create a new file entry, use ('file', $rootPath) syntax.
 
 		function __construct($table, $idColumn) {
 
