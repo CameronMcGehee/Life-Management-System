@@ -6,6 +6,7 @@
 		private database $db;
 
 		public string $dbDocIdId; // Used when updating the table incase the docIdId has been changed after instantiation
+		public string $selectedBusinessId; // Used when generating new docIds
 		
 		public bool $existed; // Can be used to see whether the given entity existed already at the time of instantiation
 
@@ -25,7 +26,10 @@
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 
-		function __construct(string $docIdId = '') {
+		function __construct(string $businessId, string $docIdId = '') {
+
+			// Set the businessId so that we can generate new ids
+			$this->selectedBusinessId = $businessId;
 
 			// Connect to the database
 			require_once dirname(__FILE__)."/../database.php";
@@ -73,7 +77,7 @@
 			if ($existed) {
 				// If the docId existed, fill the linkedItem array with whatever the docId is linked to
 				$this->pullLinkedItem();
-			} elseif ($this->businessId != '') {
+			} elseif ($this->selectedBusinessId != '') {
 				$this->generateIncrementalId();
 				$this->generateRandomId();
 			}
@@ -125,23 +129,24 @@
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 
-		public function generateIncrementalId($businessId) {
+		public function generateIncrementalId() {
 			// For incremental id, find the last highest id for this business and then set this one to one above that
-			$fetch = $this->db->select('docId', 'incrementalId', "WHERE businessId = '$businessId' ORDER BY incrementalId DESC LIMIT 1");
+			$fetch = $this->db->select('docId', 'incrementalId', "WHERE businessId = '".$this->db->sanitize($this->selectedBusinessId)."' ORDER BY incrementalId DESC LIMIT 1");
 			if (!$fetch) {
-				return $this->db->getLastError();
+				$newIncrementalId = 1;
+			} else {
+				$newIncrementalId = (int)$fetch[0]['incrementalId'] + 1;
 			}
-			$newIncrementalId = (int)$fetch[0]['incrementalId'] + 1;
-			$this->incrementalId = $newIncrementalId;
+			$this->incrementalId = (string)$newIncrementalId;
 			return true;
 		}
-		public function generateRandomId($businessId) {
+		public function generateRandomId() {
 			// for random id, generate a random 5 number id until it doesn't exist already
 			$newRandomId = (string)rand(0,9).(string)rand(0,9).(string)rand(0,9).(string)rand(0,9).(string)rand(0,9);
-			while ($this->db->select('docId', 'randomId', "WHERE businessId = '$businessId' AND randomId = '$newRandomId'")) {
+			while ($this->db->select('docId', 'randomId', "WHERE businessId = '".$this->db->sanitize($this->selectedBusinessId)."' AND randomId = '$newRandomId'")) {
 				$newRandomId = (string)rand(0,9).(string)rand(0,9).(string)rand(0,9).(string)rand(0,9).(string)rand(0,9);
 			}
-			$this->randomId = $newRandomId;
+			$this->randomId = (string)$newRandomId;
 			return true;
 		}
 		
@@ -226,6 +231,12 @@
 
 			// Set existed to false since it no longer exists
 			$this->existed = false;
+
+			// Generate new ids
+			if ($this->businessId != '') {
+				$this->generateIncrementalId();
+				$this->generateRandomId();
+			}
 
 			return true;
 		}
