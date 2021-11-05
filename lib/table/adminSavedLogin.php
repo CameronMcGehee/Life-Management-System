@@ -5,7 +5,7 @@
 		private string $setType;
 		private database $db;
 
-		public string $dbAdminSavedLoginId; // Used when updating the table incase the adminSavedLoginId has been changed after instantiation
+		private string $dbAdminSavedLoginId; // Used when updating the table incase the adminSavedLoginId has been changed after instantiation
 		
 		public bool $existed; // Can be used to see whether the given entity existed already at the time of instantiation
 

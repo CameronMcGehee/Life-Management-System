@@ -5,8 +5,8 @@
 		private string $setType;
 		private database $db;
 
-		public string $dbDocIdId; // Used when updating the table incase the docIdId has been changed after instantiation
-		public string $selectedBusinessId; // Used when generating new docIds
+		private string $dbDocIdId; // Used when updating the table incase the docIdId has been changed after instantiation
+		private string $selectedBusinessId; // Used when generating new docIds
 		
 		public bool $existed; // Can be used to see whether the given entity existed already at the time of instantiation
 
