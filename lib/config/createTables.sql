@@ -639,24 +639,6 @@
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
-	-- Table structure for table `equipmentMaintenanceLogImage`
-	--
-
-	CREATE TABLE IF NOT EXISTS `equipmentMaintenanceLogImage` (
-	`equipmentMaintenanceLogImageId` varchar(17) NOT NULL,
-	`businessId` varchar(17) NOT NULL,
-	`equipmentMaintenanceLogId` varchar(17) NOT NULL,
-	`imageFile` varchar(17) NOT NULL,
-	`caption` varchar(50) NOT NULL,
-	`dateTimeAdded` datetime NOT NULL,
-	PRIMARY KEY (`equipmentMaintenanceLogImageId`),
-	KEY `equipmentMaintenanceLogImageBusinessId` (`businessId`),
-	KEY `equipmentMaintenanceLogImageEquipmentMaintenanceLogId` (`equipmentMaintenanceLogId`),
-	CONSTRAINT `equipmentMaintenanceLogImageBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
-	CONSTRAINT `equipmentMaintenanceLogImageEquipmentMaintenanceLogId` FOREIGN KEY (`equipmentMaintenanceLogId`) REFERENCES `equipmentMaintenanceLog` (`equipmentMaintenanceLogId`)
-	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-	--
 	-- Table structure for table `equipmentTag`
 	--
 

@@ -25,7 +25,9 @@
 		public $dateTimeAdded;
 
 		// Arrays to store linked data.
+		public $tags = array();
 		public $images = array();
+		public $maintenanceLogs = array();
 		public $chemicals = array();
 
 		function __construct(string $equipmentId = '') {
@@ -96,7 +98,7 @@
 		// Linked data pull functions
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
-
+		
 		// images
 		public function pullImages($params = '') {
 			$this->images = array();
@@ -109,6 +111,27 @@
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->images, $row['equipmentImageId']);
+				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
+			}
+		}
+
+		// maintenanceLogs
+		public function pullMaintenanceLogs($params = '') {
+			$this->maintenanceLogs = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('equipmentMaintenanceLog', 'equipmentMaintenanceLogId', "WHERE equipmentId = '$this->dbEquipmentId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->maintenanceLogs, $row['equipmentMaintenanceLogId']);
 				}
 				return true;
 			} elseif ($this->db->getLastError() === '') {
@@ -225,7 +248,9 @@
 			$this->dateTimeAdded = $currentDateTime->format('Y-m-d H:i:s');
 
 			// Clear arrays
+			$this->tags = array();
 			$this->images = array();
+			$this->maintenanceLogs = array();
 			$this->chemicals = array();
 
 			// Set setType to INSERT since there is no longer a row to update
