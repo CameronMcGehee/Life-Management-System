@@ -765,8 +765,8 @@
 	CREATE TABLE IF NOT EXISTS `estimate` (
 	`estimateId` varchar(17) NOT NULL,
 	`businessId` varchar(17) NOT NULL,
-	`customerId` varchar(17) NOT NULL,
 	`docIdId` varchar(17) NOT NULL,
+	`customerId` varchar(17) NOT NULL,
 	`discountIsPercent` tinyint(1) NOT NULL DEFAULT 0,
 	`discount` float NOT NULL DEFAULT 0,
 	`customJobDetails` text NULL,
