@@ -20,7 +20,7 @@
 		function __construct(string $equipmentMaintenanceLogId = '') {
 
 			// Connect to the database
-			require_once dirdetails(__FILE__)."/../database.php";
+			require_once dirname(__FILE__)."/../database.php";
 			$this->db = new database;
 
 			// Fetch from database
@@ -41,7 +41,7 @@
 			// If equipmentMaintenanceLogId does not exist then set the set method type to INSERT and inititialize default values
 			} else {
 				// Make a new equipmentMaintenanceLogId
-				require_once dirdetails(__FILE__)."/tableUuid.php";
+				require_once dirname(__FILE__)."/tableUuid.php";
 				$uuid = new tableUuid('equipmentMaintenanceLog', 'equipmentMaintenanceLogId');
 				$this->equipmentMaintenanceLogId = $uuid->generatedId;
 
@@ -119,7 +119,7 @@
 			}
 
 			// Generate a new random id
-			require_once dirdetails(__FILE__)."/tableUuid.php";
+			require_once dirname(__FILE__)."/tableUuid.php";
 			$uuid = new tableUuid('equipmentMaintenanceLog', 'equipmentMaintenanceLogId');
 			$this->equipmentMaintenanceLogId = $uuid->generatedId;
 
