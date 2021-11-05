@@ -532,7 +532,7 @@
 	`businessId` varchar(17) NOT NULL,
 	`chemicalId` varchar(17) NOT NULL,
 	`imageFile` varchar(17) NOT NULL,
-	`caption` varchar(50) NOT NULL,
+	`caption` varchar(50) NULL DEFAULT NULL,
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`chemicalImageId`),
 	KEY `chemicalImageBusinessId` (`businessId`),
