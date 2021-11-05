@@ -24,6 +24,9 @@
 		}
 
 		function sanitize($str) {
+			if ($str === NULL) {
+				return 'NULL';
+			}
 			if (!empty($str)) {
 				if (in_array(gettype($str), array("integer", "double", "string"))) {
 					return mysqli_real_escape_string($this->conn, (string)$str);
