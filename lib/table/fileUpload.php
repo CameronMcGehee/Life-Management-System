@@ -67,7 +67,7 @@
 				$this->existed = false;
 			}
 
-			$this->$dbFileUploadId = $this->fileUploadId;
+			$this->dbFileUploadId = $this->fileUploadId;
 			
 		}
 		

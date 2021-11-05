@@ -72,7 +72,7 @@
 				$this->existed = false;
 			}
 
-			$this->$dbCustomerTagId = $this->customerTagId;
+			$this->dbCustomerTagId = $this->customerTagId;
 			
 		}
 

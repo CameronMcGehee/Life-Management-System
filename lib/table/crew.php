@@ -75,7 +75,7 @@
 				$this->existed = false;
 			}
 
-			$this->$dbCrewId = $this->crewId;
+			$this->dbCrewId = $this->crewId;
 			
 		}
 

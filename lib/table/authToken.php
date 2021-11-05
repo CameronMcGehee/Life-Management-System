@@ -69,7 +69,7 @@
 				$this->existed = false;
 			}
 
-			$this->$dbAuthTokenId = $this->authTokenId;
+			$this->dbAuthTokenId = $this->authTokenId;
 			
 		}
 

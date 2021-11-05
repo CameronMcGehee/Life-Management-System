@@ -70,7 +70,7 @@
 				$this->existed = false;
 			}
 
-			$this->$dbAdminCustomerServiceMessageId = $this->adminCustomerServiceMessageId;
+			$this->dbAdminCustomerServiceMessageId = $this->adminCustomerServiceMessageId;
 			
 		}
 		

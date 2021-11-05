@@ -67,7 +67,7 @@
 				$this->existed = false;
 			}
 
-			$this->$dbEquipmentImageId = $this->equipmentImageId;
+			$this->dbEquipmentImageId = $this->equipmentImageId;
 			
 		}
 

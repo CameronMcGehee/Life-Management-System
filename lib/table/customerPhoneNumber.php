@@ -76,7 +76,7 @@
 				$this->existed = false;
 			}
 
-			$this->$dbCustomerPhoneNumberId = $this->customerPhoneNumberId;
+			$this->dbCustomerPhoneNumberId = $this->customerPhoneNumberId;
 			
 		}
 

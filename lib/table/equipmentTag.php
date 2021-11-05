@@ -72,7 +72,7 @@
 				$this->existed = false;
 			}
 
-			$this->$dbEquipmentTagId = $this->equipmentTagId;
+			$this->dbEquipmentTagId = $this->equipmentTagId;
 			
 		}
 

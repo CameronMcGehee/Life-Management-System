@@ -72,7 +72,7 @@
 				$this->existed = false;
 			}
 
-			$this->$dbChemicalTagId = $this->chemicalTagId;
+			$this->dbChemicalTagId = $this->chemicalTagId;
 			
 		}
 

@@ -54,7 +54,7 @@
 				$this->existed = false;
 			}
 
-			$this->$dbAdminSavedLoginId = $this->adminSavedLoginId;
+			$this->dbAdminSavedLoginId = $this->adminSavedLoginId;
 			
 		}
 

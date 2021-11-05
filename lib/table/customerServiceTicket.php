@@ -89,7 +89,7 @@
 				$this->existed = false;
 			}
 
-			$this->$dbCustomerServiceTicketId = $this->customerServiceTicketId;
+			$this->dbCustomerServiceTicketId = $this->customerServiceTicketId;
 			
 		}
 

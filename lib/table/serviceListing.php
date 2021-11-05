@@ -79,7 +79,7 @@
 				$this->existed = false;
 			}
 
-			$this->$dbServiceListingId = $this->serviceListingId;
+			$this->dbServiceListingId = $this->serviceListingId;
 			
 		}
 		

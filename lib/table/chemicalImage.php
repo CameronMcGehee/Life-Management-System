@@ -67,7 +67,7 @@
 				$this->existed = false;
 			}
 
-			$this->$dbChemicalImageId = $this->chemicalImageId;
+			$this->dbChemicalImageId = $this->chemicalImageId;
 			
 		}
 

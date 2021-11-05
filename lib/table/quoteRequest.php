@@ -88,7 +88,7 @@
 				$this->existed = false;
 			}
 
-			$this->$dbQuoteRequestId = $this->quoteRequestId;
+			$this->dbQuoteRequestId = $this->quoteRequestId;
 			
 		}
 

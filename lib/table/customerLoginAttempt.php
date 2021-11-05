@@ -67,7 +67,7 @@
 				$this->existed = false;
 			}
 
-			$this->$dbCustomerLoginAttemptId = $this->customerLoginAttemptId;
+			$this->dbCustomerLoginAttemptId = $this->customerLoginAttemptId;
 			
 		}
 

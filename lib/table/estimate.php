@@ -89,7 +89,7 @@
 				$this->existed = false;
 			}
 
-			$this->$dbEstimateId = $this->estimateId;
+			$this->dbEstimateId = $this->estimateId;
 			
 		}
 		

@@ -61,7 +61,7 @@
 				$this->existed = false;
 			}
 
-			$this->$dbCustomerSavedLoginId = $this->customerSavedLoginId;
+			$this->dbCustomerSavedLoginId = $this->customerSavedLoginId;
 			
 		}
 

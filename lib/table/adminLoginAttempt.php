@@ -60,7 +60,7 @@
 				$this->existed = false;
 			}
 
-			$this->$dbAdminLoginAttemptId = $this->adminLoginAttemptId;
+			$this->dbAdminLoginAttemptId = $this->adminLoginAttemptId;
 			
 		}
 

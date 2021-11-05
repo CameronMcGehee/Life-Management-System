@@ -67,7 +67,7 @@
 				$this->existed = false;
 			}
 
-			$this->$dbCustomerEmailAddressId = $this->customerEmailAddressId;
+			$this->dbCustomerEmailAddressId = $this->customerEmailAddressId;
 			
 		}
 
