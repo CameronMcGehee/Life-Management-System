@@ -47,7 +47,7 @@
 
                     <?php
 
-                        require_once '../../lib/class/business.php';
+                        require_once '../../lib/table/business.php';
                         $business = new business($_SESSION['ultiscape_businessId']);
 
                     ?>

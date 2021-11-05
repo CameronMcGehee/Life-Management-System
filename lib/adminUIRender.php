@@ -84,7 +84,7 @@
 				if ($showBusinessSelector) {
 					$output .= '<div class="yCenteredFlex flexDirectionRow" id="businessSelectorButton">
 					';
-					require_once dirname(__FILE__)."/class/business.php";
+					require_once dirname(__FILE__)."/table/business.php";
 					$business = new business($_SESSION['ultiscape_businessId']);
 					$currentBusinessLogo = $business->fullLogoFile;
 					// If the currently selected business does not have a logo file, display the default one

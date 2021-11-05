@@ -6,7 +6,7 @@
 
     require_once '../../../../php/startSession.php';
 
-    require_once '../../../../../lib/class/business.php';
+    require_once '../../../../../lib/table/business.php';
 
     // Make object from the provided id
     $business = new business($_GET['id']);

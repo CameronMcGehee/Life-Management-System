@@ -32,7 +32,7 @@
     <div class="cmsMainContentWrapper styledText spacedText textColorThemeGray">
             <div style="margin-left: 2em; margin-right: 2em;">
                 <?php
-                    require_once '../../lib/class/business.php';
+                    require_once '../../lib/table/business.php';
                     $business = new business();
                 ?>
 

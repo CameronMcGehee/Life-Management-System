@@ -13,8 +13,8 @@
 	$adminUIRender = new adminUIRender();
 
 	// Other required libraries
-	require_once '../../../lib/class/admin.php';
-	require_once '../../../lib/class/business.php';
+	require_once '../../../lib/table/admin.php';
+	require_once '../../../lib/table/business.php';
 
 	echo $adminUIRender->renderAdminHtmlTop('../../', 'Create Business', 'Create a new business to manage in UltiScape.');
 	echo $adminUIRender->renderAdminTopBarDropdownScripts('../../');

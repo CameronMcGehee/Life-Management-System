@@ -13,8 +13,8 @@
 	$adminUIRender = new adminUIRender();
 
 	// Other required libraries
-	require_once '../../../lib/class/admin.php';
-	require_once '../../../lib/class/business.php';
+	require_once '../../../lib/table/admin.php';
+	require_once '../../../lib/table/business.php';
 
 	$currentAdmin = new admin($_SESSION['ultiscape_adminId']);
 

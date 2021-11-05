@@ -33,9 +33,9 @@
             <div style="margin-left: 2em; margin-right: 2em;">
                 <?php
 
-                    require_once '../../../lib/class/customer.php';
-                    require_once '../../../lib/class/admin.php';
-                    require_once '../../../lib/class/business.php';
+                    require_once '../../../lib/table/customer.php';
+                    require_once '../../../lib/table/admin.php';
+                    require_once '../../../lib/table/business.php';
 
                     // $customer = new customer();
 
