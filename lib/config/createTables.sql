@@ -745,9 +745,9 @@
 	CREATE TABLE IF NOT EXISTS `fileUpload` (
 	`fileUploadId` varchar(17) NOT NULL,
 	`businessId` varchar(17) NOT NULL,
+	`docIdId` varchar(17) NOT NULL,
 	`linkedToStaffId` varchar(17) NULL DEFAULT NULL COMMENT 'Optional FK',
 	`linkedToCustomerId` varchar(17) NULL DEFAULT NULL COMMENT 'Optional FK',
-	`docIdId` varchar(17) NOT NULL,
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`fileUploadId`),
 	KEY `fileUploadBusinessId` (`businessId`),
