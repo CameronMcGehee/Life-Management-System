@@ -23,6 +23,10 @@
 		public $isResolved;
 		public $dateTimeAdded;
 
+		// Arrays to store linked data
+		public $adminMessages = array();
+		public $customerMessages = array();
+
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 		// Init variables
@@ -87,6 +91,54 @@
 
 			$this->$dbCustomerServiceTicketId = $this->customerServiceTicketId;
 			
+		}
+
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// Linked data pull functions
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+
+		// adminMessages
+		public function pullAdminMessages($params = '') {
+			$this->adminMessages = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('adminCustomerServiceMessage', 'adminCustomerServiceMessageId', "WHERE customerServiceTicketId = '$this->dbCustomerServiceTicketId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->adminMessages, $row['adminCustomerServiceMessageId']);
+				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
+			}
+		}
+
+		// customerMessages
+		public function pullCustomerMessages($params = '') {
+			$this->customerMessages = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('customerCustomerServiceMessage', 'customerCustomerServiceMessageId', "WHERE customerServiceTicketId = '$this->dbCustomerServiceTicketId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->customerMessages, $row['customerCustomerServiceMessageId']);
+				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
+			}
 		}
 		
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -177,7 +229,8 @@
 			$this->dateTimeAdded = $currentDateTime->format('Y-m-d H:i:s');
 
 			// Clear arrays
-			// (No arrays)
+			$this->adminMessages = array();
+			$this->customerMessages = array();
 
 			// Set setType to INSERT since there is no longer a row to update
 			$this->setType = 'INSERT';
