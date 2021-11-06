@@ -920,6 +920,10 @@
 	CONSTRAINT `propertyCustomerId` FOREIGN KEY (`customerId`) REFERENCES `customer` (`customerId`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+	--
+	-- Table structure for table `chemicalApplication`
+	--
+
 	CREATE TABLE IF NOT EXISTS `chemicalApplication` (
 	`chemicalApplicationId` varchar(17) NOT NULL,
 	`businessId` varchar(17) NOT NULL,
