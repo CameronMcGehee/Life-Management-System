@@ -12,7 +12,7 @@
 		// Main database attributes
 		public $estimateItemId;
 		public $businessId;
-		public $invoiceId;
+		public $estimateId;
 		public $name;
 		public $price;
 		public $taxIsPercent;
@@ -39,7 +39,7 @@
 			if ($fetch) {
 				$this->estimateItemId = $estimateItemId;
 				$this->businessId = $fetch[0]['businessId'];
-				$this->invoiceId = $fetch[0]['invoiceId'];
+				$this->estimateId = $fetch[0]['estimateId'];
 				$this->name = $fetch[0]['name'];
 				$this->price = $fetch[0]['price'];
 				$this->taxIsPercent = $fetch[0]['taxIsPercent'];
@@ -62,7 +62,7 @@
 				} else {
 					$this->businessId = '';
 				}
-				$this->invoiceId = '';
+				$this->estimateId = '';
 				$this->name = '';
 				$this->price = '0';
 				$this->taxIsPercent = '0';
@@ -91,7 +91,7 @@
 			$attributes = array(
 				'estimateItemId' => $this->db->sanitize($this->dbEstimateItemId),
 				'businessId' => $this->db->sanitize($this->businessId),
-				'invoiceId' => $this->db->sanitize($this->invoiceId),
+				'estimateId' => $this->db->sanitize($this->estimateId),
 				'name' => $this->db->sanitize($this->name),
 				'price' => $this->db->sanitize($this->price),
 				'taxIsPercent' => $this->db->sanitize($this->taxIsPercent),
@@ -151,7 +151,7 @@
 			} else {
 				$this->businessId = '';
 			}
-			$this->invoiceId = '';
+			$this->estimateId = '';
 			$this->name = '';
 			$this->price = '0';
 			$this->taxIsPercent = '0';
