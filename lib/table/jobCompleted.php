@@ -28,6 +28,7 @@
 		// Arrays to store linked data.
 		public $crews = array();
 		public $staff = array();
+		public $chemicalApplications = array();
 
 		function __construct(string $jobCompletedId = '') {
 
@@ -132,7 +133,28 @@
 			$fetch = $this->db->select('jobCompletedStaffBridge', 'staffId', "WHERE jobCompletedId = '$this->dbJobCompletedId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
-					array_push($this->crews, $row['staffId']);
+					array_push($this->staff, $row['staffId']);
+				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
+			}
+		}
+
+		// chemicalApplications
+		public function pullChemicalApplications($params = '') {
+			$this->chemicalApplications = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('chemicalApplication', 'chemicalApplicationId', "WHERE linkedToJobCompletedId = '$this->dbJobCompletedId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->chemicalApplications, $row['chemicalApplicationId']);
 				}
 				return true;
 			} elseif ($this->db->getLastError() === '') {
@@ -232,6 +254,7 @@
 			// Clear arrays
 			$this->crews = array();
 			$this->staff = array();
+			$this->chemicalApplications = array();
 
 			// Set setType to INSERT since there is no longer a row to update
 			$this->setType = 'INSERT';

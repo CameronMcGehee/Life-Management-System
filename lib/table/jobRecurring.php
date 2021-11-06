@@ -26,7 +26,7 @@
 		public $endDateTime;
 		public $dateTimeAdded;
 
-		// Arrays to store linked data.
+		// Arrays to store linked data
 		public $cancellations = array();
 		public $completed = array();
 		public $linkedJobSingulars = array();
@@ -201,7 +201,7 @@
 			$fetch = $this->db->select('jobRecurringStaffBridge', 'staffId', "WHERE jobRecurringId = '$this->dbJobRecurringId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
-					array_push($this->crews, $row['staffId']);
+					array_push($this->staff, $row['staffId']);
 				}
 				return true;
 			} elseif ($this->db->getLastError() === '') {
@@ -230,6 +230,8 @@
 				'price' => $this->db->sanitize($this->price),
 				'estHours' => $this->db->sanitize($this->estHours),
 				'isPrepaid' => $this->db->sanitize($this->isPrepaid),
+				'frequency' => $this->db->sanitize($this->frequency),
+				'frequencyInterval' => $this->db->sanitize($this->frequencyInterval),
 				'startDateTime' => $this->db->sanitize($this->startDateTime),
 				'endDateTime' => $this->db->sanitize($this->endDateTime),
 				'dateTimeAdded' => $this->db->sanitize($this->dateTimeAdded)
