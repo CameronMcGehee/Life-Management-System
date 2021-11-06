@@ -20,10 +20,6 @@
 		public $excessWasAddedToCredit;
 		public $dateTimeAdded;
 
-		// Arrays to store linked data
-		public $items = array();
-		public $payments = array();
-
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 		// Init variables
@@ -132,54 +128,6 @@
 
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
-		// Linked data pull functions
-		// -------------------------------------------------------------------------------------------------------------------------------------------------------
-		// -------------------------------------------------------------------------------------------------------------------------------------------------------
-
-		// items
-		public function pullItems($params = '') {
-			$this->items = array();
-			// Add space before params
-			if ($params != '') {
-				$params = " ".$params;
-			}
-			// If there are entries, push them to the array
-			$fetch = $this->db->select('paymentItem', 'paymentItemId', "WHERE paymentId = '$this->dbPaymentId'".$params);
-			if ($fetch) {
-				foreach ($fetch as $row) {
-					array_push($this->items, $row['paymentItemId']);
-				}
-				return true;
-			} elseif ($this->db->getLastError() === '') {
-					return true;
-			} else {
-				return $this->db->getLastError();
-			}
-		}
-
-		// payments
-		public function pullPayments($params = '') {
-			$this->payments = array();
-			// Add space before params
-			if ($params != '') {
-				$params = " ".$params;
-			}
-			// If there are entries, push them to the array
-			$fetch = $this->db->select('payment', 'paymentId', "WHERE linkedToInvoiceId = '$this->dbPaymentId'".$params);
-			if ($fetch) {
-				foreach ($fetch as $row) {
-					array_push($this->payments, $row['paymentId']);
-				}
-				return true;
-			} elseif ($this->db->getLastError() === '') {
-					return true;
-			} else {
-				return $this->db->getLastError();
-			}
-		}
-
-		// -------------------------------------------------------------------------------------------------------------------------------------------------------
-		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 		// Delete function
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -214,8 +162,7 @@
 			$this->dateTimeAdded = $currentDateTime->format('Y-m-d H:i:s');
 
 			// Clear arrays
-			$this->items = array();
-			$this->payments = array();
+			// (No arrays)
 
 			// Set setType to INSERT since there is no longer a row to update
 			$this->setType = 'INSERT';
