@@ -968,7 +968,8 @@
 	`jobCompletedId` varchar(17) NOT NULL,
 	`businessId` varchar(17) NOT NULL,
 	`linkedToJobRecurringId` varchar(17) NULL COMMENT 'Optional FK',
-	`propertyId` varchar(17) NOT NULL,
+	`linkedToCustomerId` varchar(17) NULL COMMENT 'Optional FK',
+	`linkedToPropertyId` varchar(17) NULL COMMENT 'Optional FK',
 	`name` varchar(100) NOT NULL,
 	`description` text NULL,
 	`privateNotes` text NULL,
@@ -981,9 +982,9 @@
 	PRIMARY KEY (`jobCompletedId`),
 	KEY `jobCompletedBusinessId` (`businessId`),
 	KEY `jobCompletedLinkedToJobRecurringId` (`linkedToJobRecurringId`),
-	KEY `jobCompletedPropertyId` (`propertyId`),
+	KEY `jobCompletedLinkedToCustomerId` (`linkedToCustomerId`),
+	KEY `jobCompletedLinkedToPropertyId` (`linkedToPropertyId`),
 	CONSTRAINT `jobCompletedBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
-	CONSTRAINT `jobCompletedPropertyId` FOREIGN KEY (`propertyId`) REFERENCES `property` (`propertyId`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -993,7 +994,8 @@
 	CREATE TABLE IF NOT EXISTS `jobRecurring` (
 	`jobRecurringId` varchar(17) NOT NULL,
 	`businessId` varchar(17) NOT NULL,
-	`propertyId` varchar(17) NOT NULL,
+	`linkedToCustomerId` varchar(17) NULL COMMENT 'Optional FK',
+	`linkedToPropertyId` varchar(17) NULL COMMENT 'Optional FK',
 	`name` varchar(100) NOT NULL,
 	`description` text NULL,
 	`privateNotes` text NULL,
@@ -1007,9 +1009,9 @@
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`jobRecurringId`),
 	KEY `jobRecurringBusinessId` (`businessId`),
-	KEY `jobRecurringPropertyId` (`propertyId`),
+	KEY `jobRecurringLinkedToCustomerId` (`linkedToCustomerId`),
+	KEY `jobRecurringLinkedToPropertyId` (`linkedToPropertyId`),
 	CONSTRAINT `jobRecurringBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
-	CONSTRAINT `jobRecurringPropertyId` FOREIGN KEY (`propertyId`) REFERENCES `property` (`propertyId`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -1020,7 +1022,8 @@
 	`jobSingularId` varchar(17) NOT NULL,
 	`businessId` varchar(17) NOT NULL,
 	`linkedToJobRecurringId` varchar(17) NULL COMMENT 'Optional FK',
-	`propertyId` varchar(17) NOT NULL,
+	`linkedToCustomerId` varchar(17) NULL COMMENT 'Optional FK',
+	`linkedToPropertyId` varchar(17) NULL COMMENT 'Optional FK',
 	`name` varchar(100) NOT NULL,
 	`description` text NULL,
 	`privateNotes` text NULL,
@@ -1033,9 +1036,9 @@
 	PRIMARY KEY (`jobSingularId`),
 	KEY `jobSingularBusinessId` (`businessId`),
 	KEY `jobSingularLinkedToJobRecurringId` (`linkedToJobRecurringId`),
-	KEY `jobSingularPropertyId` (`propertyId`),
+	KEY `jobSingularLinkedToCustomerId` (`linkedToCustomerId`),
+	KEY `jobSingularLinkedToPropertyId` (`linkedToPropertyId`),
 	CONSTRAINT `jobSingularBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
-	CONSTRAINT `jobSingularPropertyId` FOREIGN KEY (`propertyId`) REFERENCES `property` (`propertyId`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
