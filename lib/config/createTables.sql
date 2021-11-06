@@ -930,7 +930,7 @@
 	`propertyId` varchar(17) NOT NULL,
 	`linkedToCrewId` varchar(17) NULL COMMENT 'Optional FK',
 	`linkedToStaffId` varchar(17) NULL COMMENT 'Optional FK',
-	`linkedToCompletedJobId` varchar(17) NULL COMMENT 'Optional FK',
+	`linkedToJobCompletedId` varchar(17) NULL COMMENT 'Optional FK',
 	`weatherDescription` varchar(100) NULL,
 	`amountApplied` float NULL,
 	`isSubtractedFromStock` tinyint(1) NOT NULL DEFAULT 0,
@@ -940,7 +940,7 @@
 	KEY `chemicalApplicationPropertyId` (`propertyId`),
 	KEY `chemicalApplicationLinkedToCrewId` (`linkedToCrewId`),
 	KEY `chemicalApplicationLinkedToStaffId` (`linkedToStaffId`),
-	KEY `chemicalApplicationLinkedToCompletedJobId` (`linkedToCompletedJobId`),
+	KEY `chemicalApplicationLinkedToJobCompletedId` (`linkedToJobCompletedId`),
 	CONSTRAINT `chemicalApplicationBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
 	CONSTRAINT `chemicalApplicationPropertyId` FOREIGN KEY (`propertyId`) REFERENCES `property` (`propertyId`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
