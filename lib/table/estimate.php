@@ -16,7 +16,7 @@
 		public $customerId;
 		public $discountIsPercent;
 		public $discount;
-		public $customerJobDetails;
+		public $customJobDetails;
 		public $comments;
 		public $privateNotes;
 		public $isViewed;
@@ -50,7 +50,7 @@
 				$this->customerId = $fetch[0]['customerId'];
 				$this->discountIsPercent = $fetch[0]['discountIsPercent'];
 				$this->discount = $fetch[0]['discount'];
-				$this->customerJobDetails = $fetch[0]['customerJobDetails'];
+				$this->customJobDetails = $fetch[0]['customJobDetails'];
 				$this->comments = $fetch[0]['comments'];
 				$this->privateNotes = $fetch[0]['privateNotes'];
 				$this->isViewed = $fetch[0]['isViewed'];
@@ -76,7 +76,7 @@
 				$this->customerId = NULL;
 				$this->discountIsPercent = NULL;
 				$this->discount = '0';
-				$this->customerJobDetails = NULL;
+				$this->customJobDetails = NULL;
 				$this->comments = NULL;
 				$this->privateNotes = NULL;
 				$this->isViewed = '0';
@@ -108,7 +108,7 @@
 				'customerId' => $this->db->sanitize($this->customerId),
 				'discountIsPercent' => $this->db->sanitize($this->discountIsPercent),
 				'discount' => $this->db->sanitize($this->discount),
-				'customerJobDetails' => $this->db->sanitize($this->customerJobDetails),
+				'customJobDetails' => $this->db->sanitize($this->customJobDetails),
 				'comments' => $this->db->sanitize($this->comments),
 				'privateNotes' => $this->db->sanitize($this->privateNotes),
 				'isViewed' => $this->db->sanitize($this->isViewed),
@@ -219,7 +219,7 @@
 			$this->customerId = NULL;
 			$this->discountIsPercent = NULL;
 			$this->discount = '0';
-			$this->customerJobDetails = NULL;
+			$this->customJobDetails = NULL;
 			$this->comments = NULL;
 			$this->privateNotes = NULL;
 			$this->isViewed = '0';
