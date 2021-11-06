@@ -97,7 +97,6 @@
 				} else {
 					$this->businessId = '';
 				}
-				
 				$this->surname = NULL;
 				$this->firstName = '';
 				$this->lastName = NULL;

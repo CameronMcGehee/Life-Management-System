@@ -443,7 +443,6 @@
 				$this->CPModCZContactStaffAllowAdminContact = '0';
 				$this->CPModCZServiceRequest = '0';
 				$this->isArchived = '0';
-
 				// Default dateTimeAdded to now since it is likely going to be inserted at this time
 				$currentDateTime = new DateTime();
 				$this->dateTimeAdded = $currentDateTime->format('Y-m-d H:i:s');
@@ -1899,61 +1898,6 @@
 			$this->CPModCZContactStaffAllowAdminContact = '0';
 			$this->CPModCZServiceRequest = '0';
 			$this->isArchived = '0';
-
-			// Clear arrays
-			$this->admins = array();
-			$this->customers = array();
-			$this->authTokens = array();
-			$this->customerPhoneNumbers = array();
-			$this->customerEmailAddresses = array();
-			$this->customerLoginAttempts = array();
-			$this->customerSavedLogins = array();
-			$this->customerTags = array();
-			$this->crews = array();
-			$this->quoteRequests = array();
-			$this->quoteRequestServices = array();
-			$this->serviceListings = array();
-			$this->customerServiceTickets = array();
-			$this->adminCustomerServiceMessages = array();
-			$this->customerCustomerServiceMessages = array();
-			$this->chemicals = array();
-			$this->chemicalImages = array();
-			$this->chemicalTags = array();
-			$this->equipment = array();
-			$this->equipmentImages = array();
-			$this->equipmentTags = array();
-			$this->equipmentMaintenanceLogs = array();
-			$this->equipmentMaintenanceLogImages = array();
-			$this->docIds = array();
-			$this->fileUploads = array();
-			$this->estimates = array();
-			$this->estimateItems = array();
-			$this->estimateApprovals = array();
-			$this->invoices = array();
-			$this->invoiceItems = array();
-			$this->payments = array();
-			$this->properties = array();
-			$this->jobCancellations = array();
-			$this->jobSingulars = array();
-			$this->jobRecurrings = array();
-			$this->jobCompleteds = array();
-			$this->staff = array();
-			$this->staffPhoneNumbers = array();
-			$this->staffEmailAddresses = array();
-			$this->staffLoginAttempts = array();
-			$this->staffSavedLogins = array();
-			$this->staffTags = array();
-			$this->timeLogs = array();
-			$this->payrollDues = array();
-			$this->payrollSatisfactions = array();
-			$this->mailoutCampaignTemplates = array();
-			$this->emailSends = array();
-			$this->emailPixels = array();
-			$this->smsCampaignTemplates = array();
-			$this->smsSends = array();
-			$this->blogPosts = array();
-			$this->blogTags = array();
-			$this->blogPostReadTokens = array();
 			// Default dateTimeAdded to now since it is likely going to be inserted at this time
 			$currentDateTime = new DateTime();
 			$this->dateTimeAdded = $currentDateTime->format('Y-m-d H:i:s');

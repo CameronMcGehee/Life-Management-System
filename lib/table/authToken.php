@@ -57,7 +57,6 @@
 				} else {
 					$this->businessId = '';
 				}
-
 				$this->authName = NULL;
 				$this->dateTimeUsed = NULL;
 				$this->clientIpUsed = '';

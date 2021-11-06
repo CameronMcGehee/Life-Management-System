@@ -130,9 +130,9 @@
 			} else {
 				$this->businessId = '';
 			}
-			$this->equipmentId = NULL;
-			$this->title = NULL;
-			$this->details = '';
+			$this->equipmentId = '';
+			$this->title = '';
+			$this->details = NULL;
 			// Default dateTimeAdded to now since it is likely going to be inserted at this time
 			$currentDateTime = new DateTime();
 			$this->dateTimeAdded = $currentDateTime->format('Y-m-d H:i:s');

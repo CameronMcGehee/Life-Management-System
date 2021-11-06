@@ -139,7 +139,7 @@
 			} else {
 				$this->businessId = '';
 			}
-			$this->customerId = NULL;
+			$this->customerId = '';
 			$this->clientIp = '';
 			$this->result = '';
 			// Default dateTimeAdded to now since it is likely going to be inserted at this time
