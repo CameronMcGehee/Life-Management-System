@@ -294,7 +294,7 @@
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`crewTagId`),
 	KEY `crewTagBusinessId` (`businessId`),
-	CONSTRAINT `crewTagBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
+	CONSTRAINT `crewTagBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -418,7 +418,7 @@
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`customerTagId`),
 	KEY `customerTagBusinessId` (`businessId`),
-	CONSTRAINT `customerTagBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
+	CONSTRAINT `customerTagBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -984,7 +984,7 @@
 	KEY `jobCompletedLinkedToJobRecurringId` (`linkedToJobRecurringId`),
 	KEY `jobCompletedLinkedToCustomerId` (`linkedToCustomerId`),
 	KEY `jobCompletedLinkedToPropertyId` (`linkedToPropertyId`),
-	CONSTRAINT `jobCompletedBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
+	CONSTRAINT `jobCompletedBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -1011,7 +1011,7 @@
 	KEY `jobRecurringBusinessId` (`businessId`),
 	KEY `jobRecurringLinkedToCustomerId` (`linkedToCustomerId`),
 	KEY `jobRecurringLinkedToPropertyId` (`linkedToPropertyId`),
-	CONSTRAINT `jobRecurringBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
+	CONSTRAINT `jobRecurringBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -1038,7 +1038,7 @@
 	KEY `jobSingularLinkedToJobRecurringId` (`linkedToJobRecurringId`),
 	KEY `jobSingularLinkedToCustomerId` (`linkedToCustomerId`),
 	KEY `jobSingularLinkedToPropertyId` (`linkedToPropertyId`),
-	CONSTRAINT `jobSingularBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
+	CONSTRAINT `jobSingularBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -1255,7 +1255,7 @@
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`staffTagId`),
 	KEY `staffTagBusinessId` (`businessId`),
-	CONSTRAINT `staffTagBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
+	CONSTRAINT `staffTagBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
