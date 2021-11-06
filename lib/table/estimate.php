@@ -92,6 +92,54 @@
 			$this->dbEstimateId = $this->estimateId;
 			
 		}
+
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// Linked data pull functions
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+
+		// items
+		public function pullItems($params = '') {
+			$this->items = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('estimateItem', 'estimateItemId', "WHERE estimateId = '$this->dbEstimateId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->items, $row['estimateItemId']);
+				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
+			}
+		}
+
+		// approvals
+		public function pullApprovals($params = '') {
+			$this->approvals = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('estimateApproval', 'estimateApprovalId', "WHERE estimateId = '$this->dbEstimateId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->approvals, $row['estimateApprovalId']);
+				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
+			}
+		}
 		
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -140,54 +188,6 @@
 
 			}
 
-		}
-
-		// -------------------------------------------------------------------------------------------------------------------------------------------------------
-		// -------------------------------------------------------------------------------------------------------------------------------------------------------
-		// Linked data pull functions
-		// -------------------------------------------------------------------------------------------------------------------------------------------------------
-		// -------------------------------------------------------------------------------------------------------------------------------------------------------
-
-		// items
-		public function pullItems($params = '') {
-			$this->items = array();
-			// Add space before params
-			if ($params != '') {
-				$params = " ".$params;
-			}
-			// If there are entries, push them to the array
-			$fetch = $this->db->select('estimateItem', 'estimateItemId', "WHERE estimateId = '$this->dbEstimateId'".$params);
-			if ($fetch) {
-				foreach ($fetch as $row) {
-					array_push($this->items, $row['estimateItemId']);
-				}
-				return true;
-			} elseif ($this->db->getLastError() === '') {
-					return true;
-			} else {
-				return $this->db->getLastError();
-			}
-		}
-
-		// approvals
-		public function pullApprovals($params = '') {
-			$this->approvals = array();
-			// Add space before params
-			if ($params != '') {
-				$params = " ".$params;
-			}
-			// If there are entries, push them to the array
-			$fetch = $this->db->select('estimateApproval', 'estimateApprovalId', "WHERE estimateId = '$this->dbEstimateId'".$params);
-			if ($fetch) {
-				foreach ($fetch as $row) {
-					array_push($this->approvals, $row['estimateApprovalId']);
-				}
-				return true;
-			} elseif ($this->db->getLastError() === '') {
-					return true;
-			} else {
-				return $this->db->getLastError();
-			}
 		}
 
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
