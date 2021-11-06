@@ -23,16 +23,19 @@
 			return $result;
 		}
 
-		function sanitize($str) {
-			if ($str === NULL) {
-				return 'NULL';
-			}
-			if (!empty($str)) {
-				if (in_array(gettype($str), array("integer", "double", "string"))) {
-					return mysqli_real_escape_string($this->conn, (string)$str);
+		function sanitize($data) {
+			if (!empty($data)) {
+				if (in_array(gettype($data), array("integer", "double", "string"))) {
+					return mysqli_real_escape_string($this->conn, (string)$data);
+				} elseif ($data === NULL) {
+					return 'NULL';
+				} elseif ($data === true) {
+					return '1';
+				} elseif ($data === false) {
+					return '0';
 				}
 			}
-			return $str;
+			return $data;
 		}
 
 		function getLastError() {
