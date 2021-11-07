@@ -1,0 +1,187 @@
+<?php
+
+	class chemicalApplication {
+
+		private string $setType;
+		private database $db;
+
+		private string $dbChemicalApplicationId; // Used when updating the table incase the chemicalApplicationId has been changed after instantiation
+		
+		public bool $existed; // Can be used to see whether the given entity existed already at the time of instantiation
+
+		// Main database attributes
+		public $chemicalApplicationId;
+		public $businessId;
+		public $chemicalId;
+		public $propertyId;
+		public $linkedToCrewId;
+		public $linkedToStaffId;
+		public $linkedToJobCompletedId;
+		public $weatherDescription;
+		public $amountApplied;
+		public $wasSubtractedFromStock;
+		public $dateTimeAdded;
+
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// Init variables
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+
+		function __construct(string $chemicalApplicationId = '') {
+
+			// Connect to the database
+			require_once dirname(__FILE__)."/../database.php";
+			$this->db = new database;
+
+			// Fetch from database
+			$fetch = $this->db->select('chemicalApplication', '*', "WHERE chemicalApplicationId ='".$this->db->sanitize($chemicalApplicationId)."'");
+
+			// If chemicalApplicationId already exists then set the set method type to UPDATE and fetch the values for the chemicalApplication
+			if ($fetch) {
+				$this->chemicalApplicationId = $chemicalApplicationId;
+				$this->businessId = $fetch[0]['businessId'];
+				$this->chemicalId = $fetch[0]['chemicalId'];
+				$this->propertyId = $fetch[0]['propertyId'];
+				$this->linkedToCrewId = $fetch[0]['linkedToCrewId'];
+				$this->linkedToStaffId = $fetch[0]['linkedToStaffId'];
+				$this->linkedToJobCompletedId = $fetch[0]['linkedToJobCompletedId'];
+				$this->weatherDescription = $fetch[0]['weatherDescription'];
+				$this->amountApplied = $fetch[0]['amountApplied'];
+				$this->wasSubtractedFromStock = $fetch[0]['wasSubtractedFromStock'];
+				$this->dateTimeAdded = $fetch[0]['dateTimeAdded'];
+
+				$this->setType = 'UPDATE';
+				$this->existed = true;
+
+			// If chemicalApplicationId does not exist then set the set method type to INSERT and inititialize default values
+			} else {
+				// Make a new chemicalApplicationId
+				require_once dirname(__FILE__)."/tableUuid.php";
+				$uuid = new tableUuid('chemicalApplication', 'chemicalApplicationId');
+				$this->chemicalApplicationId = $uuid->generatedId;
+				// Default businessId to the currently selected business
+				if (isset($_SESSION['ultiscape_businessId'])) {
+					$this->businessId = $_SESSION['ultiscape_businessId'];
+				} else {
+					$this->businessId = '';
+				}
+				$this->chemicalId = '';
+				$this->propertyId = '';
+				$this->linkedToCrewId = NULL;
+				$this->linkedToStaffId = NULL;
+				$this->linkedToJobCompletedId = NULL;
+				$this->weatherDescription = NULL;
+				$this->amountApplied = NULL;
+				$this->wasSubtractedFromStock = '0';
+				// Default dateTimeAdded to now since it is likely going to be inserted at this time
+				$currentDateTime = new DateTime();
+				$this->dateTimeAdded = $currentDateTime->format('Y-m-d H:i:s');
+
+				$this->setType = 'INSERT';
+				$this->existed = false;
+			}
+
+			$this->dbChemicalApplicationId = $this->chemicalApplicationId;
+			
+		}
+
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// Set function
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+
+		public function set() {
+
+			$attributes = array(
+				'chemicalApplicationId' => $this->db->sanitize($this->dbChemicalApplicationId),
+				'businessId' => $this->db->sanitize($this->businessId),
+				'chemicalId' => $this->db->sanitize($this->chemicalId),
+				'propertyId' => $this->db->sanitize($this->propertyId),
+				'linkedToCrewId' => $this->db->sanitize($this->linkedToCrewId),
+				'linkedToStaffId' => $this->db->sanitize($this->linkedToStaffId),
+				'linkedToJobCompletedId' => $this->db->sanitize($this->linkedToJobCompletedId),
+				'weatherDescription' => $this->db->sanitize($this->weatherDescription),
+				'amountApplied' => $this->db->sanitize($this->amountApplied),
+				'wasSubtractedFromStock' => $this->db->sanitize($this->wasSubtractedFromStock),
+				'dateTimeAdded' => $this->db->sanitize($this->dateTimeAdded)
+			);
+
+			if ($this->setType == 'UPDATE') {
+
+				// Update the values in the database after sanitizing them
+				if ($this->db->update('chemicalApplication', $attributes, "WHERE chemicalApplicationId = ".$this->db->sanitize($this->dbChemicalApplicationId), 1)) {
+					return true;
+				} elseif ($this->db->getLastError() === '') {
+					return true;
+				} else {
+					return $this->db->getLastError();
+				}
+
+			} else {
+
+				// Insert the values to the database after sanitizing them
+				if ($this->db->insert('chemicalApplication', $attributes)) {
+					// Set the setType to UPDATE since it is now in the database
+					$this->setType = 'UPDATE';
+					return true;
+				} else {
+					return $this->db->getLastError();
+				}
+
+			}
+
+		}
+
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// Delete function
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+
+		public function delete() {
+
+			// Remove row from database
+			if (!$this->db->delete('chemicalApplication', "WHERE chemicalApplicationId = '".$this->db->sanitize($this->dbChemicalApplicationId)."'", 1)) {
+				return $this->db->getLastError();
+			}
+
+			// Generate a new random id
+			require_once dirname(__FILE__)."/tableUuid.php";
+			$uuid = new tableUuid('chemicalApplication', 'chemicalApplicationId');
+			$this->chemicalApplicationId = $uuid->generatedId;
+
+			// Reset all variables
+			// Default businessId to the currently selected business
+			if (isset($_SESSION['ultiscape_businessId'])) {
+				$this->businessId = $_SESSION['ultiscape_businessId'];
+			} else {
+				$this->businessId = '';
+			}
+			$this->chemicalId = '';
+			$this->propertyId = '';
+			$this->linkedToCrewId = NULL;
+			$this->linkedToStaffId = NULL;
+			$this->linkedToJobCompletedId = NULL;
+			$this->weatherDescription = NULL;
+			$this->amountApplied = NULL;
+			$this->wasSubtractedFromStock = '0';
+			// Default dateTimeAdded to now since it is likely going to be inserted at this time
+			$currentDateTime = new DateTime();
+			$this->dateTimeAdded = $currentDateTime->format('Y-m-d H:i:s');
+
+			// Clear arrays
+			// (No arrays)
+
+			// Set setType to INSERT since there is no longer a row to update
+			$this->setType = 'INSERT';
+
+			// Set existed to false since it no longer exists
+			$this->existed = false;
+
+			return true;
+		}
+	}
+
+?>
