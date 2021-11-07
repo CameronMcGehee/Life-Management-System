@@ -934,7 +934,7 @@
 	`linkedToJobCompletedId` varchar(17) NULL COMMENT 'Optional FK',
 	`weatherDescription` varchar(100) NULL,
 	`amountApplied` float NULL,
-	`isSubtractedFromStock` tinyint(1) NOT NULL DEFAULT 0,
+	`wasSubtractedFromStock` tinyint(1) NOT NULL DEFAULT 0,
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`chemicalApplicationId`),
 	KEY `chemicalApplicationBusinessId` (`businessId`),
