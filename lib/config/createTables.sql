@@ -1240,7 +1240,6 @@
 	`staffSavedLoginId` varchar(17) NOT NULL,
 	`businessId` varchar(17) NOT NULL,
 	`staffId` varchar(17) NOT NULL,
-	`code` varchar(17) NOT NULL,
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`staffSavedLoginId`),
 	KEY `staffSavedLoginBusinessId` (`businessId`),
