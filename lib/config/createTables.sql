@@ -927,6 +927,7 @@
 	CREATE TABLE IF NOT EXISTS `chemicalApplication` (
 	`chemicalApplicationId` varchar(17) NOT NULL,
 	`businessId` varchar(17) NOT NULL,
+	`chemicalId` varchar(17) NOT NULL,
 	`propertyId` varchar(17) NOT NULL,
 	`linkedToCrewId` varchar(17) NULL COMMENT 'Optional FK',
 	`linkedToStaffId` varchar(17) NULL COMMENT 'Optional FK',
@@ -937,11 +938,13 @@
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`chemicalApplicationId`),
 	KEY `chemicalApplicationBusinessId` (`businessId`),
+	KEY `chemicalApplicationChemicalId` (`chemicalId`),
 	KEY `chemicalApplicationPropertyId` (`propertyId`),
 	KEY `chemicalApplicationLinkedToCrewId` (`linkedToCrewId`),
 	KEY `chemicalApplicationLinkedToStaffId` (`linkedToStaffId`),
 	KEY `chemicalApplicationLinkedToJobCompletedId` (`linkedToJobCompletedId`),
 	CONSTRAINT `chemicalApplicationBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
+	CONSTRAINT `chemicalApplicationChemicalId` FOREIGN KEY (`chemicalId`) REFERENCES `chemical` (`chemicalId`),
 	CONSTRAINT `chemicalApplicationPropertyId` FOREIGN KEY (`propertyId`) REFERENCES `property` (`propertyId`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
