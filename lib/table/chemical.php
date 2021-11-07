@@ -39,6 +39,49 @@
 		public $images = array();
 		public $equipment = array();
 
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// Set to defaults function
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+
+		public function setToDefaults() {
+			// Default businessId to the currently selected business
+			if (isset($_SESSION['ultiscape_businessId'])) {
+				$this->businessId = $_SESSION['ultiscape_businessId'];
+			} else {
+				$this->businessId = '';
+			}
+			$this->linkedToCrewId = NULL;
+			$this->linkedToStaffId = NULL;
+			$this->name = '';
+			$this->epa = NULL;
+			$this->ingeredients = NULL;
+			$this->manufacturer = NULL;
+			$this->dilution = NULL;
+			$this->targets = NULL;
+			$this->applicationMethod = NULL;
+			$this->applicationRate = NULL;
+			$this->defaultAmountApplied = NULL;
+			$this->defaultAmountAppliedUnit = 'ml/ft²';
+			$this->amountInStock = NULL;
+			$this->amountInStockUnit = 'ml';
+			$this->notesToCustomer = NULL;
+			$this->notesToStaff = NULL;
+			$this->description = NULL;
+			$this->condition = NULL;
+			$this->purchaseDate = NULL;
+			$this->purchasePrice = NULL;
+			$this->storageLocation = NULL;
+			// Default dateTimeAdded to now since it is likely going to be inserted at this time
+			$currentDateTime = new DateTime();
+			$this->dateTimeAdded = $currentDateTime->format('Y-m-d H:i:s');
+
+			// Clear arrays
+			$this->images = array();
+			$this->equipment = array();
+		}
+
 		function __construct(string $chemicalId = '') {
 
 			// Connect to the database
@@ -85,36 +128,7 @@
 				$uuid = new tableUuid('chemical', 'chemicalId');
 				$this->chemicalId = $uuid->generatedId;
 
-				// Default businessId to the currently selected business
-				if (isset($_SESSION['ultiscape_businessId'])) {
-					$this->businessId = $_SESSION['ultiscape_businessId'];
-				} else {
-					$this->businessId = '';
-				}
-				$this->linkedToCrewId = NULL;
-				$this->linkedToStaffId = NULL;
-				$this->name = '';
-				$this->epa = NULL;
-				$this->ingeredients = NULL;
-				$this->manufacturer = NULL;
-				$this->dilution = NULL;
-				$this->targets = NULL;
-				$this->applicationMethod = NULL;
-				$this->applicationRate = NULL;
-				$this->defaultAmountApplied = NULL;
-				$this->defaultAmountAppliedUnit = 'ml/ft²';
-				$this->amountInStock = NULL;
-				$this->amountInStockUnit = 'ml';
-				$this->notesToCustomer = NULL;
-				$this->notesToStaff = NULL;
-				$this->description = NULL;
-				$this->condition = NULL;
-				$this->purchaseDate = NULL;
-				$this->purchasePrice = NULL;
-				$this->storageLocation = NULL;
-				// Default dateTimeAdded to now since it is likely going to be inserted at this time
-				$currentDateTime = new DateTime();
-				$this->dateTimeAdded = $currentDateTime->format('Y-m-d H:i:s');
+				$this->setToDefaults();
 
 				$this->setType = 'INSERT';
 				$this->existed = false;
@@ -242,46 +256,7 @@
 				return $this->db->getLastError();
 			}
 
-			// Generate a new random id
-			require_once dirname(__FILE__)."/tableUuid.php";
-			$uuid = new tableUuid('chemical', 'chemicalId');
-			$this->chemicalId = $uuid->generatedId;
-
-			// Reset all variables
-			// Default businessId to the currently selected business
-			if (isset($_SESSION['ultiscape_businessId'])) {
-				$this->businessId = $_SESSION['ultiscape_businessId'];
-			} else {
-				$this->businessId = '';
-			}
-			$this->linkedToCrewId = NULL;
-			$this->linkedToStaffId = NULL;
-			$this->name = '';
-			$this->epa = NULL;
-			$this->ingeredients = NULL;
-			$this->manufacturer = NULL;
-			$this->dilution = NULL;
-			$this->targets = NULL;
-			$this->applicationMethod = NULL;
-			$this->applicationRate = NULL;
-			$this->defaultAmountApplied = NULL;
-			$this->defaultAmountAppliedUnit = 'ml/ft²';
-			$this->amountInStock = NULL;
-			$this->amountInStockUnit = 'ml';
-			$this->notesToCustomer = NULL;
-			$this->notesToStaff = NULL;
-			$this->description = NULL;
-			$this->condition = NULL;
-			$this->purchaseDate = NULL;
-			$this->purchasePrice = NULL;
-			$this->storageLocation = NULL;
-			// Default dateTimeAdded to now since it is likely going to be inserted at this time
-			$currentDateTime = new DateTime();
-			$this->dateTimeAdded = $currentDateTime->format('Y-m-d H:i:s');
-
-			// Clear arrays
-			$this->images = array();
-			$this->equipment = array();
+			$this->setToDefaults();
 
 			// Set setType to INSERT since there is no longer a row to update
 			$this->setType = 'INSERT';

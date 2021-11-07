@@ -33,6 +33,43 @@
 		public $crews = array();
 		public $staff = array();
 
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// Set to defaults function
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+
+		public function setToDefaults() {
+			// Default businessId to the currently selected business
+			if (isset($_SESSION['ultiscape_businessId'])) {
+				$this->businessId = $_SESSION['ultiscape_businessId'];
+			} else {
+				$this->businessId = '';
+			}
+			$this->linkedToCustomerId = NULL;
+			$this->linkedToPropertyId = NULL;
+			$this->name = '';
+			$this->description = NULL;
+			$this->privateNotes = NULL;
+			$this->price = NULL;
+			$this->estHours = NULL;
+			$this->isPrepaid = '0';
+			$this->frequencyInterval = 'none';
+			$this->frequency = '0';
+			$this->startDateTime = '';
+			$this->endDateTime = NULL;
+			// Default dateTimeAdded to now since it is likely going to be inserted at this time
+			$currentDateTime = new DateTime();
+			$this->dateTimeAdded = $currentDateTime->format('Y-m-d H:i:s');
+
+			// Clear arrays
+			$this->cancellations = array();
+			$this->completed = array();
+			$this->linkedJobSingulars = array();
+			$this->crews = array();
+			$this->staff = array();
+		}
+
 		function __construct(string $jobRecurringId = '') {
 
 			// Connect to the database
@@ -70,27 +107,7 @@
 				$uuid = new tableUuid('jobRecurring', 'jobRecurringId');
 				$this->jobRecurringId = $uuid->generatedId;
 
-				// Default businessId to the currently selected business
-				if (isset($_SESSION['ultiscape_businessId'])) {
-					$this->businessId = $_SESSION['ultiscape_businessId'];
-				} else {
-					$this->businessId = '';
-				}
-				$this->linkedToCustomerId = NULL;
-				$this->linkedToPropertyId = NULL;
-				$this->name = '';
-				$this->description = NULL;
-				$this->privateNotes = NULL;
-				$this->price = NULL;
-				$this->estHours = NULL;
-				$this->isPrepaid = '0';
-				$this->frequencyInterval = 'none';
-				$this->frequency = '0';
-				$this->startDateTime = '';
-				$this->endDateTime = NULL;
-				// Default dateTimeAdded to now since it is likely going to be inserted at this time
-				$currentDateTime = new DateTime();
-				$this->dateTimeAdded = $currentDateTime->format('Y-m-d H:i:s');
+				$this->setToDefaults();
 
 				$this->setType = 'INSERT';
 				$this->existed = false;
@@ -272,40 +289,7 @@
 				return $this->db->getLastError();
 			}
 
-			// Generate a new random id
-			require_once dirname(__FILE__)."/tableUuid.php";
-			$uuid = new tableUuid('jobRecurring', 'jobRecurringId');
-			$this->jobRecurringId = $uuid->generatedId;
-
-			// Reset all variables
-			// Default businessId to the currently selected business
-			if (isset($_SESSION['ultiscape_businessId'])) {
-				$this->businessId = $_SESSION['ultiscape_businessId'];
-			} else {
-				$this->businessId = '';
-			}
-			$this->linkedToCustomerId = NULL;
-			$this->linkedToPropertyId = NULL;
-			$this->name = '';
-			$this->description = NULL;
-			$this->privateNotes = NULL;
-			$this->price = NULL;
-			$this->estHours = NULL;
-			$this->isPrepaid = '0';
-			$this->frequencyInterval = 'none';
-			$this->frequency = '0';
-			$this->startDateTime = '';
-			$this->endDateTime = NULL;
-			// Default dateTimeAdded to now since it is likely going to be inserted at this time
-			$currentDateTime = new DateTime();
-			$this->dateTimeAdded = $currentDateTime->format('Y-m-d H:i:s');
-
-			// Clear arrays
-			$this->cancellations = array();
-			$this->completed = array();
-			$this->linkedJobSingulars = array();
-			$this->crews = array();
-			$this->staff = array();
+			$this->setToDefaults();
 
 			// Set setType to INSERT since there is no longer a row to update
 			$this->setType = 'INSERT';

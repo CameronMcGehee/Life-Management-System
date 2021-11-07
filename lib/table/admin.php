@@ -31,6 +31,34 @@
 
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// Set to defaults function
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+
+		public function setToDefaults() {
+			$this->username = '';
+			$this->password = '';
+			$this->email = '';
+			$this->surname = NULL;
+			$this->firstName = '';
+			$this->lastName = '';
+			$this->profilePicture = NULL;
+			$this->allowSignIn = '1';
+			// Default dateTimeJoined to now since it is likely going to be inserted at this time
+			$currentDateTime = new DateTime();
+			$this->dateTimeJoined = $currentDateTime->format('Y-m-d H:i:s');
+			$this->dateTimeLeft = NULL;
+
+			// Clear arrays
+			$this->loginAttempts = array();
+			$this->savedLogins = array();
+			$this->businesses = array();
+			$this->customerServiceMessages = array();
+			$this->estimateApprovals = array();
+		}
+
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 		// Init variables
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -68,18 +96,7 @@
 				$uuid = new tableUuid('admin', 'adminId');
 				$this->adminId = $uuid->generatedId;
 
-				$this->username = '';
-				$this->password = '';
-				$this->email = '';
-				$this->surname = NULL;
-				$this->firstName = '';
-				$this->lastName = '';
-				$this->profilePicture = NULL;
-				$this->allowSignIn = '1';
-				// Default dateTimeJoined to now since it is likely going to be inserted at this time
-				$currentDateTime = new DateTime();
-				$this->dateTimeJoined = $currentDateTime->format('Y-m-d H:i:s');
-				$this->dateTimeLeft = NULL;
+				$this->setToDefaults();
 
 				$this->setType = 'INSERT';
 				$this->existed = false;
@@ -291,32 +308,8 @@
 			if (!$this->db->delete('admin', "WHERE adminId = '".$this->db->sanitize($this->dbAdminId)."'", 1)) {
 				return $this->db->getLastError();
 			}
-
-			// Generate a new random id
-			require_once dirname(__FILE__)."/tableUuid.php";
-			$uuid = new tableUuid('admin', 'adminId');
-			$this->adminId = $uuid->generatedId;
-
-			// Reset all variables
-			$this->username = '';
-			$this->password = '';
-			$this->email = '';
-			$this->surname = NULL;
-			$this->firstName = '';
-			$this->lastName = '';
-			$this->profilePicture = NULL;
-			$this->allowSignIn = '1';
-			// Default dateTimeJoined to now since it is likely going to be inserted at this time
-			$currentDateTime = new DateTime();
-			$this->dateTimeJoined = $currentDateTime->format('Y-m-d H:i:s');
-			$this->dateTimeLeft = NULL;
-
-			// Clear arrays
-			$this->loginAttempts = array();
-			$this->savedLogins = array();
-			$this->businesses = array();
-			$this->customerServiceMessages = array();
-			$this->estimateApprovals = array();
+			
+			$this->setToDefaults();
 
 			// Set setType to INSERT since there is no longer a row to update
 			$this->setType = 'INSERT';

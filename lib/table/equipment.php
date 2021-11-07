@@ -30,6 +30,40 @@
 		public $maintenanceLogs = array();
 		public $chemicals = array();
 
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// Set to defaults function
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+
+		public function setToDefaults() {
+			// Default businessId to the currently selected business
+			if (isset($_SESSION['ultiscape_businessId'])) {
+				$this->businessId = $_SESSION['ultiscape_businessId'];
+			} else {
+				$this->businessId = '';
+			}
+			$this->linkedToCrewId = NULL;
+			$this->linkedToStaffId = NULL;
+			$this->name = '';
+			$this->description = NULL;
+			$this->condition = NULL;
+			$this->model = NULL;
+			$this->serialNumber = NULL;
+			$this->purchaseDate = NULL;
+			$this->purchasePrice = NULL;
+			$this->storageLocation = NULL;
+			// Default dateTimeAdded to now since it is likely going to be inserted at this time
+			$currentDateTime = new DateTime();
+			$this->dateTimeAdded = $currentDateTime->format('Y-m-d H:i:s');
+
+			// Clear arrays
+			$this->tags = array();
+			$this->images = array();
+			$this->maintenanceLogs = array();
+			$this->chemicals = array();
+		}
+
 		function __construct(string $equipmentId = '') {
 
 			// Connect to the database
@@ -65,25 +99,7 @@
 				$uuid = new tableUuid('equipment', 'equipmentId');
 				$this->equipmentId = $uuid->generatedId;
 
-				// Default businessId to the currently selected business
-				if (isset($_SESSION['ultiscape_businessId'])) {
-					$this->businessId = $_SESSION['ultiscape_businessId'];
-				} else {
-					$this->businessId = '';
-				}
-				$this->linkedToCrewId = NULL;
-				$this->linkedToStaffId = NULL;
-				$this->name = '';
-				$this->description = NULL;
-				$this->condition = NULL;
-				$this->model = NULL;
-				$this->serialNumber = NULL;
-				$this->purchaseDate = NULL;
-				$this->purchasePrice = NULL;
-				$this->storageLocation = NULL;
-				// Default dateTimeAdded to now since it is likely going to be inserted at this time
-				$currentDateTime = new DateTime();
-				$this->dateTimeAdded = $currentDateTime->format('Y-m-d H:i:s');
+				$this->setToDefaults();
 
 				$this->setType = 'INSERT';
 				$this->existed = false;
@@ -221,37 +237,7 @@
 				return $this->db->getLastError();
 			}
 
-			// Generate a new random id
-			require_once dirname(__FILE__)."/tableUuid.php";
-			$uuid = new tableUuid('equipment', 'equipmentId');
-			$this->equipmentId = $uuid->generatedId;
-
-			// Reset all variables
-			// Default businessId to the currently selected business
-			if (isset($_SESSION['ultiscape_businessId'])) {
-				$this->businessId = $_SESSION['ultiscape_businessId'];
-			} else {
-				$this->businessId = '';
-			}
-			$this->linkedToCrewId = NULL;
-			$this->linkedToStaffId = NULL;
-			$this->name = '';
-			$this->description = NULL;
-			$this->condition = NULL;
-			$this->model = NULL;
-			$this->serialNumber = NULL;
-			$this->purchaseDate = NULL;
-			$this->purchasePrice = NULL;
-			$this->storageLocation = NULL;
-			// Default dateTimeAdded to now since it is likely going to be inserted at this time
-			$currentDateTime = new DateTime();
-			$this->dateTimeAdded = $currentDateTime->format('Y-m-d H:i:s');
-
-			// Clear arrays
-			$this->tags = array();
-			$this->images = array();
-			$this->maintenanceLogs = array();
-			$this->chemicals = array();
+			$this->setToDefaults();
 
 			// Set setType to INSERT since there is no longer a row to update
 			$this->setType = 'INSERT';

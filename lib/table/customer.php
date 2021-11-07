@@ -46,6 +46,56 @@
 		public $payments = array();
 		public $properties = array();
 
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// Set to defaults function
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+
+		public function setToDefaults() {
+			// Default businessId to the currently selected business
+			if (isset($_SESSION['ultiscape_businessId'])) {
+				$this->businessId = $_SESSION['ultiscape_businessId'];
+			} else {
+				$this->businessId = '';
+			}
+			$this->surname = NULL;
+			$this->firstName = '';
+			$this->lastName = NULL;
+			$this->billAddress1 = NULL;
+			$this->billAddress2 = NULL;
+			$this->billCity = NULL;
+			$this->billState = NULL;
+			$this->billZipCode = NULL;
+			$this->creditCache = '0';
+			$this->overrideCreditAlertIsEnabled = NULL;
+			$this->overrideCreditAlertAmount = NULL;
+			$this->overrideAutoApplyCredit = NULL;
+			$this->balanceCache = '0';
+			$this->overrideBalanceAlertIsEnabled = NULL;
+			$this->overrideBalanceAlertAmount = NULL;
+			$this->allowCZSignIn = '0';
+			$this->password = '';
+			$this->discountPercent = NULL;
+			$this->overridePaymentTerm = NULL;
+			$this->notes = NULL;
+			// Default dateTimeAdded to now since it is likely going to be inserted at this time
+			$currentDateTime = new DateTime();
+			$this->dateTimeAdded = $currentDateTime->format('Y-m-d H:i:s');
+
+			// Clear arrays
+			$this->loginAttempts = array();
+			$this->savedLogins = array();
+			$this->phoneNumbers = array();
+			$this->emailAddresses = array();
+			$this->tags = array();
+			$this->customerServiceTickets = array();
+			$this->estimates = array();
+			$this->invoices = array();
+			$this->payments = array();
+			$this->properties = array();
+		}
+
 		function __construct(string $customerId = '') {
 
 			// Connect to the database
@@ -91,35 +141,7 @@
 				$uuid = new tableUuid('customer', 'customerId');
 				$this->customerId = $uuid->generatedId;
 
-				// Default businessId to the currently selected business
-				if (isset($_SESSION['ultiscape_businessId'])) {
-					$this->businessId = $_SESSION['ultiscape_businessId'];
-				} else {
-					$this->businessId = '';
-				}
-				$this->surname = NULL;
-				$this->firstName = '';
-				$this->lastName = NULL;
-				$this->billAddress1 = NULL;
-				$this->billAddress2 = NULL;
-				$this->billCity = NULL;
-				$this->billState = NULL;
-				$this->billZipCode = NULL;
-				$this->creditCache = '0';
-				$this->overrideCreditAlertIsEnabled = NULL;
-				$this->overrideCreditAlertAmount = NULL;
-				$this->overrideAutoApplyCredit = NULL;
-				$this->balanceCache = '0';
-				$this->overrideBalanceAlertIsEnabled = NULL;
-				$this->overrideBalanceAlertAmount = NULL;
-				$this->allowCZSignIn = '0';
-				$this->password = '';
-				$this->discountPercent = NULL;
-				$this->overridePaymentTerm = NULL;
-				$this->notes = NULL;
-				// Default dateTimeAdded to now since it is likely going to be inserted at this time
-				$currentDateTime = new DateTime();
-				$this->dateTimeAdded = $currentDateTime->format('Y-m-d H:i:s');
+				$this->setToDefaults();
 
 				$this->setType = 'INSERT';
 				$this->existed = false;
@@ -414,53 +436,7 @@
 				return $this->db->getLastError();
 			}
 
-			// Generate a new random id
-			require_once dirname(__FILE__)."/tableUuid.php";
-			$uuid = new tableUuid('customer', 'customerId');
-			$this->customerId = $uuid->generatedId;
-
-			// Reset all variables
-			// Default businessId to the currently selected business
-			if (isset($_SESSION['ultiscape_businessId'])) {
-				$this->businessId = $_SESSION['ultiscape_businessId'];
-			} else {
-				$this->businessId = '';
-			}
-			$this->surname = NULL;
-			$this->firstName = '';
-			$this->lastName = NULL;
-			$this->billAddress1 = NULL;
-			$this->billAddress2 = NULL;
-			$this->billCity = NULL;
-			$this->billState = NULL;
-			$this->billZipCode = NULL;
-			$this->creditCache = '0';
-			$this->overrideCreditAlertIsEnabled = NULL;
-			$this->overrideCreditAlertAmount = NULL;
-			$this->overrideAutoApplyCredit = NULL;
-			$this->balanceCache = '0';
-			$this->overrideBalanceAlertIsEnabled = NULL;
-			$this->overrideBalanceAlertAmount = NULL;
-			$this->allowCZSignIn = '0';
-			$this->password = '';
-			$this->discountPercent = NULL;
-			$this->overridePaymentTerm = NULL;
-			$this->notes = NULL;
-			// Default dateTimeAdded to now since it is likely going to be inserted at this time
-			$currentDateTime = new DateTime();
-			$this->dateTimeAdded = $currentDateTime->format('Y-m-d H:i:s');
-
-			// Clear arrays
-			$this->loginAttempts = array();
-			$this->savedLogins = array();
-			$this->phoneNumbers = array();
-			$this->emailAddresses = array();
-			$this->tags = array();
-			$this->customerServiceTickets = array();
-			$this->estimates = array();
-			$this->invoices = array();
-			$this->payments = array();
-			$this->properties = array();
+			$this->setToDefaults();
 
 			// Set setType to INSERT since there is no longer a row to update
 			$this->setType = 'INSERT';

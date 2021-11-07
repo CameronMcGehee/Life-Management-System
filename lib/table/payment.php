@@ -22,6 +22,30 @@
 
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// Set to defaults function
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+
+		public function setToDefaults() {
+			// Default businessId to the currently selected business
+			if (isset($_SESSION['ultiscape_businessId'])) {
+				$this->businessId = $_SESSION['ultiscape_businessId'];
+			} else {
+				$this->businessId = '';
+			}
+			$this->linkedToInvoiceId = '';
+			$this->customerId = '';
+			$this->method = '';
+			$this->amount = '0';
+			$this->notes = NULL;
+			$this->excessWasAddedToCredit = '0';
+			// Default dateTimeAdded to now since it is likely going to be inserted at this time
+			$currentDateTime = new DateTime();
+			$this->dateTimeAdded = $currentDateTime->format('Y-m-d H:i:s');
+		}
+
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 		// Init variables
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -56,21 +80,8 @@
 				require_once dirname(__FILE__)."/tableUuid.php";
 				$uuid = new tableUuid('payment', 'paymentId');
 				$this->paymentId = $uuid->generatedId;
-				// Default businessId to the currently selected business
-				if (isset($_SESSION['ultiscape_businessId'])) {
-					$this->businessId = $_SESSION['ultiscape_businessId'];
-				} else {
-					$this->businessId = '';
-				}
-				$this->linkedToInvoiceId = '';
-				$this->customerId = '';
-				$this->method = '';
-				$this->amount = '0';
-				$this->notes = NULL;
-				$this->excessWasAddedToCredit = '0';
-				// Default dateTimeAdded to now since it is likely going to be inserted at this time
-				$currentDateTime = new DateTime();
-				$this->dateTimeAdded = $currentDateTime->format('Y-m-d H:i:s');
+				
+				$this->setToDefaults();
 
 				$this->setType = 'INSERT';
 				$this->existed = false;
@@ -139,30 +150,7 @@
 				return $this->db->getLastError();
 			}
 
-			// Generate a new random id
-			require_once dirname(__FILE__)."/tableUuid.php";
-			$uuid = new tableUuid('payment', 'paymentId');
-			$this->paymentId = $uuid->generatedId;
-
-			// Reset all variables
-			// Default businessId to the currently selected business
-			if (isset($_SESSION['ultiscape_businessId'])) {
-				$this->businessId = $_SESSION['ultiscape_businessId'];
-			} else {
-				$this->businessId = '';
-			}
-			$this->linkedToInvoiceId = '';
-			$this->customerId = '';
-			$this->method = '';
-			$this->amount = '0';
-			$this->notes = NULL;
-			$this->excessWasAddedToCredit = '0';
-			// Default dateTimeAdded to now since it is likely going to be inserted at this time
-			$currentDateTime = new DateTime();
-			$this->dateTimeAdded = $currentDateTime->format('Y-m-d H:i:s');
-
-			// Clear arrays
-			// (No arrays)
+			$this->setToDefaults();
 
 			// Set setType to INSERT since there is no longer a row to update
 			$this->setType = 'INSERT';
