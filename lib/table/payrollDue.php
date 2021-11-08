@@ -5,7 +5,7 @@
 		private string $setType;
 		private database $db;
 
-		private string $dbCustomerPhoneNumberId; // Used when updating the table incase the payrollDueId has been changed after instantiation
+		private string $dbPayrollDueId; // Used when updating the table incase the payrollDueId has been changed after instantiation
 		
 		public bool $existed; // Can be used to see whether the given entity existed already at the time of instantiation
 
@@ -87,7 +87,7 @@
 				$this->existed = false;
 			}
 
-			$this->dbCustomerPhoneNumberId = $this->payrollDueId;
+			$this->dbPayrollDueId = $this->payrollDueId;
 			
 		}
 
@@ -100,7 +100,7 @@
 		public function set() {
 
 			$attributes = array(
-				'payrollDueId' => $this->db->sanitize($this->dbCustomerPhoneNumberId),
+				'payrollDueId' => $this->db->sanitize($this->dbPayrollDueId),
 				'businessId' => $this->db->sanitize($this->businessId),
 				'staffId' => $this->db->sanitize($this->staffId),
 				'linkedToTimeLogId' => $this->db->sanitize($this->linkedToTimeLogId),
@@ -114,7 +114,7 @@
 			if ($this->setType == 'UPDATE') {
 
 				// Update the values in the database after sanitizing them
-				if ($this->db->update('payrollDue', $attributes, "WHERE payrollDueId = ".$this->db->sanitize($this->dbCustomerPhoneNumberId), 1)) {
+				if ($this->db->update('payrollDue', $attributes, "WHERE payrollDueId = ".$this->db->sanitize($this->dbPayrollDueId), 1)) {
 					return true;
 				} elseif ($this->db->getLastError() === '') {
 					return true;
@@ -146,7 +146,7 @@
 		public function delete() {
 
 			// Remove row from database
-			if (!$this->db->delete('payrollDue', "WHERE payrollDueId = '".$this->db->sanitize($this->dbCustomerPhoneNumberId)."'", 1)) {
+			if (!$this->db->delete('payrollDue', "WHERE payrollDueId = '".$this->db->sanitize($this->dbPayrollDueId)."'", 1)) {
 				return $this->db->getLastError();
 			}
 
