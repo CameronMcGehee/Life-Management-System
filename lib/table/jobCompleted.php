@@ -29,6 +29,7 @@
 		public $crews = array();
 		public $staff = array();
 		public $chemicalApplications = array();
+		public $payrollDues = array();
 
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -62,6 +63,7 @@
 			$this->crews = array();
 			$this->staff = array();
 			$this->chemicalApplications = array();
+			$this->payrollDues = array();
 		}
 
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -176,6 +178,27 @@
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->chemicalApplications, $row['chemicalApplicationId']);
+				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
+			}
+		}
+
+		// payrollDues
+		public function pullPayrollDues($params = '') {
+			$this->payrollDues = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('payrollDue', 'payrollDueId', "WHERE linkedToJobCompletedId = '$this->dbJobCompletedId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->payrollDues, $row['payrollDueId']);
 				}
 				return true;
 			} elseif ($this->db->getLastError() === '') {
