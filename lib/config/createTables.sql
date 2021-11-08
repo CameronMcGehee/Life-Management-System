@@ -29,7 +29,7 @@
 	`adminLoginAttemptId` varchar(17) NOT NULL,
 	`adminId` varchar(17) NULL DEFAULT NULL,
 	`clientIp` varchar(150) NOT NULL,
-	`result` varchar(5) NOT NULL,
+	`result` varchar(20) NOT NULL,
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`adminLoginAttemptId`),
 	KEY `adminLoginAttemptAdminId` (`adminId`),
