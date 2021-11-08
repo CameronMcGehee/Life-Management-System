@@ -1376,7 +1376,7 @@
 	`method` varchar(10) NOT NULL,
 	`amount` float NOT NULL,
 	`notes` text NULL,
-	`excessIsAddedToAdvancePay` tinyint(1) NOT NULL DEFAULT 0,
+	`excessWasAddedToAdvancePay` tinyint(1) NOT NULL DEFAULT 0,
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`payrollSatisfactionId`),
 	KEY `payrollSatisfactionBusinessId` (`businessId`),
