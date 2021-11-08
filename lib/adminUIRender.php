@@ -171,6 +171,10 @@
 				if ($showProfileButtonScript) {
 					$output .= '$("#profileButtonWrapper").click(function() {
 									$("#pfpMenu").toggle();
+
+									if($("#bsMenu").is(":visible")) {
+										$("#bsMenu").toggle();
+									}
 								});
 								';
 				}
@@ -178,6 +182,10 @@
 				if ($showBusinessSelectorScript) {
 					$output .= '$("#businessSelectorButtonWrapper").click(function() {
 									$("#bsMenu").toggle();
+
+									if($("#pfpMenu").is(":visible")) {
+										$("#pfpMenu").toggle();
+									}
 								});
 								';
 				}
