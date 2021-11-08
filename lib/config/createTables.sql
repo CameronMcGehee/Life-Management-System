@@ -1350,7 +1350,7 @@
 	`businessId` varchar(17) NOT NULL,
 	`staffId` varchar(17) NOT NULL,
 	`linkedToTimeLogId` varchar(17) NULL COMMENT 'Optional FK',
-	`linkedToCompletedJobId` varchar(17) NULL COMMENT 'Optional FK',
+	`linkedToJobCompletedId` varchar(17) NULL COMMENT 'Optional FK',
 	`amount` float NOT NULL,
 	`notes` text NULL,
 	`isManualPaid` tinyint(1) NOT NULL DEFAULT 0,
