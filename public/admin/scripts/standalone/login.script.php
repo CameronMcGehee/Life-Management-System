@@ -55,7 +55,7 @@
     }
     $attempt->clientIp = getClientIpAddress();
     $attempt->result = $result;
-    var_dump($attempt->set());
+    $attempt->set();
 
     // Redirect
     if ($result == 'success') {
