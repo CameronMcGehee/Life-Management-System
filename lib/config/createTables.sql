@@ -1359,7 +1359,7 @@
 	KEY `payrollDueBusinessId` (`businessId`),
 	KEY `payrollDueStaffId` (`staffId`),
 	KEY `payrollDueLinkedToTimeLogId` (`linkedToTimeLogId`),
-	KEY `payrollDueLinkedToCompletedJobId` (`linkedToCompletedJobId`),
+	KEY `payrollDueLinkedToJobCompletedId` (`linkedToJobCompletedId`),
 	CONSTRAINT `payrollDueBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
 	CONSTRAINT `payrollDueStaffId` FOREIGN KEY (`staffId`) REFERENCES `staff` (`staffId`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
