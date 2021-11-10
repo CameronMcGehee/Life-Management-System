@@ -51,18 +51,28 @@
 	$username = $_POST['username'];
 	$password = $_POST['password'];
 
-	require_once '../../../../lib/manager/adminLoginManager.php';
-	$adminLoginManager = new adminLoginManager();
-
-	if ($adminLoginManager->usernameExists($_POST['usernameEmail'])) {
+	if (/* Username already in use */ true) {
 		header("location: ../../register?e=usernameExists");
 		exit();
-	} elseif ($adminLoginManager->emailExists($_POST['email'])) {
+	} elseif (/* Email already in use */ true) {
 		header("location: ../../register?e=emailExists");
 		exit();
-	} elseif ($adminLoginManager->addAdmin(true)) { // NOT YET A FUNCTION
-		header("location: ../../login"); //?username=".$createdAdminId);
-		exit();
+	} else {
+		// Add the admin to the database
+		require_once '../../../../lib/table/admin.php';
+		$newAdmin = new admin();
+		$newAdmin->firstName = $_POST['firstName'];
+		$newAdmin->lastName = $_POST['lastName'];
+		$newAdmin->username = $_POST['username'];
+		$newAdmin->password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+
+		if ($newAdmin->set()) {
+			header("location: ../../login?username=".$newAdmin->adminId);
+			exit();
+		} else {
+			header("location: ../../register?e=unknown");
+			exit();
+		}
 	}
 
 	header("location: ../../");
