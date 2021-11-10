@@ -1,13 +1,7 @@
 <?php
 
     require_once '../../../php/startSession.php';
-    require_once '../../../../lib/manager/adminLoginManager.php';
-
-        $adminLoginManager = new adminLoginManager();
-
-        $adminLoginManager->logout();
-
+    session_unset();
     header("location: ../../login");
-    exit();
 
 ?>
