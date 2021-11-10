@@ -4,8 +4,8 @@
     require_once '../../php/startSession.php';
 
     // If not signed in, just redirect to the login page
-    require_once '../../../lib/manager/adminLoginManager.php';
-    adminLoginManager::cmsVerifyAdminLoginRedirect('../', '../');
+    require_once '../../../lib/etc/adminHeaderRedirect.php';
+    adminHeaderRedirect('../', '../');
 
     require_once '../../../lib/adminUIRender.php';
     $adminUIRender = new adminUIRender();
