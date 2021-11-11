@@ -13,8 +13,7 @@
 		public $authTokenId;
 		public $businessId;
 		public $authName;
-		public $dateTimeUsed;
-		public $clientIpUsed;
+		public $clientIp;
 		public $dateTimeAdded;
 
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -31,8 +30,9 @@
 				$this->businessId = NULL;
 			}
 			$this->authName = NULL;
-			$this->dateTimeUsed = NULL;
-			$this->clientIpUsed = '';
+			// Default clientIp to the current IP address
+			require_once dirname(__FILE__)."/../etc/getClientIpAddress.php";
+			$this->clientIp = getClientIpAddress();
 			// Default dateTimeAdded to now since it is likely going to be inserted at this time
 			$currentDateTime = new DateTime();
 			$this->dateTimeAdded = $currentDateTime->format('Y-m-d H:i:s');
@@ -58,8 +58,7 @@
 				$this->authTokenId = $authTokenId;
 				$this->businessId = $fetch[0]['businessId'];
 				$this->authName = $fetch[0]['authName'];
-				$this->dateTimeUsed = $fetch[0]['dateTimeUsed'];
-				$this->clientIpUsed = $fetch[0]['clientIpUsed'];
+				$this->clientIp = $fetch[0]['clientIp'];
 				$this->dateTimeAdded = $fetch[0]['dateTimeAdded'];
 
 				$this->setType = 'UPDATE';
@@ -94,8 +93,7 @@
 				'authTokenId' => $this->db->sanitize($this->dbAuthTokenId),
 				'businessId' => $this->db->sanitize($this->businessId),
 				'authName' => $this->db->sanitize($this->authName),
-				'dateTimeUsed' => $this->db->sanitize($this->dateTimeUsed),
-				'clientIpUsed' => $this->db->sanitize($this->clientIpUsed),
+				'clientIp' => $this->db->sanitize($this->clientIp),
 				'dateTimeAdded' => $this->db->sanitize($this->dateTimeAdded)
 			);
 
