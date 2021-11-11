@@ -28,7 +28,7 @@
 			if (isset($_SESSION['ultiscape_businessId'])) {
 				$this->businessId = $_SESSION['ultiscape_businessId'];
 			} else {
-				$this->businessId = '';
+				$this->businessId = NULL;
 			}
 			$this->authName = NULL;
 			$this->dateTimeUsed = NULL;
