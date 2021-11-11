@@ -12,7 +12,7 @@
     if ($result == 'incomplete') {
         // Verify the auth token
         require_once '../../../../lib/etc/verifyAuthToken.php';
-        if (!verifyAuthToken($_POST['authToken'])) {
+        if (!verifyAuthToken($_POST['authToken'], 'adminLogin')) {
             $result = 'tokenInvalid';
         }
     }

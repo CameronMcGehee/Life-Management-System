@@ -36,10 +36,6 @@
 				echo $adminUIRender->renderAdminTopBar('../../', true, false, true);
 			} else {
 				echo $adminUIRender->renderAdminTopBar('../../', true, true, true);
-				if (false /*they are not on the paid plan, will be implemented later*/) {
-					echo "<p>A popup: You need to upgrade to the paid plan in order to manage more than 1 business with UltiScape.</p>
-					";
-				}
 			}
 		?>
 
@@ -60,9 +56,78 @@
 				</div>
 
 				<div id="twoColContentWrapper" class="padding90">
-					<?php
-						echo file_get_contents("./includes/createBusinessForm.inc.html");
-					?>
+					<form class="defaultForm" action="./" method="POST">
+
+						<label for="displayName"><p>Business Name <span style="color: rgb(167, 0, 0);">*</span></p></label>
+						<input class="bigInput" type="text" name="displayName" id="displayName" placeholder="Business name..." style="width: 70%;" required>
+						<br><br>
+
+						<label for="adminDisplayName"><p>Internal Display Name (What you see in Ultiscape)</p></label>
+						<input class="defaultInput" type="text" name="adminDisplayName" id="adminDisplayName" placeholder="Internal display name...">
+						<br><br>
+
+						<label for="fullLogoFile"><p>Logo File</p></label>
+						<input type="file" name="fullLogoFile" id="fullLogoFile">
+						<br><br>
+
+						<div class="twoCol">
+
+							<div>
+								<label for="address"><p>Address</p></label>
+								<input class="defaultInput" type="text" name="address" id="address" placeholder="Address..." style="width: 90%">
+								<br><br>
+
+								<label for="city"><p>City</p></label>
+								<input class="defaultInput" type="text" name="city" id="city" placeholder="City..." style="width: 90%">
+							</div>
+
+							<div>
+								<label for="state"><p>State</p></label>
+								<input class="defaultInput" type="text" name="state" id="state" placeholder="State..." style="width: 90%">
+								<br><br>
+
+								<label for="zipCode"><p>Zip Code</p></label>
+								<input class="defaultInput" type="text" name="zipCode" id="zipCode" placeholder="Zip code..." style="width: 90%">
+							</div>
+							
+						</div>
+
+						<br>
+
+						<label for="phone1"><p>Phone Number</p></label>
+						<div class="fourColCompact">
+							<div>
+								<input class="defaultInput" type="text" name="phonePrefix" id="phonePrefix" placeholder="+1" value="1" style="width: 3em;">
+							</div>
+
+							<div>
+								<input class="defaultInput" type="text" name="phone1" id="phone1" placeholder="555" style="width: 6em;">
+							</div>
+
+							<div>
+								<input class="defaultInput" type="text" name="phone2" id="phone2" placeholder="555" style="width: 6em;">
+							</div>
+
+							<div>
+								<input class="defaultInput" type="text" name="phone3" id="phone3" placeholder="5555" style="width: 6em;">
+							</div>
+						</div>
+
+						<?php
+                            // Generate an auth token for the form
+                            require_once '../../../lib/table/authToken.php';
+							$token = new authToken();
+							$token->authName = 'createBusiness';
+							$token->set();
+                        ?>
+
+                        <input type="hidden" name="authToken" id="authToken" value="<?php echo htmlspecialchars($token->authTokenId); ?>">
+
+						<br><br>
+
+						<button class="mediumButtonWrapper greenButton centered defaultMainShadows" type="submit">Create!</button>
+					</form>
+
 				</div>
 			</div>
 			
