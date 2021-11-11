@@ -190,7 +190,12 @@
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 
 		public function setToDefaults() {
-			$this->ownerAdminId = '';
+			// Default ownerAdminId to the currently selected admin since we are most likely creating the business if we are setting to defaults
+			if (isset($_SESSION['ultiscape_adminId'])) {
+				$this->ownerAdminId = $_SESSION['ultiscape_adminId'];
+			} else {
+				$this->ownerAdminId = '';
+			}
 			$this->displayName = '';
 			$this->adminDisplayName = '';
 			$this->fullLogoFile = NULL;
@@ -224,7 +229,7 @@
 			$this->modCrewsExtName = NULL;
 			$this->modPayr = '0';
 			$this->modPayrSatLinkedToDue = '0';
-			$this->modPayrSalDefaultType = '';
+			$this->modPayrSalDefaultType = 'hour';
 			$this->modPayrSalBaseHourlyRate = '0';
 			$this->modPayrSalBaseJobPercent = '0';
 			$this->modPayrSalBasePerJob = '0';
