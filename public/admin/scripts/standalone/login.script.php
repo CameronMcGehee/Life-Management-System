@@ -5,8 +5,16 @@
     $result = 'incomplete'; // Incomplete means there has not yet been an error so the script will continue.
 
     // Check if input is set and valid
-    if ( (!isset($_POST['usernameEmail']) || strlen($_POST['usernameEmail']) <= 5) || (!isset($_POST['password']) || strlen($_POST['password']) <= 5) ) {
+    if ( (!isset($_POST['usernameEmail']) || strlen($_POST['usernameEmail']) < 6) || (!isset($_POST['password']) || strlen($_POST['password']) < 6) || (!isset($_POST['authToken']) || strlen($_POST['authToken']) < 17)) {
         $result = 'inputInvalid';
+    }
+
+    if ($result == 'incomplete') {
+        // Verify the auth token
+        require_once '../../../../lib/etc/verifyAuthToken.php';
+        if (!verifyAuthToken($_POST['authToken'])) {
+            $result = 'tokenInvalid';
+        }
     }
 
     if ($result == 'incomplete') {
@@ -55,12 +63,10 @@
     
     // Log the attempt
     require_once '../../../../lib/table/adminLoginAttempt.php';
-    require_once '../../../../lib/etc/getClientIpAddress.php';
     $attempt = new adminLoginAttempt();
     if (isset($matchedAdminId)) {
         $attempt->adminId = $matchedAdminId;
     }
-    $attempt->clientIp = getClientIpAddress();
     $attempt->result = $result;
     $attempt->set();
 

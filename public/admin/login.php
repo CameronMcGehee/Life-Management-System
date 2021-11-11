@@ -28,10 +28,6 @@
             echo $adminUIRender->renderAdminTopBar('../', true, false, false);
         ?>
 
-        <?php 
-            // echo $adminUIRender->renderAdminSideBar();
-        ?>
-
         <div class="cmsMainContentWrapper">
             
         <div class="maxHeight xyCenteredFlex flexDirectionColumn marginLeftRight90">
@@ -39,17 +35,25 @@
                     
                     <h1>Admin Login</h1>
                     
-                    <form style="margin-left: 2em; margin-right: 2em;" method="POST" action="./scripts/standalone/login.script">
+                    <form class="defaultForm" style="margin-left: 2em; margin-right: 2em;" method="POST" action="./scripts/standalone/login.script">
                         
                         <label for="usernameEmail"><p>Username/Email</p></label>
-                        <input class="defaultMainShadows" type="text" name="usernameEmail" id="usernameEmail" placeholder="Username/Email...">
+                        <input class="defaultInput" type="text" name="usernameEmail" id="usernameEmail" placeholder="Username/Email...">
                         
                         <br><br>
                         
                         <label for="password"><p>Password</p></label>
-                        <input class="defaultMainShadows" type="password" name="password" id="password" placeholder="Password...">
+                        <input class="defaultInput" type="password" name="password" id="password" placeholder="Password...">
 
-                        <input type="hidden" name="loginFormAuthToken" id="loginFormAuthToken" value="<?php echo 'ThisWillBeATokenAtSomePoint'; ?>">
+                        <?php
+                            // Generate an auth token for the form
+                            require_once '../../lib/table/authToken.php';
+							$token = new authToken();
+							$token->authName = 'adminLogin';
+							$token->set();
+                        ?>
+
+                        <input type="hidden" name="authToken" id="authToken" value="<?php echo htmlspecialchars($token->authTokenId); ?>">
                         
                         <br><br>
                         
