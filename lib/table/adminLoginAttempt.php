@@ -24,7 +24,9 @@
 
 		public function setToDefaults() {
 			$this->adminId = NULL;
-			$this->clientIp = '';
+			// Default clientIp to the current IP address
+			require_once dirname(__FILE__)."/../etc/getClientIpAddress.php";
+			$this->clientIp = getClientIpAddress();
 			$this->result = '';
 			// Default dateTimeAdded to now since it is likely going to be inserted at this time
 			$currentDateTime = new DateTime();
