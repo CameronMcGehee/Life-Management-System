@@ -257,8 +257,7 @@
 	`authTokenId` varchar(17) NOT NULL,
 	`businessId` varchar(17) NULL,
 	`authName` varchar(50) NULL,
-	`dateTimeUsed` datetime NULL,
-	`clientIpUsed` varchar(150) NOT NULL,
+	`clientIp` varchar(150) NOT NULL,
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`authTokenId`),
 	KEY `authTokenBusinessId` (`businessId`)
