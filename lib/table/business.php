@@ -11,7 +11,6 @@
 
 		// Main database attributes
 		public $businessId;
-		public $ownerAdminId;
 		public $displayName;
 		public $adminDisplayName;
 		public $fullLogoFile;
@@ -190,12 +189,6 @@
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 
 		public function setToDefaults() {
-			// Default ownerAdminId to the currently selected admin since we are most likely creating the business if we are setting to defaults
-			if (isset($_SESSION['ultiscape_adminId'])) {
-				$this->ownerAdminId = $_SESSION['ultiscape_adminId'];
-			} else {
-				$this->ownerAdminId = '';
-			}
 			$this->displayName = '';
 			$this->adminDisplayName = '';
 			$this->fullLogoFile = NULL;
@@ -388,7 +381,6 @@
 			// If businessId already exists then set the set method type to UPDATE and fetch the values for the business
 			if ($fetch) {
 				$this->businessId = $businessId;
-				$this->ownerAdminId = $fetch[0]['ownerAdminId'];
 				$this->displayName = $fetch[0]['displayName'];
 				$this->adminDisplayName = $fetch[0]['adminDisplayName'];
 				$this->fullLogoFile = $fetch[0]['fullLogoFile'];
@@ -1655,6 +1647,7 @@
 			$fetch = $this->db->select('adminBusinessBridge', '*', "WHERE businessId = '$this->dbBusinessId' AND adminId = '".$this->db->sanitize($adminId)."'");
 			if ($fetch) {
 				return array(
+					'isOwner' => $fetch[0]['adminIsOwner'],
 					'canManageTag' => $fetch[0]['adminCanManageTag'],
 					'canUploadDocument' => $fetch[0]['adminCanUploadDocument'],
 					'canManageBlog' => $fetch[0]['adminCanManageBlog'],
@@ -1694,7 +1687,6 @@
 
 			$attributes = array(
 				'businessId' => $this->db->sanitize($this->dbBusinessId),
-				'ownerAdminId' => $this->db->sanitize($this->ownerAdminId),
 				'displayName' => $this->db->sanitize($this->displayName),
 				'adminDisplayName' => $this->db->sanitize($this->adminDisplayName),
 				'fullLogoFile' => $this->db->sanitize($this->fullLogoFile),
