@@ -54,7 +54,7 @@
         
         // Input Settings
 
-            // Min lengths of admin details when singing up or editing profile.
+            // Min lengths of credentials when singing up or editing a profile.
             // Not recommended to have these set less than 1. Setting any to less than 0 will break things!
             "emailMinLength" => 5,
             "nameTitleMinLength" => 0,
@@ -64,7 +64,13 @@
             "passwordMinLength" => 8,
 
             // Whether to use email validation when the user enters an email address
-            "useEmailValidation" => true
+            "useEmailValidation" => true,
+
+            // Business inputs
+            "businessNameMinLength" => 5,
+            "businessNameMaxLength" => 100,
+            "businessInternalNameMinLength" => 5,
+            "businessInternalNameMaxLength" => 100,
 
         // Staff Settings
     );
