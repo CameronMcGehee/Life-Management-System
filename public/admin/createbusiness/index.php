@@ -41,94 +41,47 @@
 
 		<div class="cmsMainContentWrapper textColorThemeGray styledText">
 			
-			<div class="twoColPage-Info-Content maxHeight">
-				<div id="twoColInfoWrapper" class="paddingLeftRight90 paddingTopBottom90">
+			<div class="xyCenteredFlex centered flexDirectionColumn maxHeight maxWidth">
+					
+				<?php
+					if (count($currentAdmin->businesses) == 0) {
+						echo '<h1>Let\'s create your first business!</h1>
+						';
+					} else {
+						echo '<h1>Create a new Business</h1>
+						';
+					}
+				?>
+				
+					<br>
+					<br>
+
+				<form class="defaultForm maxWidth" action="./scripts/standalone/createbusiness.script.php" method="POST">
+
+					<input class="bigInput" type="text" name="businessName" id="businessName" placeholder="Business name..." style="width: 70%;" required>
+
+					<br>
+					<br>
+					<br>
+
+					<input type="checkbox" name="takeToEditPage" id="takeToEditPage"><label for="takeToEditPage"> <p style="display: inline;">Input more details after creation</p></label>
+					
+					<br>
 					<?php
-						if (count($currentAdmin->businesses) == 0) {
-							echo '<h1>Let\'s create your first business!</h1>
-							';
-						} else {
-							echo '<h1>Create a new Business</h1>
-							';
-						}
+						// Generate an auth token for the form
+						require_once '../../../lib/table/authToken.php';
+						$token = new authToken();
+						$token->authName = 'createBusiness';
+						$token->set();
 					?>
 
-				</div>
+					<input type="hidden" name="authToken" id="authToken" value="<?php echo htmlspecialchars($token->authTokenId); ?>">
 
-				<div id="twoColContentWrapper" class="padding90">
-					<form class="defaultForm" action="./" method="POST">
+					<br>
 
-						<label for="displayName"><p>Business Name <span style="color: rgb(167, 0, 0);">*</span></p></label>
-						<input class="bigInput" type="text" name="displayName" id="displayName" placeholder="Business name..." style="width: 70%;" required>
-						<br><br>
+					<button class="mediumButtonWrapper greenButton centered defaultMainShadows" type="submit">Create!</button>
+				</form>
 
-						<label for="adminDisplayName"><p>Internal Display Name (What you see in Ultiscape)</p></label>
-						<input class="defaultInput" type="text" name="adminDisplayName" id="adminDisplayName" placeholder="Internal display name...">
-						<br><br>
-
-						<label for="fullLogoFile"><p>Logo File</p></label>
-						<input type="file" name="fullLogoFile" id="fullLogoFile">
-						<br><br>
-
-						<div class="twoCol">
-
-							<div>
-								<label for="address"><p>Address</p></label>
-								<input class="defaultInput" type="text" name="address" id="address" placeholder="Address..." style="width: 90%">
-								<br><br>
-
-								<label for="city"><p>City</p></label>
-								<input class="defaultInput" type="text" name="city" id="city" placeholder="City..." style="width: 90%">
-							</div>
-
-							<div>
-								<label for="state"><p>State</p></label>
-								<input class="defaultInput" type="text" name="state" id="state" placeholder="State..." style="width: 90%">
-								<br><br>
-
-								<label for="zipCode"><p>Zip Code</p></label>
-								<input class="defaultInput" type="text" name="zipCode" id="zipCode" placeholder="Zip code..." style="width: 90%">
-							</div>
-							
-						</div>
-
-						<br>
-
-						<label for="phone1"><p>Phone Number</p></label>
-						<div class="fourColCompact">
-							<div>
-								<input class="defaultInput" type="text" name="phonePrefix" id="phonePrefix" placeholder="+1" value="1" style="width: 3em;">
-							</div>
-
-							<div>
-								<input class="defaultInput" type="text" name="phone1" id="phone1" placeholder="555" style="width: 6em;">
-							</div>
-
-							<div>
-								<input class="defaultInput" type="text" name="phone2" id="phone2" placeholder="555" style="width: 6em;">
-							</div>
-
-							<div>
-								<input class="defaultInput" type="text" name="phone3" id="phone3" placeholder="5555" style="width: 6em;">
-							</div>
-						</div>
-
-						<?php
-                            // Generate an auth token for the form
-                            require_once '../../../lib/table/authToken.php';
-							$token = new authToken();
-							$token->authName = 'createBusiness';
-							$token->set();
-                        ?>
-
-                        <input type="hidden" name="authToken" id="authToken" value="<?php echo htmlspecialchars($token->authTokenId); ?>">
-
-						<br><br>
-
-						<button class="mediumButtonWrapper greenButton centered defaultMainShadows" type="submit">Create!</button>
-					</form>
-
-				</div>
 			</div>
 			
 		</div>
