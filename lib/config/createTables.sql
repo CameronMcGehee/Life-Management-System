@@ -122,7 +122,7 @@
 	`SZModQuitNoticeTerm` int(11) NOT NULL DEFAULT 0,
 	`CPEnabled` tinyint(1) NOT NULL DEFAULT 0,
 	`CPModHomeShowBody` tinyint(1) NOT NULL DEFAULT 0,
-	`CPModHomeBodyFile` tinyint(1) NOT NULL DEFAULT 0,
+	`CPModHomeBodyFile` tinyint(1) DEFAULT NULL,
 	`CPModTopBar` tinyint(1) NOT NULL DEFAULT 0,
 	`CPModTopBarShowLogo` tinyint(1) NOT NULL DEFAULT 0,
 	`CPModTopBarLogoFile` varchar(17) DEFAULT NULL,
