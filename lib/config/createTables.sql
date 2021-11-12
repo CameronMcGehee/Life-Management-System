@@ -214,7 +214,7 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `adminBusinessBridge` (
-	`adminBusinessId` varchar(17) NOT NULL,
+	`adminBusinessId` int(11) NOT NULL AUTO_INCREMENT,
 	`adminId` varchar(17) NOT NULL,
 	`businessId` varchar(17) NOT NULL,
 	`adminIsOwner` tinyint(1) NOT NULL DEFAULT 0,
@@ -584,7 +584,7 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `equipmentChemicalBridge` (
-	`equipmentChemicalId` varchar(17) NOT NULL,
+	`equipmentChemicalId` int(11) NOT NULL AUTO_INCREMENT,
 	`businessId` varchar(17) NOT NULL,
 	`equipmentId` varchar(17) NOT NULL,
 	`chemicalId` varchar(17) NOT NULL,
@@ -1049,7 +1049,7 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `jobSingularCrewBridge` (
-	`jobSingularCrewId` varchar(17) NOT NULL,
+	`jobSingularCrewId` int(11) NOT NULL AUTO_INCREMENT,
 	`businessId` varchar(17) NOT NULL,
 	`jobSingularId` varchar(17) NOT NULL,
 	`crewId` varchar(17) NOT NULL,
@@ -1177,7 +1177,7 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `crewLeaderBridge` (
-	`crewLeaderId` varchar(17) NOT NULL,
+	`crewLeaderId` int(11) NOT NULL AUTO_INCREMENT,
 	`businessId` varchar(17) NOT NULL,
 	`crewId` varchar(17) NOT NULL,
 	`staffId` varchar(17) NOT NULL,
@@ -1196,7 +1196,7 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `crewStaffBridge` (
-	`crewStaffId` varchar(17) NOT NULL,
+	`crewStaffId` int(11) NOT NULL AUTO_INCREMENT,
 	`businessId` varchar(17) NOT NULL,
 	`crewId` varchar(17) NOT NULL,
 	`staffId` varchar(17) NOT NULL,
@@ -1266,7 +1266,7 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `jobSingularStaffBridge` (
-	`jobSingularStaffId` varchar(17) NOT NULL,
+	`jobSingularStaffId` int(11) NOT NULL AUTO_INCREMENT,
 	`businessId` varchar(17) NOT NULL,
 	`jobSingularId` varchar(17) NOT NULL,
 	`staffId` varchar(17) NOT NULL,
@@ -1405,7 +1405,7 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `mailoutSubscriptionBridge` (
-	`mailoutSubscriptionId` varchar(17) NOT NULL,
+	`mailoutSubscriptionId` int(11) NOT NULL AUTO_INCREMENT,
 	`businessId` varchar(17) NOT NULL,
 	`customerEmailAddressId` varchar(17) NOT NULL,
 	`mailoutCampaignTemplateId` varchar(17) NOT NULL,
@@ -1447,7 +1447,7 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `customerEmailAddressEmailSendBridge` (
-	`customerEmailAddressEmailSendId` varchar(17) NOT NULL,
+	`customerEmailAddressEmailSendId` int(11) NOT NULL AUTO_INCREMENT,
 	`businessId` varchar(17) NOT NULL,
 	`customerEmailAddressId` varchar(17) NOT NULL,
 	`emailSendId` varchar(17) NOT NULL,
@@ -1500,7 +1500,7 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `smsSubscriptionBridge` (
-	`smsSubscriptionId` varchar(17) NOT NULL,
+	`smsSubscriptionId` int(11) NOT NULL AUTO_INCREMENT,
 	`businessId` varchar(17) NOT NULL,
 	`customerPhoneNumberId` varchar(17) NOT NULL,
 	`smsCampaignTemplateId` varchar(17) NOT NULL,
@@ -1539,7 +1539,7 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `customerPhoneNumberSmsSendBridge` (
-	`customerPhoneNumberSmsSendId` varchar(17) NOT NULL,
+	`customerPhoneNumberSmsSendId` int(11) NOT NULL AUTO_INCREMENT,
 	`businessId` varchar(17) NOT NULL,
 	`customerPhoneNumberId` varchar(17) NOT NULL,
 	`smsSendId` varchar(17) NOT NULL,
@@ -1596,7 +1596,7 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `blogPostBlogTagBridge` (
-	`blogPostBlogTagId` varchar(17) NOT NULL,
+	`blogPostBlogTagId` int(11) NOT NULL AUTO_INCREMENT,
 	`businessId` varchar(17) NOT NULL,
 	`blogPostId` varchar(17) NOT NULL,
 	`blogTagId` varchar(17) NOT NULL,
