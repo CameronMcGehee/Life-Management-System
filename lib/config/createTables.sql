@@ -55,7 +55,6 @@
 
 	CREATE TABLE IF NOT EXISTS `business` (
 	`businessId` varchar(17) NOT NULL,
-	`ownerAdminId` varchar(17) NOT NULL COMMENT 'FK',
 	`displayName` varchar(100) NOT NULL,
 	`adminDisplayName` varchar(100) NOT NULL,
 	`fullLogoFile` varchar(17) DEFAULT NULL,
@@ -171,9 +170,7 @@
 	`CPModCZServiceRequest` tinyint(1) NOT NULL DEFAULT 0,
 	`isArchived` tinyint(1) NOT NULL DEFAULT 0,
 	`dateTimeAdded` datetime NOT NULL,
-	PRIMARY KEY (`businessId`),
-	KEY `businessOwnerAdminId` (`ownerAdminId`),
-	CONSTRAINT `businessOwnerAdminId` FOREIGN KEY (`ownerAdminId`) REFERENCES `admin` (`adminId`)
+	PRIMARY KEY (`businessId`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -220,6 +217,7 @@
 	`adminBusinessId` varchar(17) NOT NULL,
 	`adminId` varchar(17) NOT NULL,
 	`businessId` varchar(17) NOT NULL,
+	`isOwner` tinyint(1) NOT NULL DEFAULT 0,
 	`adminCanManageTag` tinyint(1) NOT NULL DEFAULT 1,
 	`adminCanUploadDocument` tinyint(1) NOT NULL DEFAULT 1,
 	`adminCanManageBlog` tinyint(1) NOT NULL DEFAULT 1,
