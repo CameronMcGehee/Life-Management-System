@@ -70,7 +70,7 @@
             "businessNameMinLength" => 5,
             "businessNameMaxLength" => 100,
             "businessInternalNameMinLength" => 5,
-            "businessInternalNameMaxLength" => 100,
+            "businessInternalNameMaxLength" => 100
 
         // Staff Settings
     );
