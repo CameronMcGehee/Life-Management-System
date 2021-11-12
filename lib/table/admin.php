@@ -25,6 +25,8 @@
 		// Arrays to store linked data.
 		public $loginAttempts = array();
 		public $savedLogins = array();
+		public $ownedBusinesses = array();
+		public $sharedBusinesses = array();
 		public $businesses = array();
 		public $customerServiceMessages = array();
 		public $estimateApprovals = array();
@@ -52,6 +54,8 @@
 			// Clear arrays
 			$this->loginAttempts = array();
 			$this->savedLogins = array();
+			$this->ownedBusinesses = array();
+			$this->sharedBusinesses = array();
 			$this->businesses = array();
 			$this->customerServiceMessages = array();
 			$this->estimateApprovals = array();
@@ -151,7 +155,47 @@
 				return $this->db->getLastError();
 			}
 		}
+		
+		public function pullOwnedBusinesses($params = '') {
+			$this->ownedBusinesses = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('adminBusinessBridge', 'businessId', "WHERE adminId = '$this->dbAdminId' AND adminIsOwner = '1'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->ownedBusinesses, $row['businessId']);
+				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
+			}
+		}
 
+		public function pullSharedBusinesses($params = '') {
+			$this->sharedBusinesses = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('adminBusinessBridge', 'businessId', "WHERE adminId = '$this->dbAdminId' AND adminIsOwner = '0'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->sharedBusinesses, $row['businessId']);
+				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
+			}
+		}
+		
 		public function pullBusinesses($params = '') {
 			$this->businesses = array();
 			// Add space before params
