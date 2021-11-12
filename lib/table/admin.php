@@ -223,6 +223,7 @@
 			$fetch = $this->db->select('adminBusinessBridge', '*', "WHERE adminId = '$this->dbAdminId' AND businessId = '".$this->db->sanitize($businessId)."'");
 			if ($fetch) {
 				return array(
+					'isOwner' => $fetch[0]['adminIsOwner'],
 					'canManageTag' => $fetch[0]['adminCanManageTag'],
 					'canUploadDocument' => $fetch[0]['adminCanUploadDocument'],
 					'canManageBlog' => $fetch[0]['adminCanManageBlog'],

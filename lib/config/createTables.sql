@@ -217,7 +217,7 @@
 	`adminBusinessId` varchar(17) NOT NULL,
 	`adminId` varchar(17) NOT NULL,
 	`businessId` varchar(17) NOT NULL,
-	`isOwner` tinyint(1) NOT NULL DEFAULT 0,
+	`adminIsOwner` tinyint(1) NOT NULL DEFAULT 0,
 	`adminCanManageTag` tinyint(1) NOT NULL DEFAULT 1,
 	`adminCanUploadDocument` tinyint(1) NOT NULL DEFAULT 1,
 	`adminCanManageBlog` tinyint(1) NOT NULL DEFAULT 1,
