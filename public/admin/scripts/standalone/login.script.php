@@ -11,9 +11,13 @@
 
     if ($result == 'incomplete') {
         // Verify the auth token
-        require_once '../../../../lib/etc/verifyAuthToken.php';
+        require_once '../../../../lib/etc/authToken/verifyAuthToken.php';
         if (!verifyAuthToken($_POST['authToken'], 'adminLogin')) {
             $result = 'tokenInvalid';
+        } else {
+            // Since this script is run relatively often, purge old authTokens to keep the table small whenever the token is valid
+            require_once '../../../../lib/etc/authToken/purgeAuthTokens.php';
+            purgeAuthTokens($ULTISCAPECONFIG['authTokenDefaultPurge']);
         }
     }
 
