@@ -40,32 +40,41 @@
 
 		<div class="cmsMainContentWrapper">
 			
-			<div class="maxHeight xyCenteredFlex flexDirectionColumn marginLeftRight90 styledText spacedText">
+			<div class="maxHeight yCenteredFlex flexDirectionColumn marginLeftRight90 styledText spacedText">
+
+			<h1>Your Businesses</h1>
+
 				<?php
 
 					// Until we make this page look good, just echo out links to switch to the different businesses
 
 					// Get owned businesses
-					$db = new database();
-					$ownedBusinesses = $db->select('business', 'businessId, adminDisplayName', "WHERE ownerAdminId = '".$db->sanitize($_SESSION['ultiscape_adminId'])."'");
-					if ($ownedBusinesses) {
-						echo "<h1>Your Businesses</h1>";
-						foreach ($ownedBusinesses as $ownedBusiness) {
-							echo '<h3><a href="./scripts/standalone/setBusiness.script.php?id='.$ownedBusiness['businessId'].'">'.htmlspecialchars($ownedBusiness['adminDisplayName']).'</a></h3>';
+					$currentAdmin->pullOwnedBusinesses();
+					if (count($currentAdmin->ownedBusinesses) > 0) {
+						foreach ($currentAdmin->ownedBusinesses as $businessId) {
+							$business = new business($businessId);
+							echo '<h3><a href="./scripts/standalone/setBusiness.script.php?id='.$businessId.'">'.htmlspecialchars($business->adminDisplayName).'</a></h3>';
 						}
 					} else {
-
+						echo "<p>You do not have any businesses managed with UltiScape. <a href=\"../createbusiness\">Create one!</a></p>";
 					}
+				
+				?>
 
-					$currentAdmin->pullBusinesses();
-					if (count($currentAdmin->businesses) > 0) {
+					<br><br>
+					<h1>Shared with You</h1>
 
+				<?php
+					
+					// Get shared businesses
+					$currentAdmin->pullSharedBusinesses();
+					if (count($currentAdmin->sharedBusinesses) > 0) {
+						foreach ($currentAdmin->sharedBusinesses as $businessId) {
+							$business = new business($businessId);
+							echo '<h3><a href="./scripts/standalone/setBusiness.script.php?id='.$businessId.'">'.htmlspecialchars($business->adminDisplayName).'</a></h3>';
+						}
 					} else {
-						echo "<br><br><h1>Shared with You</h1><p>Nobody has shared any businesses with you to manage. <a href=\"../../staff\">Looking for staff login?</a></p>";
-					}
-					foreach ($currentAdmin->businesses as $businessId) {
-						$sharedBusiness = new business($businessId);
-						echo '<h3><a href="./scripts/standalone/setBusiness.script.php?id='.$businessId.'">'.htmlspecialchars($sharedBusiness->adminDisplayName).'</a></h3>';
+						echo "<p>Nobody has shared any businesses with you to manage. <a href=\"../../staff\">Looking for staff login?</a></p>";
 					}
 
 				?>
