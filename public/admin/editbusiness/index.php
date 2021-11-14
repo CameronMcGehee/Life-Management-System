@@ -28,30 +28,17 @@
 	<div class="appNoSidebarBodyWrapper">
 
 		<?php 
-			$currentAdmin = new admin($_SESSION['ultiscape_adminId']);
-			$currentAdmin->pullBusinesses();
+			$currentBusiness = new business($_SESSION['ultiscape_businessId']);
 
-			// Render the business selector in the menu bar only if they actually have a business on their account already. The user may be on this page creating their first business.
-			if (count($currentAdmin->businesses) == 0) {
-				echo $adminUIRender->renderAdminTopBar('../../', true, false, true);
-			} else {
-				echo $adminUIRender->renderAdminTopBar('../../', true, true, true);
-			}
+			echo $adminUIRender->renderAdminTopBar('../../', true, true, true);
 		?>
 
 		<div class="cmsMainContentWrapper textColorThemeGray styledText">
 			
 			<div class="twoColPage-Info-Content maxHeight">
 				<div id="twoColInfoWrapper" class="paddingLeftRight90 paddingTopBottom90">
-					<?php
-						if (count($currentAdmin->businesses) == 0) {
-							echo '<h1>Let\'s create your first business!</h1>
-							';
-						} else {
-							echo '<h1>Create a new Business</h1>
-							';
-						}
-					?>
+				
+					<h1>Edit <i><?php echo htmlspecialchars($currentBusiness->adminDisplayName); ?></i></h1>
 
 				</div>
 
@@ -59,15 +46,24 @@
 					<form class="defaultForm" action="./" method="POST">
 
 						<label for="displayName"><p>Business Name <span style="color: rgb(167, 0, 0);">*</span></p></label>
-						<input class="bigInput" type="text" name="displayName" id="displayName" placeholder="Business name..." style="width: 70%;" required>
+						<input class="bigInput" type="text" name="displayName" id="displayName" placeholder="Business name..." style="width: 70%;" required value="<?php echo htmlspecialchars($currentBusiness->displayName); ?>">
 						<br><br>
 
 						<label for="adminDisplayName"><p>Internal Display Name (What you see in Ultiscape)</p></label>
-						<input class="defaultInput" type="text" name="adminDisplayName" id="adminDisplayName" placeholder="Internal display name...">
-						<br><br>
+						<input class="defaultInput" type="text" name="adminDisplayName" id="adminDisplayName" placeholder="Internal display name..." value="<?php echo htmlspecialchars($currentBusiness->adminDisplayName); ?>">
+						<br><br><br>
 
-						<label for="fullLogoFile"><p>Logo File</p></label>
-						<input type="file" name="fullLogoFile" id="fullLogoFile">
+						<div style="border: 1px solid gray; width: 25em; height: 5em; padding: 1em;">
+
+							<img src="<?php if ($currentBusiness->fullLogoFile === NULL) {echo "../../images/ultiscape/etc/noLogo.png";} else echo "../../images/ultiscape/uploads/businessFullLogoFile/".htmlspecialchars($currentBusiness->fullLogoFile); ?>" style="height: 100%; float: left;">
+							
+							<input type="checkbox" name="useNewLogo" id="useNewLogo"><label for="useNewLogo"> <p style="display: inline; clear: both;">Upload a new logo</p></label>
+							<br><br>
+
+							<label for="fullLogoFile" style="clear: both;"><p>Logo File</p></label>
+							<input type="file" name="fullLogoFile" id="fullLogoFile" style="clear: both;">
+						</div>
+
 						<br><br>
 
 						<div class="twoCol">
