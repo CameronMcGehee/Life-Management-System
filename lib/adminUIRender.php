@@ -134,8 +134,12 @@
 			$output .= '<span class="businessSelectorButtonDropdownHider" id="bsMenu"><div class="businessSelectorButtonDropdownWrapper xyCenteredFlex flexDirectionColumn">
 			';
 			
-				// For each business that belongs to the admin, output a button to switch to that business
+				// Eventually for each business that belongs to the admin, output a button to switch to that business
 				$output .= '<p><a href="'.$rootPathPrefix.'admin/selectbusiness">Switch Business</a></p>
+				';
+
+				// Edit button temporarily until we make it look nice
+				$output .= '<p><a href="'.$rootPathPrefix.'admin/editbusiness">Edit Business</a></p>
 				';
 
 				// Button to create a new business
