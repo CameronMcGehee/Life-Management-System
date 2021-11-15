@@ -86,9 +86,6 @@
 										<label for="address2"><p>Address Line 2</p></label>
 										<input class="defaultInput" type="text" name="address2" id="address2" placeholder="" style="width: 90%" value="<?php echo htmlspecialchars($currentBusiness->address2); ?>">
 										<br><br>
-
-										<label for="zipCode"><p>Zip Code</p></label>
-										<input class="defaultInput" type="text" name="zipCode" id="zipCode" placeholder="Zip code..." style="width: 90%" value="<?php echo htmlspecialchars($currentBusiness->zipCode); ?>">
 									</div>
 
 									<div>
@@ -96,8 +93,19 @@
 										<input class="defaultInput" type="text" name="city" id="city" placeholder="City..." style="width: 90%" value="<?php echo htmlspecialchars($currentBusiness->city); ?>">
 										<br><br>
 
-										<label for="state"><p>State</p></label>
-										<input class="defaultInput" type="text" name="state" id="state" placeholder="State..." style="width: 90%" value="<?php echo htmlspecialchars($currentBusiness->state); ?>">
+										<div class="twoCol">
+											<div>
+												<label for="state"><p>State</p></label>
+												<input class="defaultInput" type="text" name="state" id="state" placeholder="State..." style="width: 90%" value="<?php echo htmlspecialchars($currentBusiness->state); ?>">
+											</div>
+
+											<div>
+												<label for="zipCode"><p>Zip Code</p></label>
+												<input class="defaultInput" type="text" name="zipCode" id="zipCode" placeholder="Zip code..." style="width: 90%" value="<?php echo htmlspecialchars($currentBusiness->zipCode); ?>">
+											</div>
+										</div>
+
+										
 									</div>
 									
 								</div>
