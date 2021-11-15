@@ -14,7 +14,8 @@
 		public $displayName;
 		public $adminDisplayName;
 		public $fullLogoFile;
-		public $address;
+		public $address1;
+		public $address2;
 		public $state;
 		public $city;
 		public $zipCode;
@@ -192,7 +193,8 @@
 			$this->displayName = '';
 			$this->adminDisplayName = '';
 			$this->fullLogoFile = NULL;
-			$this->address = NULL;
+			$this->address1 = NULL;
+			$this->address2 = NULL;
 			$this->state = NULL;
 			$this->city = NULL;
 			$this->zipCode = NULL;
@@ -384,7 +386,8 @@
 				$this->displayName = $fetch[0]['displayName'];
 				$this->adminDisplayName = $fetch[0]['adminDisplayName'];
 				$this->fullLogoFile = $fetch[0]['fullLogoFile'];
-				$this->address = $fetch[0]['address'];
+				$this->address1 = $fetch[0]['address1'];
+				$this->address2 = $fetch[0]['address2'];
 				$this->state = $fetch[0]['state'];
 				$this->city = $fetch[0]['city'];
 				$this->zipCode = $fetch[0]['zipCode'];
@@ -1690,7 +1693,8 @@
 				'displayName' => $this->db->sanitize($this->displayName),
 				'adminDisplayName' => $this->db->sanitize($this->adminDisplayName),
 				'fullLogoFile' => $this->db->sanitize($this->fullLogoFile),
-				'address' => $this->db->sanitize($this->address),
+				'address1' => $this->db->sanitize($this->address1),
+				'address2' => $this->db->sanitize($this->address2),
 				'state' => $this->db->sanitize($this->state),
 				'city' => $this->db->sanitize($this->city),
 				'zipCode' => $this->db->sanitize($this->zipCode),
