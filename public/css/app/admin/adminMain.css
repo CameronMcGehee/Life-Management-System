@@ -1014,9 +1014,6 @@ html, body {
 		text-align: right;
 	}
 	.twoColPage-Info-Content #twoColContentWrapper {
-		padding-top: 3em; 
-		padding-bottom: 3em;
-	
 		overflow: auto;
 	}
 }
