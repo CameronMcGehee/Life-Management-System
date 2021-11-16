@@ -224,7 +224,7 @@
 			$this->modCrewsExtName = NULL;
 			$this->modPayr = '0';
 			$this->modPayrSatLinkedToDue = '0';
-			$this->modPayrSalDefaultType = 'hourly';
+			$this->modPayrSalDefaultType = 'none';
 			$this->modPayrSalBaseHourlyRate = '0';
 			$this->modPayrSalBaseJobPercent = '0';
 			$this->modPayrSalBasePerJob = '0';
