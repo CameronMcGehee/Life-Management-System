@@ -15,6 +15,7 @@
 	// Other required libraries
 	require_once '../../../lib/table/admin.php';
 	require_once '../../../lib/table/business.php';
+	require_once '../../../lib/timezones/Timezones.php';
 
 	echo $adminUIRender->renderAdminHtmlTop('../../', 'Edit Business', 'Edit your UltiScape business.');
 	echo $adminUIRender->renderAdminTopBarDropdownScripts('../../');
@@ -67,7 +68,7 @@
 								<div style="border: 1px solid gray; padding: 1em; width: 90%; max-width: 25em; height: 5em;">
 									<img src="<?php if ($currentBusiness->fullLogoFile === NULL) {echo "../../images/ultiscape/etc/noLogo.png";} else echo "../../images/ultiscape/uploads/businessFullLogoFile/".htmlspecialchars($currentBusiness->fullLogoFile); ?>" style="height: 100%; float: left;">
 									
-									<input type="checkbox" name="useNewLogo" id="useNewLogo"><label for="useNewLogo"> <p style="display: inline; clear: both;">Upload a new logo</p></label>
+									<input class="defaultInput" type="checkbox" name="useNewLogo" id="useNewLogo"><label for="useNewLogo"> <p style="display: inline; clear: both;">Upload a new logo</p></label>
 									<br><br>
 
 									<label for="fullLogoFile" style="clear: both;"><p>Logo File</p></label>
@@ -104,8 +105,6 @@
 												<input class="defaultInput" type="text" name="zipCode" id="zipCode" placeholder="Zip code..." style="width: 90%" value="<?php echo htmlspecialchars($currentBusiness->zipCode); ?>">
 											</div>
 										</div>
-
-										
 									</div>
 									
 								</div>
@@ -115,21 +114,32 @@
 								<label for="phone1"><p>Phone Number</p></label>
 								<div class="fourColCompact">
 									<div>
-										<input class="defaultInput" type="text" name="phonePrefix" id="phonePrefix" placeholder="+1" value="1" style="width: 1.5em;">
+										<input class="defaultInput" type="text" name="phonePrefix" id="phonePrefix" placeholder="+1" value="<?php echo htmlspecialchars($currentBusiness->phonePrefix); ?>" style="width: 1.5em;">
 									</div>
 
 									<div>
-										<input class="defaultInput" type="text" name="phone1" id="phone1" placeholder="555" style="width: 3em;">
+										<input class="defaultInput" type="text" name="phone1" id="phone1" placeholder="555" value="<?php echo htmlspecialchars($currentBusiness->phone1); ?>" style="width: 3em;">
 									</div>
 
 									<div>
-										<input class="defaultInput" type="text" name="phone2" id="phone2" placeholder="555" style="width: 3em;">
+										<input class="defaultInput" type="text" name="phone2" id="phone2" placeholder="555" value="<?php echo htmlspecialchars($currentBusiness->phone2); ?>" style="width: 3em;">
 									</div>
 
 									<div>
-										<input class="defaultInput" type="text" name="phone3" id="phone3" placeholder="5555" style="width: 3em;">
+										<input class="defaultInput" type="text" name="phone3" id="phone3" placeholder="5555" value="<?php echo htmlspecialchars($currentBusiness->phone3); ?>" style="width: 3em;">
 									</div>
 								</div>
+
+								<br><br>
+
+								<label for="timeZone"><p>Time Zone</p></label>
+								<?php
+
+									$optionsList = new jessedp\Timezones\Timezones();
+									echo $optionsList->create('timeZone', htmlspecialchars($currentBusiness->timeZone), array('attr' => array('id' => 'timeZone', 'class' => 'defaultInput'), 'with_regions' => false));
+
+								?>
+
 							</div>
 							
 							<br><br>
@@ -137,15 +147,22 @@
 							<h3>Units</h3>
 							<br>
 							<div style="border: 1px solid green; padding: 1em; width: 93%;">
-								<p>Inputs</p>
-							</div>
-							
-							<br><br>
+								<div class="threeCol">
+									<div>
+										<label for="currencySymbol"><p>Currency Symbol</p></label>
+										<input class="defaultInput" type="text" name="currencySymbol" id="currencySymbol" placeholder="$" value="<?php echo htmlspecialchars($currentBusiness->currencySymbol); ?>" style="width: 1em;">
+									</div>
 
-							<h3>Customers</h3>
-							<br>
-							<div style="border: 1px solid green; padding: 1em; width: 93%;">
-								<p>Inputs</p>
+									<div>
+										<label for="areaSymbol"><p>Area Unit</p></label>
+										<input class="defaultInput" type="text" name="areaSymbol" id="areaSymbol" placeholder="ft" value="<?php echo htmlspecialchars($currentBusiness->areaSymbol); ?>" style="width: 2em;">
+									</div>
+
+									<div>
+										<label for="distanceSymbol"><p>Travel Distance Unit</p></label>
+										<input class="defaultInput" type="text" name="distanceSymbol" id="distanceSymbol" placeholder="mi" value="<?php echo htmlspecialchars($currentBusiness->distanceSymbol); ?>" style="width: 2em;">
+									</div>
+								</div>
 							</div>
 							
 							<br><br>
@@ -153,7 +170,8 @@
 							<h3>Staff</h3>
 							<br>
 							<div style="border: 1px solid green; padding: 1em; width: 93%;">
-								<p>Inputs</p>
+								<label for="modStaffExtName"><p>Staff should be called:</p></label>
+								<input class="defaultInput" type="text" name="modStaffExtName" id="modStaffExtName" placeholder="Employees" value="<?php if ($currentBusiness->modStaffExtName === NULL) {echo "Staff";} else {echo htmlspecialchars($currentBusiness->modStaffExtName);} ?>">
 							</div>
 							
 							<br><br>
@@ -161,7 +179,8 @@
 							<h3>Crews</h3>
 							<br>
 							<div style="border: 1px solid green; padding: 1em; width: 93%;">
-								<p>Inputs</p>
+							<label for="modCrewsExtName"><p>Crews should be called:</p></label>
+								<input class="defaultInput" type="text" name="modCrewsExtName" id="modCrewsExtName" placeholder="Teams" value="<?php if ($currentBusiness->modCrewsExtName === NULL) {echo "Crews";} else {echo htmlspecialchars($currentBusiness->modCrewsExtName);} ?>">
 							</div>
 							
 							<br><br>
