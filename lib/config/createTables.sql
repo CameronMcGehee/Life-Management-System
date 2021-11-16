@@ -89,7 +89,7 @@
 	`modCrewsExtName` varchar(20) DEFAULT NULL,
 	`modPayr` tinyint(1) NOT NULL DEFAULT 0,
 	`modPayrSatLinkedToDue` tinyint(1) NOT NULL DEFAULT 0,
-	`modPayrSalDefaultType` varchar(5) NOT NULL DEFAULT 'none',
+	`modPayrSalDefaultType` varchar(10) NOT NULL DEFAULT 'hourly',
 	`modPayrSalBaseHourlyRate` float NOT NULL DEFAULT 0,
 	`modPayrSalBaseJobPercent` int(11) NOT NULL,
 	`modPayrSalBasePerJob` float NOT NULL,
