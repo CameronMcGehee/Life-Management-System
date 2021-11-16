@@ -572,12 +572,24 @@
 	font-size: .9em;
 }
 
+.defaultForm input.defaultInput {
+	height: 1.5em;
+}
+
+.defaultForm select.defaultInput {
+	height: 2em;
+}
+
+.defaultForm input.defaultInput[type="checkbox"] {
+	width: .8em;
+	height: .8em;
+	outline: none;
+}
+
 .defaultForm .defaultInput {
 	outline: none;
 	border: 1px solid gray;
 	border-radius: .1em;
-
-	height: 1.5em;
 
 	font-size: 1.1em;
 	color: rgb(68, 68, 68);
