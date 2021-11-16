@@ -206,7 +206,7 @@
 			$this->currencySymbol = '$';
 			$this->areaSymbol = 'ft';
 			$this->distanceSymbol = 'mi';
-			$this->timeZone = 'America/New York';
+			$this->timeZone = 'UTC';
 			$this->modCust = '0';
 			$this->modEmail = '0';
 			$this->modInv = '0';
