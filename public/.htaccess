@@ -10,6 +10,14 @@ RewriteEngine On
 #RewriteCond %{REMOTE_ADDR} !=127.0.0.1
 #RewriteCond %{REMOTE_ADDR} !=::1
 
+# OPTIONAL Direct www to non-www for SSL reasons
+#RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+#RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
+
+# OPTIONAL Direct non-www to www
+RewriteCond %{HTTP_HOST} !^www\.
+RewriteRule ^(.*)$ http://www.%{HTTP_HOST}/$1 [R=301,L]
+
 ## OPTIONAL hide .php extension (keeps people from being able to use .php in the url properly an messes up some php code sometimes)
 # To externally redirect /dir/foo.php to /dir/foo
 #RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s([^.]+)\.php [NC]
@@ -19,13 +27,3 @@ RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME}.php -f
 RewriteRule ^(.*?)/?$ $1.php [L]
-
-# OPTIONAL Direct www to non-www for SSL reasons
-#RewriteEngine On
-#RewriteBase /
-#RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
-#RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
-
-# OPTIONAL Direct non-www to www
-RewriteCond %{HTTP_HOST} !^www\.
-RewriteRule ^(.*)$ http://www.%{HTTP_HOST}/$1 [R=301,L]
