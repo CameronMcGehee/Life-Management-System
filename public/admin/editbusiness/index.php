@@ -196,17 +196,17 @@
 
 								<div class="threeCol">
 									<div>
-										<label for="modPayrSalBaseHourlyRate"><p>Default Hourly Rate</p></label>
+										<label for="modPayrSalBaseHourlyRate"><p>Default Hourly Rate ($)</p></label>
 										<input class="defaultInput" type="number" min="0" max="99999" step="0.01" name="modPayrSalBaseHourlyRate" id="modPayrSalBaseHourlyRate" placeholder="$0.00" value="<?php echo htmlspecialchars($currentBusiness->modPayrSalBaseHourlyRate); ?>" style="width: 4em;">
 									</div>
 
 									<div>
-										<label for="modPayrSalBasePerJob"><p>Default Per Job Amount</p></label>
+										<label for="modPayrSalBasePerJob"><p>Default Per Job Amount ($)</p></label>
 										<input class="defaultInput" type="number" min="0" max="99999" step="0.01" name="modPayrSalBasePerJob" id="modPayrSalBasePerJob" placeholder="$0.00" value="<?php echo htmlspecialchars($currentBusiness->modPayrSalBasePerJob); ?>" style="width: 4em;">
 									</div>
 
 									<div>
-									<label for="modPayrSalBaseJobPercent"><p>Default Job Percent</p></label>
+									<label for="modPayrSalBaseJobPercent"><p>Default Job Percent (%)</p></label>
 										<input class="defaultInput" type="number" min="0" max="100" step="1" name="modPayrSalBaseJobPercent" id="modPayrSalBaseJobPercent" placeholder="0%" value="<?php echo htmlspecialchars($currentBusiness->modPayrSalBaseJobPercent); ?>" style="width: 3em;">
 									</div>
 								</div>
