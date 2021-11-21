@@ -32,7 +32,7 @@
 				';
 				$output .= '<meta name="viewport" content="width=device-width, initial-scale=1.0">
 				';
-				$output .= '<title>Ultiscape (Admin) - '.$pageTitle.'</title>
+				$output .= '<title>'.$pageTitle.' - Ultiscape (Admin)</title>
 				';
 				$output .= '<meta name="description" content="'.$pageDescription.'">
 				';
