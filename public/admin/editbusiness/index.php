@@ -54,7 +54,6 @@
 					<div id="twoColContentWrapper" class="paddingLeftRight90 maxHeight" style="overflow: auto;">
 						<div class="paddingTopBottom90">
 							<h3>General Info</h3>
-							<br>
 							<div style="border: 1px solid green; padding: 1em; width: 93%;">
 
 								<label for="displayName"><p>Business Name <span style="color: rgb(167, 0, 0);">*</span></p></label>
@@ -136,7 +135,7 @@
 								<?php
 
 									$optionsList = new jessedp\Timezones\Timezones();
-									echo $optionsList->create('timeZone', htmlspecialchars($currentBusiness->timeZone), array('attr' => array('id' => 'timeZone', 'class' => 'defaultInput'), 'with_regions' => false));
+									echo $optionsList->create('timeZone', htmlspecialchars($currentBusiness->timeZone), array('attr' => array('id' => 'timeZone', 'class' => 'defaultInput', 'style' => 'max-width: 100%'), 'with_regions' => false));
 
 								?>
 
@@ -145,7 +144,6 @@
 							<br><br>
 
 							<h3>Units</h3>
-							<br>
 							<div style="border: 1px solid green; padding: 1em; width: 93%;">
 								<div class="threeCol">
 									<div>
@@ -168,7 +166,6 @@
 							<br><br>
 
 							<h3>Staff</h3>
-							<br>
 							<div style="border: 1px solid green; padding: 1em; width: 93%;">
 								<label for="modStaffExtName"><p>Staff should be called:</p></label>
 								<input class="defaultInput" type="text" name="modStaffExtName" id="modStaffExtName" placeholder="Employees" value="<?php if ($currentBusiness->modStaffExtName === NULL) {echo "Staff";} else {echo htmlspecialchars($currentBusiness->modStaffExtName);} ?>">
@@ -177,10 +174,47 @@
 							<br><br>
 
 							<h3>Crews</h3>
-							<br>
 							<div style="border: 1px solid green; padding: 1em; width: 93%;">
-							<label for="modCrewsExtName"><p>Crews should be called:</p></label>
+								<label for="modCrewsExtName"><p>Crews should be called:</p></label>
 								<input class="defaultInput" type="text" name="modCrewsExtName" id="modCrewsExtName" placeholder="Teams" value="<?php if ($currentBusiness->modCrewsExtName === NULL) {echo "Crews";} else {echo htmlspecialchars($currentBusiness->modCrewsExtName);} ?>">
+							</div>
+							
+							<br><br>
+
+							<h3>Payroll</h3>
+							<div style="border: 1px solid green; padding: 1em; width: 93%;">
+								<label for="modPayrSalDefaultType"><p>Default Salary Type</p></label>
+
+								<select class="defaultInput" name="modPayrSalDefaultType" id="modPayrSalDefaultType">
+									<option value="none"<?php if ($currentBusiness->modPayrSalDefaultType == 'none') {echo ' selected="selected"';} ?>>None</option>
+									<option value="hourly"<?php if ($currentBusiness->modPayrSalDefaultType == 'hourly') {echo ' selected="selected"';} ?>>Hourly (Based on Time Logs)</option>
+									<option value="aPerJob"<?php if ($currentBusiness->modPayrSalDefaultType == 'aPerJob') {echo ' selected="selected"';} ?>>Hard amount per job completed</option>
+									<option value="pPerJob"<?php if ($currentBusiness->modPayrSalDefaultType == 'pPerJob') {echo ' selected="selected"';} ?>>% of job price per job completed</option>
+								</select>
+
+								<br><br>
+
+								<div class="threeCol">
+									<div>
+										<label for="modPayrSalBaseHourlyRate"><p>Default Hourly Rate</p></label>
+										<input class="defaultInput" type="number" min="0" max="99999" step="0.01" name="modPayrSalBaseHourlyRate" id="modPayrSalBaseHourlyRate" placeholder="$0.00" value="<?php echo htmlspecialchars($currentBusiness->modPayrSalBaseHourlyRate); ?>" style="width: 4em;">
+									</div>
+
+									<div>
+										<label for="modPayrSalBasePerJob"><p>Default Per Job Amount</p></label>
+										<input class="defaultInput" type="number" min="0" max="99999" step="0.01" name="modPayrSalBasePerJob" id="modPayrSalBasePerJob" placeholder="$0.00" value="<?php echo htmlspecialchars($currentBusiness->modPayrSalBasePerJob); ?>" style="width: 4em;">
+									</div>
+
+									<div>
+									<label for="modPayrSalBaseJobPercent"><p>Default Job Percent</p></label>
+										<input class="defaultInput" type="number" min="0" max="100" step="1" name="modPayrSalBaseJobPercent" id="modPayrSalBaseJobPercent" placeholder="0%" value="<?php echo htmlspecialchars($currentBusiness->modPayrSalBaseJobPercent); ?>" style="width: 3em;">
+									</div>
+								</div>
+
+								<br>
+
+								<input class="defaultInput" type="checkbox" name="modPayrSatLinkedToDue" id="modPayrSatLinkedToDue"><label for="modPayrSatLinkedToDue"> <p style="display: inline; clear: both;"><i>Payroll Satisfactions</i> (Payments to your staff to satisfy <i>Payment Dues</i>) must be linked to a <i>Payment Due</i>.</p></label>
+								<br><br>
 							</div>
 							
 							<br><br>
