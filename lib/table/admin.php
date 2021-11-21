@@ -123,10 +123,10 @@
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('adminLoginAttempt', 'adminLoginAttempts', "WHERE adminId = '$this->dbAdminId'".$params);
+			$fetch = $this->db->select('adminLoginAttempt', 'adminLoginAttemptId', "WHERE adminId = '$this->dbAdminId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
-					array_push($this->loginAttempts, $row['adminLoginAttempts']);
+					array_push($this->loginAttempts, $row['adminLoginAttemptId']);
 				}
 				return true;
 			} elseif ($this->db->getLastError() === '') {
