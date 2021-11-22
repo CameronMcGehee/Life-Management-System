@@ -14,10 +14,10 @@
 
 	// Other required libraries
 	require_once '../../../lib/table/admin.php';
-	require_once '../../../lib/table/business.php';
+	require_once '../../../lib/table/business.php'; $currentBusiness = new business($_SESSION['ultiscape_businessId']);
 	require_once '../../../lib/timezones/Timezones.php';
 
-	echo $adminUIRender->renderAdminHtmlTop('../../', 'Edit Business', 'Edit your UltiScape business.');
+	echo $adminUIRender->renderAdminHtmlTop('../../', 'Edit '.htmlspecialchars($currentBusiness->adminDisplayName), 'Edit your UltiScape business.');
 	echo $adminUIRender->renderAdminTopBarDropdownScripts('../../');
 
 ?>
@@ -29,8 +29,6 @@
 	<div class="cmsBodyWrapper">
 
 		<?php 
-			$currentBusiness = new business($_SESSION['ultiscape_businessId']);
-
 			echo $adminUIRender->renderAdminTopBar('../../', true, true, true);
 		?>
 
@@ -162,22 +160,44 @@
 									</div>
 								</div>
 							</div>
-							
+
 							<br><br>
+
+							<h3>Customers</h3>
+							<div style="border: 1px solid green; padding: 1em; width: 93%;">
+								<div class="twoCol">
+									<div>
+										<input class="defaultInput" type="checkbox" name="creditAlertIsEnabled" id="creditAlertIsEnabled" <?php if ($currentBusiness->creditAlertIsEnabled == '1') {echo 'checked="checked"';} ?>><label for="creditAlertIsEnabled"> <p style="display: inline; clear: both;">Alert Customer when credit is less than or equal to</p></label>
+
+										<br>
+
+										<input class="defaultInput" type="number" name="creditAlertAmount" id="creditAlertAmount" placeholder="$100" min="0.00" step="0.01" value="<?php echo htmlspecialchars(number_format($currentBusiness->creditAlertAmount, 2)); ?>" style="width: 5em;">
+									</div>
+									<div>
+										<input class="defaultInput" type="checkbox" name="balanceAlertIsEnabled" id="balanceAlertIsEnabled" <?php if ($currentBusiness->balanceAlertIsEnabled == '1') {echo 'checked="checked"';} ?>><label for="balanceAlertIsEnabled"> <p style="display: inline; clear: both;">Alert Customer when balance is greater than or equal to</p></label>
+
+										<br>
+
+										<input class="defaultInput" type="number" name="creditAlertAmount" id="creditAlertAmount" placeholder="$100" min="0.00" step="0.01" value="<?php echo htmlspecialchars(number_format($currentBusiness->balanceAlertAmount, 2)); ?>" style="width: 5em;">
+									</div>
+								</div>
+							</div>
+							
+							<!-- <br><br>
 
 							<h3>Staff</h3>
 							<div style="border: 1px solid green; padding: 1em; width: 93%;">
-								<label for="modStaffExtName"><p>Staff should be called:</p></label>
-								<input class="defaultInput" type="text" name="modStaffExtName" id="modStaffExtName" placeholder="Employees" value="<?php if ($currentBusiness->modStaffExtName === NULL) {echo "Staff";} else {echo htmlspecialchars($currentBusiness->modStaffExtName);} ?>">
+								<label for="modStaffExtName"><p>A Staff Member should be called a(n):</p></label>
+								<input class="defaultInput" type="text" name="modStaffExtName" id="modStaffExtName" placeholder="Employee" value="<?php if ($currentBusiness->modStaffExtName === NULL) {echo "Staff Member";} else {echo htmlspecialchars($currentBusiness->modStaffExtName);} ?>">
 							</div>
 							
 							<br><br>
 
 							<h3>Crews</h3>
 							<div style="border: 1px solid green; padding: 1em; width: 93%;">
-								<label for="modCrewsExtName"><p>Crews should be called:</p></label>
-								<input class="defaultInput" type="text" name="modCrewsExtName" id="modCrewsExtName" placeholder="Teams" value="<?php if ($currentBusiness->modCrewsExtName === NULL) {echo "Crews";} else {echo htmlspecialchars($currentBusiness->modCrewsExtName);} ?>">
-							</div>
+								<label for="modCrewsExtName"><p>A Crew should be called a(n):</p></label>
+								<input class="defaultInput" type="text" name="modCrewsExtName" id="modCrewsExtName" placeholder="Teams" value="<?php if ($currentBusiness->modCrewsExtName === NULL) {echo "Crew";} else {echo htmlspecialchars($currentBusiness->modCrewsExtName);} ?>">
+							</div> -->
 							
 							<br><br>
 
@@ -196,12 +216,12 @@
 
 								<div class="threeCol">
 									<div>
-										<label for="modPayrSalBaseHourlyRate"><p>Default Hourly Rate ($)</p></label>
+										<label for="modPayrSalBaseHourlyRate"><p>Default Hourly Rate (<?php echo htmlspecialchars($currentBusiness->currencySymbol) ?>)</p></label>
 										<input class="defaultInput" type="number" min="0" max="99999" step="0.01" name="modPayrSalBaseHourlyRate" id="modPayrSalBaseHourlyRate" placeholder="$0.00" value="<?php echo htmlspecialchars($currentBusiness->modPayrSalBaseHourlyRate); ?>" style="width: 4em;">
 									</div>
 
 									<div>
-										<label for="modPayrSalBasePerJob"><p>Default Per Job Amount ($)</p></label>
+										<label for="modPayrSalBasePerJob"><p>Default Per Job Amount (<?php echo htmlspecialchars($currentBusiness->currencySymbol) ?>)</p></label>
 										<input class="defaultInput" type="number" min="0" max="99999" step="0.01" name="modPayrSalBasePerJob" id="modPayrSalBasePerJob" placeholder="$0.00" value="<?php echo htmlspecialchars($currentBusiness->modPayrSalBasePerJob); ?>" style="width: 4em;">
 									</div>
 
@@ -211,10 +231,60 @@
 									</div>
 								</div>
 
-								<br>
+								<!-- <input class="defaultInput" type="checkbox" name="modPayrSatLinkedToDue" id="modPayrSatLinkedToDue" <?php // if ($currentBusiness->modPayrSatLinkedToDue == '1') {echo 'checked="checked"';} ?>><label for="modPayrSatLinkedToDue"> <p style="display: inline; clear: both;">Check to ensure that <i>Payroll Satisfactions</i> (Payments to your staff to satisfy <i>Payment Dues</i>) MUST be linked to a <i>Payment Due</i>.</p></label> -->
+							</div>
+							
+							<br><br>
 
-								<input class="defaultInput" type="checkbox" name="modPayrSatLinkedToDue" id="modPayrSatLinkedToDue"><label for="modPayrSatLinkedToDue"> <p style="display: inline; clear: both;"><i>Payroll Satisfactions</i> (Payments to your staff to satisfy <i>Payment Dues</i>) must be linked to a <i>Payment Due</i>.</p></label>
+							<h3>Documents</h3>
+							<div style="border: 1px solid green; padding: 1em; width: 93%;">
+								<div class="twoCol" style="grid-template-columns: 25% 75%;">
+									<div>
+										<label for="docIdMin"><p>Minimum Document ID</p></label>
+										<input class="defaultInput" type="number" min="0" step="1" name="docIdMin" id="docIdMin" placeholder="1" value="<?php echo htmlspecialchars($currentBusiness->docIdMin); ?>" style="width: 4em;">
+									</div>
+									<div>
+										<p>The minimum document ID does <u>not</u> start the document IDs back at this number. Rather, it specifies the minimum number that the incremental IDs are <i>allowed</i> to start at. The next created document ID will still start after the highest numbered ID, unless this number is set above whatever that number happens to be.</p>
+									</div>
+								</div>
+
 								<br><br>
+
+								<input class="defaultInput" type="checkbox" name="docIdIsRandom" id="docIdIsRandom" <?php if ($currentBusiness->docIdIsRandom == '1') {echo 'checked="checked"';} ?>><label for="docIdIsRandom"> <p style="display: inline; clear: both;">Use random (not incremental) document IDs</p></label>
+							</div>
+							
+							<br><br>
+
+							<h3>Invoices</h3>
+							<div style="border: 1px solid green; padding: 1em; width: 93%;">
+								<div class="twoCol" style="grid-template-columns: 25% 75%;">
+									<div>
+										<label for="invoiceTerm"><p>Default Invoice Term (Days)</p></label>
+										<input class="defaultInput" type="number" min="0" step="1" name="invoiceTerm" id="invoiceTerm" placeholder="None" value="<?php echo htmlspecialchars($currentBusiness->invoiceTerm); ?>" style="width: 4em;">
+									</div>
+									<div>
+										<p>How long a customer has to pay an invoice. Set to nothing for no invoice term enforcement.</p>
+									</div>
+								</div>
+
+								<br><br>
+
+								<input class="defaultInput" type="checkbox" name="autoApplyCredit" id="autoApplyCredit" <?php if ($currentBusiness->autoApplyCredit == '1') {echo 'checked="checked"';} ?>><label for="autoApplyCredit"> <p style="display: inline; clear: both;">Automatically apply available customer credit to new invoices</p></label>
+							</div>
+							
+							<br><br>
+
+							<h3>Estimates</h3>
+							<div style="border: 1px solid green; padding: 1em; width: 93%;">
+								<div class="twoCol" style="grid-template-columns: 25% 75%;">
+									<div>
+										<label for="estimateValidity"><p>Default Estimate Validity (Days)</p></label>
+										<input class="defaultInput" type="number" min="0" step="1" name="estimateValidity" id="estimateValidity" placeholder="None" value="<?php echo htmlspecialchars($currentBusiness->estimateValidity); ?>" style="width: 4em;">
+									</div>
+									<div>
+										<p>How long an estimate can be redeemed for a service. Set to nothing for no estimate validity enforcement.</p>
+									</div>
+								</div>
 							</div>
 							
 							<br><br>
