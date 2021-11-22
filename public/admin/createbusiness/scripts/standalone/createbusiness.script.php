@@ -4,6 +4,13 @@
 
     $result = 'incomplete'; // Incomplete means there has not yet been an error so the script will continue.
 
+    // Make sure that an admin is logged in
+
+    if (!isset($_SESSION['ultiscape_adminId'])) {
+        header("location: ../../../login");
+        exit();
+    }
+
     // Check if input is set and valid
     if ( (!isset($_POST['businessName']) || strlen($_POST['businessName']) < $ULTISCAPECONFIG['businessNameMinLength']) || (!isset($_POST['authToken']) || strlen($_POST['authToken']) < 17)) {
         $result = 'inputInvalid';
