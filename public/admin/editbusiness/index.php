@@ -22,10 +22,65 @@
 
 ?>
 
-	<link rel="stylesheet" type="text/css" href="../../css/app/admin/adminLoginPage.css">
+	<style>
+		#loadingGif {
+			margin-left: none;
+			margin-right: auto;
+		}
+		
+		/* Only for desktop, make the loading gif go to the right */
+		@media only screen and (min-width: 1000px) {
+			#loadingGif {
+				margin-left: auto;
+				margin-right: 0px;
+			}
+		}
+	</style>
+
+	<!-- <link rel="stylesheet" type="text/css" href="../../css/app/admin/adminLoginPage.css"> -->
+
+	<script src="../../js/etc/animation/shake.js"></script>
+
+	<script src="../../js/etc/form/showFormError.js"></script>
+	<script>
+
+		function clearErrors() {
+			// For each element with the .underInputError class, hide it
+			$('.underInputError').each(function(i, obj) {
+				$(this).hide(0);
+			});
+		}
+
+		var formData;
+		var formOutput;
+		$(document).ready(function() {
+			$("#editBusinessForm").submit(function(event) {
+				event.preventDefault();
+				$('#loadingGif').fadeIn(100);
+				formData = $("#editBusinessForm").serialize();
+				
+				$("#scriptLoader").load("./scripts/async/editbusiness.script.php", {
+					formData: formData
+				}, function () {
+					formOutput = $("#scriptLoader").html();
+					clearErrors();
+
+					if (formOutput == 'success') {
+						location.reload();
+					} else {
+						showFormError(formOutput);
+						$("#"+formOutput).shake(50);
+					}
+
+					$('#loadingGif').fadeOut(100);
+				});
+			});
+		});
+	</script>
 </head>
 
 <body>
+	<span style="display: none;" id="scriptLoader"></span>
 	<div class="cmsBodyWrapper">
 
 		<?php 
@@ -37,7 +92,7 @@
         ?>
 
 		<div class="cmsMainContentWrapper textColorThemeGray styledText">
-			<form class="defaultForm maxHeight" action="./" method="POST">
+			<form class="defaultForm maxHeight" action="./" method="POST" id="editBusinessForm">
 				<div class="twoColPage-Info-Content maxHeight">
 					<div id="twoColInfoWrapper" class="paddingLeftRight90 paddingTopBottom90">
 					
@@ -46,6 +101,8 @@
 						<!-- <br> -->
 
 						<button class="mediumButtonWrapper greenButton centered defaultMainShadows" type="submit">Save Changes</button>
+						<br><br>
+						<img style="display: none; width: 3em;" src="../../images/ultiscape/etc/loading.gif" id="loadingGif">
 
 					</div>
 
@@ -56,10 +113,14 @@
 
 								<label for="displayName"><p>Business Name <span style="color: rgb(167, 0, 0);">*</span></p></label>
 								<input class="bigInput" type="text" name="displayName" id="displayName" placeholder="Business name..." style="width: 70%;" required value="<?php echo htmlspecialchars($currentBusiness->displayName); ?>">
+								<br>
+								<span id="displayNameError" class="underInputError" style="display: none;">Business name bust be between <?php echo $ULTISCAPECONFIG['businessNameMinLength']; ?> and <?php echo $ULTISCAPECONFIG['businessNameMaxLength']; ?> characters.</span>
 								<br><br>
 
 								<label for="adminDisplayName"><p>Internal Display Name (What you see in Ultiscape)</p></label>
 								<input class="defaultInput" type="text" name="adminDisplayName" id="adminDisplayName" placeholder="Internal display name..." value="<?php echo htmlspecialchars($currentBusiness->adminDisplayName); ?>">
+								<br>
+								<span id="adminDisplayNameError" class="underInputError" style="display: none;">Business name bust be between <?php echo $ULTISCAPECONFIG['businessNameMinLength']; ?> and <?php echo $ULTISCAPECONFIG['businessNameMaxLength']; ?> characters.</span>
 								<br><br><br>
 
 								<div style="border: 1px solid gray; padding: 1em; width: 90%; max-width: 25em; height: 5em;">
@@ -70,6 +131,8 @@
 
 									<label for="fullLogoFile" style="clear: both;"><p>Logo File</p></label>
 									<input type="file" name="fullLogoFile" id="fullLogoFile" style="clear: both;">
+									<br>
+									<span id="fullLogoFileError" class="underInputError" style="display: none;">There was an error uploading this logo file.</span>
 								</div>
 
 								<br><br>

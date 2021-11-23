@@ -18,8 +18,8 @@
 
     if ($result == 'incomplete') {
         // Verify the auth token
-        require_once '../../../../../lib/etc/authToken/verifyAuthToken.php';
-        if (!verifyAuthToken($_POST['authToken'], 'createBusiness')) {
+        require_once '../../../../../lib/etc/authToken/useAuthToken.php';
+        if (!useAuthToken($_POST['authToken'], 'createBusiness')) {
             $result = 'tokenInvalid';
         }
     }
