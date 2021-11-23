@@ -53,7 +53,12 @@
 
 		var formData;
 		var formOutput;
+		var url = new URL(window.location.href);
+
 		$(document).ready(function() {
+			if ($.isNumeric(url.searchParams.get('sl'))) {
+				$("#twoColContentWrapper").scrollTop(url.searchParams.get('sl'));
+			}
 			$("#editBusinessForm").submit(function(event) {
 				event.preventDefault();
 				$('#loadingGif').fadeIn(100);
@@ -66,7 +71,9 @@
 					clearErrors();
 
 					if (formOutput == 'success') {
-						location.reload();
+						// Get the current scroll position of the form to scroll back to it after the reload
+						url.searchParams.set('sl', $("#twoColContentWrapper").scrollTop());
+						window.location.replace(url.href);
 					} else {
 						showFormError(formOutput);
 						$("#"+formOutput).shake(50);
@@ -241,7 +248,7 @@
 
 										<br>
 
-										<input class="defaultInput" type="number" name="creditAlertAmount" id="creditAlertAmount" placeholder="$100" min="0.00" step="0.01" value="<?php echo htmlspecialchars(number_format($currentBusiness->balanceAlertAmount, 2)); ?>" style="width: 5em;">
+										<input class="defaultInput" type="number" name="balanceAlertAmount" id="balanceAlertAmount" placeholder="$100" min="0.00" step="0.01" value="<?php echo htmlspecialchars(number_format($currentBusiness->balanceAlertAmount, 2)); ?>" style="width: 5em;">
 									</div>
 								</div>
 							</div>
@@ -271,7 +278,7 @@
 								<select class="defaultInput" name="modPayrSalDefaultType" id="modPayrSalDefaultType">
 									<option value="none"<?php if ($currentBusiness->modPayrSalDefaultType == 'none') {echo ' selected="selected"';} ?>>None</option>
 									<option value="hourly"<?php if ($currentBusiness->modPayrSalDefaultType == 'hourly') {echo ' selected="selected"';} ?>>Hourly (Based on Time Logs)</option>
-									<option value="aPerJob"<?php if ($currentBusiness->modPayrSalDefaultType == 'aPerJob') {echo ' selected="selected"';} ?>>Hard amount per job completed</option>
+									<option value="aPerJob"<?php if ($currentBusiness->modPayrSalDefaultType == 'aPerJob') {echo ' selected="selected"';} ?>>Fixed amount per job completed</option>
 									<option value="pPerJob"<?php if ($currentBusiness->modPayrSalDefaultType == 'pPerJob') {echo ' selected="selected"';} ?>>% of job price per job completed</option>
 								</select>
 
