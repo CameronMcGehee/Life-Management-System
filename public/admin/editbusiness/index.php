@@ -175,7 +175,7 @@
 
 											<div>
 												<label for="zipCode"><p>Zip Code</p></label>
-												<input class="defaultInput" type="text" name="zipCode" id="zipCode" placeholder="Zip code..." style="width: 90%" value="<?php echo htmlspecialchars($currentBusiness->zipCode); ?>">
+												<input class="defaultInput" type="number" name="zipCode" id="zipCode" placeholder="Zip code..." style="width: 90%" value="<?php echo htmlspecialchars($currentBusiness->zipCode); ?>">
 												<span id="zipCodeError" class="underInputError" style="display: none;"><br>Input a number.</span>
 											</div>
 										</div>

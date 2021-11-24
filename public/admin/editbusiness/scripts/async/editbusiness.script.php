@@ -306,10 +306,7 @@
 
 	// Use the auth token
 	require_once '../../../../../lib/etc/authToken/useAuthToken.php';
-	if (!useAuthToken($formData['authToken'], 'editBusiness')) {
-		echo 'tokenInvalid';
-		exit();
-	}
+	useAuthToken($formData['authToken'], 'editBusiness');
 
 	if ($business->set() !== true) {
 		echo 'setError';
