@@ -1079,7 +1079,7 @@ html, body {
 	.desktopOnlyFlex {
 		display: flex;
 	}
-	
+
 	.mobileOnlyBlock {
 		display: none;
 	}
