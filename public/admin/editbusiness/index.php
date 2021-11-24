@@ -120,14 +120,12 @@
 
 								<label for="displayName"><p>Business Name <span style="color: rgb(167, 0, 0);">*</span></p></label>
 								<input class="bigInput" type="text" name="displayName" id="displayName" placeholder="Business name..." style="width: 70%;" required value="<?php echo htmlspecialchars($currentBusiness->displayName); ?>">
-								<br>
-								<span id="displayNameError" class="underInputError" style="display: none;">Business name bust be between <?php echo $ULTISCAPECONFIG['businessNameMinLength']; ?> and <?php echo $ULTISCAPECONFIG['businessNameMaxLength']; ?> characters.</span>
+								<span id="displayNameError" class="underInputError" style="display: none;"><br>Business name bust be between <?php echo $ULTISCAPECONFIG['businessNameMinLength']; ?> and <?php echo $ULTISCAPECONFIG['businessNameMaxLength']; ?> characters.</span>
 								<br><br>
 
 								<label for="adminDisplayName"><p>Internal Display Name (What you see in Ultiscape)</p></label>
 								<input class="defaultInput" type="text" name="adminDisplayName" id="adminDisplayName" placeholder="Internal display name..." value="<?php echo htmlspecialchars($currentBusiness->adminDisplayName); ?>">
-								<br>
-								<span id="adminDisplayNameError" class="underInputError" style="display: none;">Business name bust be between <?php echo $ULTISCAPECONFIG['businessNameMinLength']; ?> and <?php echo $ULTISCAPECONFIG['businessNameMaxLength']; ?> characters.</span>
+								<span id="adminDisplayNameError" class="underInputError" style="display: none;"><br>Business name bust be between <?php echo $ULTISCAPECONFIG['businessNameMinLength']; ?> and <?php echo $ULTISCAPECONFIG['businessNameMaxLength']; ?> characters.</span>
 								<br><br><br>
 
 								<div style="border: 1px solid gray; padding: 1em; width: 90%; max-width: 25em; height: 5em;">
@@ -138,8 +136,7 @@
 
 									<label for="fullLogoFile" style="clear: both;"><p>Logo File</p></label>
 									<input type="file" name="fullLogoFile" id="fullLogoFile" style="clear: both;">
-									<br>
-									<span id="fullLogoFileError" class="underInputError" style="display: none;">There was an error uploading this logo file.</span>
+									<span id="fullLogoFileError" class="underInputError" style="display: none;"><br>There was an error uploading this logo file.</span>
 								</div>
 
 								<br><br>
@@ -149,27 +146,32 @@
 									<div>
 										<label for="address1"><p>Address Line 1</p></label>
 										<input class="defaultInput" type="text" name="address1" id="address1" placeholder="Address Line 1..." style="width: 90%" value="<?php echo htmlspecialchars($currentBusiness->address1); ?>">
+										<span id="address1Error" class="underInputError" style="display: none;"><br>Input a valid address.</span>
 										<br><br>
 
 										<label for="address2"><p>Address Line 2</p></label>
 										<input class="defaultInput" type="text" name="address2" id="address2" placeholder="" style="width: 90%" value="<?php echo htmlspecialchars($currentBusiness->address2); ?>">
+										<span id="address2Error" class="underInputError" style="display: none;"><br>Input a valid address.</span>
 										<br><br>
 									</div>
 
 									<div>
 										<label for="city"><p>City</p></label>
 										<input class="defaultInput" type="text" name="city" id="city" placeholder="City..." style="width: 90%" value="<?php echo htmlspecialchars($currentBusiness->city); ?>">
+										<span id="cityError" class="underInputError" style="display: none;"><br>Input a valid city.</span>
 										<br><br>
 
 										<div class="twoCol">
 											<div>
 												<label for="state"><p>State</p></label>
 												<input class="defaultInput" type="text" name="state" id="state" placeholder="State..." style="width: 90%" value="<?php echo htmlspecialchars($currentBusiness->state); ?>">
+												<span id="stateError" class="underInputError" style="display: none;"><br>Input a valid state.</span>
 											</div>
 
 											<div>
 												<label for="zipCode"><p>Zip Code</p></label>
 												<input class="defaultInput" type="text" name="zipCode" id="zipCode" placeholder="Zip code..." style="width: 90%" value="<?php echo htmlspecialchars($currentBusiness->zipCode); ?>">
+												<span id="zipCodeError" class="underInputError" style="display: none;"><br>Input a number.</span>
 											</div>
 										</div>
 									</div>
@@ -182,18 +184,22 @@
 								<div class="fourColCompact">
 									<div>
 										<input class="defaultInput" type="text" name="phonePrefix" id="phonePrefix" placeholder="+1" value="<?php echo htmlspecialchars($currentBusiness->phonePrefix); ?>" style="width: 1.5em;">
+										<span id="phonePrefixError" class="underInputError" style="display: none;"><br>Input a number.</span>
 									</div>
 
 									<div>
 										<input class="defaultInput" type="text" name="phone1" id="phone1" placeholder="555" value="<?php echo htmlspecialchars($currentBusiness->phone1); ?>" style="width: 3em;">
+										<span id="phone1Error" class="underInputError" style="display: none;"><br>Input a number.</span>
 									</div>
 
 									<div>
 										<input class="defaultInput" type="text" name="phone2" id="phone2" placeholder="555" value="<?php echo htmlspecialchars($currentBusiness->phone2); ?>" style="width: 3em;">
+										<span id="phone2Error" class="underInputError" style="display: none;"><br>Input a number.</span>
 									</div>
 
 									<div>
 										<input class="defaultInput" type="text" name="phone3" id="phone3" placeholder="5555" value="<?php echo htmlspecialchars($currentBusiness->phone3); ?>" style="width: 3em;">
+										<span id="phone3Error" class="underInputError" style="display: none;"><br>Input a number.</span>
 									</div>
 								</div>
 
@@ -217,16 +223,19 @@
 									<div>
 										<label for="currencySymbol"><p>Currency Symbol</p></label>
 										<input class="defaultInput" type="text" name="currencySymbol" id="currencySymbol" placeholder="$" value="<?php echo htmlspecialchars($currentBusiness->currencySymbol); ?>" style="width: 1em;">
+										<span id="currencySymbolError" class="underInputError" style="display: none;"><br>Must be 1 character.</span>
 									</div>
 
 									<div>
-										<label for="areaSymbol"><p>Area Unit</p></label>
+										<label for="areaSymbol"><p>Area Unit (²)</p></label>
 										<input class="defaultInput" type="text" name="areaSymbol" id="areaSymbol" placeholder="ft" value="<?php echo htmlspecialchars($currentBusiness->areaSymbol); ?>" style="width: 2em;">
+										<span id="areaSymbolError" class="underInputError" style="display: none;"><br>Must be 1-4 characters.</span>
 									</div>
 
 									<div>
 										<label for="distanceSymbol"><p>Travel Distance Unit</p></label>
 										<input class="defaultInput" type="text" name="distanceSymbol" id="distanceSymbol" placeholder="mi" value="<?php echo htmlspecialchars($currentBusiness->distanceSymbol); ?>" style="width: 2em;">
+										<span id="distanceSymbolError" class="underInputError" style="display: none;"><br>Must be 1-4 characters.</span>
 									</div>
 								</div>
 							</div>
@@ -238,36 +247,18 @@
 								<div class="twoCol">
 									<div>
 										<input class="defaultInput" type="checkbox" name="creditAlertIsEnabled" id="creditAlertIsEnabled" <?php if ($currentBusiness->creditAlertIsEnabled == '1') {echo 'checked="checked"';} ?>><label for="creditAlertIsEnabled"> <p style="display: inline; clear: both;">Alert Customer when credit is less than or equal to</p></label>
-
 										<br>
-
 										<input class="defaultInput" type="number" name="creditAlertAmount" id="creditAlertAmount" placeholder="$100" min="0.00" step="0.01" value="<?php echo htmlspecialchars(number_format($currentBusiness->creditAlertAmount, 2)); ?>" style="width: 5em;">
+										<span id="creditAlertAmountError" class="underInputError" style="display: none;"><br>Input a number.</span>
 									</div>
 									<div>
 										<input class="defaultInput" type="checkbox" name="balanceAlertIsEnabled" id="balanceAlertIsEnabled" <?php if ($currentBusiness->balanceAlertIsEnabled == '1') {echo 'checked="checked"';} ?>><label for="balanceAlertIsEnabled"> <p style="display: inline; clear: both;">Alert Customer when balance is greater than or equal to</p></label>
-
 										<br>
-
 										<input class="defaultInput" type="number" name="balanceAlertAmount" id="balanceAlertAmount" placeholder="$100" min="0.00" step="0.01" value="<?php echo htmlspecialchars(number_format($currentBusiness->balanceAlertAmount, 2)); ?>" style="width: 5em;">
+										<span id="balanceAlertAmountError" class="underInputError" style="display: none;"><br>Input a number.</span>
 									</div>
 								</div>
 							</div>
-							
-							<!-- <br><br>
-
-							<h3>Staff</h3>
-							<div style="border: 1px solid green; padding: 1em; width: 93%;">
-								<label for="modStaffExtName"><p>A Staff Member should be called a(n):</p></label>
-								<input class="defaultInput" type="text" name="modStaffExtName" id="modStaffExtName" placeholder="Employee" value="<?php if ($currentBusiness->modStaffExtName === NULL) {echo "Staff Member";} else {echo htmlspecialchars($currentBusiness->modStaffExtName);} ?>">
-							</div>
-							
-							<br><br>
-
-							<h3>Crews</h3>
-							<div style="border: 1px solid green; padding: 1em; width: 93%;">
-								<label for="modCrewsExtName"><p>A Crew should be called a(n):</p></label>
-								<input class="defaultInput" type="text" name="modCrewsExtName" id="modCrewsExtName" placeholder="Teams" value="<?php if ($currentBusiness->modCrewsExtName === NULL) {echo "Crew";} else {echo htmlspecialchars($currentBusiness->modCrewsExtName);} ?>">
-							</div> -->
 							
 							<br><br>
 
@@ -281,6 +272,7 @@
 									<option value="aPerJob"<?php if ($currentBusiness->modPayrSalDefaultType == 'aPerJob') {echo ' selected="selected"';} ?>>Fixed amount per job completed</option>
 									<option value="pPerJob"<?php if ($currentBusiness->modPayrSalDefaultType == 'pPerJob') {echo ' selected="selected"';} ?>>% of job price per job completed</option>
 								</select>
+								<span id="modPayrSalDefaultTypeError" class="underInputError" style="display: none;"><br>Select an option from the menu.</span>
 
 								<br><br>
 
@@ -288,16 +280,19 @@
 									<div>
 										<label for="modPayrSalBaseHourlyRate"><p>Default Hourly Rate (<?php echo htmlspecialchars($currentBusiness->currencySymbol) ?>)</p></label>
 										<input class="defaultInput" type="number" min="0" max="99999" step="0.01" name="modPayrSalBaseHourlyRate" id="modPayrSalBaseHourlyRate" placeholder="$0.00" value="<?php echo htmlspecialchars($currentBusiness->modPayrSalBaseHourlyRate); ?>" style="width: 4em;">
+										<span id="modPayrSalBaseHourlyRateError" class="underInputError" style="display: none;"><br>Input a number.</span>
 									</div>
 
 									<div>
 										<label for="modPayrSalBasePerJob"><p>Default Per Job Amount (<?php echo htmlspecialchars($currentBusiness->currencySymbol) ?>)</p></label>
 										<input class="defaultInput" type="number" min="0" max="99999" step="0.01" name="modPayrSalBasePerJob" id="modPayrSalBasePerJob" placeholder="$0.00" value="<?php echo htmlspecialchars($currentBusiness->modPayrSalBasePerJob); ?>" style="width: 4em;">
+										<span id="modPayrSalBasePerJobError" class="underInputError" style="display: none;"><br>Input a number.</span>
 									</div>
 
 									<div>
 									<label for="modPayrSalBaseJobPercent"><p>Default Job Percent (%)</p></label>
 										<input class="defaultInput" type="number" min="0" max="100" step="1" name="modPayrSalBaseJobPercent" id="modPayrSalBaseJobPercent" placeholder="0%" value="<?php echo htmlspecialchars($currentBusiness->modPayrSalBaseJobPercent); ?>" style="width: 3em;">
+										<span id="modPayrSalBaseJobPercentError" class="underInputError" style="display: none;"><br>Input a number.</span>
 									</div>
 								</div>
 
@@ -312,9 +307,10 @@
 									<div>
 										<label for="docIdMin"><p>Minimum Document ID</p></label>
 										<input class="defaultInput" type="number" min="0" step="1" name="docIdMin" id="docIdMin" placeholder="1" value="<?php echo htmlspecialchars($currentBusiness->docIdMin); ?>" style="width: 4em;">
+										<span id="docIdMinError" class="underInputError" style="display: none;"><br>Input a number.</span>
 									</div>
 									<div>
-										<p>The minimum document ID does <u>not</u> start the document IDs back at this number. Rather, it specifies the minimum number that the incremental IDs are <i>allowed</i> to start at. The next created document ID will still start after the highest numbered ID, unless this number is set above whatever that number happens to be.</p>
+										<p>Specifies the minimum number that the incremental IDs (for Invoices, Estimates, etc.) are <i>allowed</i> to start at.</p>
 									</div>
 								</div>
 
@@ -331,6 +327,7 @@
 									<div>
 										<label for="invoiceTerm"><p>Default Invoice Term (Days)</p></label>
 										<input class="defaultInput" type="number" min="0" step="1" name="invoiceTerm" id="invoiceTerm" placeholder="None" value="<?php echo htmlspecialchars($currentBusiness->invoiceTerm); ?>" style="width: 4em;">
+										<span id="invoiceTermError" class="underInputError" style="display: none;"><br>Input a number.</span>
 									</div>
 									<div>
 										<p>How long a customer has to pay an invoice. Set to nothing for no invoice term enforcement.</p>
@@ -350,6 +347,7 @@
 									<div>
 										<label for="estimateValidity"><p>Default Estimate Validity (Days)</p></label>
 										<input class="defaultInput" type="number" min="0" step="1" name="estimateValidity" id="estimateValidity" placeholder="None" value="<?php echo htmlspecialchars($currentBusiness->estimateValidity); ?>" style="width: 4em;">
+										<span id="estimateValidityError" class="underInputError" style="display: none;"><br>Input a number.</span>
 									</div>
 									<div>
 										<p>How long an estimate can be redeemed for a service. Set to nothing for no estimate validity enforcement.</p>
