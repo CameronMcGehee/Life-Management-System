@@ -38,9 +38,10 @@
 
     if ($result == 'incomplete') {
         // Link the current admin to the new business
-        require_once '../../../../../lib/database.php';
-        $db = new database();
-        if ($db->insert("adminBusinessBridge", array("businessId" => $newBusiness->businessId, "adminId" => $_SESSION['ultiscape_adminId'], "adminIsOwner" => 1))) {
+        require_once '../../../../../lib/database.php'; $db = new database();
+        require_once '../../../../../lib/table/tableUuid.php'; $uuid = new tableUuid('adminBusinessBridge', 'adminBusinessId');
+        
+        if ($db->insert("adminBusinessBridge", array("businessId" => $newBusiness->businessId, "adminId" => $_SESSION['ultiscape_adminId'], "adminIsOwner" => 1, "dateTimeAdded" => date('Y-m-d H:i:s')))) {
             $result = 'success';
             // Set the current business to the new one
             $_SESSION['ultiscape_businessId'] = $newBusiness->businessId;
@@ -55,7 +56,7 @@
         header("location: ../../../overview?popup=businessCreated");
         exit();
     } else {
-        header("location: ../../../createBusiness?e=".urlencode($result));
+        header("location: ../../../createbusiness?e=".urlencode($result));
         exit();
     }
 
