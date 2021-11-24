@@ -56,12 +56,15 @@
 		var url = new URL(window.location.href);
 
 		$(document).ready(function() {
-			if ($.isNumeric(url.searchParams.get('sl'))) {
-				$("#twoColContentWrapper").scrollTop(url.searchParams.get('sl'));
+			if ($.isNumeric(url.searchParams.get('fsl'))) {
+				$("#twoColContentWrapper").scrollTop(url.searchParams.get('fsl'));
+			}
+			if ($.isNumeric(url.searchParams.get('wsl'))) {
+				$(".cmsMainContentWrapper").scrollTop(url.searchParams.get('wsl'));
 			}
 			$("#editBusinessForm").submit(function(event) {
 				event.preventDefault();
-				$('#loadingGif').fadeIn(100);
+				$('.loadingGif').fadeIn(100);
 				formData = $("#editBusinessForm").serialize();
 				
 				$("#scriptLoader").load("./scripts/async/editbusiness.script.php", {
@@ -72,14 +75,15 @@
 
 					if (formOutput == 'success') {
 						// Get the current scroll position of the form to scroll back to it after the reload
-						url.searchParams.set('sl', $("#twoColContentWrapper").scrollTop());
+						url.searchParams.set('fsl', $("#twoColContentWrapper").scrollTop());
+						url.searchParams.set('wsl', $(".cmsMainContentWrapper").scrollTop());
 						window.location.replace(url.href);
 					} else {
 						showFormError(formOutput);
 						$("#"+formOutput).shake(50);
 					}
 
-					$('#loadingGif').fadeOut(100);
+					$('.loadingGif').fadeOut(100);
 				});
 			});
 		});
@@ -99,7 +103,12 @@
         ?>
 
 		<div class="cmsMainContentWrapper textColorThemeGray styledText">
+			<div class="mobileOnlyBlock xyCenteredFlex centered" style="position: sticky; top: 0px; width: 100%; padding-top: .3em; padding-bottom: .3em; border-bottom: .1em solid gray; background-color: white;"><button class="mediumButtonWrapper greenButton centered defaultMainShadows" type="submit" onclick="$('#editBusinessForm').submit()">Save Changes</button>
+				<!-- <br>
+				<img style="display: none; width: 3em;" src="../../images/ultiscape/etc/loading.gif" class="loadingGif"> -->
+			</div>
 			<form class="defaultForm maxHeight" action="./" method="POST" id="editBusinessForm">
+
 				<div class="twoColPage-Info-Content maxHeight">
 					<div id="twoColInfoWrapper" class="paddingLeftRight90 paddingTopBottom90">
 					
@@ -107,9 +116,10 @@
 
 						<!-- <br> -->
 
-						<button class="mediumButtonWrapper greenButton centered defaultMainShadows" type="submit">Save Changes</button>
-						<br><br>
-						<img style="display: none; width: 3em;" src="../../images/ultiscape/etc/loading.gif" id="loadingGif">
+						<span class="desktopOnlyBlock"><button class="mediumButtonWrapper greenButton centered defaultMainShadows" type="submit">Save Changes</button>
+							<br><br>
+							<img style="display: none; width: 3em;" src="../../images/ultiscape/etc/loading.gif" class="loadingGif">
+						</span>
 
 					</div>
 
@@ -126,10 +136,10 @@
 								<label for="adminDisplayName"><p>Internal Display Name (What you see in Ultiscape)</p></label>
 								<input class="defaultInput" type="text" name="adminDisplayName" id="adminDisplayName" placeholder="Internal display name..." value="<?php echo htmlspecialchars($currentBusiness->adminDisplayName); ?>">
 								<span id="adminDisplayNameError" class="underInputError" style="display: none;"><br>Business name bust be between <?php echo $ULTISCAPECONFIG['businessNameMinLength']; ?> and <?php echo $ULTISCAPECONFIG['businessNameMaxLength']; ?> characters.</span>
-								<br><br><br>
+								<!-- <br><br><br> -->
 
-								<div style="border: 1px solid gray; padding: 1em; width: 90%; max-width: 25em; height: 5em;">
-									<img src="<?php if ($currentBusiness->fullLogoFile === NULL) {echo "../../images/ultiscape/etc/noLogo.png";} else echo "../../images/ultiscape/uploads/businessFullLogoFile/".htmlspecialchars($currentBusiness->fullLogoFile); ?>" style="height: 100%; float: left;">
+								<!-- <div style="border: 1px solid gray; padding: 1em; width: 90%; max-width: 25em; height: 5em;">
+									<img src="<?php // if ($currentBusiness->fullLogoFile === NULL) {echo "../../images/ultiscape/etc/noLogo.png";} else echo "../../images/ultiscape/uploads/businessFullLogoFile/".htmlspecialchars($currentBusiness->fullLogoFile); ?>" style="height: 100%; float: left;">
 									
 									<input class="defaultInput" type="checkbox" name="useNewLogo" id="useNewLogo"><label for="useNewLogo"> <p style="display: inline; clear: both;">Upload a new logo</p></label>
 									<br><br>
@@ -137,7 +147,7 @@
 									<label for="fullLogoFile" style="clear: both;"><p>Logo File</p></label>
 									<input type="file" name="fullLogoFile" id="fullLogoFile" style="clear: both;">
 									<span id="fullLogoFileError" class="underInputError" style="display: none;"><br>There was an error uploading this logo file.</span>
-								</div>
+								</div> -->
 
 								<br><br>
 

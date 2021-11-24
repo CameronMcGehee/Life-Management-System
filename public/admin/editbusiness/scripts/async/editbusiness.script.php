@@ -91,55 +91,55 @@
 	}
 
 	// zipCode
-	if (!isset($formData['zipCode']) || !is_numeric($formData['zipCode'])) {
+	if (!isset($formData['zipCode'])) {
 		echo 'zipCode';
 		exit();
 	}
-	if (empty($formData['zipCode'])) {
+	if (empty($formData['zipCode']) || !is_numeric($formData['zipCode'])) {
 		$business->zipCode = NULL;
 	} else {
 		$business->zipCode = (int)$formData['zipCode'];
 	}
 
 	// phonePrefix
-	if (!isset($formData['phonePrefix']) || !is_numeric($formData['phonePrefix'])) {
+	if (!isset($formData['phonePrefix'])) {
 		echo 'phonePrefix';
 		exit();
 	}
-	if (empty($formData['phonePrefix'])) {
+	if (empty($formData['phonePrefix']) || !is_numeric($formData['phonePrefix'])) {
 		$business->phonePrefix = NULL;
 	} else {
 		$business->phonePrefix = (int)$formData['phonePrefix'];
 	}
 
 	// phone1
-	if (!isset($formData['phone1']) || !is_numeric($formData['phone1'])) {
+	if (!isset($formData['phone1'])) {
 		echo 'phone1';
 		exit();
 	}
-	if (empty($formData['phone1'])) {
+	if (empty($formData['phone1']) || !is_numeric($formData['phone1'])) {
 		$business->phone1 = NULL;
 	} else {
 		$business->phone1 = (int)$formData['phone1'];
 	}
 
 	// phone2
-	if (!isset($formData['phone2']) || !is_numeric($formData['phone2'])) {
+	if (!isset($formData['phone2'])) {
 		echo 'phone2';
 		exit();
 	}
-	if (empty($formData['phone2'])) {
+	if (empty($formData['phone2']) || !is_numeric($formData['phone2'])) {
 		$business->phone2 = NULL;
 	} else {
 		$business->phone2 = (int)$formData['phone2'];
 	}
 
 	// phone3
-	if (!isset($formData['phone3']) || !is_numeric($formData['phone3'])) {
+	if (!isset($formData['phone3'])) {
 		echo 'phone3';
 		exit();
 	}
-	if (empty($formData['phone3'])) {
+	if (empty($formData['phone3']) || !is_numeric($formData['phone3'])) {
 		$business->phone3 = NULL;
 	} else {
 		$business->phone3 = (int)$formData['phone3'];

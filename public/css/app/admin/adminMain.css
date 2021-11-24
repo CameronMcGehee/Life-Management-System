@@ -299,6 +299,38 @@
 
 /*-----------------------------------------------------------------------------------------------------------------------------*/
 /*-----------------------------------------------------------------------------------------------------------------------------*/
+/* Responsive Visibility */
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+
+.desktopOnlyBlock {
+	display: none;
+}
+.desktopOnlyInline {
+	display: none;
+}
+.desktopOnlyInlineBlock {
+	display: none;
+}
+.desktopOnlyFlex {
+	display: none;
+}
+
+.mobileOnlyBlock {
+	display: block;
+}
+.mobileOnlyInline {
+	display: inline;
+}
+.mobileOnlyInlineBlock {
+	display: inline-block;
+}
+.mobileOnlyFlex {
+	display: flex;
+}
+
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
 /* Shadows */
 /*-----------------------------------------------------------------------------------------------------------------------------*/
 /*-----------------------------------------------------------------------------------------------------------------------------*/
@@ -1032,5 +1064,32 @@ html, body {
 	}
 	.twoColPage-Info-Content #twoColContentWrapper {
 		overflow: auto;
+	}
+
+	/* Responsive Visibility */
+	.desktopOnlyBlock {
+		display: block;
+	}
+	.desktopOnlyInline {
+		display: inline;
+	}
+	.desktopOnlyInlineBlock {
+		display: inline-block;
+	}
+	.desktopOnlyFlex {
+		display: flex;
+	}
+	
+	.mobileOnlyBlock {
+		display: none;
+	}
+	.mobileOnlyInline {
+		display: none;
+	}
+	.mobileOnlyInlineBlock {
+		display: none;
+	}
+	.mobileOnlyFlex {
+		display: none;
 	}
 }
