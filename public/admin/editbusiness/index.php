@@ -42,14 +42,9 @@
 	<script src="../../js/etc/animation/shake.js"></script>
 
 	<script src="../../js/etc/form/showFormError.js"></script>
-	<script>
+	<script src="../../js/etc/form/clearFormErrors.js"></script>
 
-		function clearErrors() {
-			// For each element with the .underInputError class, hide it
-			$('.underInputError').each(function(i, obj) {
-				$(this).hide(0);
-			});
-		}
+	<script>
 
 		var formData;
 		var formOutput;
@@ -71,7 +66,7 @@
 					formData: formData
 				}, function () {
 					formOutput = $("#scriptLoader").html();
-					clearErrors();
+					clearFormErrors();
 
 					if (formOutput == 'success') {
 						// Get the current scroll position of the form to scroll back to it after the reload
