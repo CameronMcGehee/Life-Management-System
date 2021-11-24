@@ -242,7 +242,9 @@
 
 			$date = date('Y');
 
-			$output .= '<div class="'.$class.' defaultInsetShadow"><p>Copyright &copy <a target="_blank" href="https://cameronmcgehee.com">McGehee Enterprises</a> '.$date.'</p></div>
+			require_once dirname(__FILE__)."/../currentVersion.php";
+
+			$output .= '<div class="'.$class.' defaultInsetShadow"><p>Copyright &copy <a target="_blank" href="https://cameronmcgehee.com">McGehee Enterprises</a> '.$date.' - <b>v'.$version.'</b></p></div>
 			';
 			
 			return $output;
