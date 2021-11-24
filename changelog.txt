@@ -11,3 +11,6 @@ v0.1.1 - 11-24-2021:
         - PHP fuctions for managing authTokens
         - js function for shaking input fields (or any element)
         - js functions for showing/hiding form error messages
+v0.1.2 - 11-24-2021:
+    - Techies
+        - Fixed wrong create account url after installing

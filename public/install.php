@@ -79,7 +79,7 @@
     if ($ULTISCAPECONFIG['singleBusinessMode']) {
         echo 'admin/login';
     } else {
-        echo 'admin/register';
+        echo 'admin/createaccount';
     }
     
     echo '">Click here to begin using UltiScape!</a></p></html>';
