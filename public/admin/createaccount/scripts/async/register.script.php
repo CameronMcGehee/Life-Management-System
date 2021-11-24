@@ -71,14 +71,14 @@
 
 	// Check for the email in the database
 
-	if ($db->select('admin', 'email', "WHERE email = '".$db->sanitize($formData['email'])."'")) {
+	if ($db->select('admin', 'email', "WHERE LOWER(email) = '".strtolower($db->sanitize($formData['email']))."'")) {
 		echo 'emailExists';
 		exit();
 	}
 
 	// Check for the username in the database
 
-	if ($db->select('admin', 'username', "WHERE username = '".$db->sanitize($formData['username'])."'")) {
+	if ($db->select('admin', 'username', "WHERE LOWER(username) = '".strtolower($db->sanitize($formData['username']))."'")) {
 		echo 'usernameExists';
 		exit();
 	}

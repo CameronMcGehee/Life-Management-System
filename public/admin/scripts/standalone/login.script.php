@@ -25,8 +25,8 @@
         // If the username or email exists, get the adminId associated with them
         require_once '../../../../lib/database.php';
         $db = new database();
-        $usernameCheck = $db->select('admin', 'adminId', "WHERE username = '".$db->sanitize($_POST['usernameEmail'])."' LIMIT 1");
-        $emailCheck = $db->select('admin', 'adminId', "WHERE email = '".$db->sanitize($_POST['usernameEmail'])."' LIMIT 1");
+        $usernameCheck = $db->select('admin', 'adminId', "WHERE LOWER(username) = '".strtolower($db->sanitize($_POST['usernameEmail']))."' LIMIT 1");
+        $emailCheck = $db->select('admin', 'adminId', "WHERE LOWER(email) = '".strtolower($db->sanitize($_POST['usernameEmail']))."' LIMIT 1");
 
         // Check if email or username exists
         if (!$usernameCheck && !$emailCheck) {

@@ -19,3 +19,6 @@ v0.1.2 - 11-24-2021:
 v0.1.3 - 11-24-2021:
     - Techies
         - Fixed createbusiness script not adding to the table
+v0.1.4 - 11-24-2021:
+    - Techies
+        - Fixed username and email being case sensitive
