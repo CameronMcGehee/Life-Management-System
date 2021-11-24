@@ -1,0 +1,13 @@
+v0.0.1 - unknown date:
+    - UI deisigned, backend classes for managing database tables done
+
+v0.1.1 - 11-24-2021:
+    - Goodies
+        - Mostly working login, register, and edit business pages
+        - Fully working register page
+        - Mostly working edit business page
+        - Working but not good looking switch business page
+    - Techies
+        - PHP fuctions for managing authTokens
+        - js function for shaking input fields (or any element)
+        - js functions for showing/hiding form error messages
