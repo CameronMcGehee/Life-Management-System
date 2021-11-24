@@ -74,7 +74,7 @@
 						url.searchParams.set('wsl', $(".cmsMainContentWrapper").scrollTop());
 						window.location.replace(url.href);
 					} else {
-						showFormError(formOutput);
+						showFormError("#"+formOutput+"Error", "#"+formOutput);
 						$("#"+formOutput).shake(50);
 					}
 
