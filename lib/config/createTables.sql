@@ -72,6 +72,8 @@
 	`areaSymbol` varchar(5) NOT NULL DEFAULT 'ft',
 	`distanceSymbol` varchar(5) NOT NULL DEFAULT 'mi',
 	`timeZone` varchar(30) NOT NULL,
+	`plan` varchar(20) NOT NULL DEFAULT 'free',
+	`planUntilDateTime` datetime NULL DEFAULT NULL,
 	`modCust` tinyint(1) NOT NULL DEFAULT 0,
 	`modEmail` tinyint(1) NOT NULL DEFAULT 0,
 	`modInv` tinyint(1) NOT NULL DEFAULT 0,
@@ -172,21 +174,6 @@
 	`isArchived` tinyint(1) NOT NULL DEFAULT 0,
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`businessId`)
-	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-	--
-	-- Table structure for table `businessPlan`
-	--
-
-	CREATE TABLE IF NOT EXISTS `businessPlanBridge` (
-	`businessPlanId` varchar(17) NOT NULL,
-	`businessId` varchar(17) NOT NULL,
-	`plan` varchar(20) NOT NULL,
-	`untilDateTime` datetime NOT NULL,
-	`dateTimeAdded` datetime NOT NULL,
-	PRIMARY KEY (`businessPlanId`),
-	KEY `businessPlanBridgeBusinessId` (`businessId`),
-	CONSTRAINT `businessPlanBridgeBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 	
 	--
