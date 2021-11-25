@@ -184,7 +184,6 @@
 	`businessPlanPaymentId` varchar(17) NOT NULL,
 	`businessId` varchar(17) NOT NULL,
 	`adminId` varchar(17) NOT NULL,
-	`linkedToBusinessPlanId` varchar(17) NULL COMMENT 'Optional FK',
 	`method` varchar(20) NOT NULL,
 	`amount` float NOT NULL,
 	`notes` varchar(50) NULL,
@@ -192,7 +191,6 @@
 	PRIMARY KEY (`businessPlanPaymentId`),
 	KEY `businessPlanPaymentBusinessId` (`businessId`),
 	KEY `businessPlanPaymentAdminId` (`adminId`),
-	KEY `businessPlanPaymentLinkedToBusinessPlanId` (`linkedToBusinessPlanId`),
 	CONSTRAINT `businessPlanPaymentBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
 	CONSTRAINT `businessPlanPaymentAdminId` FOREIGN KEY (`adminId`) REFERENCES `admin` (`adminId`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
