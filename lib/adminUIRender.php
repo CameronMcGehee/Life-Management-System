@@ -253,7 +253,7 @@
 			$output .= '<div id="sideBarMoreMenu">
 			';
 			// More menu items
-			$output .= '<span class="sideBarButton defaultAll4InsetShadow" id="button5" href="'.$rootPathPrefix.'admin/inventory"><img src="'.$rootPathPrefix.'images/ultiscape/icons/drag.svg"><p>More...</p></span>
+			$output .= '<a class="sideBarButton defaultAll4InsetShadow" id="button6" href="'.$rootPathPrefix.'admin/inventory"><img src="'.$rootPathPrefix.'images/ultiscape/icons/archive.svg"><p>Inventory</p></a>
 			';
 			// End More menu
 			$output .= '</div>
@@ -316,7 +316,7 @@
 			$output .= '<span id="mobileNavBarMoreMenuHider"><div id="mobileNavBarMoreMenuWrapper">
 			';
 			//More menu items
-			$output .= '<p>Test1</p><p>Test1</p><p>Test1</p><p>Test1</p>
+			$output .= '<p><a href="'.$rootPathPrefix.'admin/inventory">Inventory</a></p><p>Item 2</p><p>Item 3</p><p>Item 4</p>
 			';
 			// End More menu
 			$output .= '</div></span>

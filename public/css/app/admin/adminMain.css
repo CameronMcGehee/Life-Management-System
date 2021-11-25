@@ -900,6 +900,10 @@ html, body {
 	cursor: pointer;
 }
 
+.cmsSideBarWrapper .sideBarButton#button6 {
+	background-color: var(--inventoryColorTheme);
+}
+
 .cmsSideBarWrapper #sideBarMoreMenu {
 	display: none;
 	position: fixed;
