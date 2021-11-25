@@ -214,6 +214,9 @@
 								if(!$(e.target).is("#mobileNavBarMoreMenuWrapper") && !$(e.target).parents("#mobileNavBarMoreMenuWrapper").length && !$(e.target).parents("#button5").length){
 									$("#mobileNavBarMoreMenuHider").hide();
 								}
+								if(!$(e.target).is("#sideBarMoreMenu") && !$(e.target).parents("#sideBarMoreMenu").length && !$(e.target).parents(".cmsSideBarWrapper").length){
+									$("#sideBarMoreMenu").hide();
+								}
 							}); ';
 
 				
