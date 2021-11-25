@@ -18,7 +18,7 @@
 	require_once '../../../lib/timezones/Timezones.php';
 
 	echo $adminUIRender->renderAdminHtmlTop('../../', 'Edit '.htmlspecialchars($currentBusiness->adminDisplayName), 'Edit your UltiScape business.');
-	echo $adminUIRender->renderAdminTopBarDropdownScripts('../../');
+	echo $adminUIRender->renderAdminUIMenuToggleScripts('../../');
 
 ?>
 

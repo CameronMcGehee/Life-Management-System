@@ -12,7 +12,7 @@
 
     echo $adminUIRender->renderAdminHtmlTop('../../', 'Jobs', 'Create, edit, and view your scheduled jobs.');
 
-    echo $adminUIRender->renderAdminTopBarDropdownScripts('../../');
+    echo $adminUIRender->renderAdminUIMenuToggleScripts('../../');
 
 ?>
 

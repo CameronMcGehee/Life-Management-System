@@ -25,3 +25,4 @@ v0.1.4 - 11-24-2021:
 v0.1.5 - 11-24-2021:
     - Goodies
         - New global font
+        - Admin: Mobile Nav bar and desktop sidebar now show appropriate buttons depending on the plan that the current business is subscribed to

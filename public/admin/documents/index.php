@@ -12,7 +12,7 @@
 
     echo $adminUIRender->renderAdminHtmlTop('../../', 'Documents', 'Create, edit, and view invoices, esimates, and document uploads.');
 
-    echo $adminUIRender->renderAdminTopBarDropdownScripts('../../');
+    echo $adminUIRender->renderAdminUIMenuToggleScripts('../../');
 
 ?>
 

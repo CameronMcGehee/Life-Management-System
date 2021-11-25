@@ -12,7 +12,7 @@
 
     echo $adminUIRender->renderAdminHtmlTop('../../', 'Communications', 'Manage Email messages and campaigns between you, your customers and your staff. SMS support coming soon!');
 
-    echo $adminUIRender->renderAdminTopBarDropdownScripts('../../');
+    echo $adminUIRender->renderAdminUIMenuToggleScripts('../../');
 
 ?>
 

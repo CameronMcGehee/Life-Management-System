@@ -12,7 +12,7 @@
 
     echo $adminUIRender->renderAdminHtmlTop('../', 'Sitemap', 'Listing of all pages in the UltiScape CMS.');
 
-    echo $adminUIRender->renderAdminTopBarDropdownScripts('../');
+    echo $adminUIRender->renderAdminUIMenuToggleScripts('../');
 
 ?>
 

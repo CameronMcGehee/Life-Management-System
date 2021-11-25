@@ -20,7 +20,7 @@
 	$currentAdmin = new admin($_SESSION['ultiscape_adminId']);
 
 	echo $adminUIRender->renderAdminHtmlTop('../../', 'Business Selection', 'Select the business to use in UltiScape.');
-	echo $adminUIRender->renderAdminTopBarDropdownScripts('../../', true, false);
+	echo $adminUIRender->renderAdminUIMenuToggleScripts('../../', true, false);
 
 ?>
 

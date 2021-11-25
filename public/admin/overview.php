@@ -12,7 +12,7 @@
 
     echo $adminUIRender->renderAdminHtmlTop('../', 'Overview', 'Overview of your UltiScape Business.');
 
-    echo $adminUIRender->renderAdminTopBarDropdownScripts('../');
+    echo $adminUIRender->renderAdminUIMenuToggleScripts('../');
 
 ?>
 

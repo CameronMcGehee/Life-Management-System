@@ -12,7 +12,7 @@
 
     echo $adminUIRender->renderAdminHtmlTop('../', 'Edit Profile', 'Edit your UltiScape Profile.');
 
-    echo $adminUIRender->renderAdminTopBarDropdownScripts('../');
+    echo $adminUIRender->renderAdminUIMenuToggleScripts('../');
 
 ?>
 

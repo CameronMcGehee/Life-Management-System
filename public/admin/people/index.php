@@ -12,7 +12,7 @@
 
     echo $adminUIRender->renderAdminHtmlTop('../../', 'People');
 
-    echo $adminUIRender->renderAdminTopBarDropdownScripts('../../');
+    echo $adminUIRender->renderAdminUIMenuToggleScripts('../../');
 
 ?>
 

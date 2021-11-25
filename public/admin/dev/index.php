@@ -12,7 +12,7 @@
 
     echo $adminUIRender->renderAdminHtmlTop('../../', 'DEV SPACE', 'DEVELOPMENT TESTING SPACE');
 
-    echo $adminUIRender->renderAdminTopBarDropdownScripts('../../');
+    echo $adminUIRender->renderAdminUIMenuToggleScripts('../../');
 
 ?>
 

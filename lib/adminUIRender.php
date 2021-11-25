@@ -162,7 +162,7 @@
 			return $output;
 		}
 
-		function renderAdminTopBarDropdownScripts(string $rootPathPrefix = './', bool $showProfileButtonScript = true, bool $showBusinessSelectorScript = true) {
+		function renderAdminUIMenuToggleScripts(string $rootPathPrefix = './', bool $showProfileButtonScript = true, bool $showBusinessSelectorScript = true) {
 			$output = '';
 
 			// Scripts for dropping them down
