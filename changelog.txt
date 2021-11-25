@@ -28,3 +28,4 @@ v0.1.5 - 11-24-2021:
         - Admin: Mobile Nav bar and desktop sidebar now show "More" button instead of "Inventory" button. When this button is clicked, a menu will apear with the extra options
     - Techies
         - Changed the way business plans are stored (again)
+        - Move standalone pages in admin directory into their own folders
