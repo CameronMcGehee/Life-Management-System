@@ -162,7 +162,7 @@
 			return $output;
 		}
 
-		function renderAdminUIMenuToggleScripts(string $rootPathPrefix = './', bool $showProfileButtonScript = true, bool $showBusinessSelectorScript = true) {
+		function renderAdminUIMenuToggleScripts(string $rootPathPrefix = './', bool $showProfileButtonScript = true, bool $showBusinessSelectorScript = true, bool $showSideBarMoreMenuScript = true, bool $showMobileNavBarMoreMenuScript = true) {
 			$output = '';
 
 			// Scripts for dropping them down
@@ -194,6 +194,28 @@
 								';
 				}
 
+				if ($showSideBarMoreMenuScript) {
+					$output .= '$(".sideBarButton#button5").click(function() {
+									$("#sideBarMoreMenu").toggle();
+								});
+								';
+				}
+
+				if ($showMobileNavBarMoreMenuScript) {
+					$output .= '$(".mobileNavBarButtonArray #button5").click(function() {
+									$("#mobileNavBarMoreMenuHider").toggle();
+								});
+								';
+				}
+
+				// Clicking anywhere hides menu scripts
+
+				$output .= '$("html").click(function(e) {                    
+								if(!$(e.target).is("#mobileNavBarMoreMenuWrapper") && !$(e.target).parents("#mobileNavBarMoreMenuWrapper").length && !$(e.target).parents("#button5").length){
+									$("#mobileNavBarMoreMenuHider").hide();
+								}
+							}); ';
+
 				
 			$output .= '});
 			';
@@ -220,9 +242,21 @@
 			';
 			$output .= '<a class="sideBarButton defaultAll4InsetShadow" id="button4" href="'.$rootPathPrefix.'admin/documents"><img src="'.$rootPathPrefix.'images/ultiscape/icons/document.svg"><p>Documents</p></a>
 			';
-			$output .= '<a class="sideBarButton defaultAll4InsetShadow" id="button5" href="'.$rootPathPrefix.'admin/inventory"><img src="'.$rootPathPrefix.'images/ultiscape/icons/archive.svg"><p>Inventory</p></a>
+			$output .= '<span class="sideBarButton defaultAll4InsetShadow" id="button5"><img src="'.$rootPathPrefix.'images/ultiscape/icons/drag.svg"><p>More...</p></span>
 			';
+
+			// Bottom links
 			$output .= '<div id="smallBottomLinks"><a href="'.$rootPathPrefix.'admin/overview">Overview</a> | <a href="'.$rootPathPrefix.'admin/sitemap">Sitemap</a></div>
+			';
+
+			// Start More menu
+			$output .= '<div id="sideBarMoreMenu">
+			';
+			// More menu items
+			$output .= '<span class="sideBarButton defaultAll4InsetShadow" id="button5" href="'.$rootPathPrefix.'admin/inventory"><img src="'.$rootPathPrefix.'images/ultiscape/icons/drag.svg"><p>More...</p></span>
+			';
+			// End More menu
+			$output .= '</div>
 			';
 
 			$output .= '</div>
@@ -269,7 +303,7 @@
 					';
 					$output .= '<a class="button" id="button4" href="'.$rootPathPrefix.'admin/documents"><img src="'.$rootPathPrefix.'images/ultiscape/icons/document.svg"><p>Docs</p></a>
 					';
-					$output .= '<a class="button" id="button5" href="'.$rootPathPrefix.'admin/inventory"><img src="'.$rootPathPrefix.'images/ultiscape/icons/archive.svg"><p>Inventory</p></a>
+					$output .= '<span class="button" id="button5"><img src="'.$rootPathPrefix.'images/ultiscape/icons/drag.svg"></span>
 					';
 				$output .= '</div>
 				';
@@ -277,6 +311,16 @@
 				$output .= '<p class="marginLeftRight90 textCentered">Please login and select business.</p>
 				';
 			}
+
+			// Start More menu
+			$output .= '<span id="mobileNavBarMoreMenuHider"><div id="mobileNavBarMoreMenuWrapper">
+			';
+			//More menu items
+			$output .= '<p>Test1</p><p>Test1</p><p>Test1</p><p>Test1</p>
+			';
+			// End More menu
+			$output .= '</div></span>
+			';
 			
 			$output .= '</div>
 			';

@@ -896,7 +896,16 @@ html, body {
 }
 
 .cmsSideBarWrapper .sideBarButton#button5 {
-	background-color: var(--inventoryColorTheme);
+	background-color: rgb(157, 159, 255);
+	cursor: pointer;
+}
+
+.cmsSideBarWrapper #sideBarMoreMenu {
+	display: none;
+	position: fixed;
+	top: 19.6em;
+	left: 15em;
+	width: 12em;
 }
 
 .cmsSideBarWrapper #smallBottomLinks {
@@ -954,13 +963,17 @@ html, body {
 	height: 100%;
 	width: 100%;
 
-	display: grid;
+	/* display: grid;
 	grid-template-columns: 20% 20% 20% 20% 20%;
 	grid-template-rows: auto;
-	grid-template-areas: "button1 button2 button3 button4 button5";
+	grid-template-areas: "button1 button2 button3 button4 button5"; */
+
+	display: flex;
+	flex-direction: row;
 }
 
 .cmsMobileNavBarWrapper .mobileNavBarButtonArray .button {
+	flex-grow: 1;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -982,31 +995,49 @@ html, body {
 }
 
 .cmsMobileNavBarWrapper .mobileNavBarButtonArray #button1 { /*Currently Customers Button*/
-	grid-area: button1;
 	background-color: var(--peopleColorTheme);
 }
 
 .cmsMobileNavBarWrapper .mobileNavBarButtonArray #button2 { /*Currently Comunications Button*/
-	grid-area: button2;
 	background-color: var(--communicationsColorTheme);
 }
 
 .cmsMobileNavBarWrapper .mobileNavBarButtonArray #button3 { /*Currently Jobs Button*/
-	grid-area: button3;
 	background-color: var(--jobsColorTheme);
 }
 
 .cmsMobileNavBarWrapper .mobileNavBarButtonArray #button4 { /*Currently Docs Button*/
-	grid-area: button4;
 	background-color: var(--documentsColorTheme);
 }
 
-.cmsMobileNavBarWrapper .mobileNavBarButtonArray #button5 { /*Currently Inventory Button*/
-	grid-area: button5;
-	background-color: var(--inventoryColorTheme);
+.cmsMobileNavBarWrapper .mobileNavBarButtonArray #button5 { /*Currently More Button*/
+	background-color: rgb(157, 159, 255);
+	cursor: pointer;
 }
 
+.cmsMobileNavBarWrapper #mobileNavBarMoreMenuHider {
+	display: none;
+}
 
+.cmsMobileNavBarWrapper #mobileNavBarMoreMenuWrapper {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	align-items: center;
+
+	position: fixed;
+	bottom: 5em;
+	right: 0em;
+
+	width: 12em;
+	height: 10em;
+
+	background-color: white;
+
+	border-left: .12em solid gray;
+	border-top: .12em solid gray;
+	border-radius: .5em 0 0 0;
+}
 
 /*-----------------------------------------------------------------------------------------------------------------------------*/
 /*-----------------------------------------------------------------------------------------------------------------------------*/
