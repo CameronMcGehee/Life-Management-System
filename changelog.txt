@@ -29,3 +29,10 @@ v0.1.5 - 11-25-2021:
     - Techies
         - Changed the way business plans are stored (again)
         - Move standalone pages in admin directory into their own folders
+v0.1.6 - 11-26-2021:
+    - Goodies
+        - Login page now shows errors under inputs
+    - Techies
+        - Login page now uses asyncronus script (ajax) instead of a redirect to a script
+        - Removed extName attributes in business settings database and class as they will not be used
+        - Removed surname from any table/class that had it as is will not be used
