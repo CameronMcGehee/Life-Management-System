@@ -76,11 +76,7 @@
 
     echo '<html><p>Successfully Installed. <a href="';
     
-    if ($ULTISCAPECONFIG['singleBusinessMode']) {
-        echo 'admin/login';
-    } else {
-        echo 'admin/createaccount';
-    }
+    echo 'admin/createaccount';
     
     echo '">Click here to begin using UltiScape!</a></p></html>';
 
