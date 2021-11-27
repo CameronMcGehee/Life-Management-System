@@ -19,9 +19,57 @@
 ?>
 
     <link rel="stylesheet" type="text/css" href="../../css/app/admin/adminLoginPage.css">
+
+    <script src="../../js/etc/animation/shake.js"></script>
+
+	<script src="../../js/etc/form/showFormError.js"></script>
+	<script src="../../js/etc/form/clearFormErrors.js"></script>
+
+	<script>
+
+		var formData;
+		var formOutput;
+		var url = new URL(window.location.href);
+
+		$(document).ready(function() {
+			$("#loginForm").submit(function(event) {
+				event.preventDefault();
+				$('.loadingGif').fadeIn(100);
+				formData = $("#loginForm").serialize();
+				
+				$("#scriptLoader").load("./scripts/async/login.script.php", {
+					formData: formData
+				}, function () {
+					formOutput = $("#scriptLoader").html();
+					clearFormErrors();
+
+					switch (formOutput) {
+						case 'success':
+							window.location.replace('../');
+							break;
+                        case 'noUsernameEmail':
+                            showFormError("#noUsernameEmailError", '#usernameEmail');
+							$("#usernameEmail").shake(50);
+							break;
+						case 'noMatch':
+							showFormError("#noMatchError", '#password');
+							$("#password").shake(50);
+							break;
+						default:
+							showFormError("#"+formOutput+"Error", "#"+formOutput);
+							$("#"+formOutput).shake(50);
+							break;
+					}
+
+					$('.loadingGif').fadeOut(100);
+				});
+			});
+		});
+	</script>
 </head>
 
 <body>
+	<span style="display: none;" id="scriptLoader"></span>
     <div class="appNoSidebarBodyWrapper">
 
         <?php 
@@ -31,19 +79,23 @@
         <div class="cmsMainContentWrapper">
             
         <div class="maxHeight xyCenteredFlex flexDirectionColumn marginLeftRight90">
-                <div class="cmsLoginFormArea centered defaultMainShadows">
+                <div class="cmsLoginFormArea defaultMainShadows">
                     
-                    <h1>Admin Login</h1>
+                    <h1 class="centered">Admin Login</h1>
                     
-                    <form class="defaultForm" style="margin-left: 2em; margin-right: 2em;" method="POST" action="./scripts/standalone/login.script">
+                    <form class="defaultForm" id="loginForm" style="margin-left: 2em; margin-right: 2em;" method="POST" action="./">
                         
                         <label for="usernameEmail"><p>Username/Email</p></label>
                         <input class="defaultInput" type="text" name="usernameEmail" id="usernameEmail" placeholder="Username/Email...">
+                        <span id="usernameEmailError" class="underInputError" style="display: none;">Enter a username or email.</span>
+                        <span id="noUsernameEmailError" class="underInputError" style="display: none;">There is no account with this username or email.</span>
                         
                         <br><br>
                         
                         <label for="password"><p>Password</p></label>
                         <input class="defaultInput" type="password" name="password" id="password" placeholder="Password...">
+                        <span id="passwordError" class="underInputError" style="display: none;">Enter your password.</span>
+                        <span id="noMatchError" class="underInputError" style="display: none;">Password is incorrect.</span>
 
                         <?php
                             // Generate an auth token for the form
