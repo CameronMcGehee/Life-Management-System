@@ -33,16 +33,12 @@
 		public $modInv;
 		public $modInvIncludePastBal;
 		public $modEst;
-		public $modEstExtName;
 		public $modProp;
-		public $modPropExtName;
 		public $modJobs;
 		public $modEquip;
 		public $modChem;
 		public $modStaff;
-		public $modStaffExtName;
 		public $modCrews;
-		public $modCrewsExtName;
 		public $modPayr;
 		public $modPayrSatLinkedToDue;
 		public $modPayrSalDefaultType;
@@ -212,16 +208,12 @@
 			$this->modInv = '0';
 			$this->modInvIncludePastBal = '0';
 			$this->modEst = '0';
-			$this->modEstExtName = NULL;
 			$this->modProp = '0';
-			$this->modPropExtName = NULL;
 			$this->modJobs = '0';
 			$this->modEquip = '0';
 			$this->modChem = '0';
 			$this->modStaff = '0';
-			$this->modStaffExtName = NULL;
 			$this->modCrews = '0';
-			$this->modCrewsExtName = NULL;
 			$this->modPayr = '0';
 			$this->modPayrSatLinkedToDue = '0';
 			$this->modPayrSalDefaultType = 'none';
@@ -405,16 +397,12 @@
 				$this->modInv = $fetch[0]['modInv'];
 				$this->modInvIncludePastBal = $fetch[0]['modInvIncludePastBal'];
 				$this->modEst = $fetch[0]['modEst'];
-				$this->modEstExtName = $fetch[0]['modEstExtName'];
 				$this->modProp = $fetch[0]['modProp'];
-				$this->modPropExtName = $fetch[0]['modPropExtName'];
 				$this->modJobs = $fetch[0]['modJobs'];
 				$this->modEquip = $fetch[0]['modEquip'];
 				$this->modChem = $fetch[0]['modChem'];
 				$this->modStaff = $fetch[0]['modStaff'];
-				$this->modStaffExtName = $fetch[0]['modStaffExtName'];
 				$this->modCrews = $fetch[0]['modCrews'];
-				$this->modCrewsExtName = $fetch[0]['modCrewsExtName'];
 				$this->modPayr = $fetch[0]['modPayr'];
 				$this->modPayrSatLinkedToDue = $fetch[0]['modPayrSatLinkedToDue'];
 				$this->modPayrSalDefaultType = $fetch[0]['modPayrSalDefaultType'];
@@ -1712,16 +1700,12 @@
 				'modInv' => $this->db->sanitize($this->modInv),
 				'modInvIncludePastBal' => $this->db->sanitize($this->modInvIncludePastBal),
 				'modEst' => $this->db->sanitize($this->modEst),
-				'modEstExtName' => $this->db->sanitize($this->modEstExtName),
 				'modProp' => $this->db->sanitize($this->modProp),
-				'modPropExtName' => $this->db->sanitize($this->modPropExtName),
 				'modJobs' => $this->db->sanitize($this->modJobs),
 				'modEquip'=> $this->db->sanitize($this->modEquip),
 				'modChem' => $this->db->sanitize($this->modChem),
 				'modStaff' => $this->db->sanitize($this->modStaff),
-				'modStaffExtName' => $this->db->sanitize($this->modStaffExtName),
 				'modCrews' => $this->db->sanitize($this->modCrews),
-				'modCrewsExtName' => $this->db->sanitize($this->modCrewsExtName),
 				'modPayr' => $this->db->sanitize($this->modPayr),
 				'modPayrSatLinkedToDue' => $this->db->sanitize($this->modPayrSatLinkedToDue),
 				'modPayrSalDefaultType' => $this->db->sanitize($this->modPayrSalDefaultType),
