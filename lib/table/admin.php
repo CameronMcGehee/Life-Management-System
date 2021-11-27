@@ -14,7 +14,6 @@
 		public $username;
 		public $password;
 		public $email;
-		public $surname;
 		public $firstName;
 		public $lastName;
 		public $profilePicture;
@@ -41,7 +40,6 @@
 			$this->username = '';
 			$this->password = '';
 			$this->email = '';
-			$this->surname = NULL;
 			$this->firstName = '';
 			$this->lastName = '';
 			$this->profilePicture = NULL;
@@ -82,7 +80,6 @@
 				$this->username = $fetch[0]['username'];
 				$this->password = $fetch[0]['password'];
 				$this->email = $fetch[0]['email'];
-				$this->surname = $fetch[0]['surname'];
 				$this->firstName = $fetch[0]['firstName'];
 				$this->lastName = $fetch[0]['lastName'];
 				$this->profilePicture = $fetch[0]['profilePicture'];
@@ -310,7 +307,6 @@
 				'username' => $this->db->sanitize($this->username),
 				'password' => $this->db->sanitize($this->password),
 				'email' => $this->db->sanitize($this->email),
-				'surname' => $this->db->sanitize($this->surname),
 				'firstName' => $this->db->sanitize($this->firstName),
 				'lastName' => $this->db->sanitize($this->lastName),
 				'profilePicture' => $this->db->sanitize($this->profilePicture),

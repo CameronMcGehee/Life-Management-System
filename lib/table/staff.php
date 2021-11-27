@@ -12,7 +12,6 @@
 		// Main database attributes
 		public $staffId;
 		public $businessId;
-		public $surname;
 		public $firstName;
 		public $lastName;
 		public $profilePicture;
@@ -62,7 +61,6 @@
 			} else {
 				$this->businessId = '';
 			}
-			$this->surname = NULL;
 			$this->firstName = '';
 			$this->lastName = NULL;
 			$this->profilePicture = NULL;
@@ -120,7 +118,6 @@
 			if ($fetch) {
 				$this->staffId = $staffId;
 				$this->businessId = $fetch[0]['businessId'];
-				$this->surname = $fetch[0]['surname'];
 				$this->firstName = $fetch[0]['firstName'];
 				$this->lastName = $fetch[0]['lastName'];
 				$this->profilePicture = $fetch[0]['profilePicture'];
@@ -451,7 +448,6 @@
 			$attributes = array(
 				'staffId' => $this->db->sanitize($this->dbStaffId),
 				'businessId' => $this->db->sanitize($this->businessId),
-				'surname' => $this->db->sanitize($this->surname),
 				'firstName' => $this->db->sanitize($this->firstName),
 				'lastName' => $this->db->sanitize($this->lastName),
 				'profilePicture' => $this->db->sanitize($this->profilePicture),
