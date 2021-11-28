@@ -423,7 +423,7 @@
 
 			// Encrypt encrypted data
 			foreach ($this->fieldsToEncrypt as $field) {
-				if (!is_null($attributes[$field])) {
+				if (gettype($attributes[$field]) == 'string' && $attributes[$field] != 'NULL') {
 					$attributes[$field] = encryptString((string)$attributes[$field], $this->cryptoKey);
 				}
 			}
