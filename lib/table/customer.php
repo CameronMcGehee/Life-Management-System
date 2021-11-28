@@ -9,6 +9,9 @@
 
 		public bool $existed; // Used to see whether the given entity existed already (in the database) at the time of instantiation
 
+		private $cryptoKey;
+		private $fieldsToEncrypt = array('firstName', 'lastName', 'billAddress1', 'billAddress2', 'billCity', 'billState', 'billZipCode', 'notes');
+
 		// Main database attributes
 		public $customerId;
 		public $businessId;
@@ -102,6 +105,11 @@
 
 		function __construct(string $customerId = '') {
 
+			// Include encryption tools since this class contains encrypted data
+			require_once dirname(__FILE__)."/../etc/crypto/encryptString.php";
+			require_once dirname(__FILE__)."/../etc/crypto/decryptString.php";
+			$this->cryptoKey = include dirname(__FILE__)."/../../config/cryptoKey.php";
+
 			// Connect to the database
 			require_once dirname(__FILE__)."/../database.php";
 			$this->db = new database;
@@ -133,6 +141,16 @@
 				$this->overridePaymentTerm = $fetch[0]['overridePaymentTerm'];
 				$this->notes = $fetch[0]['notes'];
 				$this->dateTimeAdded = $fetch[0]['dateTimeAdded'];
+
+				// Decrypt encrypted data
+				foreach ($this->fieldsToEncrypt as $field) {
+					if (!is_null($this->{$field}) && !empty($this->{$field})) {
+						$this->{$field} = decryptString((string)$this->{$field}, $this->cryptoKey);
+					}
+					if ($this->{$field} === false) {
+						$this->{$field} = 'decryptError';
+					}
+				}
 
 				$this->setType = 'UPDATE';
 				$this->existed = true;
@@ -402,6 +420,13 @@
 				'notes' => $this->db->sanitize($this->notes),
 				'dateTimeAdded' => $this->db->sanitize($this->dateTimeAdded)
 			);
+
+			// Encrypt encrypted data
+			foreach ($this->fieldsToEncrypt as $field) {
+				if (!is_null($attributes[$field])) {
+					$attributes[$field] = encryptString((string)$attributes[$field], $this->cryptoKey);
+				}
+			}
 
 			if ($this->setType == 'UPDATE') {
 				// Update the values in the database after sanitizing them
