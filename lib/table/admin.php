@@ -320,6 +320,26 @@
 
 		public function set() {
 
+			$attr = array(
+				'adminId' => $this->dbAdminId,
+				'username' => $this->username,
+				'password' => $this->password,
+				'email' => $this->email,
+				'firstName' => $this->firstName,
+				'lastName' => $this->lastName,
+				'profilePicture' => $this->profilePicture,
+				'allowSignIn' => $this->allowSignIn,
+				'dateTimeJoined' => $this->dateTimeJoined,
+				'dateTimeLeft' => $this->dateTimeLeft
+			);
+
+			// Encrypt encrypted data
+			foreach ($this->fieldsToEncrypt as $field) {
+				if ($attributes[$field] != 'NULL') {
+					$attributes[$field] = encryptString((string)$attributes[$field], $this->cryptoKey);
+				}
+			}
+
 			$attributes = array(
 				'adminId' => $this->db->sanitize($this->dbAdminId),
 				'username' => $this->db->sanitize($this->username),
@@ -332,13 +352,6 @@
 				'dateTimeJoined' => $this->db->sanitize($this->dateTimeJoined),
 				'dateTimeLeft' => $this->db->sanitize($this->dateTimeLeft)
 			);
-
-			// Encrypt encrypted data
-			foreach ($this->fieldsToEncrypt as $field) {
-				if ($attributes[$field] != 'NULL') {
-					$attributes[$field] = encryptString((string)$attributes[$field], $this->cryptoKey);
-				}
-			}
 
 			if ($this->setType == 'UPDATE') {
 				// Update the values in the database after sanitizing them
