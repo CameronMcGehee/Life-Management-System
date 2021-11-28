@@ -9,6 +9,9 @@
 
 		public bool $existed; // Used to see whether the given entity existed already (in the database) at the time of instantiation
 
+		private $cryptoKey;
+		private $fieldsToEncrypt = array('firstName', 'lastName');
+
 		// Main database attributes
 		public $adminId;
 		public $username;
@@ -67,6 +70,11 @@
 
 		function __construct(string $adminId = '') {
 
+			// Include encryption tools since this class contains encrypted data
+			require_once dirname(__FILE__)."/../etc/crypto/encryptString.php";
+			require_once dirname(__FILE__)."/../etc/crypto/decryptString.php";
+			$this->cryptoKey = include dirname(__FILE__)."/../../config/cryptoKey.php";
+
 			// Connect to the database
 			require_once dirname(__FILE__)."/../database.php";
 			$this->db = new database;
@@ -86,6 +94,16 @@
 				$this->allowSignIn = $fetch[0]['allowSignIn'];
 				$this->dateTimeJoined = $fetch[0]['dateTimeJoined'];
 				$this->dateTimeLeft = $fetch[0]['dateTimeLeft'];
+
+				// Decrypt encrypted data
+				foreach ($this->fieldsToEncrypt as $field) {
+					if (!is_null($this->{$field}) && !empty($this->{$field})) {
+						$this->{$field} = decryptString((string)$this->{$field}, $this->cryptoKey);
+					}
+					if ($this->{$field} === false) {
+						$this->{$field} = 'decryptError';
+					}
+				}
 
 				$this->setType = 'UPDATE';
 				$this->existed = true;
@@ -314,6 +332,13 @@
 				'dateTimeJoined' => $this->db->sanitize($this->dateTimeJoined),
 				'dateTimeLeft' => $this->db->sanitize($this->dateTimeLeft)
 			);
+
+			// Encrypt encrypted data
+			foreach ($this->fieldsToEncrypt as $field) {
+				if ($attributes[$field] != 'NULL') {
+					$attributes[$field] = encryptString((string)$attributes[$field], $this->cryptoKey);
+				}
+			}
 
 			if ($this->setType == 'UPDATE') {
 				// Update the values in the database after sanitizing them
