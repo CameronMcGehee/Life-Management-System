@@ -33,14 +33,29 @@
             <div style="margin-left: 2em; margin-right: 2em;">
                 <?php
 
-                    require_once '../../../lib/table/docId.php';
+                    require_once '../../../lib/table/customer.php';
 
-                    $docId = new docId($_SESSION['ultiscape_businessId']);
+                    $customer = new customer('357461a2cd78d9d08');
 
-                    $docId->generateRandomId();
-                    $docId->generateIncrementalId();
+                    // $customer->firstName = 'Susybell';
+                    // $customer->lastName = 'Whistlebritches';
 
-                    echo '<p>'.print_r($docId).'</p>';
+                    // $customer->billAddress1 = '3505 N. Quebec St.';
+                    // $customer->billAddress2 = 'PO Box somewhere';
+                    // $customer->billState = 'Virginia';
+                    // $customer->billCity = 'Arlington';
+                    // $customer->billZipCode = 22207;
+
+
+                    // $customer->set();
+
+                    echo '<p>'.htmlspecialchars($customer->customerId).'</p>';
+                    echo '<p>'.htmlspecialchars($customer->firstName).' '.htmlspecialchars($customer->firstName).'</p>';
+                    echo '<p>'.htmlspecialchars($customer->billAddress1).'</p>';
+                    echo '<p>'.htmlspecialchars($customer->billAddress2).'</p>';
+                    echo '<p>'.htmlspecialchars($customer->billState).'</p>';
+                    echo '<p>'.htmlspecialchars($customer->billCity).'</p>';
+                    echo '<p>'.htmlspecialchars($customer->billZipCode).'</p>';
 
                 ?>
             </div>
