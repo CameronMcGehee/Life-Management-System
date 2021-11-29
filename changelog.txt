@@ -37,4 +37,4 @@ v0.1.6 - 11-26-2021:
         - Removed extName attributes in business settings database and class as they will not be used
         - Removed surname from any table/class that had it as is will not be used
         - Many fields in database changed from varchar to text for UX and encryption purposes
-        - Data encryption for sensitive data using user's password
+        - Data encryption for sensitive data using AES-256-cbc
