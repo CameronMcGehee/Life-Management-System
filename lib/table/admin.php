@@ -335,13 +335,13 @@
 
 			// Encrypt encrypted data
 			foreach ($this->fieldsToEncrypt as $field) {
-				if ($attributes[$field] != 'NULL') {
-					$attributes[$field] = encryptString((string)$attributes[$field], $this->cryptoKey);
+				if ($attr[$field] != NULL) {
+					$attr[$field] = encryptString((string)$attr[$field], $this->cryptoKey);
 				}
 			}
 
 			$attributes = array(
-				'adminId' => $this->db->sanitize($attr['dbAdminId']),
+				'adminId' => $this->db->sanitize($this->dbAdminId),
 				'username' => $this->db->sanitize($attr['username']),
 				'password' => $this->db->sanitize($attr['password']),
 				'email' => $this->db->sanitize($attr['email']),

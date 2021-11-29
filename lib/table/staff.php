@@ -9,6 +9,9 @@
 
 		public bool $existed; // Used to see whether the given entity existed already (in the database) at the time of instantiation
 
+		private $cryptoKey;
+		private $fieldsToEncrypt = array('firstName', 'lastName', 'payrollAddress1', 'payrollAddress2', 'payrollCity', 'payrollState', 'payrollZipCode', 'password');
+
 		// Main database attributes
 		public $staffId;
 		public $businessId;
@@ -16,6 +19,7 @@
 		public $lastName;
 		public $profilePicture;
 		public $jobTitle;
+		public $bio;
 		public $payrollAddress1;
 		public $payrollAddress2;
 		public $payrollState;
@@ -107,6 +111,11 @@
 
 		function __construct(string $staffId = '') {
 
+			// Include encryption tools since this class contains encrypted data
+			require_once dirname(__FILE__)."/../etc/crypto/encryptString.php";
+			require_once dirname(__FILE__)."/../etc/crypto/decryptString.php";
+			$this->cryptoKey = include dirname(__FILE__)."/../../config/cryptoKey.php";
+
 			// Connect to the database
 			require_once dirname(__FILE__)."/../database.php";
 			$this->db = new database;
@@ -137,6 +146,16 @@
 				$this->allowSignIn = $fetch[0]['allowSignIn'];
 				$this->password = $fetch[0]['password'];
 				$this->dateTimeAdded = $fetch[0]['dateTimeAdded'];
+
+				// Decrypt encrypted data
+				foreach ($this->fieldsToEncrypt as $field) {
+					if (!is_null($this->{$field}) && !empty($this->{$field})) {
+						$this->{$field} = decryptString((string)$this->{$field}, $this->cryptoKey);
+					}
+					if ($this->{$field} === false) {
+						$this->{$field} = 'decryptError';
+					}
+				}
 
 				$this->setType = 'UPDATE';
 				$this->existed = true;
@@ -445,28 +464,59 @@
 
 		public function set() {
 
+			$attr = array(
+				'staffId' => $this->dbStaffId,
+				'businessId' => $this->businessId,
+				'firstName' => $this->firstName,
+				'lastName' => $this->lastName,
+				'profilePicture' => $this->profilePicture,
+				'jobTitle' => $this->jobTitle,
+				'bio' => $this->bio,
+				'payrollAddress1' => $this->payrollAddress1,
+				'payrollAddress2' => $this->payrollAddress2,
+				'payrollState' => $this->payrollState,
+				'payrollCity' => $this->payrollCity,
+				'payrollZipCode' => $this->payrollZipCode,
+				'overridePayrollType' => $this->overridePayrollType,
+				'overrideHourlyRate' => $this->overrideHourlyRate,
+				'overridePerJobRate' => $this->overridePerJobRate,
+				'overrideJobPercentage' => $this->overrideJobPercentage,
+				'payrollDueCache' => $this->payrollDueCache,
+				'advancePaymentCache' => $this->advancePaymentCache,
+				'allowSignIn' => $this->allowSignIn,
+				'password' => $this->password,
+				'dateTimeAdded' => $this->dateTimeAdded
+			);
+
+			// Encrypt encrypted data
+			foreach ($this->fieldsToEncrypt as $field) {
+				if ($attr[$field] != NULL) {
+					$attr[$field] = encryptString((string)$attr[$field], $this->cryptoKey);
+				}
+			}
+
 			$attributes = array(
 				'staffId' => $this->db->sanitize($this->dbStaffId),
-				'businessId' => $this->db->sanitize($this->businessId),
-				'firstName' => $this->db->sanitize($this->firstName),
-				'lastName' => $this->db->sanitize($this->lastName),
-				'profilePicture' => $this->db->sanitize($this->profilePicture),
-				'jobTitle' => $this->db->sanitize($this->jobTitle),
-				'bio' => $this->db->sanitize($this->bio),
-				'payrollAddress1' => $this->db->sanitize($this->payrollAddress1),
-				'payrollAddress2' => $this->db->sanitize($this->payrollAddress2),
-				'payrollState' => $this->db->sanitize($this->payrollState),
-				'payrollCity' => $this->db->sanitize($this->payrollCity),
-				'payrollZipCode' => $this->db->sanitize($this->payrollZipCode),
-				'overridePayrollType' => $this->db->sanitize($this->overridePayrollType),
-				'overrideHourlyRate' => $this->db->sanitize($this->overrideHourlyRate),
-				'overridePerJobRate' => $this->db->sanitize($this->overridePerJobRate),
-				'overrideJobPercentage' => $this->db->sanitize($this->overrideJobPercentage),
-				'payrollDueCache' => $this->db->sanitize($this->payrollDueCache),
-				'advancePaymentCache' => $this->db->sanitize($this->advancePaymentCache),
-				'allowSignIn' => $this->db->sanitize($this->allowSignIn),
-				'password' => $this->db->sanitize($this->password),
-				'dateTimeAdded' => $this->db->sanitize($this->dateTimeAdded)
+				'businessId' => $this->db->sanitize($attr['businessId']),
+				'firstName' => $this->db->sanitize($attr['firstName']),
+				'lastName' => $this->db->sanitize($attr['lastName']),
+				'profilePicture' => $this->db->sanitize($attr['profilePicture']),
+				'jobTitle' => $this->db->sanitize($attr['jobTitle']),
+				'bio' => $this->db->sanitize($attr['bio']),
+				'payrollAddress1' => $this->db->sanitize($attr['payrollAddress1']),
+				'payrollAddress2' => $this->db->sanitize($attr['payrollAddress2']),
+				'payrollState' => $this->db->sanitize($attr['payrollState']),
+				'payrollCity' => $this->db->sanitize($attr['payrollCity']),
+				'payrollZipCode' => $this->db->sanitize($attr['payrollZipCode']),
+				'overridePayrollType' => $this->db->sanitize($attr['overridePayrollType']),
+				'overrideHourlyRate' => $this->db->sanitize($attr['overrideHourlyRate']),
+				'overridePerJobRate' => $this->db->sanitize($attr['overridePerJobRate']),
+				'overrideJobPercentage' => $this->db->sanitize($attr['overrideJobPercentage']),
+				'payrollDueCache' => $this->db->sanitize($attr['payrollDueCache']),
+				'advancePaymentCache' => $this->db->sanitize($attr['advancePaymentCache']),
+				'allowSignIn' => $this->db->sanitize($attr['allowSignIn']),
+				'password' => $this->db->sanitize($attr['password']),
+				'dateTimeAdded' => $this->db->sanitize($attr['dateTimeAdded'])
 			);
 
 			if ($this->setType == 'UPDATE') {

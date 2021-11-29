@@ -9,6 +9,9 @@
 		
 		public bool $existed; // Can be used to see whether the given entity existed already at the time of instantiation
 
+		private $cryptoKey;
+		private $fieldsToEncrypt = array('email', 'description');
+
 		// Main database attributes
 		public $customerEmailAddressId;
 		public $businessId;
@@ -46,6 +49,11 @@
 
 		function __construct(string $customerEmailAddressId = '') {
 
+			// Include encryption tools since this class contains encrypted data
+			require_once dirname(__FILE__)."/../etc/crypto/encryptString.php";
+			require_once dirname(__FILE__)."/../etc/crypto/decryptString.php";
+			$this->cryptoKey = include dirname(__FILE__)."/../../config/cryptoKey.php";
+
 			// Connect to the database
 			require_once dirname(__FILE__)."/../database.php";
 			$this->db = new database;
@@ -61,6 +69,16 @@
 				$this->email = $fetch[0]['email'];
 				$this->description = $fetch[0]['description'];
 				$this->dateTimeAdded = $fetch[0]['dateTimeAdded'];
+
+				// Decrypt encrypted data
+				foreach ($this->fieldsToEncrypt as $field) {
+					if (!is_null($this->{$field}) && !empty($this->{$field})) {
+						$this->{$field} = decryptString((string)$this->{$field}, $this->cryptoKey);
+					}
+					if ($this->{$field} === false) {
+						$this->{$field} = 'decryptError';
+					}
+				}
 
 				$this->setType = 'UPDATE';
 				$this->existed = true;
@@ -90,13 +108,29 @@
 
 		public function set() {
 
+			$attr = array(
+				'customerEmailAddressId' => $this->dbCustomerEmailAddressId,
+				'businessId' => $this->businessId,
+				'customerId' => $this->customerId,
+				'email' => $this->email,
+				'description' => $this->description,
+				'dateTimeAdded' => $this->dateTimeAdded
+			);
+
+			// Encrypt encrypted data
+			foreach ($this->fieldsToEncrypt as $field) {
+				if ($attr[$field] != NULL) {
+					$attr[$field] = encryptString((string)$attr[$field], $this->cryptoKey);
+				}
+			}
+
 			$attributes = array(
 				'customerEmailAddressId' => $this->db->sanitize($this->dbCustomerEmailAddressId),
-				'businessId' => $this->db->sanitize($this->businessId),
-				'customerId' => $this->db->sanitize($this->customerId),
-				'email' => $this->db->sanitize($this->email),
-				'description' => $this->db->sanitize($this->description),
-				'dateTimeAdded' => $this->db->sanitize($this->dateTimeAdded)
+				'businessId' => $this->db->sanitize($attr['businessId']),
+				'customerId' => $this->db->sanitize($attr['customerId']),
+				'email' => $this->db->sanitize($attr['email']),
+				'description' => $this->db->sanitize($attr['description']),
+				'dateTimeAdded' => $this->db->sanitize($attr['dateTimeAdded'])
 			);
 
 			if ($this->setType == 'UPDATE') {

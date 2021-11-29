@@ -33,9 +33,9 @@
             <div style="margin-left: 2em; margin-right: 2em;">
                 <?php
 
-                    require_once '../../../lib/table/customer.php';
+                    // require_once '../../../lib/table/customer.php';
 
-                    $customer = new customer('357461a2cd78d9d08');
+                    // $customer = new customer();
 
                     // $customer->firstName = 'Susybell';
                     // $customer->lastName = 'Whistlebritches';
@@ -44,18 +44,46 @@
                     // $customer->billAddress2 = 'PO Box somewhere';
                     // $customer->billState = 'Virginia';
                     // $customer->billCity = 'Arlington';
-                    // $customer->billZipCode = 22207;
+                    // $customer->billZipCode = NULL;
 
 
                     // $customer->set();
 
-                    echo '<p>'.htmlspecialchars($customer->customerId).'</p>';
-                    echo '<p>'.htmlspecialchars($customer->firstName).' '.htmlspecialchars($customer->firstName).'</p>';
-                    echo '<p>'.htmlspecialchars($customer->billAddress1).'</p>';
-                    echo '<p>'.htmlspecialchars($customer->billAddress2).'</p>';
-                    echo '<p>'.htmlspecialchars($customer->billState).'</p>';
-                    echo '<p>'.htmlspecialchars($customer->billCity).'</p>';
-                    echo '<p>'.htmlspecialchars($customer->billZipCode).'</p>';
+                    // echo '<p>'.htmlspecialchars($customer->customerId).'</p>';
+                    // echo '<p>'.htmlspecialchars($customer->firstName).' '.htmlspecialchars($customer->lastName).'</p>';
+                    // echo '<p>'.htmlspecialchars($customer->billAddress1).'</p>';
+                    // echo '<p>'.htmlspecialchars($customer->billAddress2).'</p>';
+                    // echo '<p>'.htmlspecialchars($customer->billState).'</p>';
+                    // echo '<p>'.htmlspecialchars($customer->billCity).'</p>';
+                    // echo '<p>'.htmlspecialchars($customer->billZipCode).'</p>';
+
+                    // -----------------------------------------------------------------------------------------------------------------------------------------------
+
+                    // require_once '../../../lib/table/admin.php';
+
+                    // $admin = new admin('40261a2e60e2309b');
+
+                    // $admin->firstName = 'Cameron';
+                    // $admin->lastName = 'McGehee';
+
+                    // $admin->set();
+
+                    // echo '<p>'.htmlspecialchars($admin->adminId).'</p>';
+                    // echo '<p>'.htmlspecialchars($admin->firstName).' '.htmlspecialchars($admin->lastName).'</p>';
+
+                    // -----------------------------------------------------------------------------------------------------------------------------------------------
+
+                    // require_once '../../../lib/table/business.php';
+
+                    // $business = new business('691661a305e702984');
+
+                    // $business->displayName = "C's Test Business";
+                    // $business->adminDisplayName = 'Test Business';
+
+                    // $business->set();
+
+                    // echo '<p>'.htmlspecialchars($business->businessId).'</p>';
+                    // echo '<p>'.htmlspecialchars($business->displayName).' '.htmlspecialchars($business->adminDisplayName).'</p>';
 
                 ?>
             </div>

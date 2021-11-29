@@ -9,6 +9,9 @@
 		
 		public bool $existed; // Can be used to see whether the given entity existed already at the time of instantiation
 
+		private $cryptoKey;
+		private $fieldsToEncrypt = array('phonePrefix', 'phone1', 'phone2', 'phone3', 'description');
+
 		// Main database attributes
 		public $customerPhoneNumberId;
 		public $businessId;
@@ -52,6 +55,11 @@
 
 		function __construct(string $customerPhoneNumberId = '') {
 
+			// Include encryption tools since this class contains encrypted data
+			require_once dirname(__FILE__)."/../etc/crypto/encryptString.php";
+			require_once dirname(__FILE__)."/../etc/crypto/decryptString.php";
+			$this->cryptoKey = include dirname(__FILE__)."/../../config/cryptoKey.php";
+
 			// Connect to the database
 			require_once dirname(__FILE__)."/../database.php";
 			$this->db = new database;
@@ -70,6 +78,16 @@
 				$this->phone3 = $fetch[0]['phone3'];
 				$this->description = $fetch[0]['description'];
 				$this->dateTimeAdded = $fetch[0]['dateTimeAdded'];
+
+				// Decrypt encrypted data
+				foreach ($this->fieldsToEncrypt as $field) {
+					if (!is_null($this->{$field}) && !empty($this->{$field})) {
+						$this->{$field} = decryptString((string)$this->{$field}, $this->cryptoKey);
+					}
+					if ($this->{$field} === false) {
+						$this->{$field} = 'decryptError';
+					}
+				}
 
 				$this->setType = 'UPDATE';
 				$this->existed = true;
@@ -99,16 +117,35 @@
 
 		public function set() {
 
+			$attr = array(
+				'customerPhoneNumberId' => $this->dbCustomerPhoneNumberId,
+				'businessId' => $this->businessId,
+				'customerId' => $this->customerId,
+				'phonePrefix' => $this->phonePrefix,
+				'phone1' => $this->phone1,
+				'phone2' => $this->phone2,
+				'phone3' => $this->phone3,
+				'description' => $this->description,
+				'dateTimeAdded' => $this->dateTimeAdded
+			);
+
+			// Encrypt encrypted data
+			foreach ($this->fieldsToEncrypt as $field) {
+				if ($attr[$field] != NULL) {
+					$attr[$field] = encryptString((string)$attr[$field], $this->cryptoKey);
+				}
+			}
+
 			$attributes = array(
 				'customerPhoneNumberId' => $this->db->sanitize($this->dbCustomerPhoneNumberId),
-				'businessId' => $this->db->sanitize($this->businessId),
-				'customerId' => $this->db->sanitize($this->customerId),
-				'phonePrefix' => $this->db->sanitize($this->phonePrefix),
-				'phone1' => $this->db->sanitize($this->phone1),
-				'phone2' => $this->db->sanitize($this->phone2),
-				'phone3' => $this->db->sanitize($this->phone3),
-				'description' => $this->db->sanitize($this->description),
-				'dateTimeAdded' => $this->db->sanitize($this->dateTimeAdded)
+				'businessId' => $this->db->sanitize($attr['businessId']),
+				'customerId' => $this->db->sanitize($attr['customerId']),
+				'phonePrefix' => $this->db->sanitize($attr['phonePrefix']),
+				'phone1' => $this->db->sanitize($attr['phone1']),
+				'phone2' => $this->db->sanitize($attr['phone2']),
+				'phone3' => $this->db->sanitize($attr['phone3']),
+				'description' => $this->db->sanitize($attr['description']),
+				'dateTimeAdded' => $this->db->sanitize($attr['dateTimeAdded'])
 			);
 
 			if ($this->setType == 'UPDATE') {

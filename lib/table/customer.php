@@ -396,37 +396,62 @@
 
 		public function set() {
 
-			$attributes = array(
-				'customerId' => $this->db->sanitize($this->dbCustomerId),
-				'businessId' => $this->db->sanitize($this->businessId),
-				'firstName' => $this->db->sanitize($this->firstName),
-				'lastName' => $this->db->sanitize($this->lastName),
-				'billAddress1' => $this->db->sanitize($this->billAddress1),
-				'billAddress2' => $this->db->sanitize($this->billAddress2),
-				'billCity' => $this->db->sanitize($this->billCity),
-				'billState' => $this->db->sanitize($this->billState),
-				'billZipCode' => $this->db->sanitize($this->billZipCode),
-				'creditCache' => $this->db->sanitize($this->creditCache),
-				'overrideCreditAlertIsEnabled' => $this->db->sanitize($this->overrideCreditAlertIsEnabled),
-				'overrideCreditAlertAmount' => $this->db->sanitize($this->overrideCreditAlertAmount),
-				'overrideAutoApplyCredit' => $this->db->sanitize($this->overrideAutoApplyCredit),
-				'balanceCache' => $this->db->sanitize($this->balanceCache),
-				'overrideBalanceAlertIsEnabled' => $this->db->sanitize($this->overrideBalanceAlertIsEnabled),
-				'overrideBalanceAlertAmount' => $this->db->sanitize($this->overrideBalanceAlertAmount),
-				'allowCZSignIn' => $this->db->sanitize($this->allowCZSignIn),
-				'password' => $this->db->sanitize($this->password),
-				'discountPercent' => $this->db->sanitize($this->discountPercent),
-				'overridePaymentTerm' => $this->db->sanitize($this->overridePaymentTerm),
-				'notes' => $this->db->sanitize($this->notes),
-				'dateTimeAdded' => $this->db->sanitize($this->dateTimeAdded)
+			$attr = array(
+				'customerId' => $this->dbCustomerId,
+				'businessId' => $this->businessId,
+				'firstName' => $this->firstName,
+				'lastName' => $this->lastName,
+				'billAddress1' => $this->billAddress1,
+				'billAddress2' => $this->billAddress2,
+				'billCity' => $this->billCity,
+				'billState' => $this->billState,
+				'billZipCode' => $this->billZipCode,
+				'creditCache' => $this->creditCache,
+				'overrideCreditAlertIsEnabled' => $this->overrideCreditAlertIsEnabled,
+				'overrideCreditAlertAmount' => $this->overrideCreditAlertAmount,
+				'overrideAutoApplyCredit' => $this->overrideAutoApplyCredit,
+				'balanceCache' => $this->balanceCache,
+				'overrideBalanceAlertIsEnabled' => $this->overrideBalanceAlertIsEnabled,
+				'overrideBalanceAlertAmount' => $this->overrideBalanceAlertAmount,
+				'allowCZSignIn' => $this->allowCZSignIn,
+				'password' => $this->password,
+				'discountPercent' => $this->discountPercent,
+				'overridePaymentTerm' => $this->overridePaymentTerm,
+				'notes' => $this->notes,
+				'dateTimeAdded' => $this->dateTimeAdded
 			);
 
 			// Encrypt encrypted data
 			foreach ($this->fieldsToEncrypt as $field) {
-				if (gettype($attributes[$field]) == 'string' && $attributes[$field] != 'NULL') {
-					$attributes[$field] = encryptString((string)$attributes[$field], $this->cryptoKey);
+				if ($attr[$field] != NULL) {
+					$attr[$field] = encryptString((string)$attr[$field], $this->cryptoKey);
 				}
 			}
+
+			$attributes = array(
+				'customerId' => $this->db->sanitize($this->dbCustomerId),
+				'businessId' => $this->db->sanitize($attr['businessId']),
+				'firstName' => $this->db->sanitize($attr['firstName']),
+				'lastName' => $this->db->sanitize($attr['lastName']),
+				'billAddress1' => $this->db->sanitize($attr['billAddress1']),
+				'billAddress2' => $this->db->sanitize($attr['billAddress2']),
+				'billCity' => $this->db->sanitize($attr['billCity']),
+				'billState' => $this->db->sanitize($attr['billState']),
+				'billZipCode' => $this->db->sanitize($attr['billZipCode']),
+				'creditCache' => $this->db->sanitize($attr['creditCache']),
+				'overrideCreditAlertIsEnabled' => $this->db->sanitize($attr['overrideCreditAlertIsEnabled']),
+				'overrideCreditAlertAmount' => $this->db->sanitize($attr['overrideCreditAlertAmount']),
+				'overrideAutoApplyCredit' => $this->db->sanitize($attr['overrideAutoApplyCredit']),
+				'balanceCache' => $this->db->sanitize($attr['balanceCache']),
+				'overrideBalanceAlertIsEnabled' => $this->db->sanitize($attr['overrideBalanceAlertIsEnabled']),
+				'overrideBalanceAlertAmount' => $this->db->sanitize($attr['overrideBalanceAlertAmount']),
+				'allowCZSignIn' => $this->db->sanitize($attr['allowCZSignIn']),
+				'password' => $this->db->sanitize($attr['password']),
+				'discountPercent' => $this->db->sanitize($attr['discountPercent']),
+				'overridePaymentTerm' => $this->db->sanitize($attr['overridePaymentTerm']),
+				'notes' => $this->db->sanitize($attr['notes']),
+				'dateTimeAdded' => $this->db->sanitize($attr['dateTimeAdded'])
+			);
 
 			if ($this->setType == 'UPDATE') {
 				// Update the values in the database after sanitizing them
