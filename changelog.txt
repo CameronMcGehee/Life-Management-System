@@ -31,10 +31,11 @@ v0.1.5 - 11-25-2021:
         - Move standalone pages in admin directory into their own folders
 v0.1.6 - 11-26-2021:
     - Goodies
-        - Login page now shows errors under inputs instead of just reloading page
+        - Admin: Login page now shows errors under inputs instead of just reloading page
+        - Admin: Edit business page now shows status of changes and alerts that there are unsaved changes
     - Techies
-        - Login page now uses asyncronus script (ajax) instead of a redirect to a script
+        - Admin: Login page now uses asyncronus script (ajax) instead of a redirect to a script
         - Removed extName attributes in business settings database and class as they will not be used
-        - Removed surname from any table/class that had it as is will not be used
-        - Many fields in database changed from varchar to text for UX and encryption purposes
+        - Removed surname from any table/class that had it as it will not be used
+        - Many fields in database changed from varchar to text for UX and encryption purposes (not in update file, just drop and rebuild the database with /public/install.php)
         - Data encryption for sensitive data using AES-256-cbc
