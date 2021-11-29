@@ -341,16 +341,16 @@
 			}
 
 			$attributes = array(
-				'adminId' => $this->db->sanitize($this->dbAdminId),
-				'username' => $this->db->sanitize($this->username),
-				'password' => $this->db->sanitize($this->password),
-				'email' => $this->db->sanitize($this->email),
-				'firstName' => $this->db->sanitize($this->firstName),
-				'lastName' => $this->db->sanitize($this->lastName),
-				'profilePicture' => $this->db->sanitize($this->profilePicture),
-				'allowSignIn' => $this->db->sanitize($this->allowSignIn),
-				'dateTimeJoined' => $this->db->sanitize($this->dateTimeJoined),
-				'dateTimeLeft' => $this->db->sanitize($this->dateTimeLeft)
+				'adminId' => $this->db->sanitize($attr['dbAdminId']),
+				'username' => $this->db->sanitize($attr['username']),
+				'password' => $this->db->sanitize($attr['password']),
+				'email' => $this->db->sanitize($attr['email']),
+				'firstName' => $this->db->sanitize($attr['firstName']),
+				'lastName' => $this->db->sanitize($attr['lastName']),
+				'profilePicture' => $this->db->sanitize($attr['profilePicture']),
+				'allowSignIn' => $this->db->sanitize($attr['allowSignIn']),
+				'dateTimeJoined' => $this->db->sanitize($attr['dateTimeJoined']),
+				'dateTimeLeft' => $this->db->sanitize($attr['dateTimeLeft'])
 			);
 
 			if ($this->setType == 'UPDATE') {

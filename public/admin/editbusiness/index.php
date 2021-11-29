@@ -50,7 +50,13 @@
 		var formOutput;
 		var url = new URL(window.location.href);
 
-		$(document).ready(function() {
+		$(function() {
+
+			function setUnsaved() {
+				$("#changesMessage").html('<span style="color: red;">You have unsaved changes.</span>');
+				$("#changesMessage").shake(50);
+			}
+
 			if ($.isNumeric(url.searchParams.get('fsl'))) {
 				$("#twoColContentWrapper").scrollTop(url.searchParams.get('fsl'));
 			}
@@ -80,6 +86,10 @@
 
 					$('.loadingGif').fadeOut(100);
 				});
+			});
+
+			$("#editBusinessForm input").change(function () {
+				setUnsaved();
 			});
 		});
 	</script>
@@ -111,9 +121,12 @@
 
 						<!-- <br> -->
 
-						<span class="desktopOnlyBlock"><button class="mediumButtonWrapper greenButton centered defaultMainShadows" type="submit">Save Changes</button>
+						<span class="desktopOnlyBlock">
+							<button class="mediumButtonWrapper greenButton centered defaultMainShadows" type="submit">Save Changes</button>
 							<br><br>
 							<img style="display: none; width: 3em;" src="../../images/ultiscape/etc/loading.gif" class="loadingGif">
+							
+							<div id="changesMessage"><span style="color: green;">Up to date ✔</span></div>
 						</span>
 
 					</div>
