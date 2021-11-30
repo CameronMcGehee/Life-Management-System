@@ -237,15 +237,15 @@
 
 			// Eventually will add checks to see if the currently selected business has the modules enabled for the buttons to show accordingly
 
-			$output .= '<a class="noUnderline sideBarButton defaultAll4InsetShadow" id="button1" href="'.$rootPathPrefix.'admin/customers"><img src="'.$rootPathPrefix.'images/ultiscape/icons/users.svg"><p>Customers</p></a>
+			$output .= '<a class="noUnderline sideBarButton defaultAll4InsetShadow aniBold" id="button1" href="'.$rootPathPrefix.'admin/customers"><img src="'.$rootPathPrefix.'images/ultiscape/icons/users.svg"><p>Customers</p></a>
 			';
-			$output .= '<a class="noUnderline sideBarButton defaultAll4InsetShadow" id="button2" href="'.$rootPathPrefix.'admin/communications"><img src="'.$rootPathPrefix.'images/ultiscape/icons/thread.svg"><p>Communications</p></a>
+			$output .= '<a class="noUnderline sideBarButton defaultAll4InsetShadow aniBold" id="button2" href="'.$rootPathPrefix.'admin/communications"><img src="'.$rootPathPrefix.'images/ultiscape/icons/thread.svg"><p>Communications</p></a>
 			';
-			$output .= '<a class="noUnderline sideBarButton defaultAll4InsetShadow" id="button3" href="'.$rootPathPrefix.'admin/jobs"><img src="'.$rootPathPrefix.'images/ultiscape/icons/calendar_month.svg"><p>Jobs</p></a>
+			$output .= '<a class="noUnderline sideBarButton defaultAll4InsetShadow aniBold" id="button3" href="'.$rootPathPrefix.'admin/jobs"><img src="'.$rootPathPrefix.'images/ultiscape/icons/calendar_month.svg"><p>Jobs</p></a>
 			';
-			$output .= '<a class="noUnderline sideBarButton defaultAll4InsetShadow" id="button4" href="'.$rootPathPrefix.'admin/documents"><img src="'.$rootPathPrefix.'images/ultiscape/icons/document.svg"><p>Documents</p></a>
+			$output .= '<a class="noUnderline sideBarButton defaultAll4InsetShadow aniBold" id="button4" href="'.$rootPathPrefix.'admin/documents"><img src="'.$rootPathPrefix.'images/ultiscape/icons/document.svg"><p>Documents</p></a>
 			';
-			$output .= '<a class="noUnderline sideBarButton defaultAll4InsetShadow" id="button5"><img src="'.$rootPathPrefix.'images/ultiscape/icons/drag.svg"><p>More...</p></a>
+			$output .= '<a class="noUnderline sideBarButton defaultAll4InsetShadow aniBold" id="button5"><img src="'.$rootPathPrefix.'images/ultiscape/icons/drag.svg"><p>More...</p></a>
 			';
 
 			// Bottom links
@@ -256,7 +256,7 @@
 			$output .= '<div id="sideBarMoreMenu">
 			';
 			// More menu items
-			$output .= '<a class="sideBarButton defaultAll4InsetShadow" id="button6" href="'.$rootPathPrefix.'admin/inventory"><img src="'.$rootPathPrefix.'images/ultiscape/icons/archive.svg"><p>Inventory</p></a>
+			$output .= '<a class="noUnderline sideBarButton defaultAll4InsetShadow aniBold" id="button6" href="'.$rootPathPrefix.'admin/inventory"><img src="'.$rootPathPrefix.'images/ultiscape/icons/archive.svg"><p>Inventory</p></a>
 			';
 			// End More menu
 			$output .= '</div>

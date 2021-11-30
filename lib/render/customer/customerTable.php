@@ -41,10 +41,20 @@
             // Get count for page count
             $selectAll = $this->db->select('customer', "COUNT(customerId) AS num", "WHERE businessId = '".$_SESSION['ultiscape_businessId']."'");
 
+            // Start div for table header (create customer button and nav)
+            $this->output .= '<div class="twoCol">';
+
+            // Render the add customer button
+
+            $this->output .= '<div class="yCenteredFlex"><a class="smallButtonWrapper greenButton noUnderline yCenteredFlex" href="'.$this->rootPathPrefix.'customers/create">➕ New</a></div>';
+            
             // Render the page navigator
             $pageNav = new pageNavigator(ceil(($selectAll[0]['num'] / $this->perPage)), $this->page, './', 'p', 'text-align: right; padding: .2em;');
             $pageNav->render();
-            $this->output .= $pageNav->output.'';
+            $this->output .= '<div>'.$pageNav->output.'</div>';
+
+            // End div for table header
+            $this->output .= '</div>';
 
             // Get actual results
             if (empty($this->queryParams)) {
@@ -56,14 +66,14 @@
             $this->currentBusiness->pullCustomers($params);
 			
 			if (count($this->currentBusiness->customers) < 1) {
-				$this->output = '<table class="defaultTable" style="width: 100%; max-width: 100%;"><tr><td class="lax">No customers...</td></tr></table>
+				$this->output = '<table class="defaultTable"><tr><td class="la">No customers...</td></tr></table>
                 ';
                 return;
 			}
 
-			$this->output .= '<table class="defaultTable" style="width: 100%; max-width: 100%; margin-top: .5em;">
+			$this->output .= '<table class="defaultTable" style="margin-top: .5em;">
             ';
-			$this->output .= '<tr><th class="lax" style="text-decoration: underline;">Name</th><th class="lax" style="text-decoration: underline;">Email(s)</th><th class="lax" style="text-decoration: underline;">Phone Number(s)</th><th class="lax" style="text-decoration: underline;">Billing Address</th></tr>
+			$this->output .= '<tr><th class="la nrb">Name</th><th class="ca desktopOnlyTable-cell nrb nlb">Email(s)</th><th class="ca desktopOnlyTable-cell nrb nlb">Phone Number(s)</th><th class="ca desktopOnlyTable-cell nlb">Billing Address</th><th class="ca mobileOnlyTable-cell nlb">Contact</th></tr>
             ';
 			
 			foreach ($this->currentBusiness->customers as $customerId) {
@@ -71,6 +81,8 @@
                 $customer = new customer($customerId);
                 $customer->pullEmailAddresses();
                 $customer->pullPhoneNumbers();
+
+                $mobileInfo = '';
 
                 $email = '';
                 if (count($customer->emailAddresses) < 1) {
@@ -97,9 +109,38 @@
                     }
                 }
 
-				$billaddress = htmlspecialchars($customer->billAddress1).' '.htmlspecialchars($customer->billCity).', '.htmlspecialchars($customer->billState).', '.htmlspecialchars($customer->billZipCode);
+                $billaddress = '';
 
-				$this->output .= '<tr><td class="lax"><a href="'.$this->rootPathPrefix.'customers/customer?id='.htmlspecialchars($customer->customerId).'">'.htmlspecialchars($customer->firstName).' '.htmlspecialchars($customer->lastName).'</a></td><td class="lax">'.$email.'</td><td class="lax">'.$phone.'</td><td class="lax">'.$billaddress.'</td></tr>
+                if (!empty($customer->billAddress1)) {
+                    $billaddress .= htmlspecialchars($customer->billAddress1);
+                    if (!empty($customer->billAddress2)) {
+                        $billaddress .= '<br>';
+                    }
+                }
+                if (!empty($customer->billAddress2)) {
+                    $billaddress .= htmlspecialchars($customer->billAddress2);
+                    if (!empty($customer->billCity) || !empty($customer->billState) || !empty($customer->billZipCode)) {
+                        $billaddress .= '<br>';
+                    }
+                }
+                if (!empty($customer->billCity)) {
+                    $billaddress .= htmlspecialchars($customer->billCity);
+                    if (!empty($customer->billState)) {
+                        $billaddress .= ', ';
+                    }
+                }
+                if (!empty($customer->billState)) {
+                    $billaddress .= htmlspecialchars($customer->billState);
+                }
+                if (!empty($customer->billZipCode)) {
+                    $billaddress .= ' '.htmlspecialchars($customer->billZipCode).'';
+                }
+
+                if ($billaddress == '') {
+                    $billaddress = '<span style="color: red;">Not on file.</span>';
+                }
+
+				$this->output .= '<tr><td class="la nrb"><a href="'.$this->rootPathPrefix.'customers/customer?id='.htmlspecialchars($customer->customerId).'">'.htmlspecialchars($customer->firstName).' '.htmlspecialchars($customer->lastName).'</a></td><td class="la desktopOnlyTable-cell nlb nrb">'.$email.'</td><td class="la desktopOnlyTable-cell nrb nlb">'.$phone.'</td><td class="la desktopOnlyTable-cell nlb">'.$billaddress.'</td><td class="la mobileOnlyTable-cell nlb">'.$mobileInfo.'</td></tr>
                 ';
 			
             }

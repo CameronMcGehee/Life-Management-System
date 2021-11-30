@@ -35,27 +35,29 @@
 
                     require_once '../../../lib/table/customer.php';
 
-                    $customer = new customer();
+                    for ($x = 0; $x <= 1000; $x++) {
+                        $customer = new customer();
 
-                    $customer->firstName = 'Test';
-                    $customer->lastName = 'Person'.uniqid();
+                        $customer->firstName = 'Test';
+                        $customer->lastName = 'Person'.uniqid();
+    
+                        $customer->billAddress1 = '3505 N. Quebec St.';
+                        $customer->billAddress2 = 'PO Box somewhere';
+                        $customer->billState = 'Virginia';
+                        $customer->billCity = 'Arlington';
+                        $customer->billZipCode = 22207;
+    
+    
+                        $customer->set();
+                    }
 
-                    // $customer->billAddress1 = '3505 N. Quebec St.';
-                    // $customer->billAddress2 = 'PO Box somewhere';
-                    // $customer->billState = 'Virginia';
-                    // $customer->billCity = 'Arlington';
-                    // $customer->billZipCode = NULL;
-
-
-                    $customer->set();
-
-                    echo '<p>'.htmlspecialchars($customer->customerId).'</p>';
-                    echo '<p>'.htmlspecialchars($customer->firstName).' '.htmlspecialchars($customer->lastName).'</p>';
-                    echo '<p>'.htmlspecialchars($customer->billAddress1).'</p>';
-                    echo '<p>'.htmlspecialchars($customer->billAddress2).'</p>';
-                    echo '<p>'.htmlspecialchars($customer->billState).'</p>';
-                    echo '<p>'.htmlspecialchars($customer->billCity).'</p>';
-                    echo '<p>'.htmlspecialchars($customer->billZipCode).'</p>';
+                    // echo '<p>'.htmlspecialchars($customer->customerId).'</p>';
+                    // echo '<p>'.htmlspecialchars($customer->firstName).' '.htmlspecialchars($customer->lastName).'</p>';
+                    // echo '<p>'.htmlspecialchars($customer->billAddress1).'</p>';
+                    // echo '<p>'.htmlspecialchars($customer->billAddress2).'</p>';
+                    // echo '<p>'.htmlspecialchars($customer->billState).'</p>';
+                    // echo '<p>'.htmlspecialchars($customer->billCity).'</p>';
+                    // echo '<p>'.htmlspecialchars($customer->billZipCode).'</p>';
 
                     // -----------------------------------------------------------------------------------------------------------------------------------------------
 
