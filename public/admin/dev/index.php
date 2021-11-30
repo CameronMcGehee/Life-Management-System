@@ -33,12 +33,12 @@
             <div style="margin-left: 2em; margin-right: 2em;">
                 <?php
 
-                    // require_once '../../../lib/table/customer.php';
+                    require_once '../../../lib/table/customer.php';
 
-                    // $customer = new customer();
+                    $customer = new customer();
 
-                    // $customer->firstName = 'Susybell';
-                    // $customer->lastName = 'Whistlebritches';
+                    $customer->firstName = 'Test';
+                    $customer->lastName = 'Person'.uniqid();
 
                     // $customer->billAddress1 = '3505 N. Quebec St.';
                     // $customer->billAddress2 = 'PO Box somewhere';
@@ -47,15 +47,15 @@
                     // $customer->billZipCode = NULL;
 
 
-                    // $customer->set();
+                    $customer->set();
 
-                    // echo '<p>'.htmlspecialchars($customer->customerId).'</p>';
-                    // echo '<p>'.htmlspecialchars($customer->firstName).' '.htmlspecialchars($customer->lastName).'</p>';
-                    // echo '<p>'.htmlspecialchars($customer->billAddress1).'</p>';
-                    // echo '<p>'.htmlspecialchars($customer->billAddress2).'</p>';
-                    // echo '<p>'.htmlspecialchars($customer->billState).'</p>';
-                    // echo '<p>'.htmlspecialchars($customer->billCity).'</p>';
-                    // echo '<p>'.htmlspecialchars($customer->billZipCode).'</p>';
+                    echo '<p>'.htmlspecialchars($customer->customerId).'</p>';
+                    echo '<p>'.htmlspecialchars($customer->firstName).' '.htmlspecialchars($customer->lastName).'</p>';
+                    echo '<p>'.htmlspecialchars($customer->billAddress1).'</p>';
+                    echo '<p>'.htmlspecialchars($customer->billAddress2).'</p>';
+                    echo '<p>'.htmlspecialchars($customer->billState).'</p>';
+                    echo '<p>'.htmlspecialchars($customer->billCity).'</p>';
+                    echo '<p>'.htmlspecialchars($customer->billZipCode).'</p>';
 
                     // -----------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -84,6 +84,46 @@
 
                     // echo '<p>'.htmlspecialchars($business->businessId).'</p>';
                     // echo '<p>'.htmlspecialchars($business->displayName).' '.htmlspecialchars($business->adminDisplayName).'</p>';
+
+                    // -----------------------------------------------------------------------------------------------------------------------------------------------
+
+                    // require_once '../../../lib/render/customer/customerTable.php';
+
+                    // $customerTable = new customerTable();
+
+                    // $customerTable->rootPathPrefix = '../';
+
+                    // $customerTable->render();
+
+                    // echo $customerTable->output;
+
+                    // // echo '<p>'.htmlspecialchars($business->businessId).'</p>';
+                    // // echo '<p>'.htmlspecialchars($business->displayName).' '.htmlspecialchars($business->adminDisplayName).'</p>';
+
+                    // -----------------------------------------------------------------------------------------------------------------------------------------------
+
+                    // require_once '../../../lib/table/customerEmailAddress.php';
+
+                    // $customerEmailAddress = new customerEmailAddress();
+
+                    // $customerEmailAddress->customerId = '883461a30654657e5';
+                    // $customerEmailAddress->email = 'another@test2.com';
+
+                    // $customerEmailAddress->set();
+
+                    // -----------------------------------------------------------------------------------------------------------------------------------------------
+
+                    // require_once '../../../lib/table/customerPhoneNumber.php';
+
+                    // $customerPhoneNumber = new customerPhoneNumber();
+
+                    // $customerPhoneNumber->customerId = '883461a30654657e5';
+                    // $customerPhoneNumber->phonePrefix = '1';
+                    // $customerPhoneNumber->phone1 = '703';
+                    // $customerPhoneNumber->phone2 = '220';
+                    // $customerPhoneNumber->phone3 = '9158';
+
+                    // $customerPhoneNumber->set();
 
                 ?>
             </div>

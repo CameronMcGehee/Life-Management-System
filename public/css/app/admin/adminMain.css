@@ -30,13 +30,58 @@
 
 :root {
 	--utliscapeColorTheme: #65B200;
-	--peopleColorTheme: #199D00;
+	--customersColorTheme: #199D00;
 	--communicationsColorTheme: #b14646;
 	--jobsColorTheme: #008BC9;
 	--documentsColorTheme: #C98D00;
 	--inventoryColorTheme: #549D00;
 
 	--grayTextColorTheme: #444444;
+}
+
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/* Default <a> Styles */
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+
+a {
+	transition: color 300ms;
+	transition: font-weight 300ms;
+	text-decoration: none;
+	border: none;
+}
+
+/* unvisited link */
+a:link {
+	color: #126d00;
+	border-bottom: 1px dotted gray;
+}
+
+/* visited link */
+a:visited {
+	color: #126d00;
+	border-bottom: 1px dotted gray;
+}
+
+/* mouse over link */
+a:hover {
+	color: #199D00;
+	border-bottom: none;
+}
+
+a.aniBold:hover {
+	font-weight: bold;
+}
+
+/* selected link */
+a:active {
+	color: #147700;
+	border-bottom: none;
+}
+
+a.noUnderline {
+	border-bottom: none;
 }
 
 /*-----------------------------------------------------------------------------------------------------------------------------*/
@@ -240,10 +285,19 @@
 	"info"
 	"content";
 }
-.twoColPage-Info-Content #twoColInfoWrapper {
+.twoColPage-Content-Info {
+	display: grid;
+	grid-template-columns: 100%;
+	grid-template-rows: min-content min-content;
+	grid-template-areas:
+	"content"
+	"info";
+}
+
+.twoColPage-Info-Content #twoColInfoWrapper, .twoColPage-Content-Info #twoColInfoWrapper {
 	grid-area: info;
 }
-.twoColPage-Info-Content #twoColContentWrapper {
+.twoColPage-Info-Content #twoColContentWrapper, .twoColPage-Content-Info #twoColContentWrapper {
 	grid-area: content;
 }
 
@@ -407,7 +461,7 @@
 
 /*Styled Text Colors*/
 
-.textColorThemeGray p, .textColorThemePeople p, .textColorThemeCommunications p, .textColorThemeJobs p, .textColorThemeDocuments p, .textColorThemeInventory p {
+.textColorThemeGray p, .textColorThemeCustomers p, .textColorThemeCommunications p, .textColorThemeJobs p, .textColorThemeDocuments p, .textColorThemeInventory p {
 	color: #606060;
 }
 
@@ -415,8 +469,8 @@
 	color: var(--grayTextColorTheme);
 }
 
-.textColorThemePeople h1, .textColorThemePeople h2, .textColorThemePeople h3, .textColorThemePeople h4, .textColorThemePeople h5, .textColorThemePeople h6 {
-	color: var(--peopleColorTheme);
+.textColorThemeCustomers h1, .textColorThemeCustomers h2, .textColorThemeCustomers h3, .textColorThemeCustomers h4, .textColorThemeCustomers h5, .textColorThemeCustomers h6 {
+	color: var(--customersColorTheme);
 }
 
 .textColorThemeCommunications h1, .textColorThemeCommunications h2, .textColorThemeCommunications h3, .textColorThemeCommunications h4, .textColorThemeCommunications h5, .textColorThemeCommunications h6  {
@@ -446,7 +500,7 @@
 }
 
 .gradientRadialLeftPeople {
-	background-image: radial-gradient( circle farthest-corner at 10% 20%,  var(--peopleColorTheme) 0%, rgb(168, 239, 146) 90% );
+	background-image: radial-gradient( circle farthest-corner at 10% 20%,  var(--customersColorTheme) 0%, rgb(168, 239, 146) 90% );
 }
 .gradientRadialLeftCommunications {
 	background-image: radial-gradient( circle farthest-corner at 10% 20%,  var(--communicationsColorTheme) 0%, rgb(168, 239, 146) 90% );
@@ -667,6 +721,79 @@
 
 /*-----------------------------------------------------------------------------------------------------------------------------*/
 /*-----------------------------------------------------------------------------------------------------------------------------*/
+/* Tables */
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+
+.defaultTable {
+	border-collapse:collapse;
+	border-spacing:0;
+	border-color:#ccc;
+}
+
+.defaultTable td {
+	font-family:Arial, sans-serif;
+	font-size:14px;
+	padding:10px 5px;
+	border-style:solid;
+	border-width:1px;
+	overflow:hidden;
+	word-break:normal;
+	border-color:#ccc;
+	color:#333;
+	background-color:#fff;
+}
+
+.defaultTable th {
+	font-family:Arial, sans-serif;
+	font-size:14px;
+	font-weight:normal;
+	padding:10px 5px;
+	border-style:solid;
+	border-width:1px;
+	overflow:hidden;
+	word-break:normal;
+	border-color:#ccc;
+	color:#333;
+	background-color:#f0f0f0;
+}
+
+.defaultTable .lax {
+	text-align: left;
+	vertical-align: top;
+}
+
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/* Page Navigators */
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+
+.pageNavigator #currentPageButton {
+    padding: .15em;
+    background-color: #84e184;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: .15em;
+    border-color: #cccccc;
+    text-decoration: none;
+    color: black;
+}
+
+.pageNavigator #pageButton {
+    padding: .15em;
+    background-color: #f2f2f2;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: .15em;
+    border-color: #cccccc;
+    text-decoration: none;
+    color: black;
+}
+
+
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
 /* Website Init */
 /*-----------------------------------------------------------------------------------------------------------------------------*/
 /*-----------------------------------------------------------------------------------------------------------------------------*/
@@ -854,7 +981,7 @@ html, body {
 }
 
 .cmsSideBarWrapper .sideBarButton {
-	height: 3.9em;
+	height: 3.5em;
 	width: 100%;
 	color: white;
 	
@@ -876,15 +1003,15 @@ html, body {
 }
 
 .cmsSideBarWrapper img {
-	height: 3.4em;
-	width: 3.4em;
+	height: 3em;
+	width: 3em;
 	margin-left: 1.2em;
 
 	filter: brightness(100);
 }
 
 .cmsSideBarWrapper .sideBarButton#button1 {
-	background-color: var(--peopleColorTheme);
+	background-color: var(--customersColorTheme);
 }
 
 .cmsSideBarWrapper .sideBarButton#button2 {
@@ -1003,7 +1130,7 @@ html, body {
 }
 
 .cmsMobileNavBarWrapper .mobileNavBarButtonArray #button1 { /*Currently Customers Button*/
-	background-color: var(--peopleColorTheme);
+	background-color: var(--customersColorTheme);
 }
 
 .cmsMobileNavBarWrapper .mobileNavBarButtonArray #button2 { /*Currently Comunications Button*/
@@ -1096,14 +1223,22 @@ html, body {
 	}
 
 	.twoColPage-Info-Content {
-		grid-template-columns: 40% 60%;
+		grid-template-columns: 35% 65%;
 		grid-template-rows: 100%;
 		grid-template-areas: "info content";
+	}
+	.twoColPage-Content-Info {
+		grid-template-columns: 65% 35%;
+		grid-template-rows: 100%;
+		grid-template-areas: "content info";
 	}
 	.twoColPage-Info-Content #twoColInfoWrapper {
 		text-align: right;
 	}
-	.twoColPage-Info-Content #twoColContentWrapper {
+	.twoColPage-Content-Info #twoColInfoWrapper {
+		text-align: left;
+	}
+	.twoColPage-Info-Content #twoColContentWrapper, .twoColPage-Content-Info #twoColInfoWrapper {
 		overflow: auto;
 	}
 

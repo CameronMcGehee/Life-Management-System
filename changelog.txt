@@ -29,7 +29,7 @@ v0.1.5 - 11-25-2021:
     - Techies
         - Changed the way business plans are stored (again)
         - Move standalone pages in admin directory into their own folders
-v0.1.6 - 11-26-2021:
+v0.1.6 - 11-28-2021:
     - Goodies
         - Admin: Login page now shows errors under inputs instead of just reloading page
         - Admin: Edit business page now shows status of changes and alerts that there are unsaved changes
@@ -39,3 +39,12 @@ v0.1.6 - 11-26-2021:
         - Removed surname from any table/class that had it as it will not be used
         - Many fields in database changed from varchar to text for UX and encryption purposes (not in update file, just drop and rebuild the database with /public/install.php)
         - Data encryption for sensitive data using AES-256-cbc
+v0.1.7 - 11.29.2021:
+    - Goodies
+        - Smaller sidebar buttons, to fit more in the list on smaller displays
+        - Sidebar "People" button is now "Customers" button
+        - Themed color and animated text for links
+        - Customers page now shows a list of customers
+    - Techies
+        - render class
+        - customerTable render class

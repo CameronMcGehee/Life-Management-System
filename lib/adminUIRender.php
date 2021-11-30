@@ -68,7 +68,7 @@
 			$output .= '<div class="xyCenteredFlex" id="ultiscapeLogoWrapper">
 			';
 				if ($showLogo) {
-					$output .= '<a id="ultiscapeLogoImageWrapper" href="'.$rootPathPrefix.'"><img src="'.$rootPathPrefix.'images/ultiscape/logos/mainLogoTopBarWhiteTrans.png"></a>
+					$output .= '<a class="noUnderline" id="ultiscapeLogoImageWrapper" href="'.$rootPathPrefix.'"><img src="'.$rootPathPrefix.'images/ultiscape/logos/mainLogoTopBarWhiteTrans.png"></a>
 					';
 				}
 			$output .= '</div>
@@ -237,19 +237,19 @@
 
 			// Eventually will add checks to see if the currently selected business has the modules enabled for the buttons to show accordingly
 
-			$output .= '<a class="sideBarButton defaultAll4InsetShadow" id="button1" href="'.$rootPathPrefix.'admin/people"><img src="'.$rootPathPrefix.'images/ultiscape/icons/users.svg"><p>People</p></a>
+			$output .= '<a class="noUnderline sideBarButton defaultAll4InsetShadow" id="button1" href="'.$rootPathPrefix.'admin/customers"><img src="'.$rootPathPrefix.'images/ultiscape/icons/users.svg"><p>Customers</p></a>
 			';
-			$output .= '<a class="sideBarButton defaultAll4InsetShadow" id="button2" href="'.$rootPathPrefix.'admin/communications"><img src="'.$rootPathPrefix.'images/ultiscape/icons/thread.svg"><p>Communications</p></a>
+			$output .= '<a class="noUnderline sideBarButton defaultAll4InsetShadow" id="button2" href="'.$rootPathPrefix.'admin/communications"><img src="'.$rootPathPrefix.'images/ultiscape/icons/thread.svg"><p>Communications</p></a>
 			';
-			$output .= '<a class="sideBarButton defaultAll4InsetShadow" id="button3" href="'.$rootPathPrefix.'admin/jobs"><img src="'.$rootPathPrefix.'images/ultiscape/icons/calendar_month.svg"><p>Jobs</p></a>
+			$output .= '<a class="noUnderline sideBarButton defaultAll4InsetShadow" id="button3" href="'.$rootPathPrefix.'admin/jobs"><img src="'.$rootPathPrefix.'images/ultiscape/icons/calendar_month.svg"><p>Jobs</p></a>
 			';
-			$output .= '<a class="sideBarButton defaultAll4InsetShadow" id="button4" href="'.$rootPathPrefix.'admin/documents"><img src="'.$rootPathPrefix.'images/ultiscape/icons/document.svg"><p>Documents</p></a>
+			$output .= '<a class="noUnderline sideBarButton defaultAll4InsetShadow" id="button4" href="'.$rootPathPrefix.'admin/documents"><img src="'.$rootPathPrefix.'images/ultiscape/icons/document.svg"><p>Documents</p></a>
 			';
-			$output .= '<span class="sideBarButton defaultAll4InsetShadow" id="button5"><img src="'.$rootPathPrefix.'images/ultiscape/icons/drag.svg"><p>More...</p></span>
+			$output .= '<a class="noUnderline sideBarButton defaultAll4InsetShadow" id="button5"><img src="'.$rootPathPrefix.'images/ultiscape/icons/drag.svg"><p>More...</p></a>
 			';
 
 			// Bottom links
-			$output .= '<div id="smallBottomLinks"><a href="'.$rootPathPrefix.'admin/overview">Overview</a> | <a href="'.$rootPathPrefix.'admin/sitemap">Sitemap</a></div>
+			$output .= '<div id="smallBottomLinks"><a class="noUnderline" href="'.$rootPathPrefix.'admin/overview">Overview</a> | <a class="noUnderline" href="'.$rootPathPrefix.'admin/sitemap">Sitemap</a></div>
 			';
 
 			// Start More menu
@@ -281,7 +281,7 @@
 
 			require_once dirname(__FILE__)."/../currentVersion.php";
 
-			$output .= '<div class="'.$class.' defaultInsetShadow"><p>Copyright &copy <a target="_blank" href="https://cameronmcgehee.com">McGehee Enterprises</a> '.$date.' - <b>v'.$version.'</b></p></div>
+			$output .= '<div class="'.$class.' defaultInsetShadow"><p>Copyright &copy <a class="noUnderline" target="_blank" href="https://cameronmcgehee.com">McGehee Enterprises</a> '.$date.' - <b>v'.$version.'</b></p></div>
 			';
 			
 			return $output;
@@ -298,7 +298,7 @@
 			if (isset($_SESSION['ultiscape_adminId']) && isset($_SESSION['ultiscape_businessId'])) {
 				$output .= '<div class="mobileNavBarButtonArray">
 				';
-					$output .= '<a class="button" id="button1" href="'.$rootPathPrefix.'admin/people"><img src="'.$rootPathPrefix.'images/ultiscape/icons/users.svg"><p>People</p></a>
+					$output .= '<a class="button" id="button1" href="'.$rootPathPrefix.'admin/customers"><img src="'.$rootPathPrefix.'images/ultiscape/icons/users.svg"><p>Customers</p></a>
 					';
 					$output .= '<a class="button" id="button2" href="'.$rootPathPrefix.'admin/communications"><img src="'.$rootPathPrefix.'images/ultiscape/icons/thread.svg"><p>Comms</p></a>
 					';
