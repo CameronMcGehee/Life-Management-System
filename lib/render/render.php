@@ -2,7 +2,7 @@
 
 	class render {
 
-		private database $db;
+		protected database $db;
 		public $output = '';
 
 		function __construct() {
