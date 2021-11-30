@@ -8,10 +8,12 @@
 
         public $queryParams = '';
         public $rootPathPrefix = './';
-        public $perPage = 10;
+        public $perPage = 15;
         public $page = 1;
 
         function __construct($businessId = NULL) {
+
+            parent::__construct();
 
             require_once dirname(__FILE__)."/../../table/customer.php";
             require_once dirname(__FILE__)."/../../table/customerEmailAddress.php";
@@ -36,11 +38,11 @@
 
             $firstLimit = ($this->page - 1) * $this->perPage;
 
-            // Get all results for page count
-            $this->currentBusiness->pullCustomers($this->queryParams);
+            // Get count for page count
+            $selectAll = $this->db->select('customer', "COUNT(customerId) AS num", "WHERE businessId = '".$_SESSION['ultiscape_businessId']."'");
 
             // Render the page navigator
-            $pageNav = new pageNavigator(ceil((count($this->currentBusiness->customers) / $this->perPage)), $this->page, './', 'p', 'text-align: right; padding: .2em;');
+            $pageNav = new pageNavigator(ceil(($selectAll[0]['num'] / $this->perPage)), $this->page, './', 'p', 'text-align: right; padding: .2em;');
             $pageNav->render();
             $this->output .= $pageNav->output.'';
 
@@ -54,12 +56,15 @@
             $this->currentBusiness->pullCustomers($params);
 			
 			if (count($this->currentBusiness->customers) < 1) {
-				$this->output = '<table class="defaultTable" style="width: 100%; max-width: 100%;"><tr><td class="lax">No customers...</td></tr></table>';
+				$this->output = '<table class="defaultTable" style="width: 100%; max-width: 100%;"><tr><td class="lax">No customers...</td></tr></table>
+                ';
                 return;
 			}
 
-			$this->output .= '<table class="defaultTable" style="width: 100%; max-width: 100%; margin-top: .5em;">';
-			$this->output .= '<tr><th class="lax" style="text-decoration: underline;">Name</th><th class="lax" style="text-decoration: underline;">E-mail(s)</th><th class="lax" style="text-decoration: underline;">Phone Number(s)</th><th class="lax" style="text-decoration: underline;">Billing Address</th></tr>';
+			$this->output .= '<table class="defaultTable" style="width: 100%; max-width: 100%; margin-top: .5em;">
+            ';
+			$this->output .= '<tr><th class="lax" style="text-decoration: underline;">Name</th><th class="lax" style="text-decoration: underline;">Email(s)</th><th class="lax" style="text-decoration: underline;">Phone Number(s)</th><th class="lax" style="text-decoration: underline;">Billing Address</th></tr>
+            ';
 			
 			foreach ($this->currentBusiness->customers as $customerId) {
 
@@ -94,7 +99,8 @@
 
 				$billaddress = htmlspecialchars($customer->billAddress1).' '.htmlspecialchars($customer->billCity).', '.htmlspecialchars($customer->billState).', '.htmlspecialchars($customer->billZipCode);
 
-				$this->output .= '<tr><td class="lax"><a href="'.$this->rootPathPrefix.'customers/customer?id='.htmlspecialchars($customer->customerId).'">'.htmlspecialchars($customer->firstName).' '.htmlspecialchars($customer->lastName).'</a></td><td class="lax">'.$email.'</td><td class="lax">'.$phone.'</td><td class="lax">'.$billaddress.'</td></tr>';
+				$this->output .= '<tr><td class="lax"><a href="'.$this->rootPathPrefix.'customers/customer?id='.htmlspecialchars($customer->customerId).'">'.htmlspecialchars($customer->firstName).' '.htmlspecialchars($customer->lastName).'</a></td><td class="lax">'.$email.'</td><td class="lax">'.$phone.'</td><td class="lax">'.$billaddress.'</td></tr>
+                ';
 			
             }
 
