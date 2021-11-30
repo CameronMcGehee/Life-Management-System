@@ -375,6 +375,9 @@ a.noUnderline {
 .desktopOnlyFlex {
 	display: none;
 }
+.desktopOnlyTable-cell {
+	display: none;
+}
 
 .mobileOnlyBlock {
 	display: block;
@@ -387,6 +390,9 @@ a.noUnderline {
 }
 .mobileOnlyFlex {
 	display: flex;
+}
+.mobileOnlyTable-cell {
+	display: table-cell;
 }
 
 /*-----------------------------------------------------------------------------------------------------------------------------*/
@@ -1255,6 +1261,9 @@ html, body {
 	.desktopOnlyFlex {
 		display: flex;
 	}
+	.desktopOnlyTable-cell {
+		display: table-cell;
+	}
 
 	.mobileOnlyBlock {
 		display: none;
@@ -1266,6 +1275,9 @@ html, body {
 		display: none;
 	}
 	.mobileOnlyFlex {
+		display: none;
+	}
+	.mobileOnlyTable-cell {
 		display: none;
 	}
 }
