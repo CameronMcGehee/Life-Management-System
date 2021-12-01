@@ -88,7 +88,7 @@
 				});
 			});
 
-			$("#editBusinessForm input").change(function () {
+			$("#editBusinessForm input, #editBusinessForm select").change(function () {
 				setUnsaved();
 			});
 		});

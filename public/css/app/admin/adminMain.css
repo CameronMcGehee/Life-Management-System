@@ -734,6 +734,28 @@ a.noUnderline {
 	border-bottom: 3px solid var(--utliscapeColorTheme);
 }
 
+.defaultForm .invisibleInput {
+	outline: none;
+	border: none;
+	transition: all 300ms;
+}
+
+.defaultForm .invisibleInput:hover {
+	outline: 1px solid rgb(175, 175, 175);
+}
+
+.defaultForm .almostInvisibleInput {
+	outline: none;
+	border: none;
+	border-bottom: 1px solid rgb(196, 196, 196);
+}
+
+.defaultForm .almostInvisibleInput:hover {
+	outline: 1px solid rgb(175, 175, 175);
+	border: none;
+	margin-bottom: 1px; /* To compensate for the border: none; */
+}
+
 .defaultForm .underInputError {
 	font-style: italic;
 	color: red;

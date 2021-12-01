@@ -37,13 +37,13 @@
 
                     //     $customer = new customer();
 
-                    //     $customer->firstName = '<script>alert(1);</script>';
-                    //     $customer->lastName = '<script>alert(1);</script>';
+                    //     $customer->firstName = 'Steve';
+                    //     $customer->lastName = 'King';
     
-                    //     $customer->billAddress1 = '<script>alert(1);</script>';
-                    //     $customer->billAddress2 = '<script>alert(1);</script>';
-                    //     $customer->billState = '<script>alert(1);</script>';
-                    //     $customer->billCity = '<script>alert(1);</script>';
+                    //     $customer->billAddress1 = '3508 N. Quebec St.';
+                    //     $customer->billAddress2 = NULL;
+                    //     $customer->billState = 'VA';
+                    //     $customer->billCity = 'Arlington';
                     //     $customer->billZipCode = 22207;
     
                     //     $customer->set();
@@ -101,30 +101,30 @@
 
                     // -----------------------------------------------------------------------------------------------------------------------------------------------
 
-                    require_once '../../../lib/table/customerEmailAddress.php';
+                    // require_once '../../../lib/table/customerEmailAddress.php';
 
-                    $customerEmailAddress = new customerEmailAddress();
+                    // $customerEmailAddress = new customerEmailAddress();
 
-                    $customerEmailAddress->customerId = '839961a6b50f16388';
-                    $customerEmailAddress->email = 'another@test2.com';
-                    $customerEmailAddress->description = 'Work';
+                    // $customerEmailAddress->customerId = '839961a6b50f16388';
+                    // $customerEmailAddress->email = 'another@test2.com';
+                    // $customerEmailAddress->description = 'Work';
 
-                    $customerEmailAddress->set();
+                    // $customerEmailAddress->set();
 
-                    // -----------------------------------------------------------------------------------------------------------------------------------------------
+                    // // -----------------------------------------------------------------------------------------------------------------------------------------------
 
-                    require_once '../../../lib/table/customerPhoneNumber.php';
+                    // require_once '../../../lib/table/customerPhoneNumber.php';
 
-                    $customerPhoneNumber = new customerPhoneNumber();
+                    // $customerPhoneNumber = new customerPhoneNumber();
 
-                    $customerPhoneNumber->customerId = '839961a6b50f16388';
-                    $customerPhoneNumber->phonePrefix = '1';
-                    $customerPhoneNumber->phone1 = '703';
-                    $customerPhoneNumber->phone2 = '220';
-                    $customerPhoneNumber->phone3 = '9158';
-                    $customerPhoneNumber->description = 'Mobile Cell';
+                    // $customerPhoneNumber->customerId = '839961a6b50f16388';
+                    // $customerPhoneNumber->phonePrefix = '1';
+                    // $customerPhoneNumber->phone1 = '703';
+                    // $customerPhoneNumber->phone2 = '220';
+                    // $customerPhoneNumber->phone3 = '9158';
+                    // $customerPhoneNumber->description = 'Mobile Cell';
 
-                    $customerPhoneNumber->set();
+                    // $customerPhoneNumber->set();
 
                 ?>
             </div>

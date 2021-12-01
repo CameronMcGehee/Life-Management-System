@@ -45,8 +45,7 @@
             $this->output .= '<div class="twoCol">';
 
             // Render the add customer button
-
-            $this->output .= '<div class="yCenteredFlex"><a class="smallButtonWrapper greenButton noUnderline yCenteredFlex" href="'.$this->rootPathPrefix.'customers/create">➕ New</a></div>';
+            $this->output .= '<div class="yCenteredFlex"><a class="smallButtonWrapper greenButton noUnderline yCenteredFlex" href="'.$this->rootPathPrefix.'customers/customer">➕ New</a></div>';
             
             // Render the page navigator
             if ((int)$selectAll[0]['num'] > 0) {
