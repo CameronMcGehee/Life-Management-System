@@ -33,23 +33,20 @@
             <div style="margin-left: 2em; margin-right: 2em;">
                 <?php
 
-                    require_once '../../../lib/table/customer.php';
+                    // require_once '../../../lib/table/customer.php';
 
-                    for ($x = 0; $x <= 1000; $x++) {
-                        $customer = new customer();
+                    //     $customer = new customer();
 
-                        $customer->firstName = 'Test';
-                        $customer->lastName = 'Person'.uniqid();
+                    //     $customer->firstName = '<script>alert(1);</script>';
+                    //     $customer->lastName = '<script>alert(1);</script>';
     
-                        $customer->billAddress1 = '3505 N. Quebec St.';
-                        $customer->billAddress2 = 'PO Box somewhere';
-                        $customer->billState = 'Virginia';
-                        $customer->billCity = 'Arlington';
-                        $customer->billZipCode = 22207;
+                    //     $customer->billAddress1 = '<script>alert(1);</script>';
+                    //     $customer->billAddress2 = '<script>alert(1);</script>';
+                    //     $customer->billState = '<script>alert(1);</script>';
+                    //     $customer->billCity = '<script>alert(1);</script>';
+                    //     $customer->billZipCode = 22207;
     
-    
-                        $customer->set();
-                    }
+                    //     $customer->set();
 
                     // echo '<p>'.htmlspecialchars($customer->customerId).'</p>';
                     // echo '<p>'.htmlspecialchars($customer->firstName).' '.htmlspecialchars($customer->lastName).'</p>';
@@ -104,28 +101,30 @@
 
                     // -----------------------------------------------------------------------------------------------------------------------------------------------
 
-                    // require_once '../../../lib/table/customerEmailAddress.php';
+                    require_once '../../../lib/table/customerEmailAddress.php';
 
-                    // $customerEmailAddress = new customerEmailAddress();
+                    $customerEmailAddress = new customerEmailAddress();
 
-                    // $customerEmailAddress->customerId = '883461a30654657e5';
-                    // $customerEmailAddress->email = 'another@test2.com';
+                    $customerEmailAddress->customerId = '839961a6b50f16388';
+                    $customerEmailAddress->email = 'another@test2.com';
+                    $customerEmailAddress->description = 'Work';
 
-                    // $customerEmailAddress->set();
+                    $customerEmailAddress->set();
 
                     // -----------------------------------------------------------------------------------------------------------------------------------------------
 
-                    // require_once '../../../lib/table/customerPhoneNumber.php';
+                    require_once '../../../lib/table/customerPhoneNumber.php';
 
-                    // $customerPhoneNumber = new customerPhoneNumber();
+                    $customerPhoneNumber = new customerPhoneNumber();
 
-                    // $customerPhoneNumber->customerId = '883461a30654657e5';
-                    // $customerPhoneNumber->phonePrefix = '1';
-                    // $customerPhoneNumber->phone1 = '703';
-                    // $customerPhoneNumber->phone2 = '220';
-                    // $customerPhoneNumber->phone3 = '9158';
+                    $customerPhoneNumber->customerId = '839961a6b50f16388';
+                    $customerPhoneNumber->phonePrefix = '1';
+                    $customerPhoneNumber->phone1 = '703';
+                    $customerPhoneNumber->phone2 = '220';
+                    $customerPhoneNumber->phone3 = '9158';
+                    $customerPhoneNumber->description = 'Mobile Cell';
 
-                    // $customerPhoneNumber->set();
+                    $customerPhoneNumber->set();
 
                 ?>
             </div>

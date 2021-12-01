@@ -30,7 +30,7 @@
                 }
             }
             
-            $this->currentBusiness = new business($businessId);            
+            $this->currentBusiness = new business($businessId);
         }
 
         function render() {
@@ -49,10 +49,12 @@
             $this->output .= '<div class="yCenteredFlex"><a class="smallButtonWrapper greenButton noUnderline yCenteredFlex" href="'.$this->rootPathPrefix.'customers/create">➕ New</a></div>';
             
             // Render the page navigator
-            $pageNav = new pageNavigator(ceil(($selectAll[0]['num'] / $this->perPage)), $this->page, './', 'p', 'text-align: right; padding: .2em;');
-            $pageNav->render();
-            $this->output .= '<div>'.$pageNav->output.'</div>';
-
+            if ((int)$selectAll[0]['num'] > 0) {
+                $pageNav = new pageNavigator(ceil(($selectAll[0]['num'] / $this->perPage)), $this->page, './', 'p', 'text-align: right; padding: .2em;');
+                $pageNav->render();
+                $this->output .= '<div>'.$pageNav->output.'</div>';
+            }
+            
             // End div for table header
             $this->output .= '</div>';
 
@@ -66,7 +68,7 @@
             $this->currentBusiness->pullCustomers($params);
 			
 			if (count($this->currentBusiness->customers) < 1) {
-				$this->output = '<table class="defaultTable"><tr><td class="la">No customers...</td></tr></table>
+				$this->output .= '<table class="defaultTable" style="margin-top: .5em;"><tr><td class="la">No customers...</td></tr></table>
                 ';
                 return;
 			}
@@ -88,25 +90,32 @@
                 if (count($customer->emailAddresses) < 1) {
                     $email = '<span class="xyCenteredFlex maxWidth maxHeight"> - </span>';
                 } else {
+                    $mobileInfo .= '<span style="font-weight: bold;">Email(s)</span>';
                     foreach ($customer->emailAddresses as $emailId) {
                         $currentEmail = new customerEmailAddress($emailId);
                         if ($currentEmail->existed) {
-                            $email .= '<li><a href="'.$this->rootPathPrefix.'customers/customer/email?id='.$currentEmail->customerEmailAddressId.'">'.$currentEmail->email.'</a></li>';
+                            $email .= '<li><a href="'.$this->rootPathPrefix.'customers/customer/email?id='.htmlspecialchars($currentEmail->customerEmailAddressId).'">'.htmlspecialchars($currentEmail->email).'</a></li>';
+                            $mobileInfo .= '<li><a href="'.$this->rootPathPrefix.'customers/customer/email?id='.htmlspecialchars($currentEmail->customerEmailAddressId).'">'.htmlspecialchars($currentEmail->email).'</a></li>';
                         }
                     }
                 }
 
-				// $phone = '('.htmlspecialchars($customer->phone1).') '.htmlspecialchars($customer->phone2).' - '.htmlspecialchars($customer->phone3);
 				$phone = '';
                 if (count($customer->phoneNumbers) < 1) {
                     $phone = '<span class="xyCenteredFlex maxWidth maxHeight"> - </span>';
                 } else {
+                    $mobileInfo .= '<span style="font-weight: bold;">Phone(s)</span>';
                     foreach ($customer->phoneNumbers as $phoneNumberId) {
                         $currentPhone = new customerPhoneNumber($phoneNumberId);
                         if ($currentPhone->existed) {
-                            $phone .= '<li><a href="'.$this->rootPathPrefix.'customers/customer/phonenumber?id='.$currentPhone->customerPhoneNumberId.'">+'.htmlspecialchars($currentPhone->phonePrefix).' ('.htmlspecialchars($currentPhone->phone1).') - '.htmlspecialchars($currentPhone->phone2).' - '.htmlspecialchars($currentPhone->phone3).'</a></li>';
+                            $phone .= '<li><a href="'.$this->rootPathPrefix.'customers/customer/phonenumber?id='.htmlspecialchars($currentPhone->customerPhoneNumberId).'">+'.htmlspecialchars($currentPhone->phonePrefix).' ('.htmlspecialchars($currentPhone->phone1).') - '.htmlspecialchars($currentPhone->phone2).' - '.htmlspecialchars($currentPhone->phone3).'</a></li>';
+                            $mobileInfo .= '<li><a href="'.$this->rootPathPrefix.'customers/customer/phonenumber?id='.htmlspecialchars($currentPhone->customerPhoneNumberId).'">+'.htmlspecialchars($currentPhone->phonePrefix).' ('.htmlspecialchars($currentPhone->phone1).') - '.htmlspecialchars($currentPhone->phone2).' - '.htmlspecialchars($currentPhone->phone3).'</a></li>';
                         }
                     }
+                }
+
+                if ($mobileInfo == '') {
+                    $mobileInfo = '<span class="xyCenteredFlex maxWidth maxHeight"> - </span>';
                 }
 
                 $billaddress = '';
@@ -140,7 +149,7 @@
                     $billaddress = '<span style="color: red;">Not on file.</span>';
                 }
 
-				$this->output .= '<tr><td class="la nrb"><a href="'.$this->rootPathPrefix.'customers/customer?id='.htmlspecialchars($customer->customerId).'">'.htmlspecialchars($customer->firstName).' '.htmlspecialchars($customer->lastName).'</a></td><td class="la desktopOnlyTable-cell nlb nrb">'.$email.'</td><td class="la desktopOnlyTable-cell nrb nlb">'.$phone.'</td><td class="la desktopOnlyTable-cell nlb">'.$billaddress.'</td><td class="la mobileOnlyTable-cell nlb">'.$mobileInfo.'</td></tr>
+				$this->output .= '<tr><td class="la nrb"><a href="'.$this->rootPathPrefix.'customers/customer?id='.htmlspecialchars(htmlspecialchars($customer->customerId)).'">'.htmlspecialchars($customer->firstName).' '.htmlspecialchars($customer->lastName).'</a></td><td class="la desktopOnlyTable-cell nlb nrb">'.$email.'</td><td class="la desktopOnlyTable-cell nrb nlb">'.$phone.'</td><td class="la desktopOnlyTable-cell nlb">'.$billaddress.'</td><td class="la mobileOnlyTable-cell nlb">'.$mobileInfo.'</td></tr>
                 ';
 			
             }
