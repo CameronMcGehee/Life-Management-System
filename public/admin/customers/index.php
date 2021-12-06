@@ -45,7 +45,7 @@
 						$customerTable = new customerTable();
 
 						$customerTable->rootPathPrefix = '../';
-						$customerTable->queryParams = 'ORDER BY dateTimeAdded DESC';
+						$customerTable->queryParams = 'ORDER BY nameIndex DESC';
 
 						if (isset($_GET['p']) && is_numeric($_GET['p'])) {
 							$customerTable->page = (int)$_GET['p'];
@@ -58,9 +58,9 @@
 					?>
 				</div>
 
-				<div id="twoColInfoWrapper" class="paddingLeftRight90 desktopOnlyBlock textColorThemeGray">
+				<div id="twoColInfoWrapper" class="paddingLeftRight90">
 				
-					<div class="defaultMainShadows" style="border: 1px solid gray; padding: 1em; background-color: #f0f0f0;">
+					<div class="grayInfoBox defaultMainShadows desktopOnlyBlock">
 						<h3>Did you know?</h3>
 						
 						<br>
@@ -69,13 +69,13 @@
 						<p>With UltiScape, you can add tags to each customer to sort them into relevant categories.</p>
 					</div>
 
-					<br>
+					<br><hr><br>
 
 					<h3 style="color: var(--grayTextColorTheme);">Other Links</h3>
 
 					<br>
 
-					<a style="color: var(--grayTextColorTheme);" href="./import">Import from CSV</a>
+					<a style="color: var(--grayTextColorTheme); display: inline-block;" href="./import">Import</a> | <a style="color: var(--grayTextColorTheme); display: inline-block;" href="./export">Export</a>
 
 				</div>
 			</div>

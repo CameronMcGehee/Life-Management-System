@@ -4,12 +4,12 @@
 
     class customerTable extends render {
 
-        private $currentBusiness; // For storing the object of the business
+        private business $currentBusiness; // For storing the object of the business
 
-        public $queryParams = '';
-        public $rootPathPrefix = './';
-        public $perPage = 15;
-        public $page = 1;
+        public string $queryParams = '';
+        public string $rootPathPrefix = './';
+        public int $perPage = 15;
+        public int $page = 1;
 
         function __construct($businessId = NULL) {
 
@@ -74,7 +74,7 @@
 
 			$this->output .= '<table class="defaultTable" style="margin-top: .5em;">
             ';
-			$this->output .= '<tr><th class="la nrb">Name</th><th class="ca desktopOnlyTable-cell nrb nlb">Email(s)</th><th class="ca desktopOnlyTable-cell nrb nlb">Phone Number(s)</th><th class="ca desktopOnlyTable-cell nlb">Billing Address</th><th class="ca mobileOnlyTable-cell nlb">Contact</th></tr>
+			$this->output .= '<tr><th class="la nrb">Name</th><th class="ca desktopOnlyTable-cell nrb nlb">Email(s)</th><th class="ca desktopOnlyTable-cell nrb nlb">Phone Number(s)</th><th class="la desktopOnlyTable-cell nlb">Billing Address</th><th class="ca mobileOnlyTable-cell nlb">Contact</th></tr>
             ';
 			
 			foreach ($this->currentBusiness->customers as $customerId) {
@@ -121,7 +121,7 @@
 
                 if (!empty($customer->billAddress1)) {
                     $billaddress .= htmlspecialchars($customer->billAddress1);
-                    if (!empty($customer->billAddress2)) {
+                    if (!empty($customer->billAddress2) || !empty($customer->billState) || !empty($customer->billCity) || !empty($customer->billZipCode)) {
                         $billaddress .= '<br>';
                     }
                 }
