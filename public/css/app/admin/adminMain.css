@@ -734,7 +734,7 @@ a.noUnderline {
 	border-bottom: 3px solid var(--utliscapeColorTheme);
 }
 
-.defaultForm .invisibleInput {
+.defaultForm .invisibleInput, .defaultForm .invisibleInputNoHover {
 	outline: none;
 	border: none;
 	transition: all 300ms;
@@ -744,7 +744,7 @@ a.noUnderline {
 	outline: 1px solid rgb(175, 175, 175);
 }
 
-.defaultForm .almostInvisibleInput {
+.defaultForm .almostInvisibleInput, .defaultForm .almostInvisibleInputNoHover {
 	outline: none;
 	border: none;
 	border-bottom: 1px solid rgb(196, 196, 196);
@@ -1260,6 +1260,18 @@ html, body {
 	background-color: white;
 	grid-area: mainContent;
 	overflow: auto;
+}
+
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/* Boxes and such */
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+
+.grayInfoBox {
+	border: 1px solid gray;
+	padding: 1em;
+	background-color: #f0f0f0;
 }
 
 /*-----------------------------------------------------------------------------------------------------------------------------*/
