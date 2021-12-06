@@ -55,7 +55,7 @@
         // Input Settings
 
             // How many minutes to store an authToken, usually for a form, before purging it from the database
-            "authTokenDefaultPurge" => 10,
+            "authTokenDefaultPurge" => 120,
 
             // Min lengths of credentials when singing up or editing a profile.
             // Not recommended to have these set less than 1. Setting any to less than 0 will break things!
