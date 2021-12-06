@@ -6,7 +6,7 @@
 
         require_once dirname(__FILE__)."/../getClientIpAddress.php";
         if ($token->existed && $token->authName == $authName && $token->clientIp == getClientIpAddress()) {
-            if ($token->delete()) {
+            if (true) { /* if ($token->delete()) { */
                 return true;
             }
         }
