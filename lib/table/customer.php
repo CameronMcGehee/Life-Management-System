@@ -10,7 +10,7 @@
 		public bool $existed; // Used to see whether the given entity existed already (in the database) at the time of instantiation
 
 		private $cryptoKey;
-		private $fieldsToEncrypt = array('firstName', 'lastName', 'billAddress1', 'billAddress2', 'billCity', 'billState', 'billZipCode', 'notes');
+		private $fieldsToEncrypt = array('firstName', 'lastName', 'billAddress1', 'billAddress2', 'billCity', 'billState', 'billZipCode', 'password', 'notes');
 
 		// Main database attributes
 		public $customerId;
@@ -75,7 +75,7 @@
 			$this->balanceCache = '0';
 			$this->overrideBalanceAlertIsEnabled = NULL;
 			$this->overrideBalanceAlertAmount = NULL;
-			$this->allowCZSignIn = '0';
+			$this->allowCZSignIn = '1';
 			$this->password = '';
 			$this->discountPercent = NULL;
 			$this->overridePaymentTerm = NULL;
@@ -400,6 +400,7 @@
 				'customerId' => $this->dbCustomerId,
 				'businessId' => $this->businessId,
 				'firstName' => $this->firstName,
+				'nameIndex' => substr($this->firstName, 0, 3),
 				'lastName' => $this->lastName,
 				'billAddress1' => $this->billAddress1,
 				'billAddress2' => $this->billAddress2,
@@ -432,6 +433,7 @@
 				'customerId' => $this->db->sanitize($this->dbCustomerId),
 				'businessId' => $this->db->sanitize($attr['businessId']),
 				'firstName' => $this->db->sanitize($attr['firstName']),
+				'nameIndex' => $this->db->sanitize($attr['nameIndex']),
 				'lastName' => $this->db->sanitize($attr['lastName']),
 				'billAddress1' => $this->db->sanitize($attr['billAddress1']),
 				'billAddress2' => $this->db->sanitize($attr['billAddress2']),
