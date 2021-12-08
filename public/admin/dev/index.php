@@ -105,7 +105,7 @@
 
                     // $customerEmailAddress = new customerEmailAddress();
 
-                    // $customerEmailAddress->customerId = '839961a6b50f16388';
+                    // $customerEmailAddress->customerId = '643661a6f980eaab2';
                     // $customerEmailAddress->email = 'another@test2.com';
                     // $customerEmailAddress->description = 'Work';
 
@@ -127,6 +127,8 @@
                     // $customerPhoneNumber->set();
 
                 ?>
+
+                <a class="hoverTip">Tooltip Text<span>This is the text that will display in the tooltip pop-up.</span></a>
             </div>
         </div>
         
