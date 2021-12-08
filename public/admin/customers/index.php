@@ -45,7 +45,7 @@
 						$customerTable = new customerTable();
 
 						$customerTable->rootPathPrefix = '../';
-						$customerTable->queryParams = 'ORDER BY nameIndex DESC';
+						$customerTable->queryParams = 'ORDER BY nameIndex ASC';
 
 						if (isset($_GET['p']) && is_numeric($_GET['p'])) {
 							$customerTable->page = (int)$_GET['p'];
