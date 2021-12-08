@@ -72,7 +72,7 @@
                 return;
 			}
 
-			$this->output .= '<table class="defaultTable" style="margin-top: .5em;">
+			$this->output .= '<table class="defaultTable highlightOdd hoverHighlight" style="margin-top: .5em;">
             ';
 			$this->output .= '<tr><th class="la nrb">Name</th><th class="ca desktopOnlyTable-cell nrb nlb">Email(s)</th><th class="ca desktopOnlyTable-cell nrb nlb">Phone Number(s)</th><th class="la desktopOnlyTable-cell nlb">Billing Address</th><th class="ca mobileOnlyTable-cell nlb">Contact</th></tr>
             ';
@@ -93,8 +93,13 @@
                     foreach ($customer->emailAddresses as $emailId) {
                         $currentEmail = new customerEmailAddress($emailId);
                         if ($currentEmail->existed) {
-                            $email .= '<li><a href="'.$this->rootPathPrefix.'customers/customer/email?id='.htmlspecialchars($currentEmail->customerEmailAddressId).'">'.htmlspecialchars($currentEmail->email).'</a></li>';
-                            $mobileInfo .= '<li><a href="'.$this->rootPathPrefix.'customers/customer/email?id='.htmlspecialchars($currentEmail->customerEmailAddressId).'">'.htmlspecialchars($currentEmail->email).'</a></li>';
+                            if (!empty($currentEmail->description)) {
+                                $email .= '<li><span class="hoverTip">'.htmlspecialchars($currentEmail->email).'<span>'.htmlspecialchars($currentEmail->description).'</span></span></li>';
+                                $mobileInfo .= '<li><span class="hoverTip">'.htmlspecialchars($currentEmail->email).'<span>'.htmlspecialchars($currentEmail->description).'</span></span></li>';
+                            } else {
+                                $email .= '<li>'.htmlspecialchars($currentEmail->email).'</li>';
+                                $mobileInfo .= '<li>'.htmlspecialchars($currentEmail->email).'</li>';
+                            }
                         }
                     }
                 }
@@ -148,7 +153,7 @@
                     $billaddress = '<span style="color: red;">Not on file.</span>';
                 }
 
-				$this->output .= '<tr><td class="la nrb"><a href="'.$this->rootPathPrefix.'customers/customer?id='.htmlspecialchars(htmlspecialchars($customer->customerId)).'">'.htmlspecialchars($customer->firstName).' '.htmlspecialchars($customer->lastName).'</a></td><td class="la desktopOnlyTable-cell nlb nrb">'.$email.'</td><td class="la desktopOnlyTable-cell nrb nlb">'.$phone.'</td><td class="la desktopOnlyTable-cell nlb">'.$billaddress.'</td><td class="la mobileOnlyTable-cell nlb">'.$mobileInfo.'</td></tr>
+				$this->output .= '<tr><td class="la nrb vam"><a href="'.$this->rootPathPrefix.'customers/customer?id='.htmlspecialchars(htmlspecialchars($customer->customerId)).'">'.htmlspecialchars($customer->firstName).' '.htmlspecialchars($customer->lastName).'</a></td><td class="la desktopOnlyTable-cell nlb nrb">'.$email.'</td><td class="la desktopOnlyTable-cell nrb nlb">'.$phone.'</td><td class="la desktopOnlyTable-cell nlb">'.$billaddress.'</td><td class="la mobileOnlyTable-cell nlb">'.$mobileInfo.'</td></tr>
                 ';
 			
             }

@@ -15,8 +15,12 @@
 	}
 	parse_str($_POST['formData'], $formData);
 
+	if (!isset($_POST['customerId'])) {
+		echo 'noId';
+		exit();
+	}
 	require_once '../../../../../../lib/table/customer.php';
-	$currentCustomer = new customer($formData['customerId']);
+	$currentCustomer = new customer($_POST['customerId']);
 	if ($currentCustomer->businessId != $_SESSION['ultiscape_businessId']) {
         echo 'noCustomer';
         exit();
@@ -165,6 +169,16 @@
 	if (!isset($formData['password']) || empty($formData['password'])) {
 		echo 'password';
 		exit();
+	}
+	// Check if the password already exists in this business
+	require_once '../../../../../../lib/database.php';
+	$db = new database();
+	$passwordCheck = $db->select('customer', "customerId", "WHERE businessId = '".$_SESSION['ultiscape_businessId']."' AND password = '".$db->sanitize($formData['password'])."' LIMIT 1");
+	if ($passwordCheck) {
+		if ($passwordCheck[0]['customerId'] != $currentCustomer->customerId) {
+			echo 'passwordInUse';
+			exit();
+		}
 	}
 	$currentCustomer->password = $formData['password'];
 

@@ -6,7 +6,7 @@
 	// This is the business select page so if we are not signed in, just redirect to the login page
 
 	if (!isset($_SESSION['ultiscape_adminId'])) {
-		header("location: ../login");
+		header("location: ../../login");
 	}
 
 	require_once '../../../../lib/adminUIRender.php';
@@ -28,7 +28,10 @@
 		$titleName = 'New Customer';
 	}
 
-	require_once '../../../../lib/timezones/Timezones.php';
+	if ($currentCustomer->businessId != $_SESSION['ultiscape_businessId']) {
+        header("location: ./");
+		exit();
+    }
 
 	echo $adminUIRender->renderAdminHtmlTop('../../../', htmlspecialchars($titleName), 'Edit your UltiScape business.');
 	echo $adminUIRender->renderAdminUIMenuToggleScripts('../../../');
@@ -56,7 +59,7 @@
 	<script>
 		var formData;
 		var scriptOutput;
-		var customerId;
+		var customerId ='<?php echo $currentCustomer->customerId; ?>';
 		var formState;
 		var url = new URL(window.location.href);
 
@@ -64,6 +67,8 @@
 		var lastChange = new Date();
 		var changesSaved = true;
 		var waitingForError = false;
+
+		var errorAddressId;
 
 		$(function() {
 
@@ -75,6 +80,11 @@
 				// 	$(this).shake(50);
 				// });
 				changesSaved = false;
+			}
+
+			function inputChange (e) {
+				setUnsaved();
+				lastChange = new Date();
 			}
 
 			function setWaitingForError() {
@@ -99,20 +109,6 @@
 				$(".cmsMainContentWrapper").scrollTop(url.searchParams.get('wsl'));
 			}
 
-			function updateEmails() {
-				formData = $("#customerForm").serialize();
-				$("#scriptLoader").load("./scripts/async/updateEmailAddresses.script.php", {
-					formData: formData
-				}, function () {
-					formData = $("#customerForm").serialize();
-					$("#emailAddressesLoader").load("./includes/emailAddressDynForm.inc.php", {
-					customerId: '<?php echo $currentCustomer->customerId ?>'
-					}, function () {
-						
-					});
-				});
-			}
-
 			function checkChanges() {
 				$('.loadingGif').each(function() {
 					$(this).fadeIn(100);
@@ -121,6 +117,7 @@
 				formData = $("#customerForm").serialize();
 				
 				$("#scriptLoader").load("./scripts/async/editcustomer.script.php", {
+					customerId: customerId,
 					formData: formData
 				}, function () {
 					scriptOutput = $("#scriptLoader").html().split(":::");
@@ -128,13 +125,15 @@
 					formState = scriptOutput[1];
 					clearFormErrors();
 
+					var checkEmails = false;
 					switch (formState) {
 						case 'success':
 							setSaved();
-							url.searchParams.set('id', customerId);
 							if (isNewCustomer) {
-								window.location.replace(url.href);
+								isNewCustomer = false;
+								window.history.pushState("string", 'UltiScape (Admin) - New Customer', "./?id="+customerId);
 							}
+							checkEmails = true;
 							break;
 						case 'password':
 							$('#password').show();
@@ -146,6 +145,7 @@
 							$('.loadingGif').each(function() {
 								$(this).fadeOut(100);
 							});
+							checkEmails = false;
 							break;
 						default:
 							setWaitingForError();
@@ -155,19 +155,47 @@
 							$('.loadingGif').each(function() {
 								$(this).fadeOut(100);
 							});
+							checkEmails = false;
 							break;
 					}
 
-					$("#scriptLoader").load("./scripts/async/updateEmailAddresses.script.php", {
-						customerId: '<?php echo $currentCustomer->customerId ?>',
-						formData: formData
-					}, function () {
-						$("#emailAddressesLoader").load("./includes/emailAddressDynForm.inc.php", {
-						customerId: '<?php echo $currentCustomer->customerId ?>'
+					if (checkEmails) {
+						console.log(customerId);
+						$("#scriptLoader").load("./scripts/async/updateEmailAddresses.script.php", {
+							customerId: customerId,
+							formData: formData
 						}, function () {
-							
+							scriptOutput = $("#scriptLoader").html().split("::::");
+							formState = scriptOutput[1];
+
+							switch (formState) {
+								case 'success':
+									setSaved();
+									checkEmails = true;
+									// Reload the emails box if a new email was put in
+									if ($("#newEmailAddress").val().length > 0) {
+										$("#emailAddressesLoader").load("./includes/emailAddresses.inc.php", {
+											customerId: customerId
+										}, function () {
+											$(":input").change(function (e) {
+												inputChange(e);
+											});
+										});
+									}
+									break;
+								default:
+									setWaitingForError();
+									showFormError("#"+formState+"Error", "#"+formState);
+									$("#"+formState).shake(50);
+
+									$('.loadingGif').each(function() {
+										$(this).fadeOut(100);
+									});
+									checkEmails = false;
+									break;
+							}
 						});
-					});
+					}
 
 					$('.loadingGif').each(function() {
 						$(this).fadeOut(100);
@@ -177,16 +205,13 @@
 			}
 
 			// Load the email form on startup
-			$("#emailAddressesLoader").load("./includes/emailAddressDynForm.inc.php", {
-				customerId: '<?php echo $currentCustomer->customerId ?>'
+			$("#emailAddressesLoader").load("./includes/emailAddresses.inc.php", {
+				customerId: customerId
+			}, function () {
+				$(":input").change(function () {
+					inputChange();
+				});
 			});
-			
-			
-			$("#customerForm input, #customerForm select, #customerForm textarea").change(function () {
-				setUnsaved();
-				lastChange = new Date();
-			});
-
 
 			var interval = setInterval(function() {
 				if (changesSaved == false && (new Date() - lastChange) / 1000 > .5) {
@@ -218,9 +243,6 @@
 			})
 		});
 	</script>
-	<script>
-        
-    </script>
 </head>
 
 <body>
@@ -263,28 +285,32 @@
 
 						<table class="defaultTable" style="width: 35em; max-width: 100%;">
 							<tr>
-								<td class="defaultTableCell" style="padding: 1em; width: 5em;">Email(s)</td>
-								<td class="defaultTableCell" style="padding: 1em;" id="emailAddressesLoader"><img style="width: 2em;" src="../../../images/ultiscape/etc/loading.gif"></td>
-							</tr>
-							<tr>
 								<td class="defaultTableCell" style="padding: 1em;">Billing Address</td>
 								<td class="defaultTableCell" style="padding: 1em;">
 									<div>
-										<label for="billAddress1"><p>Address Line 1</p></label>
+										<label for="billAddress1"><p>Address</p></label>
 										<input class="almostInvisibleInput" style="font-size: 1.2em; width: 80%;" type="text" name="billAddress1" id="billAddress1" value="<?php echo htmlspecialchars($currentCustomer->billAddress1); ?>">
 										<br><br>
 
-										<label for="billAddress2"><p>Address Line 2</p></label>
 										<input class="almostInvisibleInput" style="font-size: 1.2em; width: 80%;" type="text" name="billAddress2" id="billAddress2" value="<?php echo htmlspecialchars($currentCustomer->billAddress2); ?>">
 										<br><br>
 
-										<label for="billCity"><p>City</p></label>
-										<input class="almostInvisibleInput" style="font-size: 1.2em; width: 80%;" type="text" name="billCity" id="billCity" value="<?php echo htmlspecialchars($currentCustomer->billCity); ?>">
-										<br><br>
+										
 
-										<label for="billState"><p>State</p></label>
-										<input class="almostInvisibleInput" style="font-size: 1.2em; width: 80%;" type="text" name="billState" id="billState" value="<?php echo htmlspecialchars($currentCustomer->billState); ?>">
-										<br><br>
+										<div class="twoCol">
+											<div>
+												<label for="billCity"><p>City</p></label>
+												<input class="almostInvisibleInput" style="font-size: 1.2em; width: 80%;" type="text" name="billCity" id="billCity" value="<?php echo htmlspecialchars($currentCustomer->billCity); ?>">
+												,
+											</div>
+
+											<div>
+												<label for="billState"><p>State</p></label>
+												<input class="almostInvisibleInput" style="font-size: 1.2em; width: 80%;" type="text" name="billState" id="billState" value="<?php echo htmlspecialchars($currentCustomer->billState); ?>">
+											</div>
+										</div>
+
+										
 
 										<label for="billZipCode"><p>Zip Code</p></label>
 										<input class="almostInvisibleInput" style="font-size: 1.2em; width: 80%;" type="text" name="billZipCode" id="billZipCode" value="<?php echo htmlspecialchars($currentCustomer->billZipCode); ?>">
@@ -292,6 +318,14 @@
 										<span id="billAddressError" class="underInputError" style="display: none;"><br><br>Please enter a valid address.</span>
 									</div>
 								</td>
+							</tr>
+							<tr>
+								<td class="defaultTableCell" style="padding: 1em; width: 5em;">Emails</td>
+								<td class="defaultTableCell" style="padding: 1em;" id="emailAddressesLoader"><img style="width: 2em;" src="../../../images/ultiscape/etc/loading.gif"></td>
+							</tr>
+							<tr>
+								<td class="defaultTableCell" style="padding: 1em; width: 5em;">Phone Numbers</td>
+								<td class="defaultTableCell" style="padding: 1em;" id="phoneNumbersLoader"><img style="width: 2em;" src="../../../images/ultiscape/etc/loading.gif"></td>
 							</tr>
 						</table>
 
@@ -360,12 +394,10 @@
 				?>
 
 				<input type="hidden" name="authToken" id="authToken" value="<?php echo htmlspecialchars($token->authTokenId); ?>">
-
-				<input type="hidden" name="customerId" id="customerId" value="<?php echo htmlspecialchars($currentCustomer->customerId); ?>">
-				</div>
-			
 			</form>
-		
+
+		</div>
+
 		<?php
 			echo $adminUIRender->renderAdminFooter('../../../');
 		?>

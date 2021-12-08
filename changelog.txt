@@ -44,7 +44,13 @@ v0.1.7 - 11.29.2021:
         - Smaller sidebar buttons, to fit more in the list on smaller displays
         - Sidebar "People" button is now "Customers" button
         - Themed color and animated text for links
-        - Customers page now shows a list of customers
+        - Customers page now shows a list of customers among other things
     - Techies
         - render class
         - customerTable render class
+
+# v0.2.1
+
+v0.2.1 - NF
+    - Goodies
+        - Customer view/edit page now functional (somewhat major, upping sub-version number)
