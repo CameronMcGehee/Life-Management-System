@@ -28,6 +28,13 @@
 
     echo $currentCustomer->customerId.'::::';
 
+    // Validate the auth token
+	require_once '../../../../../../lib/etc/authToken/validateAuthToken.php';
+	if (!isset($formData['updateEmailAddressesAuthToken']) || !validateAuthToken($formData['updateEmailAddressesAuthToken'], 'updateEmailAddresses')) {
+		echo 'tokenInvalid';
+		exit();
+	}
+
     if (isset($formData['emailAddresses']) || isset($formData['emailAddressIds'])) {
         if (count($formData['emailAddresses']) != count($formData['emailAddressIds'])) {
             echo 'dataError';
@@ -66,17 +73,6 @@
         }
     }
 
-	// Validate the auth token
-	require_once '../../../../../../lib/etc/authToken/validateAuthToken.php';
-	if (!validateAuthToken($formData['authToken'], 'editCustomer')) {
-		echo 'tokenInvalid';
-		exit();
-	}
-
-    // Get all the emails in the system
-    $currentCustomer->pullEmailAddresses();
-    $existingEmails = $currentCustomer->emailAddresses;
-
     // For each email Id already in the system, check if it has been changed in the form. If it has, update it. If it is not present in the form, delete it.
     $dbEmail = '';
     require_once '../../../../../../lib/table/customerEmailAddress.php';
@@ -109,7 +105,7 @@
 
 	// Use the auth token
 	require_once '../../../../../../lib/etc/authToken/useAuthToken.php';
-	useAuthToken($formData['authToken'], 'editCustomer');
+	useAuthToken($formData['updateEmailAddressesAuthToken'], 'updateEmailAddresses');
 	
 	// Success if gotten to bottom of script
 	echo 'success';

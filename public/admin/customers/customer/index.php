@@ -33,8 +33,31 @@
 		exit();
     }
 
-	echo $adminUIRender->renderAdminHtmlTop('../../../', htmlspecialchars($titleName), 'Edit your UltiScape business.');
+	echo $adminUIRender->renderAdminHtmlTop('../../../', htmlspecialchars($titleName), 'Edit '.htmlspecialchars($titleName).'.');
 	echo $adminUIRender->renderAdminUIMenuToggleScripts('../../../');
+
+	// Generate all the needed authTokens for the page
+	require_once '../../../../lib/table/authToken.php';
+
+	$mainAuthToken = new authToken();
+	$mainAuthToken->authName = 'editCustomer';
+	$mainAuthToken->set();
+
+	$updateEmailAddressesAuthToken = new authToken();
+	$updateEmailAddressesAuthToken->authName = 'updateEmailAddresses';
+	$updateEmailAddressesAuthToken->set();
+
+	$deleteEmailAddressAuthToken = new authToken();
+	$deleteEmailAddressAuthToken->authName = 'deleteEmailAddress';
+	$deleteEmailAddressAuthToken->set();
+
+	$updatePhoneNumbersAuthToken = new authToken();
+	$updatePhoneNumbersAuthToken->authName = 'updatePhoneNumbers';
+	$updatePhoneNumbersAuthToken->set();
+
+	$deletePhoneNumberAuthToken = new authToken();
+	$deletePhoneNumberAuthToken->authName = 'deletePhoneNumber';
+	$deletePhoneNumberAuthToken->set();
 
 ?>
 
@@ -61,6 +84,8 @@
 		var scriptOutput;
 		var customerId ='<?php echo $currentCustomer->customerId; ?>';
 		var formState;
+		var checkEmails;
+		var checkPhoneNumbers;
 		var url = new URL(window.location.href);
 
 		var isNewCustomer = <?php if ($currentCustomer->existed) {echo 'false';} else {echo 'true';} ?>;
@@ -109,6 +134,56 @@
 				$(".cmsMainContentWrapper").scrollTop(url.searchParams.get('wsl'));
 			}
 
+			function registerEmailDeleteButtonClicks() {
+				$("span[id*='deleteEmailAddress:::']").each(function (i, el) {
+					$(el).on('click', function(e) {
+						currentId = this.id.split(":::")[1];
+						$.post("./scripts/async/deleteEmailAddress.script.php", {
+							emailAddressId: currentId,
+							deleteEmailAddressAuthToken: '<?php echo $deleteEmailAddressAuthToken->authTokenId; ?>'
+						}, function () {
+							loadEmails();
+						});
+					});
+				});
+			}
+
+			function loadEmails() {
+				$("#emailAddressesLoader").load("./includes/emailAddresses.inc.php", {
+					customerId: customerId
+				}, function () {
+					$(":input").change(function () {
+						inputChange();
+					});
+					registerEmailDeleteButtonClicks();
+				});
+			}
+
+			function registerPhoneNumberDeleteButtonClicks() {
+				$("span[id*='deletePhoneNumber:::']").each(function (i, el) {
+					$(el).on('click', function(e) {
+						currentId = this.id.split(":::")[1];
+						$.post("./scripts/async/deletePhoneNumber.script.php", {
+							phoneNumberId: currentId,
+							deletePhoneNumberAuthToken: '<?php echo $deletePhoneNumberAuthToken->authTokenId; ?>'
+						}, function () {
+							loadPhoneNumbers();
+						});
+					});
+				});
+			}
+
+			function loadPhoneNumbers() {
+				$("#phoneNumbersLoader").load("./includes/phoneNumbers.inc.php", {
+					customerId: customerId
+				}, function () {
+					$(":input").change(function () {
+						inputChange();
+					});
+					registerPhoneNumberDeleteButtonClicks();
+				});
+			}
+
 			function checkChanges() {
 				$('.loadingGif').each(function() {
 					$(this).fadeIn(100);
@@ -125,7 +200,9 @@
 					formState = scriptOutput[1];
 					clearFormErrors();
 
-					var checkEmails = false;
+					checkEmails = false;
+					checkPhoneNumbers = false;
+
 					switch (formState) {
 						case 'success':
 							setSaved();
@@ -134,6 +211,7 @@
 								window.history.pushState("string", 'UltiScape (Admin) - New Customer', "./?id="+customerId);
 							}
 							checkEmails = true;
+							checkPhoneNumbers = true;
 							break;
 						case 'password':
 							$('#password').show();
@@ -146,6 +224,7 @@
 								$(this).fadeOut(100);
 							});
 							checkEmails = false;
+							checkPhoneNumbers = false;
 							break;
 						default:
 							setWaitingForError();
@@ -156,11 +235,11 @@
 								$(this).fadeOut(100);
 							});
 							checkEmails = false;
+							checkPhoneNumbers = false;
 							break;
 					}
 
 					if (checkEmails) {
-						console.log(customerId);
 						$("#scriptLoader").load("./scripts/async/updateEmailAddresses.script.php", {
 							customerId: customerId,
 							formData: formData
@@ -171,16 +250,39 @@
 							switch (formState) {
 								case 'success':
 									setSaved();
-									checkEmails = true;
+									checkPhoneNumbers = true;
 									// Reload the emails box if a new email was put in
 									if ($("#newEmailAddress").val().length > 0) {
-										$("#emailAddressesLoader").load("./includes/emailAddresses.inc.php", {
-											customerId: customerId
-										}, function () {
-											$(":input").change(function (e) {
-												inputChange(e);
-											});
-										});
+										loadEmails();
+									}
+									break;
+								default:
+									setWaitingForError();
+									showFormError("#"+formState+"Error", "#"+formState);
+									$("#"+formState).shake(50);
+									checkPhoneNumbers = false;
+									$('.loadingGif').each(function() {
+										$(this).fadeOut(100);
+									});
+									break;
+							}
+						});
+					}
+
+					if (checkPhoneNumbers) {
+						$("#scriptLoader").load("./scripts/async/updatePhoneNumbers.script.php", {
+							customerId: customerId,
+							formData: formData
+						}, function () {
+							scriptOutput = $("#scriptLoader").html().split("::::");
+							formState = scriptOutput[1];
+
+							switch (formState) {
+								case 'success':
+									setSaved();
+									// Reload the emails box if a new email was put in
+									if ($("#newPhoneNumber").val().length > 0) {
+										loadPhoneNumbers();
 									}
 									break;
 								default:
@@ -191,7 +293,6 @@
 									$('.loadingGif').each(function() {
 										$(this).fadeOut(100);
 									});
-									checkEmails = false;
 									break;
 							}
 						});
@@ -205,13 +306,10 @@
 			}
 
 			// Load the email form on startup
-			$("#emailAddressesLoader").load("./includes/emailAddresses.inc.php", {
-				customerId: customerId
-			}, function () {
-				$(":input").change(function () {
-					inputChange();
-				});
-			});
+			loadEmails();
+
+			// Load the phone number form on startup
+			loadPhoneNumbers();
 
 			var interval = setInterval(function() {
 				if (changesSaved == false && (new Date() - lastChange) / 1000 > .5) {
@@ -264,6 +362,10 @@
 			</div>
 			<form class="defaultForm maxHeight" id="customerForm">
 
+				<input type="hidden" name="mainAuthToken" id="mainAuthToken" value="<?php echo htmlspecialchars($mainAuthToken->authTokenId); ?>">
+				<input type="hidden" name="updateEmailAddressesAuthToken" id="updateEmailAddressesAuthToken" value="<?php echo htmlspecialchars($updateEmailAddressesAuthToken->authTokenId); ?>">
+				<input type="hidden" name="updatePhoneNumbersAuthToken" id="updatePhoneNumbersAuthToken" value="<?php echo htmlspecialchars($updatePhoneNumbersAuthToken->authTokenId); ?>">
+
 				<div class="twoColPage-Content-Info maxHeight">
 					<div id="twoColContentWrapper" class="paddingLeftRight90 maxHeight" style="overflow: auto;">
 
@@ -288,32 +390,30 @@
 								<td class="defaultTableCell" style="padding: 1em;">Billing Address</td>
 								<td class="defaultTableCell" style="padding: 1em;">
 									<div>
-										<label for="billAddress1"><p>Address</p></label>
-										<input class="almostInvisibleInput" style="font-size: 1.2em; width: 80%;" type="text" name="billAddress1" id="billAddress1" value="<?php echo htmlspecialchars($currentCustomer->billAddress1); ?>">
+										<!-- <label for="billAddress1"><p>Address</p></label> -->
+										<input placeholder="Line 1..." class="almostInvisibleInput" style="font-size: 1.2em; width: 80%;" type="text" name="billAddress1" id="billAddress1" value="<?php echo htmlspecialchars($currentCustomer->billAddress1); ?>">
 										<br><br>
 
-										<input class="almostInvisibleInput" style="font-size: 1.2em; width: 80%;" type="text" name="billAddress2" id="billAddress2" value="<?php echo htmlspecialchars($currentCustomer->billAddress2); ?>">
+										<input placeholder="Line 2..." class="almostInvisibleInput" style="font-size: 1.2em; width: 80%;" type="text" name="billAddress2" id="billAddress2" value="<?php echo htmlspecialchars($currentCustomer->billAddress2); ?>">
 										<br><br>
-
-										
 
 										<div class="twoCol">
 											<div>
-												<label for="billCity"><p>City</p></label>
-												<input class="almostInvisibleInput" style="font-size: 1.2em; width: 80%;" type="text" name="billCity" id="billCity" value="<?php echo htmlspecialchars($currentCustomer->billCity); ?>">
+												<!-- <label for="billCity"><p>City</p></label> -->
+												<input placeholder="City..." class="almostInvisibleInput" style="font-size: 1.2em; width: 80%;" type="text" name="billCity" id="billCity" value="<?php echo htmlspecialchars($currentCustomer->billCity); ?>">
 												,
 											</div>
 
 											<div>
-												<label for="billState"><p>State</p></label>
-												<input class="almostInvisibleInput" style="font-size: 1.2em; width: 80%;" type="text" name="billState" id="billState" value="<?php echo htmlspecialchars($currentCustomer->billState); ?>">
+												<!-- <label for="billState"><p>State</p></label> -->
+												<input placeholder="State..." class="almostInvisibleInput" style="font-size: 1.2em; width: 80%;" type="text" name="billState" id="billState" value="<?php echo htmlspecialchars($currentCustomer->billState); ?>">
 											</div>
 										</div>
 
-										
+										<br>
 
-										<label for="billZipCode"><p>Zip Code</p></label>
-										<input class="almostInvisibleInput" style="font-size: 1.2em; width: 80%;" type="text" name="billZipCode" id="billZipCode" value="<?php echo htmlspecialchars($currentCustomer->billZipCode); ?>">
+										<!-- <label for="billZipCode"><p>Zip Code</p></label> -->
+										<input placeholder="Zip Code..." class="almostInvisibleInput" style="font-size: 1.2em; width: 80%;" type="text" name="billZipCode" id="billZipCode" value="<?php echo htmlspecialchars($currentCustomer->billZipCode); ?>">
 
 										<span id="billAddressError" class="underInputError" style="display: none;"><br><br>Please enter a valid address.</span>
 									</div>
@@ -381,19 +481,10 @@
 						<?php
 							$addedDate = new DateTime($currentCustomer->dateTimeAdded);
 						?>
+
 						<p>Added on <?php echo $addedDate->format('D, d M y'); ?></p>
 					</div>
 				</div>
-							
-				<?php
-					// Generate an auth token for the form
-					require_once '../../../../lib/table/authToken.php';
-					$token = new authToken();
-					$token->authName = 'editCustomer';
-					$token->set();
-				?>
-
-				<input type="hidden" name="authToken" id="authToken" value="<?php echo htmlspecialchars($token->authTokenId); ?>">
 			</form>
 
 		</div>

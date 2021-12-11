@@ -30,7 +30,7 @@
 
 	// Validate the auth token
 	require_once '../../../../../../lib/etc/authToken/validateAuthToken.php';
-	if (!validateAuthToken($formData['authToken'], 'editCustomer')) {
+	if (!isset($formData['mainAuthToken']) || !validateAuthToken($formData['mainAuthToken'], 'editCustomer')) {
 		echo 'tokenInvalid';
 		exit();
 	}
@@ -195,7 +195,7 @@
 
 	// Use the auth token
 	require_once '../../../../../../lib/etc/authToken/useAuthToken.php';
-	useAuthToken($formData['authToken'], 'editCustomer');
+	useAuthToken($formData['mainAuthToken'], 'editCustomer');
 
 	if ($currentCustomer->set() !== true) {
 		echo 'setError';
