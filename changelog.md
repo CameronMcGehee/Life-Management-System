@@ -59,4 +59,4 @@
 
 ## v0.2.1 - NF
 - Goodies
-    - Customer view/edit page now functional (somewhat major, upping sub-version number)
+    - Customer view/edit page now functional
