@@ -68,7 +68,7 @@
                 $pageNav = new pageNavigator(ceil(($selectAll[0]['num'] / $this->perPage)), $this->page, './', $this->renderId.'-p', 'float: right; padding: .2em;');
                 $pageNav->render();
 
-                $sortBySelector = new sortBySelector($this->renderId, './', $this->renderId.'-s', $this->sortBy);
+                $sortBySelector = new sortBySelector($this->renderId."sortSelector", './', $this->renderId.'-s', $this->sortBy);
                 $sortBySelector->render();
 
                 $this->output .= '<div>'.$pageNav->output.' <span style="width: min-content; height: 100%; float:right;" class="xCenteredFlex">'.$sortBySelector->output.'</span></div>';
@@ -78,10 +78,29 @@
             $this->output .= '</div>';
 
             // Get actual results
+            $params = '';
+
+            switch ($this->sortBy) {
+                case 'az':
+                    $params .= 'ORDER BY firstName DESC ';
+                    break;
+                case 'za':
+                    $params .= 'ORDER BY firstName ASC ';
+                    break;
+                case 'newest':
+                    $params .= 'ORDER BY dateTimeAdded DESC ';
+                    break;
+                case 'oldest':
+                    $params .= 'ORDER BY dateTimeAdded ASC ';
+                    break;
+                default:
+                    break;
+            }
+
             if (empty($this->queryParams)) {
-                $params = "LIMIT ".$firstLimit.", ".$this->perPage;
+                $params .= "LIMIT ".$firstLimit.", ".$this->perPage;
             } else {
-                $params = $this->queryParams." LIMIT ".$firstLimit.", ".$this->perPage;
+                $params .= $this->queryParams." LIMIT ".$firstLimit.", ".$this->perPage;
             }
 
             $this->currentBusiness->pullCustomers($params);
@@ -213,7 +232,6 @@
                     if ($("#batchSelect option:selected").val() == "delete") {
                             $("#scriptLoader").load("'.$this->rootPathPrefix.'scripts/async/customer/deleteCustomers.php", {"customers[]": checkedArray, "authToken": deleteCustomersAuthToken}, function() {
                                 if ($("#scriptLoader").html() == "success") {
-                                    console.log("reloading");
                                     document.location.reload(true);
                                 }
                             });

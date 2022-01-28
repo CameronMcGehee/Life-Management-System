@@ -4,15 +4,17 @@
 
 	class sortBySelector extends render {
 
+		public $rootPathPrefix;
 		public $options;
 		public $selected;
-		public $pageVarName;
+		public $getVarName;
 		public $style;
 		public $id;
 
-		function __construct(string $renderId, $path = './', $pageVarName = 'page', $selected = 'az') {
+		function __construct(string $renderId, $rootPathPrefix = './', $getVarName = 'page', $selected = 'az') {
+			$this->rootPathPrefix = $rootPathPrefix;
 			$this->renderId = $renderId;
-			$this->pageVarName = $pageVarName;
+			$this->getVarName = $getVarName;
 			$this->selected = $selected;
 		}
 
@@ -20,7 +22,7 @@
 
 			$this->output = '';
 
-			$this->output .= '<select class="defaultInput" style="'.$this->style.'" id="'.$this->renderId.'">';
+			$this->output .= '<select class="defaultInput" style="'.$this->style.'" id="'.$this->renderId.'" onchange="'.$this->renderId.'changeSort()">';
 
 			if ($this->selected == 'az') {
 				$this->output .= '<option value="az" selected>A-Z</option>';
@@ -46,9 +48,20 @@
 				$this->output .= '<option value="oldest">Oldest</option>';
 			}
 
-			$this->output .= '<option value="oldest">Oldest</option>';
-
 			$this->output .= '</select>';
+
+			$this->output .= '
+            <script>
+                function '.$this->renderId.'changeSort() {
+
+                    var url = new URL(window.location.href);
+
+                    url.searchParams.set("'.$this->getVarName.'", $("#'.$this->renderId.' option:selected").val());
+
+					window.location.replace(url.href);
+                }
+            
+            </script>';
 		}
 	}
 
