@@ -757,7 +757,7 @@ a.noUnderline {
 	outline: none;
 }
 
-.defaultForm .defaultInput {
+.defaultInput {
 	outline: none;
 	border: 1px solid gray;
 	border-radius: .1em;
@@ -769,11 +769,11 @@ a.noUnderline {
 
 	transition: all 300ms;
 }
-.defaultForm .defaultInput:focus {
+.defaultInput:focus {
 	outline: 1px solid var(--utliscapeColorTheme);
 }
 
-.defaultForm .bigInput {
+.bigInput {
 	outline: none;
 	border: none;
 	border-bottom: 3px solid gray;
@@ -789,33 +789,33 @@ a.noUnderline {
 
 	transition: all 300ms;
 }
-.defaultForm .bigInput:focus {
+.bigInput:focus {
 	border-bottom: 3px solid var(--utliscapeColorTheme);
 }
 
-.defaultForm .invisibleInput, .defaultForm .invisibleInputNoHover {
+.invisibleInput, .invisibleInputNoHover {
 	outline: none;
 	border: none;
 	transition: all 300ms;
 }
 
-.defaultForm .invisibleInput:hover {
+.invisibleInput:hover {
 	outline: 1px solid rgb(175, 175, 175);
 }
 
-.defaultForm .almostInvisibleInput, .defaultForm .almostInvisibleInputNoHover {
+.almostInvisibleInput, .almostInvisibleInputNoHover {
 	outline: none;
 	border: none;
 	border-bottom: 1px solid rgb(196, 196, 196);
 }
 
-.defaultForm .almostInvisibleInput:hover {
+.almostInvisibleInput:hover {
 	outline: 1px solid rgb(175, 175, 175);
 	border: none;
 	margin-bottom: 1px; /* To compensate for the border: none; */
 }
 
-.defaultForm .underInputError {
+.underInputError {
 	font-style: italic;
 	color: red;
 }
@@ -921,7 +921,7 @@ a.noUnderline {
 /*-----------------------------------------------------------------------------------------------------------------------------*/
 /*-----------------------------------------------------------------------------------------------------------------------------*/
 
-.pageNavigator #currentPageButton {
+.pageNavigator .currentPageButton {
     padding: .15em;
     background-color: #84e184;
     border-style: solid;
@@ -932,7 +932,7 @@ a.noUnderline {
     color: black;
 }
 
-.pageNavigator #pageButton {
+.pageNavigator .pageButton {
     padding: .15em;
     background-color: #f2f2f2;
     border-style: solid;

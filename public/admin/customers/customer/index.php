@@ -456,7 +456,7 @@
 						<input class="defaultInput" type="checkbox" name="allowCZSignIn" id="allowCZSignIn" <?php if ($currentCustomer->allowCZSignIn == '1') {echo 'checked="checked"';} ?>><label for="allowCZSignIn"> <p style="display: inline; clear: both;">Allow this customer to sign into the <a href="../../../customer">Customer Portal</a></p></label>
 						<br><br>
 						<label for="password"><p>Customer Portal Password</p></label>
-						<input class="defaultInput" style="font-size: 1.2em; width: 10em; display: none;" type="text" name="password" id="password" value="<?php echo htmlspecialchars($currentCustomer->password); ?>">
+						<input class="defaultInput" style="font-size: 1.2em; width: 10em; display: none;" type="text" name="password" id="password" value="<?php if (!$currentCustomer->existed) { $newPassword = new tableUuid('customer', 'password'); echo $newPassword->generatedId; } else {echo htmlspecialchars($currentCustomer->password);} ?>">
 						<span class="smallButtonWrapper greenButton" id="showPasswordButton" style="display: inline-block;">Show</span>
 						<span id="passwordError" class="underInputError" style="display: none;"><br>You must enter a customer-unique password for security purposes.</span>
 						<br><br>

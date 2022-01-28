@@ -19,6 +19,7 @@
 </head>
 
 <body>
+	<div style="display: block;" id="scriptLoader"></div>
 	<div class="cmsBodyWrapper">
 
 		<?php
@@ -42,14 +43,9 @@
 
 						require_once '../../../lib/render/customer/customerTable.php';
 
-						$customerTable = new customerTable();
+						$customerTable = new customerTable('main');
 
 						$customerTable->rootPathPrefix = '../';
-						$customerTable->queryParams = 'ORDER BY nameIndex ASC';
-
-						if (isset($_GET['p']) && is_numeric($_GET['p'])) {
-							$customerTable->page = (int)$_GET['p'];
-						}
 
 						$customerTable->render();
 

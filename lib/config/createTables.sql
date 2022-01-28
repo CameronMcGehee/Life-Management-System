@@ -32,7 +32,7 @@
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`adminLoginAttemptId`),
 	KEY `adminLoginAttemptAdminId` (`adminId`),
-	CONSTRAINT `adminLoginAttemptAdminId` FOREIGN KEY (`adminId`) REFERENCES `admin` (`adminId`)
+	CONSTRAINT `adminLoginAttemptAdminId` FOREIGN KEY (`adminId`) REFERENCES `admin` (`adminId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -45,7 +45,7 @@
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`adminSavedLoginId`),
 	KEY `adminSavedLoginAdminId` (`adminId`),
-	CONSTRAINT `adminSavedLoginAdminId` FOREIGN KEY (`adminId`) REFERENCES `admin` (`adminId`)
+	CONSTRAINT `adminSavedLoginAdminId` FOREIGN KEY (`adminId`) REFERENCES `admin` (`adminId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -186,8 +186,8 @@
 	PRIMARY KEY (`businessPlanPaymentId`),
 	KEY `businessPlanPaymentBusinessId` (`businessId`),
 	KEY `businessPlanPaymentAdminId` (`adminId`),
-	CONSTRAINT `businessPlanPaymentBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
-	CONSTRAINT `businessPlanPaymentAdminId` FOREIGN KEY (`adminId`) REFERENCES `admin` (`adminId`)
+	CONSTRAINT `businessPlanPaymentBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE,
+	CONSTRAINT `businessPlanPaymentAdminId` FOREIGN KEY (`adminId`) REFERENCES `admin` (`adminId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -224,8 +224,8 @@
 	PRIMARY KEY (`adminBusinessId`),
 	KEY `adminBusinessBridgeAdminId` (`adminId`),
 	KEY `adminBusinessBridgeBusinessId` (`businessId`),
-	CONSTRAINT `adminBusinessBridgeAdminId` FOREIGN KEY (`adminId`) REFERENCES `admin` (`adminId`),
-	CONSTRAINT `adminBusinessBridgeBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`)
+	CONSTRAINT `adminBusinessBridgeAdminId` FOREIGN KEY (`adminId`) REFERENCES `admin` (`adminId`) ON DELETE CASCADE,
+	CONSTRAINT `adminBusinessBridgeBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -254,7 +254,7 @@
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`crewId`),
 	KEY `crewBusinessId` (`businessId`),
-	CONSTRAINT `crewBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`)
+	CONSTRAINT `crewBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -271,7 +271,7 @@
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`crewTagId`),
 	KEY `crewTagBusinessId` (`businessId`),
-	CONSTRAINT `crewTagBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`)
+	CONSTRAINT `crewTagBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -304,7 +304,7 @@
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`customerId`),
 	KEY `customerBusinessId` (`businessId`),
-	CONSTRAINT `customerBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`)
+	CONSTRAINT `customerBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -324,8 +324,8 @@
 	PRIMARY KEY (`customerPhoneNumberId`),
 	KEY `customerPhoneNumberBusinessId` (`businessId`),
 	KEY `customerPhoneNumberCustomerId` (`customerId`),
-	CONSTRAINT `customerPhoneNumberBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
-	CONSTRAINT `customerPhoneNumberCustomerId` FOREIGN KEY (`customerId`) REFERENCES `customer` (`customerId`)
+	CONSTRAINT `customerPhoneNumberBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE,
+	CONSTRAINT `customerPhoneNumberCustomerId` FOREIGN KEY (`customerId`) REFERENCES `customer` (`customerId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -342,8 +342,8 @@
 	PRIMARY KEY (`customerEmailAddressId`),
 	KEY `customerEmailAddressBusinessId` (`businessId`),
 	KEY `customerEmailAddressCustomerId` (`customerId`),
-	CONSTRAINT `customerEmailAddressBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
-	CONSTRAINT `customerEmailAddressCustomerId` FOREIGN KEY (`customerId`) REFERENCES `customer` (`customerId`)
+	CONSTRAINT `customerEmailAddressBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE,
+	CONSTRAINT `customerEmailAddressCustomerId` FOREIGN KEY (`customerId`) REFERENCES `customer` (`customerId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -360,8 +360,8 @@
 	PRIMARY KEY (`customerLoginAttemptId`),
 	KEY `customerLoginAttemptBusinessId` (`businessId`),
 	KEY `customerLoginAttemptCustomerId` (`customerId`),
-	CONSTRAINT `customerLoginAttemptBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
-	CONSTRAINT `customerLoginAttemptCustomerId` FOREIGN KEY (`customerId`) REFERENCES `customer` (`customerId`)
+	CONSTRAINT `customerLoginAttemptBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE,
+	CONSTRAINT `customerLoginAttemptCustomerId` FOREIGN KEY (`customerId`) REFERENCES `customer` (`customerId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -376,8 +376,8 @@
 	PRIMARY KEY (`customerSavedLoginId`),
 	KEY `customerSavedLoginBusinessId` (`businessId`),
 	KEY `customerSavedLoginCustomerId` (`customerId`),
-	CONSTRAINT `customerSavedLoginBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
-	CONSTRAINT `customerSavedLoginCustomerId` FOREIGN KEY (`customerId`) REFERENCES `customer` (`customerId`)
+	CONSTRAINT `customerSavedLoginBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE,
+	CONSTRAINT `customerSavedLoginCustomerId` FOREIGN KEY (`customerId`) REFERENCES `customer` (`customerId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -394,7 +394,7 @@
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`customerTagId`),
 	KEY `customerTagBusinessId` (`businessId`),
-	CONSTRAINT `customerTagBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`)
+	CONSTRAINT `customerTagBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -415,8 +415,8 @@
 	PRIMARY KEY (`quoteRequestId`),
 	KEY `quoteRequestBusinessId` (`businessId`),
 	KEY `quoteRequestlinkedToCustomerId` (`linkedToCustomerId`),
-	CONSTRAINT `quoteRequestBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
-	CONSTRAINT `quoteRequestlinkedToCustomerId` FOREIGN KEY (`linkedToCustomerId`) REFERENCES `customer` (`customerId`)
+	CONSTRAINT `quoteRequestBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE,
+	CONSTRAINT `quoteRequestlinkedToCustomerId` FOREIGN KEY (`linkedToCustomerId`) REFERENCES `customer` (`customerId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -439,8 +439,8 @@
 	KEY `quoteRequestServiceBusinessId` (`businessId`),
 	KEY `quoteRequestServiceQuoteRequestId` (`quoteRequestId`),
 	KEY `quoteRequestServicelinkedToServiceListingId` (`linkedToServiceListingId`),
-	CONSTRAINT `quoteRequestServiceBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
-	CONSTRAINT `quoteRequestServiceQuoteRequestId` FOREIGN KEY (`quoteRequestId`) REFERENCES `quoteRequest` (`quoteRequestId`)
+	CONSTRAINT `quoteRequestServiceBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE,
+	CONSTRAINT `quoteRequestServiceQuoteRequestId` FOREIGN KEY (`quoteRequestId`) REFERENCES `quoteRequest` (`quoteRequestId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -460,7 +460,7 @@
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`serviceListingId`),
 	KEY `serviceListingBusinessId` (`businessId`),
-	CONSTRAINT `serviceListingBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`)
+	CONSTRAINT `serviceListingBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -496,7 +496,7 @@
 	KEY `chemicalBusinessId` (`businessId`),
 	KEY `chemicalLinkedToCrewId` (`linkedToCrewId`),
 	KEY `chemicalLinkedToStaffId` (`linkedToStaffId`),
-	CONSTRAINT `chemicalBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`)
+	CONSTRAINT `chemicalBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -513,8 +513,8 @@
 	PRIMARY KEY (`chemicalImageId`),
 	KEY `chemicalImageBusinessId` (`businessId`),
 	KEY `chemicalImageChemicalId` (`chemicalId`),
-	CONSTRAINT `chemicalImageBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
-	CONSTRAINT `chemicalImageChemicalId` FOREIGN KEY (`chemicalId`) REFERENCES `chemical` (`chemicalId`)
+	CONSTRAINT `chemicalImageBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE,
+	CONSTRAINT `chemicalImageChemicalId` FOREIGN KEY (`chemicalId`) REFERENCES `chemical` (`chemicalId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -531,7 +531,7 @@
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`chemicalTagId`),
 	KEY `chemicalTagBusinessId` (`businessId`),
-	CONSTRAINT `chemicalTagBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`)
+	CONSTRAINT `chemicalTagBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -556,7 +556,7 @@
 	KEY `equipmentBusinessId` (`businessId`),
 	KEY `equipmentLinkedToCrewId` (`linkedToCrewId`),
 	KEY `equipmentLinkedToStaffId` (`linkedToStaffId`),
-	CONSTRAINT `equipmentBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`)
+	CONSTRAINT `equipmentBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -573,9 +573,9 @@
 	KEY `equipmentChemicalBridgeBusinessId` (`businessId`),
 	KEY `equipmentChemicalBridgeEquipmentId` (`equipmentId`),
 	KEY `equipmentChemicalBridgeChemicalId` (`chemicalId`),
-	CONSTRAINT `equipmentChemicalBridgeBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
-	CONSTRAINT `equipmentChemicalBridgeEquipmentId` FOREIGN KEY (`equipmentId`) REFERENCES `equipment` (`equipmentId`),
-	CONSTRAINT `equipmentChemicalBridgeChemicalId` FOREIGN KEY (`chemicalId`) REFERENCES `chemical` (`chemicalId`)
+	CONSTRAINT `equipmentChemicalBridgeBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE,
+	CONSTRAINT `equipmentChemicalBridgeEquipmentId` FOREIGN KEY (`equipmentId`) REFERENCES `equipment` (`equipmentId`) ON DELETE CASCADE,
+	CONSTRAINT `equipmentChemicalBridgeChemicalId` FOREIGN KEY (`chemicalId`) REFERENCES `chemical` (`chemicalId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -592,8 +592,8 @@
 	PRIMARY KEY (`equipmentImageId`),
 	KEY `equipmentImageBusinessId` (`businessId`),
 	KEY `equipmentImageEquipmentId` (`equipmentId`),
-	CONSTRAINT `equipmentImageBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
-	CONSTRAINT `equipmentImageEquipmentId` FOREIGN KEY (`equipmentId`) REFERENCES `equipment` (`equipmentId`)
+	CONSTRAINT `equipmentImageBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE,
+	CONSTRAINT `equipmentImageEquipmentId` FOREIGN KEY (`equipmentId`) REFERENCES `equipment` (`equipmentId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -610,8 +610,8 @@
 	PRIMARY KEY (`equipmentMaintenanceLogId`),
 	KEY `equipmentMaintenanceLogBusinessId` (`businessId`),
 	KEY `equipmentMaintenanceLogEquipmentId` (`equipmentId`),
-	CONSTRAINT `equipmentMaintenanceLogBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
-	CONSTRAINT `equipmentMaintenanceLogEquipmentId` FOREIGN KEY (`equipmentId`) REFERENCES `equipment` (`equipmentId`)
+	CONSTRAINT `equipmentMaintenanceLogBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE,
+	CONSTRAINT `equipmentMaintenanceLogEquipmentId` FOREIGN KEY (`equipmentId`) REFERENCES `equipment` (`equipmentId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -628,7 +628,7 @@
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`equipmentTagId`),
 	KEY `equipmentTagBusinessId` (`businessId`),
-	CONSTRAINT `equipmentTagBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`)
+	CONSTRAINT `equipmentTagBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -643,7 +643,7 @@
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`docIdId`),
 	KEY `docIdBusinessId` (`businessId`),
-	CONSTRAINT `docIdBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`)
+	CONSTRAINT `docIdBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -670,9 +670,9 @@
 	KEY `customerServiceTicketLinkedToInvoiceId` (`linkedToInvoiceId`),
 	KEY `customerServiceTicketLinkedToEstimateId` (`linkedToEstimateId`),
 	KEY `customerServiceTicketLinkedToQuoteRequestId` (`linkedToQuoteRequestId`),
-	CONSTRAINT `customerServiceTicketBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
-	CONSTRAINT `customerServiceTicketDocIdId` FOREIGN KEY (`docIdId`) REFERENCES `docId` (`docIdId`),
-	CONSTRAINT `customerServiceTicketLinkedToCustomerId` FOREIGN KEY (`linkedToCustomerId`) REFERENCES `customer` (`customerId`)
+	CONSTRAINT `customerServiceTicketBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE,
+	CONSTRAINT `customerServiceTicketDocIdId` FOREIGN KEY (`docIdId`) REFERENCES `docId` (`docIdId`) ON DELETE CASCADE,
+	CONSTRAINT `customerServiceTicketLinkedToCustomerId` FOREIGN KEY (`linkedToCustomerId`) REFERENCES `customer` (`customerId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -691,9 +691,9 @@
 	KEY `adminCustomerServiceMessageBusinessId` (`businessId`),
 	KEY `adminCustomerServiceMessageAdminId` (`adminId`),
 	KEY `adminCustomerServiceMessageCustomerServiceTicketId` (`customerServiceTicketId`),
-	CONSTRAINT `adminCustomerServiceMessageBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
-	CONSTRAINT `adminCustomerServiceMessageAdminId` FOREIGN KEY (`adminId`) REFERENCES `admin` (`adminId`),
-	CONSTRAINT `adminCustomerServiceMessageCustomerServiceTicketId` FOREIGN KEY (`customerServiceTicketId`) REFERENCES `customerServiceTicket` (`customerServiceTicketId`)
+	CONSTRAINT `adminCustomerServiceMessageBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE,
+	CONSTRAINT `adminCustomerServiceMessageAdminId` FOREIGN KEY (`adminId`) REFERENCES `admin` (`adminId`) ON DELETE CASCADE,
+	CONSTRAINT `adminCustomerServiceMessageCustomerServiceTicketId` FOREIGN KEY (`customerServiceTicketId`) REFERENCES `customerServiceTicket` (`customerServiceTicketId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -710,8 +710,8 @@
 	PRIMARY KEY (`customerCustomerServiceMessageId`),
 	KEY `customerCustomerServiceMessageBusinessId` (`businessId`),
 	KEY `customerCustomerServiceMessageCustomerServiceTicketId` (`customerServiceTicketId`),
-	CONSTRAINT `customerCustomerServiceMessageBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
-	CONSTRAINT `customerCustomerServiceMessageCustomerServiceTicketId` FOREIGN KEY (`customerServiceTicketId`) REFERENCES `customerServiceTicket` (`customerServiceTicketId`)
+	CONSTRAINT `customerCustomerServiceMessageBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE,
+	CONSTRAINT `customerCustomerServiceMessageCustomerServiceTicketId` FOREIGN KEY (`customerServiceTicketId`) REFERENCES `customerServiceTicket` (`customerServiceTicketId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -730,8 +730,8 @@
 	KEY `fileUploadLinkedToStaffId` (`linkedToStaffId`),
 	KEY `fileUploadLinkedToCustomerId` (`linkedToCustomerId`),
 	KEY `fileUploadDocIdId` (`docIdId`),
-	CONSTRAINT `fileUploadBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
-	CONSTRAINT `fileUploadDocIdId` FOREIGN KEY (`docIdId`) REFERENCES `docId` (`docIdId`)
+	CONSTRAINT `fileUploadBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE,
+	CONSTRAINT `fileUploadDocIdId` FOREIGN KEY (`docIdId`) REFERENCES `docId` (`docIdId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -755,9 +755,9 @@
 	KEY `estimateBusinessId` (`businessId`),
 	KEY `estimateCustomerId` (`customerId`),
 	KEY `estimateDocIdId` (`docIdId`),
-	CONSTRAINT `estimateBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
-	CONSTRAINT `estimateCustomerId` FOREIGN KEY (`customerId`) REFERENCES `customer` (`customerId`),
-	CONSTRAINT `estimateDocIdId` FOREIGN KEY (`DocIdId`) REFERENCES `docId` (`docIdId`)
+	CONSTRAINT `estimateBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE,
+	CONSTRAINT `estimateCustomerId` FOREIGN KEY (`customerId`) REFERENCES `customer` (`customerId`) ON DELETE CASCADE,
+	CONSTRAINT `estimateDocIdId` FOREIGN KEY (`DocIdId`) REFERENCES `docId` (`docIdId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -777,8 +777,8 @@
 	PRIMARY KEY (`estimateItemId`),
 	KEY `estimateItemBusinessId` (`businessId`),
 	KEY `estimateItemEstimateId` (`estimateId`),
-	CONSTRAINT `estimateItemBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
-	CONSTRAINT `estimateItemEstimateId` FOREIGN KEY (`estimateId`) REFERENCES `estimate` (`estimateId`)
+	CONSTRAINT `estimateItemBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE,
+	CONSTRAINT `estimateItemEstimateId` FOREIGN KEY (`estimateId`) REFERENCES `estimate` (`estimateId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -796,9 +796,9 @@
 	KEY `estimateApprovalBusinessId` (`businessId`),
 	KEY `estimateApprovalEstimateId` (`estimateId`),
 	KEY `estimateApprovalapprovedByAdminId` (`approvedByAdminId`),
-	CONSTRAINT `estimateApprovalBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
-	CONSTRAINT `estimateApprovalEstimateId` FOREIGN KEY (`estimateId`) REFERENCES `estimate` (`estimateId`),
-	CONSTRAINT `estimateApprovalapprovedByAdminId` FOREIGN KEY (`approvedByAdminId`) REFERENCES `admin` (`adminId`)
+	CONSTRAINT `estimateApprovalBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE,
+	CONSTRAINT `estimateApprovalEstimateId` FOREIGN KEY (`estimateId`) REFERENCES `estimate` (`estimateId`) ON DELETE CASCADE,
+	CONSTRAINT `estimateApprovalapprovedByAdminId` FOREIGN KEY (`approvedByAdminId`) REFERENCES `admin` (`adminId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -824,9 +824,9 @@
 	KEY `invoiceBusinessId` (`businessId`),
 	KEY `invoiceCustomerId` (`customerId`),
 	KEY `invoiceDocIdId` (`docIdId`),
-	CONSTRAINT `invoiceBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
-	CONSTRAINT `invoiceCustomerId` FOREIGN KEY (`customerId`) REFERENCES `customer` (`customerId`),
-	CONSTRAINT `invoiceDocIdId` FOREIGN KEY (`DocIdId`) REFERENCES `docId` (`docIdId`)
+	CONSTRAINT `invoiceBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE,
+	CONSTRAINT `invoiceCustomerId` FOREIGN KEY (`customerId`) REFERENCES `customer` (`customerId`) ON DELETE CASCADE,
+	CONSTRAINT `invoiceDocIdId` FOREIGN KEY (`DocIdId`) REFERENCES `docId` (`docIdId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -846,8 +846,8 @@
 	PRIMARY KEY (`invoiceItemId`),
 	KEY `invoiceItemBusinessId` (`businessId`),
 	KEY `invoiceItemInvoiceId` (`invoiceId`),
-	CONSTRAINT `invoiceItemBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
-	CONSTRAINT `invoiceItemInvoiceId` FOREIGN KEY (`invoiceId`) REFERENCES `invoice` (`invoiceId`)
+	CONSTRAINT `invoiceItemBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE,
+	CONSTRAINT `invoiceItemInvoiceId` FOREIGN KEY (`invoiceId`) REFERENCES `invoice` (`invoiceId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -868,8 +868,8 @@
 	KEY `paymentBusinessId` (`businessId`),
 	KEY `paymentCustomerId` (`customerId`),
 	KEY `paymentLinkedToInvoiceId` (`linkedToInvoiceId`),
-	CONSTRAINT `paymentBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
-	CONSTRAINT `paymentCustomerId` FOREIGN KEY (`customerId`) REFERENCES `customer` (`customerId`)
+	CONSTRAINT `paymentBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE,
+	CONSTRAINT `paymentCustomerId` FOREIGN KEY (`customerId`) REFERENCES `customer` (`customerId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -892,8 +892,8 @@
 	PRIMARY KEY (`propertyId`),
 	KEY `propertyBusinessId` (`businessId`),
 	KEY `propertyCustomerId` (`customerId`),
-	CONSTRAINT `propertyBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
-	CONSTRAINT `propertyCustomerId` FOREIGN KEY (`customerId`) REFERENCES `customer` (`customerId`)
+	CONSTRAINT `propertyBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE,
+	CONSTRAINT `propertyCustomerId` FOREIGN KEY (`customerId`) REFERENCES `customer` (`customerId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -919,9 +919,9 @@
 	KEY `chemicalApplicationLinkedToCrewId` (`linkedToCrewId`),
 	KEY `chemicalApplicationLinkedToStaffId` (`linkedToStaffId`),
 	KEY `chemicalApplicationLinkedToJobCompletedId` (`linkedToJobCompletedId`),
-	CONSTRAINT `chemicalApplicationBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
-	CONSTRAINT `chemicalApplicationChemicalId` FOREIGN KEY (`chemicalId`) REFERENCES `chemical` (`chemicalId`),
-	CONSTRAINT `chemicalApplicationPropertyId` FOREIGN KEY (`propertyId`) REFERENCES `property` (`propertyId`)
+	CONSTRAINT `chemicalApplicationBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE,
+	CONSTRAINT `chemicalApplicationChemicalId` FOREIGN KEY (`chemicalId`) REFERENCES `chemical` (`chemicalId`) ON DELETE CASCADE,
+	CONSTRAINT `chemicalApplicationPropertyId` FOREIGN KEY (`propertyId`) REFERENCES `property` (`propertyId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -940,7 +940,7 @@
 	KEY `jobCancellationBusinessId` (`businessId`),
 	KEY `jobCancellationLinkedToJobSingularId` (`linkedToJobSingularId`),
 	KEY `jobCancellationLinkedToJobRecurringId` (`linkedToJobRecurringId`),
-	CONSTRAINT `jobCancellationBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`)
+	CONSTRAINT `jobCancellationBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 	
 	--
@@ -967,7 +967,7 @@
 	KEY `jobCompletedLinkedToJobRecurringId` (`linkedToJobRecurringId`),
 	KEY `jobCompletedLinkedToCustomerId` (`linkedToCustomerId`),
 	KEY `jobCompletedLinkedToPropertyId` (`linkedToPropertyId`),
-	CONSTRAINT `jobCompletedBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`)
+	CONSTRAINT `jobCompletedBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -994,7 +994,7 @@
 	KEY `jobRecurringBusinessId` (`businessId`),
 	KEY `jobRecurringLinkedToCustomerId` (`linkedToCustomerId`),
 	KEY `jobRecurringLinkedToPropertyId` (`linkedToPropertyId`),
-	CONSTRAINT `jobRecurringBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`)
+	CONSTRAINT `jobRecurringBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -1021,7 +1021,7 @@
 	KEY `jobSingularLinkedToJobRecurringId` (`linkedToJobRecurringId`),
 	KEY `jobSingularLinkedToCustomerId` (`linkedToCustomerId`),
 	KEY `jobSingularLinkedToPropertyId` (`linkedToPropertyId`),
-	CONSTRAINT `jobSingularBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`)
+	CONSTRAINT `jobSingularBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -1038,9 +1038,9 @@
 	KEY `jobSingularCrewBridgeBusinessId` (`businessId`),
 	KEY `jobSingularCrewBridgeJobSingularId` (`jobSingularId`),
 	KEY `jobSingularCrewBridgecrewId` (`crewId`),
-	CONSTRAINT `jobSingularCrewBridgeBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
-	CONSTRAINT `jobSingularCrewBridgeJobSingularId` FOREIGN KEY (`jobSingularId`) REFERENCES `jobSingular` (`jobSingularId`),
-	CONSTRAINT `jobSingularCrewBridgecrewId` FOREIGN KEY (`crewId`) REFERENCES `crew` (`crewId`)
+	CONSTRAINT `jobSingularCrewBridgeBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE,
+	CONSTRAINT `jobSingularCrewBridgeJobSingularId` FOREIGN KEY (`jobSingularId`) REFERENCES `jobSingular` (`jobSingularId`) ON DELETE CASCADE,
+	CONSTRAINT `jobSingularCrewBridgecrewId` FOREIGN KEY (`crewId`) REFERENCES `crew` (`crewId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -1057,9 +1057,9 @@
 	KEY `jobRecurringCrewBridgeBusinessId` (`businessId`),
 	KEY `jobRecurringCrewBridgeJobRecurringId` (`jobRecurringId`),
 	KEY `jobRecurringCrewBridgecrewId` (`crewId`),
-	CONSTRAINT `jobRecurringCrewBridgeBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
-	CONSTRAINT `jobRecurringCrewBridgeJobRecurringId` FOREIGN KEY (`jobRecurringId`) REFERENCES `jobRecurring` (`jobRecurringId`),
-	CONSTRAINT `jobRecurringCrewBridgecrewId` FOREIGN KEY (`crewId`) REFERENCES `crew` (`crewId`)
+	CONSTRAINT `jobRecurringCrewBridgeBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE,
+	CONSTRAINT `jobRecurringCrewBridgeJobRecurringId` FOREIGN KEY (`jobRecurringId`) REFERENCES `jobRecurring` (`jobRecurringId`) ON DELETE CASCADE,
+	CONSTRAINT `jobRecurringCrewBridgecrewId` FOREIGN KEY (`crewId`) REFERENCES `crew` (`crewId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -1076,9 +1076,9 @@
 	KEY `jobCompletedCrewBridgeBusinessId` (`businessId`),
 	KEY `jobCompletedCrewBridgeJobCompletedId` (`jobCompletedId`),
 	KEY `jobCompletedCrewBridgecrewId` (`crewId`),
-	CONSTRAINT `jobCompletedCrewBridgeBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
-	CONSTRAINT `jobCompletedCrewBridgeJobCompletedId` FOREIGN KEY (`jobCompletedId`) REFERENCES `jobCompleted` (`jobCompletedId`),
-	CONSTRAINT `jobCompletedCrewBridgecrewId` FOREIGN KEY (`crewId`) REFERENCES `crew` (`crewId`)
+	CONSTRAINT `jobCompletedCrewBridgeBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE,
+	CONSTRAINT `jobCompletedCrewBridgeJobCompletedId` FOREIGN KEY (`jobCompletedId`) REFERENCES `jobCompleted` (`jobCompletedId`) ON DELETE CASCADE,
+	CONSTRAINT `jobCompletedCrewBridgecrewId` FOREIGN KEY (`crewId`) REFERENCES `crew` (`crewId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -1109,7 +1109,7 @@
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`staffId`),
 	KEY `staffBusinessId` (`businessId`),
-	CONSTRAINT `staffBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`)
+	CONSTRAINT `staffBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -1129,8 +1129,8 @@
 	PRIMARY KEY (`staffPhoneNumberId`),
 	KEY `staffPhoneNumberBusinessId` (`businessId`),
 	KEY `staffPhoneNumberStaffId` (`staffId`),
-	CONSTRAINT `staffPhoneNumberBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
-	CONSTRAINT `staffPhoneNumberStaffId` FOREIGN KEY (`staffId`) REFERENCES `staff` (`staffId`)
+	CONSTRAINT `staffPhoneNumberBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE,
+	CONSTRAINT `staffPhoneNumberStaffId` FOREIGN KEY (`staffId`) REFERENCES `staff` (`staffId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -1147,8 +1147,8 @@
 	PRIMARY KEY (`staffEmailAddressId`),
 	KEY `staffEmailAddressBusinessId` (`businessId`),
 	KEY `staffEmailAddressStaffId` (`staffId`),
-	CONSTRAINT `staffEmailAddressBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
-	CONSTRAINT `staffEmailAddressStaffId` FOREIGN KEY (`staffId`) REFERENCES `staff` (`staffId`)
+	CONSTRAINT `staffEmailAddressBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE,
+	CONSTRAINT `staffEmailAddressStaffId` FOREIGN KEY (`staffId`) REFERENCES `staff` (`staffId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -1165,9 +1165,9 @@
 	KEY `crewLeaderBridgeBusinessId` (`businessId`),
 	KEY `crewLeaderBridgeCrewId` (`crewId`),
 	KEY `crewLeaderBridgeStaffId` (`staffId`),
-	CONSTRAINT `crewLeaderBridgeBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
-	CONSTRAINT `crewLeaderBridgeCrewId` FOREIGN KEY (`crewId`) REFERENCES `crew` (`crewId`),
-	CONSTRAINT `crewLeaderBridgeStaffId` FOREIGN KEY (`staffId`) REFERENCES `staff` (`staffId`)
+	CONSTRAINT `crewLeaderBridgeBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE,
+	CONSTRAINT `crewLeaderBridgeCrewId` FOREIGN KEY (`crewId`) REFERENCES `crew` (`crewId`) ON DELETE CASCADE,
+	CONSTRAINT `crewLeaderBridgeStaffId` FOREIGN KEY (`staffId`) REFERENCES `staff` (`staffId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -1184,9 +1184,9 @@
 	KEY `crewStaffBridgeBusinessId` (`businessId`),
 	KEY `crewStaffBridgeCrewId` (`crewId`),
 	KEY `crewStaffBridgeStaffId` (`staffId`),
-	CONSTRAINT `crewStaffBridgeBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
-	CONSTRAINT `crewStaffBridgeCrewId` FOREIGN KEY (`crewId`) REFERENCES `crew` (`crewId`),
-	CONSTRAINT `crewStaffBridgeStaffId` FOREIGN KEY (`staffId`) REFERENCES `staff` (`staffId`)
+	CONSTRAINT `crewStaffBridgeBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE,
+	CONSTRAINT `crewStaffBridgeCrewId` FOREIGN KEY (`crewId`) REFERENCES `crew` (`crewId`) ON DELETE CASCADE,
+	CONSTRAINT `crewStaffBridgeStaffId` FOREIGN KEY (`staffId`) REFERENCES `staff` (`staffId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -1203,8 +1203,8 @@
 	PRIMARY KEY (`staffLoginAttemptId`),
 	KEY `staffLoginAttemptBusinessId` (`businessId`),
 	KEY `staffLoginAttemptStaffId` (`staffId`),
-	CONSTRAINT `staffLoginAttemptBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
-	CONSTRAINT `staffLoginAttemptStaffId` FOREIGN KEY (`staffId`) REFERENCES `staff` (`staffId`)
+	CONSTRAINT `staffLoginAttemptBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE,
+	CONSTRAINT `staffLoginAttemptStaffId` FOREIGN KEY (`staffId`) REFERENCES `staff` (`staffId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -1219,8 +1219,8 @@
 	PRIMARY KEY (`staffSavedLoginId`),
 	KEY `staffSavedLoginBusinessId` (`businessId`),
 	KEY `staffSavedLoginStaffId` (`staffId`),
-	CONSTRAINT `staffSavedLoginBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
-	CONSTRAINT `staffSavedLoginStaffId` FOREIGN KEY (`staffId`) REFERENCES `staff` (`staffId`)
+	CONSTRAINT `staffSavedLoginBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE,
+	CONSTRAINT `staffSavedLoginStaffId` FOREIGN KEY (`staffId`) REFERENCES `staff` (`staffId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -1237,7 +1237,7 @@
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`staffTagId`),
 	KEY `staffTagBusinessId` (`businessId`),
-	CONSTRAINT `staffTagBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`)
+	CONSTRAINT `staffTagBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -1254,9 +1254,9 @@
 	KEY `jobSingularStaffBridgeBusinessId` (`businessId`),
 	KEY `jobSingularStaffBridgeJobSingularId` (`jobSingularId`),
 	KEY `jobSingularStaffBridgeStaffId` (`staffId`),
-	CONSTRAINT `jobSingularStaffBridgeBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
-	CONSTRAINT `jobSingularStaffBridgeJobSingularId` FOREIGN KEY (`jobSingularId`) REFERENCES `jobSingular` (`jobSingularId`),
-	CONSTRAINT `jobSingularStaffBridgeStaffId` FOREIGN KEY (`staffId`) REFERENCES `staff` (`staffId`)
+	CONSTRAINT `jobSingularStaffBridgeBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE,
+	CONSTRAINT `jobSingularStaffBridgeJobSingularId` FOREIGN KEY (`jobSingularId`) REFERENCES `jobSingular` (`jobSingularId`) ON DELETE CASCADE,
+	CONSTRAINT `jobSingularStaffBridgeStaffId` FOREIGN KEY (`staffId`) REFERENCES `staff` (`staffId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -1273,9 +1273,9 @@
 	KEY `jobRecurringStaffBridgeBusinessId` (`businessId`),
 	KEY `jobRecurringStaffBridgeJobRecurringId` (`jobRecurringId`),
 	KEY `jobRecurringStaffBridgeStaffId` (`staffId`),
-	CONSTRAINT `jobRecurringStaffBridgeBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
-	CONSTRAINT `jobRecurringStaffBridgeJobRecurringId` FOREIGN KEY (`jobRecurringId`) REFERENCES `jobRecurring` (`jobRecurringId`),
-	CONSTRAINT `jobRecurringStaffBridgeStaffId` FOREIGN KEY (`staffId`) REFERENCES `staff` (`staffId`)
+	CONSTRAINT `jobRecurringStaffBridgeBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE,
+	CONSTRAINT `jobRecurringStaffBridgeJobRecurringId` FOREIGN KEY (`jobRecurringId`) REFERENCES `jobRecurring` (`jobRecurringId`) ON DELETE CASCADE,
+	CONSTRAINT `jobRecurringStaffBridgeStaffId` FOREIGN KEY (`staffId`) REFERENCES `staff` (`staffId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -1292,9 +1292,9 @@
 	KEY `jobCompletedStaffBridgeBusinessId` (`businessId`),
 	KEY `jobCompletedStaffBridgeJobCompletedId` (`jobCompletedId`),
 	KEY `jobCompletedStaffBridgeStaffId` (`staffId`),
-	CONSTRAINT `jobCompletedStaffBridgeBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
-	CONSTRAINT `jobCompletedStaffBridgeJobCompletedId` FOREIGN KEY (`jobCompletedId`) REFERENCES `jobCompleted` (`jobCompletedId`),
-	CONSTRAINT `jobCompletedStaffBridgeStaffId` FOREIGN KEY (`staffId`) REFERENCES `staff` (`staffId`)
+	CONSTRAINT `jobCompletedStaffBridgeBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE,
+	CONSTRAINT `jobCompletedStaffBridgeJobCompletedId` FOREIGN KEY (`jobCompletedId`) REFERENCES `jobCompleted` (`jobCompletedId`) ON DELETE CASCADE,
+	CONSTRAINT `jobCompletedStaffBridgeStaffId` FOREIGN KEY (`staffId`) REFERENCES `staff` (`staffId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -1312,8 +1312,8 @@
 	PRIMARY KEY (`timeLogId`),
 	KEY `timeLogBusinessId` (`businessId`),
 	KEY `timeLogStaffId` (`staffId`),
-	CONSTRAINT `timeLogBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
-	CONSTRAINT `timeLogStaffId` FOREIGN KEY (`staffId`) REFERENCES `staff` (`staffId`)
+	CONSTRAINT `timeLogBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE,
+	CONSTRAINT `timeLogStaffId` FOREIGN KEY (`staffId`) REFERENCES `staff` (`staffId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -1335,8 +1335,8 @@
 	KEY `payrollDueStaffId` (`staffId`),
 	KEY `payrollDueLinkedToTimeLogId` (`linkedToTimeLogId`),
 	KEY `payrollDueLinkedToJobCompletedId` (`linkedToJobCompletedId`),
-	CONSTRAINT `payrollDueBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
-	CONSTRAINT `payrollDueStaffId` FOREIGN KEY (`staffId`) REFERENCES `staff` (`staffId`)
+	CONSTRAINT `payrollDueBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE,
+	CONSTRAINT `payrollDueStaffId` FOREIGN KEY (`staffId`) REFERENCES `staff` (`staffId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -1357,8 +1357,8 @@
 	KEY `payrollSatisfactionBusinessId` (`businessId`),
 	KEY `payrollSatisfactionStaffId` (`staffId`),
 	KEY `payrollSatisfactionLinkedToPayrollDueId` (`linkedToPayrollDueId`),
-	CONSTRAINT `payrollSatisfactionBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
-	CONSTRAINT `payrollSatisfactionStaffId` FOREIGN KEY (`staffId`) REFERENCES `staff` (`staffId`)
+	CONSTRAINT `payrollSatisfactionBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE,
+	CONSTRAINT `payrollSatisfactionStaffId` FOREIGN KEY (`staffId`) REFERENCES `staff` (`staffId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -1376,7 +1376,7 @@
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`mailoutCampaignTemplateId`),
 	KEY `mailoutCampaignTemplateBusinessId` (`businessId`),
-	CONSTRAINT `mailoutCampaignTemplateBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`)
+	CONSTRAINT `mailoutCampaignTemplateBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -1395,9 +1395,9 @@
 	KEY `mailoutSubscriptionBridgeBusinessId` (`businessId`),
 	KEY `mailoutSubscriptionBridgeCustomerEmailAddressId` (`customerEmailAddressId`),
 	KEY `mailoutSubscriptionBridgeMailoutCampaignTemplateId` (`mailoutCampaignTemplateId`),
-	CONSTRAINT `mailoutSubscriptionBridgeBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
-	CONSTRAINT `mailoutSubscriptionBridgeCustomerEmailAddressId` FOREIGN KEY (`customerEmailAddressId`) REFERENCES `customerEmailAddress` (`customerEmailAddressId`),
-	CONSTRAINT `mailoutSubscriptionBridgeMailoutCampaignTemplateId` FOREIGN KEY (`mailoutCampaignTemplateId`) REFERENCES `mailoutCampaignTemplate` (`mailoutCampaignTemplateId`)
+	CONSTRAINT `mailoutSubscriptionBridgeBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE,
+	CONSTRAINT `mailoutSubscriptionBridgeCustomerEmailAddressId` FOREIGN KEY (`customerEmailAddressId`) REFERENCES `customerEmailAddress` (`customerEmailAddressId`) ON DELETE CASCADE,
+	CONSTRAINT `mailoutSubscriptionBridgeMailoutCampaignTemplateId` FOREIGN KEY (`mailoutCampaignTemplateId`) REFERENCES `mailoutCampaignTemplate` (`mailoutCampaignTemplateId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -1418,7 +1418,7 @@
 	KEY `emailSendBusinessId` (`businessId`),
 	KEY `emailSendLinkedToMailoutSubscriptionId` (`linkedToMailoutSubscriptionId`),
 	KEY `emailSendLinkedToMailoutCampaignTemplateId` (`linkedToMailoutCampaignTemplateId`),
-	CONSTRAINT `emailSendBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`)
+	CONSTRAINT `emailSendBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -1435,9 +1435,9 @@
 	KEY `customerEmailAddressEmailSendBridgeBusinessId` (`businessId`),
 	KEY `customerEmailAddressEmailSendBridgeCustomerEmailAddressId` (`customerEmailAddressId`),
 	KEY `customerEmailAddressEmailSendBridgeEmailSendId` (`emailSendId`),
-	CONSTRAINT `customerEmailAddressEmailSendBridgeBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
-	CONSTRAINT `customerEmailAddressEmailSendBridgeCustomerEmailAddressId` FOREIGN KEY (`customerEmailAddressId`) REFERENCES `customerEmailAddress` (`customerEmailAddressId`),
-	CONSTRAINT `customerEmailAddressEmailSendBridgeEmailSendId` FOREIGN KEY (`emailSendId`) REFERENCES `emailSend` (`emailSendId`)
+	CONSTRAINT `customerEmailAddressEmailSendBridgeBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE,
+	CONSTRAINT `customerEmailAddressEmailSendBridgeCustomerEmailAddressId` FOREIGN KEY (`customerEmailAddressId`) REFERENCES `customerEmailAddress` (`customerEmailAddressId`) ON DELETE CASCADE,
+	CONSTRAINT `customerEmailAddressEmailSendBridgeEmailSendId` FOREIGN KEY (`emailSendId`) REFERENCES `emailSend` (`emailSendId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -1455,8 +1455,8 @@
 	PRIMARY KEY (`emailPixelId`),
 	KEY `emailPixelBusinessId` (`businessId`),
 	KEY `emailPixelEmailSendId` (`emailSendId`),
-	CONSTRAINT `emailPixelBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
-	CONSTRAINT `emailPixelEmailSendId` FOREIGN KEY (`emailSendId`) REFERENCES `emailSend` (`emailSendId`)
+	CONSTRAINT `emailPixelBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE,
+	CONSTRAINT `emailPixelEmailSendId` FOREIGN KEY (`emailSendId`) REFERENCES `emailSend` (`emailSendId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -1471,7 +1471,7 @@
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`smsCampaignTemplateId`),
 	KEY `smsCampaignTemplateBusinessId` (`businessId`),
-	CONSTRAINT `smsCampaignTemplateBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`)
+	CONSTRAINT `smsCampaignTemplateBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -1490,9 +1490,9 @@
 	KEY `smsSubscriptionBridgeBusinessId` (`businessId`),
 	KEY `smsSubscriptionBridgeCustomerPhoneNumberId` (`customerPhoneNumberId`),
 	KEY `smsSubscriptionBridgeMailoutCampaignTemplateId` (`smsCampaignTemplateId`),
-	CONSTRAINT `smsSubscriptionBridgeBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
-	CONSTRAINT `smsSubscriptionBridgeCustomerPhoneNumberId` FOREIGN KEY (`customerPhoneNumberId`) REFERENCES `customerPhoneNumber` (`customerPhoneNumberId`),
-	CONSTRAINT `smsSubscriptionBridgeMailoutCampaignTemplateId` FOREIGN KEY (`smsCampaignTemplateId`) REFERENCES `smsCampaignTemplate` (`smsCampaignTemplateId`)
+	CONSTRAINT `smsSubscriptionBridgeBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE,
+	CONSTRAINT `smsSubscriptionBridgeCustomerPhoneNumberId` FOREIGN KEY (`customerPhoneNumberId`) REFERENCES `customerPhoneNumber` (`customerPhoneNumberId`) ON DELETE CASCADE,
+	CONSTRAINT `smsSubscriptionBridgeMailoutCampaignTemplateId` FOREIGN KEY (`smsCampaignTemplateId`) REFERENCES `smsCampaignTemplate` (`smsCampaignTemplateId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -1510,7 +1510,7 @@
 	KEY `smsSendBusinessId` (`businessId`),
 	KEY `smsSendLinkedToSmsSubscriptionId` (`linkedToSmsSubscriptionId`),
 	KEY `smsSendLinkedToSmsCampaignTemplateId` (`linkedToSmsCampaignTemplateId`),
-	CONSTRAINT `smsSendBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`)
+	CONSTRAINT `smsSendBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -1527,9 +1527,9 @@
 	KEY `customerPhoneNumberSmsSendBridgeBusinessId` (`businessId`),
 	KEY `customerPhoneNumberSmsSendBridgeCustomerPhoneNumberId` (`customerPhoneNumberId`),
 	KEY `customerPhoneNumberSmsSendBridgeSmsSendId` (`smsSendId`),
-	CONSTRAINT `customerPhoneNumberSmsSendBridgeBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`),
-	CONSTRAINT `customerPhoneNumberSmsSendBridgeCustomerPhoneNumberId` FOREIGN KEY (`customerPhoneNumberId`) REFERENCES `customerPhoneNumber` (`customerPhoneNumberId`),
-	CONSTRAINT `customerPhoneNumberSmsSendBridgeSmsSendId` FOREIGN KEY (`smsSendId`) REFERENCES `smsSend` (`smsSendId`)
+	CONSTRAINT `customerPhoneNumberSmsSendBridgeBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE,
+	CONSTRAINT `customerPhoneNumberSmsSendBridgeCustomerPhoneNumberId` FOREIGN KEY (`customerPhoneNumberId`) REFERENCES `customerPhoneNumber` (`customerPhoneNumberId`) ON DELETE CASCADE,
+	CONSTRAINT `customerPhoneNumberSmsSendBridgeSmsSendId` FOREIGN KEY (`smsSendId`) REFERENCES `smsSend` (`smsSendId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -1550,7 +1550,7 @@
 	`dateTimeEdited` datetime DEFAULT NULL,
 	PRIMARY KEY (`blogPostId`),
 	KEY `blogPostBusinessId` (`businessId`),
-	CONSTRAINT `blogPostBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`)
+	CONSTRAINT `blogPostBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -1567,7 +1567,7 @@
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`blogTagId`),
 	KEY `blogTagBusinessId` (`businessId`),
-	CONSTRAINT `blogTagBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`)
+	CONSTRAINT `blogTagBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -1584,9 +1584,9 @@
 	KEY `blogPostBlogTagBridgeBusinessId` (`businessId`),
 	KEY `blogPostBlogTagBridgeBlogPostId` (`blogPostId`),
 	KEY `blogPostBlogTagBridgeBlogTagId` (`blogTagId`),
-	CONSTRAINT `blogPostBlogTagBridgeBlogPostId` FOREIGN KEY (`blogPostId`) REFERENCES `blogPost` (`blogPostId`),
-	CONSTRAINT `blogPostBlogTagBridgeBlogTagId` FOREIGN KEY (`blogTagId`) REFERENCES `blogTag` (`blogTagId`),
-	CONSTRAINT `blogPostBlogTagBridgeBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`)
+	CONSTRAINT `blogPostBlogTagBridgeBlogPostId` FOREIGN KEY (`blogPostId`) REFERENCES `blogPost` (`blogPostId`) ON DELETE CASCADE,
+	CONSTRAINT `blogPostBlogTagBridgeBlogTagId` FOREIGN KEY (`blogTagId`) REFERENCES `blogTag` (`blogTagId`) ON DELETE CASCADE,
+	CONSTRAINT `blogPostBlogTagBridgeBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -1602,6 +1602,6 @@
 	PRIMARY KEY (`blogPostReadTokenId`),
 	KEY `blogPostReadTokenBusinessId` (`businessId`),
 	KEY `blogPostReadTokenBlogPostId` (`blogPostId`),
-	CONSTRAINT `blogPostReadTokenBlogPostId` FOREIGN KEY (`blogPostId`) REFERENCES `blogPost` (`blogPostId`),
-	CONSTRAINT `blogPostReadTokenBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`)
+	CONSTRAINT `blogPostReadTokenBlogPostId` FOREIGN KEY (`blogPostId`) REFERENCES `blogPost` (`blogPostId`) ON DELETE CASCADE,
+	CONSTRAINT `blogPostReadTokenBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;

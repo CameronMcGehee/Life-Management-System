@@ -57,6 +57,12 @@
 
 # v0.2
 
-## v0.2.1 - NF
+## v0.2.1
 - Goodies
     - Customer view/edit page now functional
+
+## v0.2.2
+- Goodies
+    - Customer table improvements
+    - Phone numbers no longer require three segments, will be split automatically when output if 10 digits but otherwise will just show the number to allow any type of phone number
+    - When making a new customer, a random password is automatically generated and put into the field so it will not give an error every time
