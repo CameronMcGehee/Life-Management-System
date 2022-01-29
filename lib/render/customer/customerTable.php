@@ -82,10 +82,10 @@
 
             switch ($this->sortBy) {
                 case 'az':
-                    $params .= 'ORDER BY firstName DESC ';
+                    $params .= 'ORDER BY firstName ASC ';
                     break;
                 case 'za':
-                    $params .= 'ORDER BY firstName ASC ';
+                    $params .= 'ORDER BY firstName DESC ';
                     break;
                 case 'newest':
                     $params .= 'ORDER BY dateTimeAdded DESC ';

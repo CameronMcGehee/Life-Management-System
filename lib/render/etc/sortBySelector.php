@@ -37,15 +37,15 @@
 			}
 
 			if ($this->selected == 'newest') {
-				$this->output .= '<option value="newest" selected>Newest</option>';
+				$this->output .= '<option value="newest" selected>Youngest - Oldest</option>';
 			} else {
-				$this->output .= '<option value="newest">Newest</option>';
+				$this->output .= '<option value="newest">Youngest - Oldest</option>';
 			}
 
 			if ($this->selected == 'oldest') {
-				$this->output .= '<option value="oldest" selected>Oldest</option>';
+				$this->output .= '<option value="oldest" selected>Oldest - Youngest</option>';
 			} else {
-				$this->output .= '<option value="oldest">Oldest</option>';
+				$this->output .= '<option value="oldest">Oldest - Youngest</option>';
 			}
 
 			$this->output .= '</select>';
