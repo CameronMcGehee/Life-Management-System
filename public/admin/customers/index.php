@@ -19,7 +19,7 @@
 </head>
 
 <body>
-	<div style="display: block;" id="scriptLoader"></div>
+	<div style="display: none;" id="scriptLoader"></div>
 	<div class="cmsBodyWrapper">
 
 		<?php

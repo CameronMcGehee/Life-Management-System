@@ -229,7 +229,7 @@
 
                     var checkedArray = Array.from(allChecked).map(checkbox => checkbox.value);
 
-                    if ($("#batchSelect option:selected").val() == "delete") {
+                    if ($("#batchSelect option:selected").val() == "delete" && checkedArray.length > 0) {
                             $("#scriptLoader").load("'.$this->rootPathPrefix.'scripts/async/customer/deleteCustomers.php", {"customers[]": checkedArray, "authToken": deleteCustomersAuthToken}, function() {
                                 if ($("#scriptLoader").html() == "success") {
                                     document.location.reload(true);
