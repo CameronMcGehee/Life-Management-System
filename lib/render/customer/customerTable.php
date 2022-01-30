@@ -24,6 +24,7 @@
             require_once dirname(__FILE__)."/../../table/customerEmailAddress.php";
             require_once dirname(__FILE__)."/../../table/customerPhoneNumber.php";
             require_once dirname(__FILE__)."/../../table/business.php";
+            require_once dirname(__FILE__)."/../etc/tagEditor.php";
             require_once dirname(__FILE__)."/../etc/pageNavigator.php";
             require_once dirname(__FILE__)."/../etc/sortBySelector.php";
 
@@ -119,6 +120,13 @@
 			foreach ($this->currentBusiness->customers as $customerId) {
 
                 $customer = new customer($customerId);
+
+                // Tag Editor
+
+                $tagEditor = new tagEditor($this->renderId."tagEditor", ['rootPathPrefix' => $this->rootPathPrefix, 'type' => 'customer', 'objectId' => $customerId]);
+                $tagEditor->render();
+
+                // Contact Info
                 $customer->pullEmailAddresses();
                 $customer->pullPhoneNumbers();
 
@@ -204,6 +212,7 @@
                     $billaddress = '<span style="color: red;">Not on file.</span>';
                 }
 
+                // Render the row
 				$this->output .= '<tr><td class="ca nrb" style="width: 2em;"><input class="defaultInput" type="checkbox" name="'.$this->renderId.'-checkbox" value="'.htmlspecialchars($customer->customerId).'"></td><td class="la nrb vam" style="max-width: 10em;"><a href="'.$this->rootPathPrefix.'customers/customer?id='.htmlspecialchars(htmlspecialchars($customer->customerId)).'">'.htmlspecialchars($customer->firstName).' '.htmlspecialchars($customer->lastName).'</a></td><td class="la desktopOnlyTable-cell nlb nrb">'.$email.'</td><td class="la desktopOnlyTable-cell nrb nlb">'.$phone.'</td><td class="la desktopOnlyTable-cell nlb">'.$billaddress.'</td><td class="la mobileOnlyTable-cell nlb">'.$mobileInfo.'</td></tr>
                 ';
 			

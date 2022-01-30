@@ -270,7 +270,7 @@
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('customerTag', 'customerTagId', "WHERE customerId = '$this->dbCustomerId'".$params);
+			$fetch = $this->db->select('customerCustomerTagBridge', 'customerTagId', "WHERE customerId = '$this->dbCustomerId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->tags, $row['customerTagId']);
