@@ -275,6 +275,25 @@
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
+	-- Table structure for table `crewCrewTag`
+	--
+
+	CREATE TABLE IF NOT EXISTS `crewCrewTag` (
+	`crewCrewTagId` int(11) NOT NULL AUTO_INCREMENT,
+	`businessId` varchar(17) NOT NULL,
+	`crewId` varchar(17) NOT NULL,
+	`crewTagId` varchar(17) NOT NULL,
+	`dateTimeAdded` datetime NOT NULL,
+	PRIMARY KEY (`crewCrewTagId`),
+	KEY `crewCrewTagBusinessId` (`businessId`),
+	KEY `crewCrewTagCrewId` (`crewId`),
+	KEY `crewCrewTagCrewTagId` (`crewTagId`),
+	CONSTRAINT `crewCrewTagCrewId` FOREIGN KEY (`crewId`) REFERENCES `crew` (`crewId`) ON DELETE CASCADE,
+	CONSTRAINT `crewCrewTagCrewTagId` FOREIGN KEY (`crewTagId`) REFERENCES `crewTag` (`crewTagId`) ON DELETE CASCADE,
+	CONSTRAINT `crewCrewTagBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
 	-- Table structure for table `customer`
 	--
 
@@ -395,6 +414,25 @@
 	PRIMARY KEY (`customerTagId`),
 	KEY `customerTagBusinessId` (`businessId`),
 	CONSTRAINT `customerTagBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
+	-- Table structure for table `customerCustomerTagBridge`
+	--
+
+	CREATE TABLE IF NOT EXISTS `customerCustomerTagBridge` (
+	`customerCustomerTagId` int(11) NOT NULL AUTO_INCREMENT,
+	`businessId` varchar(17) NOT NULL,
+	`customerId` varchar(17) NOT NULL,
+	`customerTagId` varchar(17) NOT NULL,
+	`dateTimeAdded` datetime NOT NULL,
+	PRIMARY KEY (`customerCustomerTagId`),
+	KEY `customerCustomerTagBusinessId` (`businessId`),
+	KEY `customerCustomerTagCustomerId` (`customerId`),
+	KEY `customerCustomerTagCustomerTagId` (`customerTagId`),
+	CONSTRAINT `customerCustomerTagCustomerId` FOREIGN KEY (`customerId`) REFERENCES `customer` (`customerId`) ON DELETE CASCADE,
+	CONSTRAINT `customerCustomerTagCustomerTagId` FOREIGN KEY (`customerTagId`) REFERENCES `customerTag` (`customerTagId`) ON DELETE CASCADE,
+	CONSTRAINT `customerCustomerTagBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -535,6 +573,25 @@
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
+	-- Table structure for table `chemicalChemicalTagBridge`
+	--
+
+	CREATE TABLE IF NOT EXISTS `chemicalChemicalTagBridge` (
+	`chemicalChemicalTagId` int(11) NOT NULL AUTO_INCREMENT,
+	`businessId` varchar(17) NOT NULL,
+	`chemicalId` varchar(17) NOT NULL,
+	`chemicalTagId` varchar(17) NOT NULL,
+	`dateTimeAdded` datetime NOT NULL,
+	PRIMARY KEY (`chemicalChemicalTagId`),
+	KEY `chemicalChemicalTagBusinessId` (`businessId`),
+	KEY `chemicalChemicalTagChemicalId` (`chemicalId`),
+	KEY `chemicalChemicalTagChemicalTagId` (`chemicalTagId`),
+	CONSTRAINT `chemicalChemicalTagChemicalId` FOREIGN KEY (`chemicalId`) REFERENCES `chemical` (`chemicalId`) ON DELETE CASCADE,
+	CONSTRAINT `chemicalChemicalTagChemicalTagId` FOREIGN KEY (`chemicalTagId`) REFERENCES `chemicalTag` (`chemicalTagId`) ON DELETE CASCADE,
+	CONSTRAINT `chemicalChemicalTagBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
 	-- Table structure for table `equipment`
 	--
 
@@ -629,6 +686,25 @@
 	PRIMARY KEY (`equipmentTagId`),
 	KEY `equipmentTagBusinessId` (`businessId`),
 	CONSTRAINT `equipmentTagBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
+	-- Table structure for table `equipmentEquipmentTagBridge`
+	--
+
+	CREATE TABLE IF NOT EXISTS `equipmentEquipmentTagBridge` (
+	`equipmentEquipmentTagId` int(11) NOT NULL AUTO_INCREMENT,
+	`businessId` varchar(17) NOT NULL,
+	`equipmentId` varchar(17) NOT NULL,
+	`equipmentTagId` varchar(17) NOT NULL,
+	`dateTimeAdded` datetime NOT NULL,
+	PRIMARY KEY (`equipmentEquipmentTagId`),
+	KEY `equipmentEquipmentTagBusinessId` (`businessId`),
+	KEY `equipmentEquipmentTagEquipmentId` (`equipmentId`),
+	KEY `equipmentEquipmentTagEquipmentTagId` (`equipmentTagId`),
+	CONSTRAINT `equipmentEquipmentTagEquipmentId` FOREIGN KEY (`equipmentId`) REFERENCES `equipment` (`equipmentId`) ON DELETE CASCADE,
+	CONSTRAINT `equipmentEquipmentTagEquipmentTagId` FOREIGN KEY (`equipmentTagId`) REFERENCES `equipmentTag` (`equipmentTagId`) ON DELETE CASCADE,
+	CONSTRAINT `equipmentEquipmentTagBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -1238,6 +1314,25 @@
 	PRIMARY KEY (`staffTagId`),
 	KEY `staffTagBusinessId` (`businessId`),
 	CONSTRAINT `staffTagBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
+	-- Table structure for table `staffStaffTagBridge`
+	--
+
+	CREATE TABLE IF NOT EXISTS `staffStaffTagBridge` (
+	`staffStaffTagId` int(11) NOT NULL AUTO_INCREMENT,
+	`businessId` varchar(17) NOT NULL,
+	`staffId` varchar(17) NOT NULL,
+	`staffTagId` varchar(17) NOT NULL,
+	`dateTimeAdded` datetime NOT NULL,
+	PRIMARY KEY (`staffStaffTagId`),
+	KEY `staffStaffTagBusinessId` (`businessId`),
+	KEY `staffStaffTagStaffId` (`staffId`),
+	KEY `staffStaffTagStaffTagId` (`staffTagId`),
+	CONSTRAINT `staffStaffTagStaffId` FOREIGN KEY (`staffId`) REFERENCES `staff` (`staffId`) ON DELETE CASCADE,
+	CONSTRAINT `staffStaffTagStaffTagId` FOREIGN KEY (`staffTagId`) REFERENCES `staffTag` (`staffTagId`) ON DELETE CASCADE,
+	CONSTRAINT `staffStaffTagBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
