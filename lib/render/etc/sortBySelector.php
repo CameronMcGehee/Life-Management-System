@@ -5,11 +5,10 @@
 	class sortBySelector extends render {
 
 		public $rootPathPrefix;
-		public $options;
 		public $selected;
 		public $getVarName;
 		public $style;
-		public $id;
+		public string $renderId;
 
 		function __construct(string $renderId, $rootPathPrefix = './', $getVarName = 'page', $selected = 'az') {
 			$this->rootPathPrefix = $rootPathPrefix;
@@ -37,15 +36,15 @@
 			}
 
 			if ($this->selected == 'newest') {
-				$this->output .= '<option value="newest" selected>Youngest - Oldest</option>';
+				$this->output .= '<option value="newest" selected>Newest - Oldest</option>';
 			} else {
-				$this->output .= '<option value="newest">Youngest - Oldest</option>';
+				$this->output .= '<option value="newest">Newest - Oldest</option>';
 			}
 
 			if ($this->selected == 'oldest') {
-				$this->output .= '<option value="oldest" selected>Oldest - Youngest</option>';
+				$this->output .= '<option value="oldest" selected>Oldest - Newest</option>';
 			} else {
-				$this->output .= '<option value="oldest">Oldest - Youngest</option>';
+				$this->output .= '<option value="oldest">Oldest - Newest</option>';
 			}
 
 			$this->output .= '</select>';
