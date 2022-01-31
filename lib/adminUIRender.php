@@ -243,7 +243,7 @@
 			';
 			$output .= '<a class="noUnderline sideBarButton defaultAll4InsetShadow aniBold" id="button3" href="'.$rootPathPrefix.'admin/jobs"><img src="'.$rootPathPrefix.'images/ultiscape/icons/calendar_month.svg"><p>Jobs</p></a>
 			';
-			$output .= '<a class="noUnderline sideBarButton defaultAll4InsetShadow aniBold" id="button4" href="'.$rootPathPrefix.'admin/documents"><img src="'.$rootPathPrefix.'images/ultiscape/icons/document.svg"><p>Documents</p></a>
+			$output .= '<a class="noUnderline sideBarButton defaultAll4InsetShadow aniBold" id="button4" href="'.$rootPathPrefix.'admin/invoices"><img src="'.$rootPathPrefix.'images/ultiscape/icons/document.svg"><p>Invoices</p></a>
 			';
 			$output .= '<a class="noUnderline sideBarButton defaultAll4InsetShadow aniBold" id="button5"><img src="'.$rootPathPrefix.'images/ultiscape/icons/drag.svg"><p>More...</p></a>
 			';
@@ -304,7 +304,7 @@
 					';
 					$output .= '<a class="button" id="button3" href="'.$rootPathPrefix.'admin/jobs"><img src="'.$rootPathPrefix.'images/ultiscape/icons/calendar_month.svg"><p>Jobs</p></a>
 					';
-					$output .= '<a class="button" id="button4" href="'.$rootPathPrefix.'admin/documents"><img src="'.$rootPathPrefix.'images/ultiscape/icons/document.svg"><p>Docs</p></a>
+					$output .= '<a class="button" id="button4" href="'.$rootPathPrefix.'admin/invoices"><img src="'.$rootPathPrefix.'images/ultiscape/icons/document.svg"><p>Invoices</p></a>
 					';
 					$output .= '<span class="button" id="button5"><img src="'.$rootPathPrefix.'images/ultiscape/icons/drag.svg"></span>
 					';

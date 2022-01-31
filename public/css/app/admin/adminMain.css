@@ -478,7 +478,7 @@ a.noUnderline {
 
 /*Styled Text Colors*/
 
-.textColorThemeGray p, .textColorThemeCustomers p, .textColorThemeCommunications p, .textColorThemeJobs p, .textColorThemeDocuments p, .textColorThemeInventory p {
+.textColorThemeGray p, .textColorThemeCustomers p, .textColorThemeCommunications p, .textColorThemeJobs p, .textColorThemeInvoices p, .textColorThemeInventory p {
 	color: #606060;
 }
 
@@ -498,7 +498,7 @@ a.noUnderline {
 	color: var(--jobsColorTheme);
 }
 
-.textColorThemeDocuments h1, .textColorThemeDocuments h2, .textColorThemeDocuments h3, .textColorThemeDocuments h4, .textColorThemeDocuments h5, .textColorThemeDocuments h6 {
+.textColorThemeInvoices h1, .textColorThemeInvoices h2, .textColorThemeInvoices h3, .textColorThemeInvoices h4, .textColorThemeInvoices h5, .textColorThemeInvoices h6 {
 	color: var(--documentsColorTheme);
 }
 
