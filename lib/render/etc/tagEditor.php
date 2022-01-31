@@ -99,6 +99,8 @@
 
 			$this->output = '<div style="'.$this->options['style'].'" id="'.$this->renderId.'">';
 
+			require_once dirname(__FILE__)."/../../table/authToken.php";
+
 			// Output each tag in a styled tag container (color is the color chosen by user), with a delete button to the right of the name
 
 			foreach ($currentObject->tags as $tagId) {
@@ -148,7 +150,7 @@
 				$this->output .= '"><a style="color: white; text-decoration: none; border: none;" href="'.$this->options['rootPathPrefix'].'admin/customer/tag/?id='.$tagId.'">'.htmlspecialchars($currentTag->name).'</a>';
 				
 				if ($this->options['showDelete']) {
-					$this->output .= '<img onclick="'.$this->renderId.'removeTag(\''.htmlspecialchars($this->options['type']).'\', \''.htmlspecialchars($this->options['objectId']).'\', \''.htmlspecialchars($tagId).'\')" id="remove'.htmlspecialchars($tagId).'" src="'.$this->options['rootPathPrefix'].'images/ultiscape/icons/cross.svg" style="height: 1em; filter: brightness(100); cursor: pointer;">';
+					$this->output .= '<img onclick="'.$this->renderId.'removeTag(\''.htmlspecialchars($this->options['objectId']).'\', \''.htmlspecialchars($tagId).'\')" id="remove'.htmlspecialchars($tagId).'" src="'.$this->options['rootPathPrefix'].'images/ultiscape/icons/cross.svg" style="height: 1em; filter: brightness(100); cursor: pointer;">';
 				}
 				
 				$this->output .= '</span>';
@@ -156,38 +158,78 @@
 
 			// Output a script that loads the script that actually removes the tag when the delete button is pressed, and remove that tag from the page if successful
 
-			$deleteCustomerTagLinksAuthToken = new authToken;
-            $deleteCustomerTagLinksAuthToken->authName = 'deleteCustomerTagLinks';
-            $deleteCustomerTagLinksAuthToken->set();
+			switch ($this->options['type']) {
+				case 'crew':
+					$deleteCrewTagLinksAuthToken = new authToken;
+					$deleteCrewTagLinksAuthToken->authName = 'deleteCrewTagLinks';
+					$deleteCrewTagLinksAuthToken->set();
+					break;
+				case 'customer':
+					$deleteCustomerTagLinksAuthToken = new authToken;
+					$deleteCustomerTagLinksAuthToken->authName = 'deleteCustomerTagLinks';
+					$deleteCustomerTagLinksAuthToken->set();
+					break;
+				case 'chemical':
+					$deleteChemicalTagLinksAuthToken = new authToken;
+					$deleteChemicalTagLinksAuthToken->authName = 'deleteChemicalTagLinks';
+					$deleteChemicalTagLinksAuthToken->set();
+					break;
+				case 'equipment':
+					$deleteEquipmentTagLinksAuthToken = new authToken;
+					$deleteEquipmentTagLinksAuthToken->authName = 'deleteEquipmentTagLinks';
+					$deleteEquipmentTagLinksAuthToken->set();
+					break;
+				case 'staff':
+					$deleteStaffTagLinksAuthToken = new authToken;
+					$deleteStaffTagLinksAuthToken->authName = 'deleteStaffTagLinks';
+					$deleteStaffTagLinksAuthToken->set();
+					break;
+				default:
+					throw new Exception("Type given is not supported (in tagEditor '".$this->renderId."')");
+			}
 
 			$this->output .= '
             <script>
-                function '.$this->renderId.'removeTag(type, objectId, tagId) {
+                function '.$this->renderId.'removeTag(objectId, tagId) {
 					// Load the appropriate script to remove the tag link
+					';
 					
-					switch (type){
+					switch ($this->options['type']){
 						case "crew":
-							console.log("NF");
+							$this->output .= '$("#scriptLoader").load("'.$this->options['rootPathPrefix'].'admin/scripts/async/crew/deleteCrewTagLinks.php", {
+								"authToken": "'.$deleteCrewTagLinksAuthToken->authTokenId.'",
+								"crewTagLinks": [[objectId, tagId]]
+							});';
 							break;
 						case "customer":
-							$("#scriptLoader").load("'.$this->options['rootPathPrefix'].'admin/scripts/async/customer/deleteCustomerTagLinks.php", {
+							$this->output .= '$("#scriptLoader").load("'.$this->options['rootPathPrefix'].'admin/scripts/async/customer/deleteCustomerTagLinks.php", {
 								"authToken": "'.$deleteCustomerTagLinksAuthToken->authTokenId.'",
 								"customerTagLinks": [[objectId, tagId]]
-								});
+							});';
 							break;
 						case "chemical":
-							console.log("NF");
+							$this->output .= '$("#scriptLoader").load("'.$this->options['rootPathPrefix'].'admin/scripts/async/chemical/deleteChemicalTagLinks.php", {
+								"authToken": "'.$deleteChemicalTagLinksAuthToken->authTokenId.'",
+								"chemicalTagLinks": [[objectId, tagId]]
+							});';
 							break;
 						case "equipment":
-							console.log("NF");
+							$this->output .= '$("#scriptLoader").load("'.$this->options['rootPathPrefix'].'admin/scripts/async/equipment/deleteEquipmentTagLinks.php", {
+								"authToken": "'.$deleteEquipmentTagLinksAuthToken->authTokenId.'",
+								"equipmentTagLinks": [[objectId, tagId]]
+							});';
 							break;
 						case "staff":
-							console.log("NF");
+							$this->output .= '$("#scriptLoader").load("'.$this->options['rootPathPrefix'].'admin/scripts/async/staff/deleteStaffTagLinks.php", {
+								"authToken": "'.$deleteStaffTagLinksAuthToken->authTokenId.'",
+								"staffTagLinks": [[objectId, tagId]]
+							});';
 							break;
 						default:
-							console.log("error...");
+							$this->output .= 'console.log("error...");';
 					}
 
+					$this->output .= '
 					$("#tag'.$this->renderId.'" + tagId).remove();
 				}
             
