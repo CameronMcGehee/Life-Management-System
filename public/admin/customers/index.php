@@ -45,7 +45,7 @@
 
 						$customerTable = new customerTable('main');
 
-						$customerTable->rootPathPrefix = '../';
+						$customerTable->rootPathPrefix = '../../';
 
 						$customerTable->render();
 

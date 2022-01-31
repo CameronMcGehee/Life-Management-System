@@ -7,25 +7,25 @@
 		private $numPages;
 		private $currentPage;
 		public $path;
-		public $pageVarName;
+		public $getVarName;
 		public $style;
-		public $id;
+		public $renderId;
 
 		private $nextPage;
 		private $previousPage;
 
-		function __construct($numPages, $currentPage, $path = './', $pageVarName = 'page', $style = '', $id = '') {
+		function __construct($numPages, $currentPage, $path = './', $getVarName = 'page', $style = '', $renderId = '') {
 			$this->numPages = $numPages;
 			$this->currentPage = $currentPage;
 			$this->path = $path;
-			$this->pageVarName = $pageVarName;
+			$this->getVarName = $getVarName;
 			$this->style = $style;
 
-			if ($id == '') {
+			if ($renderId == '') {
 				// Use a generic Id
-				$this->id = 'pageNavigator'.uniqid();
+				$this->renderId = 'pageNavigator'.uniqid();
 			} else {
-				$this->id = $id;
+				$this->renderId = $renderId;
 			}
 
 			$this->previousPage = $this->currentPage - 1;
@@ -36,36 +36,49 @@
 
 			$this->output = '';
 
-			$this->output .= '<div style="'.$this->style.'" id="'.$this->id.'" class="pageNavigator">';
+			$this->output .= '<div style="'.$this->style.'" id="'.$this->renderId.'" class="pageNavigator">';
 
 			// firstPage
 			if ($this->currentPage == 1) {
-				$this->output .= '<a class="currentPageButton noUnderline" id="current" href="'.$this->path.'?'.$this->pageVarName.'=1"><span>1</span></a> ';
+				$this->output .= '<span class="currentPageButton noUnderline" id="current" onclick="'.$this->renderId.'changePage(1)"><span>1</span></span> ';
 			} else {
-				$this->output .= '<a class="pageButton noUnderline" id="first" href="'.$this->path.'?'.$this->pageVarName.'=1"><span>1</span></a> ';
+				$this->output .= '<span class="pageButton noUnderline" id="first" onclick="'.$this->renderId.'changePage(1)"><span>1</span></span> ';
 			}
 
 			// previousPage
 			if ($this->previousPage >= 1) {
-				$this->output .= '<a class="pageButton noUnderline" id="previous" href="'.$this->path.'?'.$this->pageVarName.'='.$this->previousPage.'"><span><--</span></a> ';
+				$this->output .= '<span class="pageButton noUnderline" id="previous" onclick="'.$this->renderId.'changePage('.$this->previousPage.')"><span><--</span></span> ';
 			}
 
 			// currentPage
 			if ($this->currentPage != 1) {
-				$this->output .= '<a class="currentPageButton noUnderline" id="current" href="'.$this->path.'?'.$this->pageVarName.'='.$this->currentPage.'"><span>'.$this->currentPage.'</span></a> ';
+				$this->output .= '<span class="currentPageButton noUnderline" id="current" onclick="'.$this->renderId.'changePage('.$this->currentPage.')"><span>'.$this->currentPage.'</span></span> ';
 			}
 
 			// nextPage
 			if ($this->nextPage < $this->numPages) {
-				$this->output .= '<a class="pageButton noUnderline" id="next" href="'.$this->path.'?'.$this->pageVarName.'='.$this->nextPage.'"><span>--></span></a> ';
+				$this->output .= '<span class="pageButton noUnderline" id="next" onclick="'.$this->renderId.'changePage('.$this->nextPage.')"><span>--></span></span> ';
 			}
 
 			// lastPage
 			if ($this->currentPage != $this->numPages) {
-				$this->output .= '<a class="pageButton noUnderline" id="last" href="'.$this->path.'?'.$this->pageVarName.'='.$this->numPages.'"><span>'.$this->numPages.'</span></a> ';
+				$this->output .= '<span class="pageButton noUnderline" id="last" onclick="'.$this->renderId.'changePage('.$this->numPages.')"><span>'.$this->numPages.'</span></span> ';
 			}
 
 			$this->output .= '</div>';
+
+			$this->output .= '
+            <script>
+                function '.$this->renderId.'changePage(num) {
+
+                    var url = new URL(window.location.href);
+
+                    url.searchParams.set("'.$this->getVarName.'", num);
+
+					window.location.replace(url.href);
+                }
+            
+            </script>';
 		}
 	}
 

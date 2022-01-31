@@ -930,6 +930,7 @@ a.noUnderline {
     border-color: #cccccc;
     text-decoration: none;
     color: black;
+	cursor: pointer;
 }
 
 .pageNavigator .pageButton {
@@ -941,6 +942,7 @@ a.noUnderline {
     border-color: #cccccc;
     text-decoration: none;
     color: black;
+	cursor: pointer;
 }
 
 

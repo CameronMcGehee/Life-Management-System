@@ -61,7 +61,7 @@
             $this->output .= '<div class="twoCol">';
 
             // Render the add customer button
-            $this->output .= '<div class="yCenteredFlex"><a class="smallButtonWrapper greenButton noUnderline yCenteredFlex" href="'.$this->rootPathPrefix.'customers/customer">➕ New</a></div>';
+            $this->output .= '<div class="yCenteredFlex"><a class="smallButtonWrapper greenButton noUnderline yCenteredFlex" href="'.$this->rootPathPrefix.'admin/customers/customer">➕ New</a></div>';
             
             // Render the page navigator and sort-by selector
             if ((int)$selectAll[0]['num'] > 0) {
@@ -123,7 +123,13 @@
 
                 // Tag Editor
 
-                $tagEditor = new tagEditor($this->renderId."tagEditor", ['rootPathPrefix' => $this->rootPathPrefix, 'type' => 'customer', 'objectId' => $customerId]);
+                $tagEditor = new tagEditor($this->renderId."tagEditor", [
+                    'rootPathPrefix' => $this->rootPathPrefix,
+                    'type' => 'customer',
+                    'objectId' => $customerId,
+                    'style' => 'display: inline;',
+                    'largeSize' => false
+                ]);
                 $tagEditor->render();
 
                 // Contact Info
@@ -213,7 +219,7 @@
                 }
 
                 // Render the row
-				$this->output .= '<tr><td class="ca nrb" style="width: 2em;"><input class="defaultInput" type="checkbox" name="'.$this->renderId.'-checkbox" value="'.htmlspecialchars($customer->customerId).'"></td><td class="la nrb vam" style="max-width: 10em;"><a href="'.$this->rootPathPrefix.'customers/customer?id='.htmlspecialchars(htmlspecialchars($customer->customerId)).'">'.htmlspecialchars($customer->firstName).' '.htmlspecialchars($customer->lastName).'</a></td><td class="la desktopOnlyTable-cell nlb nrb">'.$email.'</td><td class="la desktopOnlyTable-cell nrb nlb">'.$phone.'</td><td class="la desktopOnlyTable-cell nlb">'.$billaddress.'</td><td class="la mobileOnlyTable-cell nlb">'.$mobileInfo.'</td></tr>
+				$this->output .= '<tr><td class="ca nrb" style="width: 2em;"><input class="defaultInput" type="checkbox" name="'.$this->renderId.'-checkbox" value="'.htmlspecialchars($customer->customerId).'"></td><td class="la nrb vam" style="max-width: 10em;"><a href="'.$this->rootPathPrefix.'admin/customers/customer?id='.htmlspecialchars(htmlspecialchars($customer->customerId)).'" style="font-size: 1.1em;">'.htmlspecialchars($customer->firstName).' '.htmlspecialchars($customer->lastName).'</a>'.$tagEditor->output.'</td><td class="la desktopOnlyTable-cell nlb nrb">'.$email.'</td><td class="la desktopOnlyTable-cell nrb nlb">'.$phone.'</td><td class="la desktopOnlyTable-cell nlb">'.$billaddress.'</td><td class="la mobileOnlyTable-cell nlb">'.$mobileInfo.'</td></tr>
                 ';
 			
             }
@@ -239,7 +245,7 @@
                     var checkedArray = Array.from(allChecked).map(checkbox => checkbox.value);
 
                     if ($("#batchSelect option:selected").val() == "delete" && checkedArray.length > 0) {
-                            $("#scriptLoader").load("'.$this->rootPathPrefix.'scripts/async/customer/deleteCustomers.php", {"customers[]": checkedArray, "authToken": deleteCustomersAuthToken}, function() {
+                            $("#scriptLoader").load("'.$this->rootPathPrefix.'admin/scripts/async/customer/deleteCustomers.php", {"customers[]": checkedArray, "authToken": deleteCustomersAuthToken}, function() {
                                 if ($("#scriptLoader").html() == "success") {
                                     document.location.reload(true);
                                 }
