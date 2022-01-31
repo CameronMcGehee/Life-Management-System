@@ -478,7 +478,7 @@ a.noUnderline {
 
 /*Styled Text Colors*/
 
-.textColorThemeGray p, .textColorThemeCustomers p, .textColorThemeCommunications p, .textColorThemeJobs p, .textColorThemeInvoices p, .textColorThemeInventory p {
+.textColorThemeGray p, .textColorThemeCustomers p, .textColorThemeEstimates p, .textColorThemeJobs p, .textColorThemeInvoices p, .textColorThemeInventory p {
 	color: #606060;
 }
 
@@ -490,7 +490,7 @@ a.noUnderline {
 	color: var(--customersColorTheme);
 }
 
-.textColorThemeCommunications h1, .textColorThemeCommunications h2, .textColorThemeCommunications h3, .textColorThemeCommunications h4, .textColorThemeCommunications h5, .textColorThemeCommunications h6  {
+.textColorThemeEstimates h1, .textColorThemeEstimates h2, .textColorThemeEstimates h3, .textColorThemeEstimates h4, .textColorThemeEstimates h5, .textColorThemeEstimates h6  {
 	color: var(--communicationsColorTheme);
 }
 

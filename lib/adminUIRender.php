@@ -239,11 +239,11 @@
 
 			$output .= '<a class="noUnderline sideBarButton defaultAll4InsetShadow aniBold" id="button1" href="'.$rootPathPrefix.'admin/customers"><img src="'.$rootPathPrefix.'images/ultiscape/icons/users.svg"><p>Customers</p></a>
 			';
-			$output .= '<a class="noUnderline sideBarButton defaultAll4InsetShadow aniBold" id="button2" href="'.$rootPathPrefix.'admin/communications"><img src="'.$rootPathPrefix.'images/ultiscape/icons/thread.svg"><p>Communications</p></a>
-			';
 			$output .= '<a class="noUnderline sideBarButton defaultAll4InsetShadow aniBold" id="button3" href="'.$rootPathPrefix.'admin/jobs"><img src="'.$rootPathPrefix.'images/ultiscape/icons/calendar_month.svg"><p>Jobs</p></a>
 			';
 			$output .= '<a class="noUnderline sideBarButton defaultAll4InsetShadow aniBold" id="button4" href="'.$rootPathPrefix.'admin/invoices"><img src="'.$rootPathPrefix.'images/ultiscape/icons/document.svg"><p>Invoices</p></a>
+			';
+			$output .= '<a class="noUnderline sideBarButton defaultAll4InsetShadow aniBold" id="button2" href="'.$rootPathPrefix.'admin/estimates"><img src="'.$rootPathPrefix.'images/ultiscape/icons/document.svg"><p>Estimates</p></a>
 			';
 			$output .= '<a class="noUnderline sideBarButton defaultAll4InsetShadow aniBold" id="button5"><img src="'.$rootPathPrefix.'images/ultiscape/icons/drag.svg"><p>More...</p></a>
 			';
@@ -300,11 +300,11 @@
 				';
 					$output .= '<a class="button" id="button1" href="'.$rootPathPrefix.'admin/customers"><img src="'.$rootPathPrefix.'images/ultiscape/icons/users.svg"><p>Customers</p></a>
 					';
-					$output .= '<a class="button" id="button2" href="'.$rootPathPrefix.'admin/communications"><img src="'.$rootPathPrefix.'images/ultiscape/icons/thread.svg"><p>Comms</p></a>
-					';
 					$output .= '<a class="button" id="button3" href="'.$rootPathPrefix.'admin/jobs"><img src="'.$rootPathPrefix.'images/ultiscape/icons/calendar_month.svg"><p>Jobs</p></a>
 					';
 					$output .= '<a class="button" id="button4" href="'.$rootPathPrefix.'admin/invoices"><img src="'.$rootPathPrefix.'images/ultiscape/icons/document.svg"><p>Invoices</p></a>
+					';
+					$output .= '<a class="button" id="button2" href="'.$rootPathPrefix.'admin/estimates"><img src="'.$rootPathPrefix.'images/ultiscape/icons/document.svg"><p>Estimates</p></a>
 					';
 					$output .= '<span class="button" id="button5"><img src="'.$rootPathPrefix.'images/ultiscape/icons/drag.svg"></span>
 					';
