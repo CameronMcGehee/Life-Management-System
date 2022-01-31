@@ -522,7 +522,7 @@ a.noUnderline {
 
   .hoverTip span {
 	display: none;
-	z-index: 99999;
+	z-index: 999;
 	position: absolute;
 	padding: .3em;
 	padding-left: .5em;
@@ -966,7 +966,7 @@ a.noUnderline {
 
 .addTagDialog {
 	display: none;
-	z-index: 99999;
+	z-index: 999;
 	position: absolute;
 	padding: .3em;
 	padding-left: .5em;
@@ -1223,6 +1223,7 @@ html, body {
 }
 
 .cmsSideBarWrapper #sideBarMoreMenu {
+	z-index: 9999;
 	display: none;
 	position: fixed;
 	top: 19.6em;

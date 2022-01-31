@@ -252,7 +252,7 @@
 					$this->output .= ' font-size: 1.4em;';
 				}
 				
-				$this->output .= '">This is a test</span></span>';
+				$this->output .= '">All tags that have not been added will go here</span></span>';
 
 				// Output a script that shows the dialog for each tag add button
 
