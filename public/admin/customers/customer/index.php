@@ -15,6 +15,7 @@
 	// Other required libraries
 	require_once '../../../../lib/table/admin.php';
 	require_once '../../../../lib/table/customer.php';
+	require_once '../../../../lib/render/etc/tagEditor.php';
 	require_once '../../../../lib/table/customerEmailAddress.php';
 	if (isset($_GET['id']) && !empty($_GET['id'])) {
 		$currentCustomer = new customer($_GET['id']);
@@ -384,6 +385,26 @@
 						<span id="firstLastNameError" class="underInputError" style="display: none;"><br>Please enter a name, preferrably first and last.</span>
 
 						<br><br>
+
+						<?php
+
+							// Tag Editor
+
+							if ($currentCustomer->existed) {
+								$tagEditor = new tagEditor("underNameTagEditor", [
+									'rootPathPrefix' => '../../../',
+									'type' => 'customer',
+									'objectId' => $currentCustomer->customerId,
+									// 'style' => 'display: inline;',
+									'largeSize' => true
+								]);
+								$tagEditor->render();
+								echo $tagEditor->output;
+							}
+
+						?>
+
+						<br>
 
 						<table class="defaultTable" style="width: 35em; max-width: 100%;">
 							<tr>

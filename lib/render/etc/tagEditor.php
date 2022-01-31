@@ -95,8 +95,6 @@
 
 			$currentObject->pullTags();
 
-			// var_dump($currentObject->tags);
-
 			$this->output = '<div style="'.$this->options['style'].'" id="'.$this->renderId.'">';
 
 			require_once dirname(__FILE__)."/../../table/authToken.php";
@@ -139,10 +137,10 @@
 						throw new Exception("Type given is not supported (in tagEditor '".$this->renderId."')");
 				}
 
-				$this->output .= '<span id="tag'.$this->renderId.htmlspecialchars($tagId).'" class="defaultMainShadows" style="display: inline-flex; align-items: center; background-color: '.htmlspecialchars($currentTag->color).'; border-radius: 1em; padding-left: .3em; padding-right: .3em; padding-top: .1em; padding-bottom: .1em; color: white; margin-right: .5em;';
+				$this->output .= '<span id="tag'.$this->renderId.htmlspecialchars($tagId).'" class="defaultMainShadows tagBox" style="background-color: '.htmlspecialchars($currentTag->color).';';
 				
 				if ($this->options['largeSize']) {
-					$this->output .= ' font-size: 1.4em;';
+					$this->output .= ' font-size: 1.2em;';
 				} else {
 					$this->output .= ' font-size: .9em;';
 				}
@@ -234,6 +232,53 @@
 				}
             
             </script>';
+
+			if ($this->options['showAdd']) {
+				$this->output .= '<span onclick="'.$this->renderId.'clickAddTagButton(\''.htmlspecialchars($this->options['objectId']).'\')" id="addTagButton'.htmlspecialchars($this->options['objectId']).'" class="defaultMainShadows" style="position: relative; display: inline-flex; align-items: center; background-color: #f2f2f2; border-radius: 1em; border: 1px solid #d9d9d9; padding-left: .3em; padding-right: .3em; padding-top: .1em; padding-bottom: .1em; margin-right: .5em;';
+
+				if ($this->options['largeSize']) {
+					$this->output .= ' font-size: 1.2em;';
+				} else {
+					$this->output .= ' font-size: .9em;';
+				}
+
+				$this->output .= '"><img src="'.$this->options['rootPathPrefix'].'images/ultiscape/icons/tags.svg" style="height: 1em; cursor: pointer;">';
+
+				// Ouput a dialog (hidden initially), that shows up when the button is clicked, that lists all the available tags that haven't been added yet
+
+				$this->output .= '<span class="addTagDialog" id="'.$this->renderId.'addTagDialog'.$this->options['objectId'].'" style="display: none;';
+
+				if ($this->options['largeSize'] == false) {
+					$this->output .= ' font-size: 1.4em;';
+				}
+				
+				$this->output .= '">This is a test</span></span>';
+
+				// Output a script that shows the dialog for each tag add button
+
+				$this->output .= '
+					<script>
+					
+						function '.$this->renderId.'clickAddTagButton(objectId) {
+							// If the one that is clicked is current hidden, show it
+							if ($("#'.$this->renderId.'addTagDialog" + objectId).css("display") == "none") {
+								$("#'.$this->renderId.'addTagDialog" + objectId).css({"display": "inline-block"});
+								// Hide all other selectors
+								$(".addTagDialog").not("#'.$this->renderId.'addTagDialog" + objectId).hide();
+							} else {
+								$("#'.$this->renderId.'addTagDialog" + objectId).css({"display": "none"});
+							}
+						}
+					
+					</script>
+				';
+
+				// Output a script that hides all other tag pickers when a tag picker has been clicked, or a click is anywhere else on the page
+
+
+
+				// Script for when you click a tag in the dialog, which calls the script that creates the link and removes the tag from the selector dialog and appends it into the list of tags
+			}
 
 			$this->output .= '</div>';
 		}

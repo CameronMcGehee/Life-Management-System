@@ -219,7 +219,7 @@
                 }
 
                 // Render the row
-				$this->output .= '<tr><td class="ca nrb" style="width: 2em;"><input class="defaultInput" type="checkbox" name="'.$this->renderId.'-checkbox" value="'.htmlspecialchars($customer->customerId).'"></td><td class="la nrb vam" style="max-width: 10em;"><a href="'.$this->rootPathPrefix.'admin/customers/customer?id='.htmlspecialchars(htmlspecialchars($customer->customerId)).'" style="font-size: 1.1em;">'.htmlspecialchars($customer->firstName).' '.htmlspecialchars($customer->lastName).'</a>'.$tagEditor->output.'</td><td class="la desktopOnlyTable-cell nlb nrb">'.$email.'</td><td class="la desktopOnlyTable-cell nrb nlb">'.$phone.'</td><td class="la desktopOnlyTable-cell nlb">'.$billaddress.'</td><td class="la mobileOnlyTable-cell nlb">'.$mobileInfo.'</td></tr>
+				$this->output .= '<tr><td class="ca nrb" style="width: 2em;"><input class="defaultInput" type="checkbox" name="'.$this->renderId.'-checkbox" value="'.htmlspecialchars($customer->customerId).'"></td><td class="la nrb vam" style="max-width: 10em;"><a href="'.$this->rootPathPrefix.'admin/customers/customer?id='.htmlspecialchars(htmlspecialchars($customer->customerId)).'" style="font-size: 1.1em; margin-right: .5em;"><b>'.htmlspecialchars($customer->firstName).' '.htmlspecialchars($customer->lastName).'</b></a>'.$tagEditor->output.'</td><td class="la desktopOnlyTable-cell nlb nrb">'.$email.'</td><td class="la desktopOnlyTable-cell nrb nlb">'.$phone.'</td><td class="la desktopOnlyTable-cell nlb">'.$billaddress.'</td><td class="la mobileOnlyTable-cell nlb">'.$mobileInfo.'</td></tr>
                 ';
 			
             }
