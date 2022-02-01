@@ -42,9 +42,54 @@
 
             <br><hr>
 
-            <div style="margin-left: 2em; margin-right: 2em;">
-                <h2>Content...</h2>
-            </div>
+            <div class="twoColPage-Content-Info">
+				<div id="twoColContentWrapper" class="paddingLeftRight90">
+					<?php
+
+						// require_once '../../../lib/render/invoice/invoiceTable.php';
+						// $invoiceTable = new invoiceTable('main');
+						// $invoiceTable->rootPathPrefix = '../../';
+						// $invoiceTable->render();
+						// echo $invoiceTable->output;
+
+						
+
+					?>
+				</div>
+
+				<div id="twoColInfoWrapper" class="paddingLeftRight90">
+				
+                    <h2>Newest Customers</h2>
+                    <?php
+
+                        require_once '../../../lib/render/customer/customerTable.php';
+                        $customerTable = new customerTable('newestCustomers', [
+                            'rootPathPrefix' => '../../',
+                            'maxRows' => 5,
+                            'showAdd' => true,
+                            'showEmails' => false,
+                            'showPhoneNumbers' => false,
+                            'showBillingAddress' => false,
+                            'showDateAdded' => true,
+                            'useSort' => 'newest'
+                        ]);
+                        $customerTable->render();
+                        echo $customerTable->output;
+
+                    ?>
+
+					<br><hr><br>
+
+					<h3 style="color: var(--grayTextColorTheme);">Other Links</h3>
+
+					<br>
+
+					<a style="color: var(--grayTextColorTheme); display: inline-block;" href="#">Export (coming soon)</a>
+
+				</div>
+			</div>
+			<br>
+
         </div>
         
         <?php 
