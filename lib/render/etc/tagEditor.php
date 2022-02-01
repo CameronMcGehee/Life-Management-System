@@ -9,6 +9,9 @@
 		public string $renderId;
 
 		function __construct(string $renderId, array $options = []) {
+
+			parent::__construct();
+			
 			$this->renderId = $renderId;
 
 			if (empty($options['rootPathPrefix'])) {

@@ -15,6 +15,9 @@
 		private $previousPage;
 
 		function __construct($numPages, $currentPage, $path = './', $getVarName = 'page', $style = '', $renderId = '') {
+
+			parent::__construct();
+			
 			$this->numPages = $numPages;
 			$this->currentPage = $currentPage;
 			$this->path = $path;

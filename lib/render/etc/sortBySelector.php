@@ -11,6 +11,9 @@
 		public string $renderId;
 
 		function __construct(string $renderId, $rootPathPrefix = './', $getVarName = 'page', $selected = 'az') {
+
+			parent::__construct();
+			
 			$this->rootPathPrefix = $rootPathPrefix;
 			$this->renderId = $renderId;
 			$this->getVarName = $getVarName;

@@ -8,6 +8,9 @@
 		public array $options;
 
 		function __construct(string $renderId, array $options = []) {
+
+			parent::__construct();
+			
 			$this->renderId = $renderId;
 
             require_once dirname(__FILE__)."/../../table/job.php";
