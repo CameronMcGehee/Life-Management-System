@@ -830,6 +830,8 @@ a.noUnderline {
 	border-collapse:collapse;
 	border-spacing:0;
 	border-color:#ccc;
+	border-style: solid;
+	border-width: 1px;
 
 	width: 100%;
 	max-width: 100%;
@@ -860,6 +862,10 @@ a.noUnderline {
 	color:#333;
 	background-color:#d0d0d0;
 	text-align: center;
+}
+
+.defaultTable.noBorder {
+	border-width: 0px;
 }
 
 .defaultTable.highlightOdd tr:nth-child(odd) td {

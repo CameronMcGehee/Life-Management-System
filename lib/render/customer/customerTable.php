@@ -9,17 +9,17 @@
         public string $renderId = '';
         public array $options = [];
         public string $queryParams = '';
-        public int $page = 1;
+        private $currentDate;
 
         function __construct(string $renderId, array $options = []) {
 
             parent::__construct();
 
-            if (empty($options['rootPathPrefix'])) {
+            if (!isset($options['rootPathPrefix'])) {
 				$options['rootPathPrefix'] = './';
 			}
 
-            if (empty($options['businessId'])) {
+            if (!isset($options['businessId'])) {
 				if (isset($_SESSION['ultiscape_businessId'])) {
                     $options['businessId'] = $_SESSION['ultiscape_businessId'];
                 } else {
@@ -27,39 +27,55 @@
                 }
 			}
 
-            if (empty($options['maxRows']) || !is_numeric($options['maxRows'])) {
+            if (!isset($options['maxRows']) || !is_numeric($options['maxRows'])) {
 				$options['maxRows'] = 10;
 			}
 
-            if (empty($options['pageGetVarName'])) {
+            if (!isset($options['pageGetVarName'])) {
 				$options['pageGetVarName'] = '-p';
 			}
 
-            if (empty($options['sortGetVarName'])) {
+            if (!isset($options['sortGetVarName'])) {
 				$options['sortGetVarName'] = '-s';
 			}
 
-            if (empty($options['usePage']) || !is_numeric($options['usePage'])) {
+            if (!isset($options['usePage']) || !is_numeric($options['usePage'])) {
 				$options['usePage'] = 1;
 			}
 
-            if (empty($options['showAdd'])) {
+            if (!isset($options['showAdd'])) {
 				$options['showAdd'] = false;
 			}
             
-            if (empty($options['showSort'])) {
+            if (!isset($options['showSort'])) {
 				$options['showSort'] = false;
 			}
 
-            if (empty($options['useSort']) || !in_array($options['useSort'], ['az', 'za', 'newest', 'oldest'])) {
+            if (!isset($options['useSort']) || !in_array($options['useSort'], ['az', 'za', 'newest', 'oldest'])) {
 				$options['useSort'] = 'az';
 			}
 
-            if (empty($options['showPageNav'])) {
+            if (!isset($options['showPageNav'])) {
 				$options['showPageNav'] = true;
 			}
 
-            if (empty($options['showBatch'])) {
+            if (!isset($options['showEmails'])) {
+				$options['showEmails'] = true;
+			}
+
+            if (!isset($options['showPhoneNumbers'])) {
+				$options['showPhoneNumbers'] = true;
+			}
+
+            if (!isset($options['showBillingAddress'])) {
+				$options['showBillingAddress'] = false;
+			}
+
+            if (!isset($options['showDateAdded'])) {
+				$options['showDateAdded'] = false;
+			}
+
+            if (!isset($options['showBatch'])) {
 				$options['showBatch'] = false;
 			}
 
@@ -75,6 +91,7 @@
             require_once dirname(__FILE__)."/../etc/tagEditor.php";
             require_once dirname(__FILE__)."/../etc/pageNavigator.php";
             require_once dirname(__FILE__)."/../etc/sortBySelector.php";
+            require_once dirname(__FILE__)."/../../etc/time/diffCalc.php";
 
             // Page
             if (isset($_GET[$renderId.$options['pageGetVarName']])) {
@@ -86,6 +103,9 @@
             }
 
             $this->options = $options;
+
+            $this->currentDate = new DateTime;
+            $this->currentDate = $this->currentDate->format('Y-m-d H:i:s');
         }
 
         function render() {
@@ -164,11 +184,41 @@
 
 			$this->output .= '<table class="defaultTable highlightOdd hoverHighlight" style="margin-top: .5em;">
             ';
-			$this->output .= '<tr>';
+            
+            $this->output .= '<tr>
+            ';
+            
+            
             if ($this->options['showBatch']) {
-                $this->output .= '<th class="ca nrb">✔</th>';
+                $this->output .= '<th class="ca nrb">✔</th>
+                ';
             }
-            $this->output .= '<th class="la nrb">Name</th><th class="ca desktopOnlyTable-cell nrb nlb">Email(s)</th><th class="ca desktopOnlyTable-cell nrb nlb">Phone Number(s)</th><th class="la desktopOnlyTable-cell nlb">Billing Address</th><th class="ca mobileOnlyTable-cell nlb">Contact</th></tr>
+
+            $this->output .= '<th class="la nrb">Name</th>
+            ';
+
+            if ($this->options['showEmails']) {
+                $this->output .= '<th class="ca desktopOnlyTable-cell nrb nlb">Email(s)</th>
+                ';
+            }
+            if ($this->options['showPhoneNumbers']) {
+                $this->output .= '<th class="ca desktopOnlyTable-cell nrb nlb">Phone Number(s)</th>
+                ';
+            }
+            if ($this->options['showBillingAddress']) {
+                $this->output .= '<th class="la desktopOnlyTable-cell nlb">Billing Address</th>
+                ';
+            }
+            if ($this->options['showBillingAddress'] || $this->options['showEmails'] || $this->options['showPhoneNumbers']) {
+                $this->output .= '<th class="ca mobileOnlyTable-cell nlb">Contact</th>
+                ';
+            }
+            if ($this->options['showDateAdded']) {
+                $this->output .= '<th class="ca desktopOnlyTable-cell nlb">Customer Since</th>
+                ';
+            }
+
+            $this->output .= '</tr>
             ';
 			
 			foreach ($this->currentBusiness->customers as $customerId) {
@@ -278,11 +328,33 @@
                     $this->output .= '<td class="ca nrb" style="width: 2em;"><input class="defaultInput" type="checkbox" name="'.$this->renderId.'-checkbox" value="'.htmlspecialchars($customer->customerId).'"></td>';
                 }
                 $this->output .= '<td class="la nrb vam" style="max-width: 10em;"><a href="'.$this->options['rootPathPrefix'].'admin/customers/customer?id='.htmlspecialchars(htmlspecialchars($customer->customerId)).'" style="font-size: 1.1em; margin-right: .5em;"><b>'.htmlspecialchars($customer->firstName).' '.htmlspecialchars($customer->lastName).'</b></a>'.$tagEditor->output.'</td>
-                                    <td class="la desktopOnlyTable-cell nlb nrb">'.$email.'</td>
-                                    <td class="la desktopOnlyTable-cell nrb nlb">'.$phone.'</td>
-                                    <td class="la desktopOnlyTable-cell nlb">'.$billaddress.'</td>
-                                    <td class="la mobileOnlyTable-cell nlb">'.$mobileInfo.'</td>
-                                </tr>
+                                    '; 
+                                    
+                if ($this->options['showEmails']) {
+                    $this->output .= '<td class="la desktopOnlyTable-cell nlb nrb">'.$email.'</td>
+                    ';
+                }
+                if ($this->options['showPhoneNumbers']) {
+                    $this->output .= '<td class="la desktopOnlyTable-cell nrb nlb">'.$phone.'</td>
+                    ';
+                }
+                if ($this->options['showBillingAddress']) {
+                    $this->output .= '<td class="la desktopOnlyTable-cell nlb">'.$billaddress.'</td>
+                    ';
+                }
+                if ($this->options['showBillingAddress'] || $this->options['showEmails'] || $this->options['showPhoneNumbers']) {
+                    $this->output .= '<td class="la mobileOnlyTable-cell nlb">'.$mobileInfo.'</td>
+                    ';
+                }
+                if ($this->options['showDateAdded']) {
+                    $diffOutput = getDateTimeDiffString($customer->dateTimeAdded, $this->currentDate);
+                    $dateAddedOutput = new DateTime($customer->dateTimeAdded);
+                    $dateAddedOutput = $dateAddedOutput->format('m/d/Y');
+                    $this->output .= '<td class="ca desktopOnlyTable-cell nlb">'.htmlspecialchars($dateAddedOutput).' ('.$diffOutput.' ago)</td>
+                    ';
+                }
+
+                $this->output .='</tr>
                 ';
 			
             }
