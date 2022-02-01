@@ -10,7 +10,7 @@
 		public bool $existed; // Used to see whether the given entity existed already (in the database) at the time of instantiation
 
 		private $cryptoKey;
-		private $fieldsToEncrypt = array('lastName', 'billAddress1', 'billAddress2', 'billCity', 'billState', 'billZipCode', 'notes');
+		private $fieldsToEncrypt = array('firstName', 'lastName', 'billAddress1', 'billAddress2', 'billCity', 'billState', 'billZipCode', 'notes');
 
 		// Main database attributes
 		public $customerId;
