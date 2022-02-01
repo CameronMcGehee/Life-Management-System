@@ -7,15 +7,60 @@
         private business $currentBusiness; // For storing the object of the business
 
         public string $renderId = '';
+        public array $options = [];
         public string $queryParams = '';
-        public string $rootPathPrefix = './';
         public int $perPage = 15;
         public int $page = 1;
-        public string $sortBy = 'az';
 
-        function __construct(string $renderId, $businessId = NULL) {
+        function __construct(string $renderId, array $options = []) {
 
             parent::__construct();
+
+            if (empty($options['rootPathPrefix'])) {
+				$options['rootPathPrefix'] = './';
+			}
+
+            if (empty($options['businessId'])) {
+				if (isset($_SESSION['ultiscape_businessId'])) {
+                    $options['businessId'] = $_SESSION['ultiscape_businessId'];
+                } else {
+                    throw new Exception("No businessId set to pull customers from (in customerTable)");
+                }
+			}
+
+            if (empty($options['pageGetVarName'])) {
+				$options['pageGetVarName'] = '-p';
+			}
+
+            if (empty($options['sortGetVarName'])) {
+				$options['sortGetVarName'] = '-s';
+			}
+
+            if (empty($options['usePage']) or !is_numeric($options['usePage'])) {
+				$options['usePage'] = 1;
+			}
+
+            if (empty($options['showAdd'])) {
+				$options['showAdd'] = false;
+			}
+            
+            if (empty($options['showSort'])) {
+				$options['showSort'] = false;
+			}
+
+            if (empty($options['useSort']) || in_array($options['useSort'], ['az', 'za', 'newest', 'oldest'])) {
+				$options['useSort'] = 'az';
+			}
+
+            if (empty($options['showPageNav'])) {
+				$options['showPageNav'] = true;
+			}
+
+            if (empty($options['showBatch'])) {
+				$options['showBatch'] = false;
+			}
+
+            $this->currentBusiness = new business($options['businessId']);
 
             $this->renderId = $renderId;
 
@@ -28,60 +73,62 @@
             require_once dirname(__FILE__)."/../etc/pageNavigator.php";
             require_once dirname(__FILE__)."/../etc/sortBySelector.php";
 
-            // If the businessId is not given, just use the one set by the session. If it is not in the session, throw an exception.
-            if ($businessId === NULL) {
-                if (isset($_SESSION['ultiscape_businessId'])) {
-                    $businessId = $_SESSION['ultiscape_businessId'];
-                } else {
-                    throw new Exception("No businessId set to pull customers from (in customerTable)");
-                }
-            }
-            
-            $this->currentBusiness = new business($businessId);
-
             // Page
-            if (isset($_GET[$renderId.'-p'])) {
-                $this->page = $_GET[$renderId.'-p'];
+            if (isset($_GET[$renderId.$options['pageGetVarName']])) {
+                $options['usePage'] = $_GET[$renderId.$options['pageGetVarName']];
             }
-            // Sort By
-            if (isset($_GET[$renderId.'-s'])) {
-                $this->sortBy = $_GET[$renderId.'-s'];
+            // Sort
+            if (isset($_GET[$renderId.$options['sortGetVarName']])) {
+                $options['useSort'] = $_GET[$renderId.$options['sortGetVarName']];
             }
+
+            $this->options = $options;
         }
 
         function render() {
             $this->output = '';
 
-            $firstLimit = ($this->page - 1) * $this->perPage;
+            $firstLimit = ($this->options['usePage'] - 1) * $this->perPage;
 
             // Get count for page count
             $selectAll = $this->db->select('customer', "COUNT(customerId) AS num", "WHERE businessId = '".$_SESSION['ultiscape_businessId']."'");
 
             // Start div for table header (create customer button and nav)
-            $this->output .= '<div class="twoCol">';
+            if ($this->options['showAdd'] || $this->options['showSort'] || $this->options['showPageNav']) {
+                $this->output .= '<div class="twoCol">';
 
-            // Render the add customer button
-            $this->output .= '<div class="yCenteredFlex"><a class="smallButtonWrapper greenButton noUnderline yCenteredFlex" href="'.$this->rootPathPrefix.'admin/customers/customer">➕ New</a></div>';
-            
-            // Render the page navigator and sort-by selector
-            if ((int)$selectAll[0]['num'] > 0) {
+                // Render the add customer button
+                $this->output .= '<div class="yCenteredFlex">';
+                if ($this->options['showAdd']) {
+                    $this->output .= '<a class="smallButtonWrapper greenButton noUnderline yCenteredFlex" href="'.$this->options['rootPathPrefix'].'admin/customers/customer">➕ New</a>';
+                }
+                $this->output .= '</div>';
                 
-                $pageNav = new pageNavigator(ceil(($selectAll[0]['num'] / $this->perPage)), $this->page, './', $this->renderId.'-p', 'float: right; padding: .2em;');
-                $pageNav->render();
+                // Render the page navigator and sort-by selector
+                if ((int)$selectAll[0]['num'] > 0) {
+                    
+                    $pageNav = new pageNavigator(ceil(($selectAll[0]['num'] / $this->perPage)), $this->options['usePage'], './', $this->renderId.'-p', 'float: right; padding: .2em;');
+                    if ($this->options['showPageNav']) {
+                        $pageNav->render();
+                    }
 
-                $sortBySelector = new sortBySelector($this->renderId."sortSelector", './', $this->renderId.'-s', $this->sortBy);
-                $sortBySelector->render();
+                    $sortBySelector = new sortBySelector($this->renderId."sortSelector", './', $this->renderId.'-s', $this->options['useSort']);
+                    
+                    if ($this->options['showSort']) {
+                        $sortBySelector->render();
+                    }
 
-                $this->output .= '<div>'.$pageNav->output.' <span style="width: min-content; height: 100%; float:right;" class="xCenteredFlex">'.$sortBySelector->output.'</span></div>';
+                    $this->output .= '<div>'.$pageNav->output.' <span style="width: min-content; height: 100%; float:right;" class="yCenteredFlex">'.$sortBySelector->output.'</span></div>';
+                }
+                
+                // End div for table header
+                $this->output .= '</div>';
             }
-            
-            // End div for table header
-            $this->output .= '</div>';
 
             // Get actual results
             $params = '';
 
-            switch ($this->sortBy) {
+            switch ($this->options['useSort']) {
                 case 'az':
                     $params .= 'ORDER BY nameIndex ASC ';
                     break;
@@ -114,7 +161,11 @@
 
 			$this->output .= '<table class="defaultTable highlightOdd hoverHighlight" style="margin-top: .5em;">
             ';
-			$this->output .= '<tr><th class="ca nrb">✔</th><th class="la nrb">Name</th><th class="ca desktopOnlyTable-cell nrb nlb">Email(s)</th><th class="ca desktopOnlyTable-cell nrb nlb">Phone Number(s)</th><th class="la desktopOnlyTable-cell nlb">Billing Address</th><th class="ca mobileOnlyTable-cell nlb">Contact</th></tr>
+			$this->output .= '<tr>';
+            if ($this->options['showBatch']) {
+                $this->output .= '<th class="ca nrb">✔</th>';
+            }
+            $this->output .= '<th class="la nrb">Name</th><th class="ca desktopOnlyTable-cell nrb nlb">Email(s)</th><th class="ca desktopOnlyTable-cell nrb nlb">Phone Number(s)</th><th class="la desktopOnlyTable-cell nlb">Billing Address</th><th class="ca mobileOnlyTable-cell nlb">Contact</th></tr>
             ';
 			
 			foreach ($this->currentBusiness->customers as $customerId) {
@@ -124,7 +175,7 @@
                 // Tag Editor
 
                 $tagEditor = new tagEditor($this->renderId."tagEditor", [
-                    'rootPathPrefix' => $this->rootPathPrefix,
+                    'rootPathPrefix' => $this->options['rootPathPrefix'],
                     'type' => 'customer',
                     'objectId' => $customerId,
                     'style' => 'display: inline;',
@@ -219,7 +270,16 @@
                 }
 
                 // Render the row
-				$this->output .= '<tr><td class="ca nrb" style="width: 2em;"><input class="defaultInput" type="checkbox" name="'.$this->renderId.'-checkbox" value="'.htmlspecialchars($customer->customerId).'"></td><td class="la nrb vam" style="max-width: 10em;"><a href="'.$this->rootPathPrefix.'admin/customers/customer?id='.htmlspecialchars(htmlspecialchars($customer->customerId)).'" style="font-size: 1.1em; margin-right: .5em;"><b>'.htmlspecialchars($customer->firstName).' '.htmlspecialchars($customer->lastName).'</b></a>'.$tagEditor->output.'</td><td class="la desktopOnlyTable-cell nlb nrb">'.$email.'</td><td class="la desktopOnlyTable-cell nrb nlb">'.$phone.'</td><td class="la desktopOnlyTable-cell nlb">'.$billaddress.'</td><td class="la mobileOnlyTable-cell nlb">'.$mobileInfo.'</td></tr>
+				$this->output .= '<tr>';
+                if ($this->options['showBatch']) {
+                    $this->output .= '<td class="ca nrb" style="width: 2em;"><input class="defaultInput" type="checkbox" name="'.$this->renderId.'-checkbox" value="'.htmlspecialchars($customer->customerId).'"></td>';
+                }
+                $this->output .= '<td class="la nrb vam" style="max-width: 10em;"><a href="'.$this->options['rootPathPrefix'].'admin/customers/customer?id='.htmlspecialchars(htmlspecialchars($customer->customerId)).'" style="font-size: 1.1em; margin-right: .5em;"><b>'.htmlspecialchars($customer->firstName).' '.htmlspecialchars($customer->lastName).'</b></a>'.$tagEditor->output.'</td>
+                                    <td class="la desktopOnlyTable-cell nlb nrb">'.$email.'</td>
+                                    <td class="la desktopOnlyTable-cell nrb nlb">'.$phone.'</td>
+                                    <td class="la desktopOnlyTable-cell nlb">'.$billaddress.'</td>
+                                    <td class="la mobileOnlyTable-cell nlb">'.$mobileInfo.'</td>
+                                </tr>
                 ';
 			
             }
@@ -227,35 +287,39 @@
 			$this->output .= '</table>';
 
             // Batch Operations
-            $deleteCustomersAuthToken = new authToken;
-            $deleteCustomersAuthToken->authName = 'deleteCustomers';
-            $deleteCustomersAuthToken->set();
-            $this->output .= '<div style="margin-top: .5em;font-size: .9em;"><p>With selected: 
-            <select class="defaultInput" id="batchSelect">
-                <option value="none">Nothing</option>
-                <option value="delete">❌ Delete</option>
-            </select> <button class="defaultInput" onclick="'.$this->renderId.'batchOperation()">Go</button></p>
-            
-            <script>
-                var deleteCustomersAuthToken = "'.$deleteCustomersAuthToken->authTokenId.'";
-                function '.$this->renderId.'batchOperation() {
 
-                    var allChecked = document.querySelectorAll("input[name='.$this->renderId.'-checkbox]:checked");
-
-                    var checkedArray = Array.from(allChecked).map(checkbox => checkbox.value);
-
-                    if ($("#batchSelect option:selected").val() == "delete" && checkedArray.length > 0) {
-                            $("#scriptLoader").load("'.$this->rootPathPrefix.'admin/scripts/async/customer/deleteCustomers.php", {"customers[]": checkedArray, "authToken": deleteCustomersAuthToken}, function() {
-                                if ($("#scriptLoader").html() == "success") {
-                                    document.location.reload(true);
-                                }
-                            });
+            if ($this->options['showBatch']) {
+                $deleteCustomersAuthToken = new authToken;
+                $deleteCustomersAuthToken->authName = 'deleteCustomers';
+                $deleteCustomersAuthToken->set();
+                $this->output .= '<div style="margin-top: .5em;font-size: .9em;"><p>With selected: 
+                <select class="defaultInput" id="batchSelect">
+                    <option value="none">Nothing</option>
+                    <option value="delete">❌ Delete</option>
+                </select> <button class="defaultInput" onclick="'.$this->renderId.'batchOperation()">Go</button></p>
+                
+                <script>
+                    var deleteCustomersAuthToken = "'.$deleteCustomersAuthToken->authTokenId.'";
+                    function '.$this->renderId.'batchOperation() {
+    
+                        var allChecked = document.querySelectorAll("input[name='.$this->renderId.'-checkbox]:checked");
+    
+                        var checkedArray = Array.from(allChecked).map(checkbox => checkbox.value);
+    
+                        if ($("#batchSelect option:selected").val() == "delete" && checkedArray.length > 0) {
+                                $("#scriptLoader").load("'.$this->options['rootPathPrefix'].'admin/scripts/async/customer/deleteCustomers.php", {"customers[]": checkedArray, "authToken": deleteCustomersAuthToken}, function() {
+                                    if ($("#scriptLoader").html() == "success") {
+                                        document.location.reload(true);
+                                    }
+                                });
+                        }
                     }
-                }
+                
+                </script>
+                
+                </div>';
+            }
             
-            </script>
-            
-            </div>';
         }
 
     }

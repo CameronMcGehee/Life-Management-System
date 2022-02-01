@@ -42,8 +42,12 @@
 					<?php
 
 						require_once '../../../lib/render/customer/customerTable.php';
-						$customerTable = new customerTable('main');
-						$customerTable->rootPathPrefix = '../../';
+						$customerTable = new customerTable('main', [
+							'rootPathPrefix' => '../../',
+							'showAdd' => true,
+							'showSort' => true,
+							'showBatch' => true,
+						]);
 						$customerTable->render();
 						echo $customerTable->output;
 
