@@ -14,6 +14,7 @@
             echo '<html><head><title>'.$ULTISCAPECONFIG['denyAccessTitle'].'</title></head><body style="background-color: white;"><span style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; text-align: center;">'.$ULTISCAPECONFIG['denyAccessMessage'].'</span></body></html>';
             exit();
     } else {
+        date_default_timezone_set("America/New_York");
         session_start();
     }
 
