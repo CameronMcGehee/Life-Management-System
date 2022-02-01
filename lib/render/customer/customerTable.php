@@ -9,7 +9,6 @@
         public string $renderId = '';
         public array $options = [];
         public string $queryParams = '';
-        public int $perPage = 15;
         public int $page = 1;
 
         function __construct(string $renderId, array $options = []) {
@@ -28,6 +27,10 @@
                 }
 			}
 
+            if (empty($options['maxRows']) || !is_numeric($options['maxRows'])) {
+				$options['maxRows'] = 10;
+			}
+
             if (empty($options['pageGetVarName'])) {
 				$options['pageGetVarName'] = '-p';
 			}
@@ -36,7 +39,7 @@
 				$options['sortGetVarName'] = '-s';
 			}
 
-            if (empty($options['usePage']) or !is_numeric($options['usePage'])) {
+            if (empty($options['usePage']) || !is_numeric($options['usePage'])) {
 				$options['usePage'] = 1;
 			}
 
@@ -48,7 +51,7 @@
 				$options['showSort'] = false;
 			}
 
-            if (empty($options['useSort']) || in_array($options['useSort'], ['az', 'za', 'newest', 'oldest'])) {
+            if (empty($options['useSort']) || !in_array($options['useSort'], ['az', 'za', 'newest', 'oldest'])) {
 				$options['useSort'] = 'az';
 			}
 
@@ -88,7 +91,7 @@
         function render() {
             $this->output = '';
 
-            $firstLimit = ($this->options['usePage'] - 1) * $this->perPage;
+            $firstLimit = ($this->options['usePage'] - 1) * $this->options['maxRows'];
 
             // Get count for page count
             $selectAll = $this->db->select('customer', "COUNT(customerId) AS num", "WHERE businessId = '".$_SESSION['ultiscape_businessId']."'");
@@ -107,7 +110,7 @@
                 // Render the page navigator and sort-by selector
                 if ((int)$selectAll[0]['num'] > 0) {
                     
-                    $pageNav = new pageNavigator(ceil(($selectAll[0]['num'] / $this->perPage)), $this->options['usePage'], './', $this->renderId.'-p', 'float: right; padding: .2em;');
+                    $pageNav = new pageNavigator(ceil(($selectAll[0]['num'] / $this->options['maxRows'])), $this->options['usePage'], './', $this->renderId.'-p', 'float: right; padding: .2em;');
                     if ($this->options['showPageNav']) {
                         $pageNav->render();
                     }
@@ -146,9 +149,9 @@
             }
 
             if (empty($this->queryParams)) {
-                $params .= "LIMIT ".$firstLimit.", ".$this->perPage;
+                $params .= "LIMIT ".$firstLimit.", ".$this->options['maxRows'];
             } else {
-                $params .= $this->queryParams." LIMIT ".$firstLimit.", ".$this->perPage;
+                $params .= $this->queryParams." LIMIT ".$firstLimit.", ".$this->options['maxRows'];
             }
 
             $this->currentBusiness->pullCustomers($params);

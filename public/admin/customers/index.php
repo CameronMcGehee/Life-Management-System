@@ -44,6 +44,7 @@
 						require_once '../../../lib/render/customer/customerTable.php';
 						$customerTable = new customerTable('main', [
 							'rootPathPrefix' => '../../',
+							'maxRows' => 15,
 							'showAdd' => true,
 							'showSort' => true,
 							'showBatch' => true,
