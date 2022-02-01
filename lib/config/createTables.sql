@@ -1007,15 +1007,13 @@
 	CREATE TABLE IF NOT EXISTS `jobCancellation` (
 	`jobCancellationId` varchar(17) NOT NULL,
 	`businessId` varchar(17) NOT NULL,
-	`linkedToJobSingularId` varchar(17) NULL COMMENT 'Optional FK',
-	`linkedToJobRecurringId` varchar(17) NULL COMMENT 'Optional FK',
+	`linkedToJobId` varchar(17) NULL COMMENT 'Optional FK',
 	`startDateTime` datetime NOT NULL,
 	`endDateTime` datetime NOT NULL,
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`jobCancellationId`),
 	KEY `jobCancellationBusinessId` (`businessId`),
-	KEY `jobCancellationLinkedToJobSingularId` (`linkedToJobSingularId`),
-	KEY `jobCancellationLinkedToJobRecurringId` (`linkedToJobRecurringId`),
+	KEY `jobCancellationLinkedToJobId` (`linkedToJobId`),
 	CONSTRAINT `jobCancellationBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 	
@@ -1026,7 +1024,6 @@
 	CREATE TABLE IF NOT EXISTS `jobCompleted` (
 	`jobCompletedId` varchar(17) NOT NULL,
 	`businessId` varchar(17) NOT NULL,
-	`linkedToJobRecurringId` varchar(17) NULL COMMENT 'Optional FK',
 	`linkedToCustomerId` varchar(17) NULL COMMENT 'Optional FK',
 	`linkedToPropertyId` varchar(17) NULL COMMENT 'Optional FK',
 	`name` text NOT NULL,
@@ -1035,24 +1032,26 @@
 	`price` float NULL,
 	`estHours` int(11) NULL,
 	`wasPrepaid` tinyint(1) NOT NULL default 0,
+	`frequencyInterval` varchar(10) NOT NULL DEFAULT 'none',
+	`frequency` int(11) NOT NULL DEFAULT 0,
 	`startDateTime` datetime NOT NULL,
 	`endDateTime` datetime NULL,
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`jobCompletedId`),
 	KEY `jobCompletedBusinessId` (`businessId`),
-	KEY `jobCompletedLinkedToJobRecurringId` (`linkedToJobRecurringId`),
 	KEY `jobCompletedLinkedToCustomerId` (`linkedToCustomerId`),
 	KEY `jobCompletedLinkedToPropertyId` (`linkedToPropertyId`),
 	CONSTRAINT `jobCompletedBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
-	-- Table structure for table `jobRecurring`
+	-- Table structure for table `job`
 	--
 
-	CREATE TABLE IF NOT EXISTS `jobRecurring` (
-	`jobRecurringId` varchar(17) NOT NULL,
+	CREATE TABLE IF NOT EXISTS `job` (
+	`jobId` varchar(17) NOT NULL,
 	`businessId` varchar(17) NOT NULL,
+	`linkedToJobId` varchar(17) NULL COMMENT 'Optional FK',
 	`linkedToCustomerId` varchar(17) NULL COMMENT 'Optional FK',
 	`linkedToPropertyId` varchar(17) NULL COMMENT 'Optional FK',
 	`name` text NOT NULL,
@@ -1066,76 +1065,31 @@
 	`startDateTime` datetime NOT NULL,
 	`endDateTime` datetime NULL,
 	`dateTimeAdded` datetime NOT NULL,
-	PRIMARY KEY (`jobRecurringId`),
-	KEY `jobRecurringBusinessId` (`businessId`),
-	KEY `jobRecurringLinkedToCustomerId` (`linkedToCustomerId`),
-	KEY `jobRecurringLinkedToPropertyId` (`linkedToPropertyId`),
-	CONSTRAINT `jobRecurringBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE
+	PRIMARY KEY (`jobId`),
+	KEY `jobBusinessId` (`businessId`),
+	KEY `jobLinkedToJobId` (`linkedToJobId`),
+	KEY `jobLinkedToCustomerId` (`linkedToCustomerId`),
+	KEY `jobLinkedToPropertyId` (`linkedToPropertyId`),
+	CONSTRAINT `jobBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
-	-- Table structure for table `jobSingular`
+	-- Table structure for table `jobCrewBridge`
 	--
 
-	CREATE TABLE IF NOT EXISTS `jobSingular` (
-	`jobSingularId` varchar(17) NOT NULL,
+	CREATE TABLE IF NOT EXISTS `jobCrewBridge` (
+	`jobCrewId` int(11) NOT NULL AUTO_INCREMENT,
 	`businessId` varchar(17) NOT NULL,
-	`linkedToJobRecurringId` varchar(17) NULL COMMENT 'Optional FK',
-	`linkedToCustomerId` varchar(17) NULL COMMENT 'Optional FK',
-	`linkedToPropertyId` varchar(17) NULL COMMENT 'Optional FK',
-	`name` text NOT NULL,
-	`description` text NULL,
-	`privateNotes` text NULL,
-	`price` float NULL,
-	`estHours` int(11) NULL,
-	`isPrepaid` tinyint(1) NOT NULL default 0,
-	`startDateTime` datetime NOT NULL,
-	`endDateTime` datetime NULL,
-	`dateTimeAdded` datetime NOT NULL,
-	PRIMARY KEY (`jobSingularId`),
-	KEY `jobSingularBusinessId` (`businessId`),
-	KEY `jobSingularLinkedToJobRecurringId` (`linkedToJobRecurringId`),
-	KEY `jobSingularLinkedToCustomerId` (`linkedToCustomerId`),
-	KEY `jobSingularLinkedToPropertyId` (`linkedToPropertyId`),
-	CONSTRAINT `jobSingularBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE
-	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-	--
-	-- Table structure for table `jobSingularCrewBridge`
-	--
-
-	CREATE TABLE IF NOT EXISTS `jobSingularCrewBridge` (
-	`jobSingularCrewId` int(11) NOT NULL AUTO_INCREMENT,
-	`businessId` varchar(17) NOT NULL,
-	`jobSingularId` varchar(17) NOT NULL,
+	`jobId` varchar(17) NOT NULL,
 	`crewId` varchar(17) NOT NULL,
 	`dateTimeAdded` datetime NOT NULL,
-	PRIMARY KEY (`jobSingularCrewId`),
-	KEY `jobSingularCrewBridgeBusinessId` (`businessId`),
-	KEY `jobSingularCrewBridgeJobSingularId` (`jobSingularId`),
-	KEY `jobSingularCrewBridgecrewId` (`crewId`),
-	CONSTRAINT `jobSingularCrewBridgeBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE,
-	CONSTRAINT `jobSingularCrewBridgeJobSingularId` FOREIGN KEY (`jobSingularId`) REFERENCES `jobSingular` (`jobSingularId`) ON DELETE CASCADE,
-	CONSTRAINT `jobSingularCrewBridgecrewId` FOREIGN KEY (`crewId`) REFERENCES `crew` (`crewId`) ON DELETE CASCADE
-	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-	--
-	-- Table structure for table `jobRecurringCrewBridge`
-	--
-
-	CREATE TABLE IF NOT EXISTS `jobRecurringCrewBridge` (
-	`jobRecurringCrewId` varchar(17) NOT NULL,
-	`businessId` varchar(17) NOT NULL,
-	`jobRecurringId` varchar(17) NOT NULL,
-	`crewId` varchar(17) NOT NULL,
-	`dateTimeAdded` datetime NOT NULL,
-	PRIMARY KEY (`jobRecurringCrewId`),
-	KEY `jobRecurringCrewBridgeBusinessId` (`businessId`),
-	KEY `jobRecurringCrewBridgeJobRecurringId` (`jobRecurringId`),
-	KEY `jobRecurringCrewBridgecrewId` (`crewId`),
-	CONSTRAINT `jobRecurringCrewBridgeBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE,
-	CONSTRAINT `jobRecurringCrewBridgeJobRecurringId` FOREIGN KEY (`jobRecurringId`) REFERENCES `jobRecurring` (`jobRecurringId`) ON DELETE CASCADE,
-	CONSTRAINT `jobRecurringCrewBridgecrewId` FOREIGN KEY (`crewId`) REFERENCES `crew` (`crewId`) ON DELETE CASCADE
+	PRIMARY KEY (`jobCrewId`),
+	KEY `jobCrewBridgeBusinessId` (`businessId`),
+	KEY `jobCrewBridgeJobId` (`jobId`),
+	KEY `jobCrewBridgecrewId` (`crewId`),
+	CONSTRAINT `jobCrewBridgeBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE,
+	CONSTRAINT `jobCrewBridgeJobId` FOREIGN KEY (`jobId`) REFERENCES `job` (`jobId`) ON DELETE CASCADE,
+	CONSTRAINT `jobCrewBridgecrewId` FOREIGN KEY (`crewId`) REFERENCES `crew` (`crewId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -1336,41 +1290,22 @@
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
-	-- Table structure for table `jobSingularStaffBridge`
+	-- Table structure for table `jobStaffBridge`
 	--
 
-	CREATE TABLE IF NOT EXISTS `jobSingularStaffBridge` (
-	`jobSingularStaffId` int(11) NOT NULL AUTO_INCREMENT,
+	CREATE TABLE IF NOT EXISTS `jobStaffBridge` (
+	`jobStaffId` int(11) NOT NULL AUTO_INCREMENT,
 	`businessId` varchar(17) NOT NULL,
-	`jobSingularId` varchar(17) NOT NULL,
+	`jobId` varchar(17) NOT NULL,
 	`staffId` varchar(17) NOT NULL,
 	`dateTimeAdded` datetime NOT NULL,
-	PRIMARY KEY (`jobSingularStaffId`),
-	KEY `jobSingularStaffBridgeBusinessId` (`businessId`),
-	KEY `jobSingularStaffBridgeJobSingularId` (`jobSingularId`),
-	KEY `jobSingularStaffBridgeStaffId` (`staffId`),
-	CONSTRAINT `jobSingularStaffBridgeBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE,
-	CONSTRAINT `jobSingularStaffBridgeJobSingularId` FOREIGN KEY (`jobSingularId`) REFERENCES `jobSingular` (`jobSingularId`) ON DELETE CASCADE,
-	CONSTRAINT `jobSingularStaffBridgeStaffId` FOREIGN KEY (`staffId`) REFERENCES `staff` (`staffId`) ON DELETE CASCADE
-	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-	--
-	-- Table structure for table `jobRecurringStaffBridge`
-	--
-
-	CREATE TABLE IF NOT EXISTS `jobRecurringStaffBridge` (
-	`jobRecurringStaffId` varchar(17) NOT NULL,
-	`businessId` varchar(17) NOT NULL,
-	`jobRecurringId` varchar(17) NOT NULL,
-	`staffId` varchar(17) NOT NULL,
-	`dateTimeAdded` datetime NOT NULL,
-	PRIMARY KEY (`jobRecurringStaffId`),
-	KEY `jobRecurringStaffBridgeBusinessId` (`businessId`),
-	KEY `jobRecurringStaffBridgeJobRecurringId` (`jobRecurringId`),
-	KEY `jobRecurringStaffBridgeStaffId` (`staffId`),
-	CONSTRAINT `jobRecurringStaffBridgeBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE,
-	CONSTRAINT `jobRecurringStaffBridgeJobRecurringId` FOREIGN KEY (`jobRecurringId`) REFERENCES `jobRecurring` (`jobRecurringId`) ON DELETE CASCADE,
-	CONSTRAINT `jobRecurringStaffBridgeStaffId` FOREIGN KEY (`staffId`) REFERENCES `staff` (`staffId`) ON DELETE CASCADE
+	PRIMARY KEY (`jobStaffId`),
+	KEY `jobStaffBridgeBusinessId` (`businessId`),
+	KEY `jobStaffBridgeJobId` (`jobId`),
+	KEY `jobStaffBridgeStaffId` (`staffId`),
+	CONSTRAINT `jobStaffBridgeBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE,
+	CONSTRAINT `jobStaffBridgeJobId` FOREIGN KEY (`jobId`) REFERENCES `job` (`jobId`) ON DELETE CASCADE,
+	CONSTRAINT `jobStaffBridgeStaffId` FOREIGN KEY (`staffId`) REFERENCES `staff` (`staffId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
