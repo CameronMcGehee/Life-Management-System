@@ -51,8 +51,14 @@
     
     // Redirect
     if ($result == 'success') {
-        header("location: ../../../overview?popup=businessCreated");
-        exit();
+        if (isset($_POST['takeToEditPage'])) {
+            header("location: ../../../editbusiness?popup=businessCreated");
+            exit();
+        } else {
+            header("location: ../../../overview?popup=businessCreated");
+            exit();
+        }
+        
     } else {
         header("location: ../../../createbusiness?e=".urlencode($result));
         exit();
