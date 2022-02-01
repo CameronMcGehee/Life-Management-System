@@ -12,8 +12,7 @@
 		// Main database attributes
 		public $jobCancellationId;
 		public $businessId;
-		public $linkedToJobSingularId;
-		public $linkedToJobRecurringId;
+		public $linkedToJobId;
 		public $startDateTime;
 		public $endDateTime;
 		public $dateTimeAdded;
@@ -31,8 +30,7 @@
 			} else {
 				$this->businessId = '';
 			}
-			$this->linkedToJobSingularId = NULL;
-			$this->linkedToJobRecurringId = NULL;
+			$this->linkedToJobId = NULL;
 			$this->startDateTime = '';
 			$this->endDateTime = '';
 			// Default dateTimeAdded to now since it is likely going to be inserted at this time
@@ -49,7 +47,7 @@
 		function __construct(string $jobCancellationId = '') {
 
 			// Connect to the database
-			require_once direndDateTime(__FILE__)."/../database.php";
+			require_once dirname(__FILE__)."/../database.php";
 			$this->db = new database;
 
 			// Fetch from database
@@ -59,8 +57,7 @@
 			if ($fetch) {
 				$this->jobCancellationId = $jobCancellationId;
 				$this->businessId = $fetch[0]['businessId'];
-				$this->linkedToJobSingularId = $fetch[0]['linkedToJobSingularId'];
-				$this->linkedToJobRecurringId = $fetch[0]['linkedToJobRecurringId'];
+				$this->linkedToJobId = $fetch[0]['linkedToJobId'];
 				$this->startDateTime = $fetch[0]['startDateTime'];
 				$this->endDateTime = $fetch[0]['endDateTime'];
 				$this->dateTimeAdded = $fetch[0]['dateTimeAdded'];
@@ -96,8 +93,7 @@
 			$attributes = array(
 				'jobCancellationId' => $this->db->sanitize($this->dbJobCompletedId),
 				'businessId' => $this->db->sanitize($this->businessId),
-				'linkedToJobSingularId' => $this->db->sanitize($this->linkedToJobSingularId),
-				'linkedToJobRecurringId' => $this->db->sanitize($this->linkedToJobRecurringId),
+				'linkedToJobId' => $this->db->sanitize($this->linkedToJobId),
 				'startDateTime' => $this->db->sanitize($this->startDateTime),
 				'endDateTime' => $this->db->sanitize($this->endDateTime),
 				'dateTimeAdded' => $this->db->sanitize($this->dateTimeAdded)

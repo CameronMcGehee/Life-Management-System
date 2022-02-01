@@ -12,7 +12,7 @@
 		// Main database attributes
 		public $jobCompletedId;
 		public $businessId;
-		public $linkedToJobRecurringId;
+		public $linkedToJobId;
 		public $linkedToCustomerId;
 		public $linkedToPropertyId;
 		public $name;
@@ -44,7 +44,7 @@
 			} else {
 				$this->businessId = '';
 			}
-			$this->linkedToJobRecurringId = NULL;
+			$this->linkedToJobId = NULL;
 			$this->linkedToCustomerId = NULL;
 			$this->linkedToPropertyId = NULL;
 			$this->name = '';
@@ -85,7 +85,7 @@
 			if ($fetch) {
 				$this->jobCompletedId = $jobCompletedId;
 				$this->businessId = $fetch[0]['businessId'];
-				$this->linkedToJobRecurringId = $fetch[0]['linkedToJobRecurringId'];
+				$this->linkedToJobId = $fetch[0]['linkedToJobId'];
 				$this->linkedToCustomerId = $fetch[0]['linkedToCustomerId'];
 				$this->linkedToPropertyId = $fetch[0]['linkedToPropertyId'];
 				$this->name = $fetch[0]['name'];
@@ -219,7 +219,7 @@
 			$attributes = array(
 				'jobCompletedId' => $this->db->sanitize($this->dbJobCompletedId),
 				'businessId' => $this->db->sanitize($this->businessId),
-				'linkedToJobRecurringId' => $this->db->sanitize($this->linkedToJobRecurringId),
+				'linkedToJobId' => $this->db->sanitize($this->linkedToJobId),
 				'linkedToCustomerId' => $this->db->sanitize($this->linkedToCustomerId),
 				'linkedToPropertyId' => $this->db->sanitize($this->linkedToPropertyId),
 				'name' => $this->db->sanitize($this->name),

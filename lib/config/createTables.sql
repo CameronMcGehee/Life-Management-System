@@ -1024,6 +1024,7 @@
 	CREATE TABLE IF NOT EXISTS `jobCompleted` (
 	`jobCompletedId` varchar(17) NOT NULL,
 	`businessId` varchar(17) NOT NULL,
+	`linkedToJobId` varchar(17) NULL COMMENT 'Optional FK',
 	`linkedToCustomerId` varchar(17) NULL COMMENT 'Optional FK',
 	`linkedToPropertyId` varchar(17) NULL COMMENT 'Optional FK',
 	`name` text NOT NULL,
@@ -1039,6 +1040,7 @@
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`jobCompletedId`),
 	KEY `jobCompletedBusinessId` (`businessId`),
+	KEY `jobCompletedLinkedToJobId` (`linkedToCustomerId`),
 	KEY `jobCompletedLinkedToCustomerId` (`linkedToCustomerId`),
 	KEY `jobCompletedLinkedToPropertyId` (`linkedToPropertyId`),
 	CONSTRAINT `jobCompletedBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE
