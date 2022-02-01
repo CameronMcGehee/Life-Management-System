@@ -1392,6 +1392,10 @@ html, body {
 /*-----------------------------------------------------------------------------------------------------------------------------*/
 /*-----------------------------------------------------------------------------------------------------------------------------*/
 
+.jobCalendar tr td {
+	width: 14.285714285%;
+}
+
 .jobCalendar tr td .job {
 	color: white;
     border-radius: .2em;
@@ -1399,6 +1403,8 @@ html, body {
 	cursor: pointer;
 
 	margin-bottom: .2em;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 .jobCalendar tr td .job.activeJob {
@@ -1407,6 +1413,10 @@ html, body {
 
 .jobCalendar tr td .job.completedJob {
     background-color: var(--utliscapeColorTheme);
+}
+
+.jobCalendar tr td .job.cancelledJob {
+    background-color: rgb(196, 54, 54);
 }
 
 /*-----------------------------------------------------------------------------------------------------------------------------*/

@@ -10,6 +10,11 @@
 		function __construct(string $renderId, array $options = []) {
 			$this->renderId = $renderId;
 
+            require_once dirname(__FILE__)."/../../table/jobSingular.php";
+            require_once dirname(__FILE__)."/../../table/jobRecurring.php";
+            require_once dirname(__FILE__)."/../../table/jobCompleted.php";
+            require_once dirname(__FILE__)."/../../table/jobCancellation.php";
+
 			if (empty($options['rootPathPrefix'])) {
 				$options['rootPathPrefix'] = './';
 			}
@@ -53,6 +58,10 @@
 			$lastDay = new DateTime($endDate);
 			$lastDay = (int)$lastDay->format('N');   // Output: 1 for Monday - 7 for Sunday.
 
+            // Get all jobs within the date range
+
+            $currentMonthJobsArray = [];
+
 			$this->output = '';
 
 			// Start the table with headers for weekdays
@@ -78,8 +87,6 @@
 				if ($currentDayOfWeek == 7) {
 					$this->output .= '</tr><tr>';
 
-					// If the current week has a positive or negative profit, color it appropriately
-
 					$weekRangeDate = strtotime ($currentDate->format("Y-m-d"));
 					$weekRange = array (
 						"start" => $currentDate->format("Y-m-d"),
@@ -97,15 +104,21 @@
 				if ($firstDayHit) {
 					// ECHO OUT THE THE CELL
 
+                    // Get jobs of that day
+
+                    foreach ($currentMonthJobsArray as $jobId) {
+                        echo '<p class="job activeJob">Active Job...</p>';
+                    }
+
 					// If the current day is the actual current day, make the border of the cell green
 
                     if ($currentDate->format("Y-m-d") == $today) {
-                        $borderStyle = ' border: 2px solid green; box-shadow:inset 0 0 5px 0 #222;';
+                        $borderStyle = ' border: 2px solid green;';
                     } else {
                         $borderStyle = '';
                     }
 					
-					$this->output .= '<td class="vat" style="text-align: center;'.$borderStyle.' background-color: '.$backgroundColor.'"><p style="font-size: .8em; text-align: left;"><b>'.$dayNumber.'</b></p><p class="job activeJob">Active Job...</p><p class="job activeJob">Active Job...</p><p class="job activeJob">Active Job...</p><p class="job activeJob">Active Job...</p><p class="job activeJob">Active Job...</p><p class="job completedJob">Completed Job...</p></td>';
+					$this->output .= '<td class="vat" style="text-align: center;'.$borderStyle.' background-color: '.$backgroundColor.'"><p style="font-size: .8em; text-align: left;"><b>'.$dayNumber.'</b></p></td>';
 					$dayNumber++;
 					$currentDate->add($oneDayInterval);
 				} else {

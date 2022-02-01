@@ -32,11 +32,11 @@
 
 		<div class="cmsMainContentWrapper styledText textColorThemeJobs">
 
-            <div class="desktopOnlyBlock" style="height: 80vh; overflow: scroll;">
+            <div class="desktopOnlyBlock" style="width: 100%; height: 80vh; overflow: scroll;">
                 <?php
 
                     require_once '../../../lib/render/job/jobCalendar.php';
-                    $jobCalendar = new jobCalendar('main', ['rootPathPrefix' => '../../', 'style' => 'width: 100%;']);
+                    $jobCalendar = new jobCalendar('main', ['rootPathPrefix' => '../../', 'style' => 'width: 100%; height: 95%;']);
                     $jobCalendar->render();
                     echo $jobCalendar->output;
 
