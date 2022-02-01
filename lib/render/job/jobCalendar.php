@@ -10,8 +10,7 @@
 		function __construct(string $renderId, array $options = []) {
 			$this->renderId = $renderId;
 
-            require_once dirname(__FILE__)."/../../table/jobSingular.php";
-            require_once dirname(__FILE__)."/../../table/jobRecurring.php";
+            require_once dirname(__FILE__)."/../../table/job.php";
             require_once dirname(__FILE__)."/../../table/jobCompleted.php";
             require_once dirname(__FILE__)."/../../table/jobCancellation.php";
 
