@@ -8,7 +8,6 @@
 
         public string $renderId = '';
         public array $options = [];
-        public string $queryParams = '';
         private $currentDate;
 
         function __construct(string $renderId, array $options = []) {
@@ -17,6 +16,10 @@
 
             if (!isset($options['rootPathPrefix'])) {
 				$options['rootPathPrefix'] = './';
+			}
+
+            if (!isset($options['queryParams'])) {
+				$options['queryParams'] = '';
 			}
 
             if (!isset($options['businessId'])) {
@@ -39,6 +42,10 @@
 				$options['sortGetVarName'] = '-s';
 			}
 
+            if (!isset($options['searchGetVarName'])) {
+				$options['searchGetVarName'] = '-q';
+			}
+
             if (!isset($options['usePage']) || !is_numeric($options['usePage'])) {
 				$options['usePage'] = 1;
 			}
@@ -49,6 +56,14 @@
             
             if (!isset($options['showSort'])) {
 				$options['showSort'] = false;
+			}
+
+            if (!isset($options['showSearch'])) {
+				$options['showSearch'] = true;
+			}
+
+            if (!isset($options['useSearch'])) {
+				$options['useSearch'] = '';
 			}
 
             if (!isset($options['useSort']) || !in_array($options['useSort'], ['az', 'za', 'newest', 'oldest'])) {
@@ -83,6 +98,8 @@
 
             $this->renderId = $renderId;
 
+            require_once dirname(__FILE__)."/../../database.php";
+            $this->database = new database();
             require_once dirname(__FILE__)."/../../table/authToken.php";
             require_once dirname(__FILE__)."/../../table/customer.php";
             require_once dirname(__FILE__)."/../../table/customerEmailAddress.php";
@@ -91,6 +108,7 @@
             require_once dirname(__FILE__)."/../etc/tagEditor.php";
             require_once dirname(__FILE__)."/../etc/pageNavigator.php";
             require_once dirname(__FILE__)."/../etc/sortBySelector.php";
+            require_once dirname(__FILE__)."/../etc/searchBar.php";
             require_once dirname(__FILE__)."/../../etc/time/diffCalc.php";
 
             // Page
@@ -100,6 +118,10 @@
             // Sort
             if (isset($_GET[$renderId.$options['sortGetVarName']])) {
                 $options['useSort'] = $_GET[$renderId.$options['sortGetVarName']];
+            }
+            // Search
+            if (isset($_GET[$renderId.$options['searchGetVarName']])) {
+                $options['useSearch'] = $_GET[$renderId.$options['searchGetVarName']];
             }
 
             $this->options = $options;
@@ -114,34 +136,55 @@
             $firstLimit = ($this->options['usePage'] - 1) * $this->options['maxRows'];
 
             // Get count for page count
-            $selectAll = $this->db->select('customer', "COUNT(customerId) AS num", "WHERE businessId = '".$_SESSION['ultiscape_businessId']."'");
+            $pageCountQuery = "WHERE businessId = '".$_SESSION['ultiscape_businessId']."'";
+            if ($this->options['useSearch'] != '') {
+                $pageCountQuery .= ' AND (firstName LIKE \'%'.$this->database->sanitize($this->options['useSearch']).'%\' OR lastName LIKE \'%'.$this->database->sanitize($this->options['useSearch']).'%\')';
+            }
+            if ($this->options['queryParams'] != '') {
+                $pageCountQuery .= ' '.$this->options['queryParams'];
+            }
+            $selectAll = $this->db->select('customer', "COUNT(customerId) AS num", $pageCountQuery);
 
             // Start div for table header (create customer button and nav)
             if ($this->options['showAdd'] || $this->options['showSort'] || $this->options['showPageNav']) {
                 $this->output .= '<div class="twoCol">';
 
                 // Render the add customer button
-                $this->output .= '<div class="yCenteredFlex">';
+                $this->output .= '<div class="yCenteredFlex" style="width: 6em;">';
                 if ($this->options['showAdd']) {
                     $this->output .= '<a class="smallButtonWrapper greenButton noUnderline yCenteredFlex" href="'.$this->options['rootPathPrefix'].'admin/customers/customer">➕ New</a>';
                 }
                 $this->output .= '</div>';
                 
-                // Render the page navigator and sort-by selector
-                if ((int)$selectAll[0]['num'] > 0) {
-                    
-                    $pageNav = new pageNavigator(ceil(($selectAll[0]['num'] / $this->options['maxRows'])), $this->options['usePage'], './', $this->renderId.'-p', 'float: right; padding: .2em;');
-                    if ($this->options['showPageNav']) {
-                        $pageNav->render();
+                // Render the page navigator, sort-by selector, and search bar
+                if ($selectAll || $this->options['useSearch'] != '') {
+
+                    if (!is_bool($selectAll)) {
+                        $pageNav = new pageNavigator(ceil(($selectAll[0]['num'] / $this->options['maxRows'])), $this->options['usePage'], './', $this->renderId.'-p', 'float: right; padding: .2em;');
+                        if ($this->options['showPageNav']) {
+                            $pageNav->render();
+                        }  
                     }
 
-                    $sortBySelector = new sortBySelector($this->renderId."sortSelector", './', $this->renderId.'-s', $this->options['useSort']);
+                    $sortBySelector = new sortBySelector($this->renderId."sortSelector", './', $this->renderId.$this->options['sortGetVarName'], $this->options['useSort']);
+                    $sortBySelector->style = 'width: 5em;';
+                    $searchBar = new searchBar($this->renderId."searchBar", './', $this->renderId.$this->options['searchGetVarName'], $this->options['useSearch']);
+                    $searchBar->style = 'width: 5em;';
                     
                     if ($this->options['showSort']) {
                         $sortBySelector->render();
                     }
+                    if ($this->options['showSearch']) {
+                        $searchBar->render();
+                    }
 
-                    $this->output .= '<div>'.$pageNav->output.' <span style="width: min-content; height: 100%; float:right;" class="yCenteredFlex">'.$sortBySelector->output.'</span></div>';
+                    if (isset($pageNav)) {
+                        $pageNavOutput = $pageNav->output;
+                    } else {
+                        $pageNavOutput = '';
+                    }
+
+                    $this->output .= '<div><span style="height: 100%; float:right; margin-right: .3em;" class="yCenteredFlex">'.$pageNavOutput.'</span> <span style="width: min-content; height: 100%; float:right; margin-right: .3em;" class="yCenteredFlex">'.$sortBySelector->output.'</span> <span style="width: min-content; height: 100%; float:right; margin-right: .3em;" class="yCenteredFlex">'.$searchBar->output.'</span></div>';
                 }
                 
                 // End div for table header
@@ -150,6 +193,10 @@
 
             // Get actual results
             $params = '';
+
+            if ($this->options['useSearch'] != '') {
+                $params .= 'AND (firstName LIKE \'%'.$this->database->sanitize($this->options['useSearch']).'%\') OR (lastName LIKE \'%'.$this->database->sanitize($this->options['useSearch']).'%\') ';
+            }
 
             switch ($this->options['useSort']) {
                 case 'az':
@@ -168,14 +215,14 @@
                     break;
             }
 
-            if (empty($this->queryParams)) {
+            if (empty($this->options['queryParams'])) {
                 $params .= "LIMIT ".$firstLimit.", ".$this->options['maxRows'];
             } else {
-                $params .= $this->queryParams." LIMIT ".$firstLimit.", ".$this->options['maxRows'];
+                $params .= $this->options['queryParams']." LIMIT ".$firstLimit.", ".$this->options['maxRows'];
             }
 
             $this->currentBusiness->pullCustomers($params);
-			
+            
 			if (count($this->currentBusiness->customers) < 1) {
 				$this->output .= '<table class="defaultTable" style="margin-top: .5em;"><tr><td class="la">No customers...</td></tr></table>
                 ';
@@ -226,7 +273,6 @@
                 $customer = new customer($customerId);
 
                 // Tag Editor
-
                 $tagEditor = new tagEditor($this->renderId."tagEditor", [
                     'rootPathPrefix' => $this->options['rootPathPrefix'],
                     'type' => 'customer',

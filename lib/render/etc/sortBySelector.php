@@ -10,7 +10,7 @@
 		public $style;
 		public string $renderId;
 
-		function __construct(string $renderId, $rootPathPrefix = './', $getVarName = 'page', $selected = 'az') {
+		function __construct(string $renderId, $rootPathPrefix = './', $getVarName = '-p', $selected = 'az') {
 
 			parent::__construct();
 			
