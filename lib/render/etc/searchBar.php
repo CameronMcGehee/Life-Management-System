@@ -24,7 +24,7 @@
 
 			$this->output = '';
 
-			$this->output .= '<input type="text" class="defaultInput" style="'.$this->style.'" id="'.$this->renderId.'" onchange="'.$this->renderId.'changeSearch()" value="'.$this->value.'" placeholder="Search...">';
+			$this->output .= '<input type="text" class="defaultInput" style="'.$this->style.'" id="'.$this->renderId.'" onchange="'.$this->renderId.'changeSearch()" value="'.htmlspecialchars($this->value).'" placeholder="Search...">';
 
 			$this->output .= '
             <script>
