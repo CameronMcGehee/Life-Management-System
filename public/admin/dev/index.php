@@ -34,27 +34,42 @@
                 <?php
 
                     // require_once '../../../lib/table/customer.php';
+                    // require_once '../../../lib/table/customerEmailAddress.php';
+                    // require_once '../../../lib/table/customerPhoneNumber.php';
+                    // $lastNames = require_once '../../../lib/arrays/lastNames.php';
+                    // $firstNames = require_once '../../../lib/arrays/firstNames.php';
 
+                    // for ($x = 0; $x <= 1000; $x++) {
                     //     $customer = new customer();
 
-                    //     $customer->firstName = 'Steve';
-                    //     $customer->lastName = 'King';
+                    //     $customer->firstName = $firstNames[rand(0, count($firstNames)-1)];
+                    //     $customer->lastName = $lastNames[rand(0, count($lastNames)-1)];
     
-                    //     $customer->billAddress1 = '3508 N. Quebec St.';
+                    //     $customer->billAddress1 = '5555 N. Example St.';
                     //     $customer->billAddress2 = NULL;
-                    //     $customer->billState = 'VA';
-                    //     $customer->billCity = 'Arlington';
-                    //     $customer->billZipCode = 22207;
+                    //     $customer->billState = 'NA';
+                    //     $customer->billCity = 'Citytown';
+                    //     $customer->billZipCode = 55555;
     
                     //     $customer->set();
-
-                    // echo '<p>'.htmlspecialchars($customer->customerId).'</p>';
-                    // echo '<p>'.htmlspecialchars($customer->firstName).' '.htmlspecialchars($customer->lastName).'</p>';
-                    // echo '<p>'.htmlspecialchars($customer->billAddress1).'</p>';
-                    // echo '<p>'.htmlspecialchars($customer->billAddress2).'</p>';
-                    // echo '<p>'.htmlspecialchars($customer->billState).'</p>';
-                    // echo '<p>'.htmlspecialchars($customer->billCity).'</p>';
-                    // echo '<p>'.htmlspecialchars($customer->billZipCode).'</p>';
+    
+    
+                    //     $customerEmailAddress = new customerEmailAddress();
+    
+                    //     $customerEmailAddress->customerId = $customer->customerId;
+                    //     $customerEmailAddress->email = 'email@example.com';
+    
+                    //     $customerEmailAddress->set();
+    
+    
+                    //     $customerPhoneNumber = new customerPhoneNumber();
+    
+                    //     $customerPhoneNumber->customerId = $customer->customerId;
+                    //     $customerPhoneNumber->phonePrefix = '1';
+                    //     $customerPhoneNumber->phone1 = (string)rand(0,9).(string)rand(0,9).(string)rand(0,9).(string)rand(0,9).(string)rand(0,9).(string)rand(0,9).(string)rand(0,9).(string)rand(0,9).(string)rand(0,9).(string)rand(0,9);
+    
+                    //     $customerPhoneNumber->set();
+                    // }
 
                     // -----------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -99,36 +114,9 @@
                     // // echo '<p>'.htmlspecialchars($business->businessId).'</p>';
                     // // echo '<p>'.htmlspecialchars($business->displayName).' '.htmlspecialchars($business->adminDisplayName).'</p>';
 
-                    // -----------------------------------------------------------------------------------------------------------------------------------------------
-
-                    // require_once '../../../lib/table/customerEmailAddress.php';
-
-                    // $customerEmailAddress = new customerEmailAddress();
-
-                    // $customerEmailAddress->customerId = '643661a6f980eaab2';
-                    // $customerEmailAddress->email = 'another@test2.com';
-                    // $customerEmailAddress->description = 'Work';
-
-                    // $customerEmailAddress->set();
-
-                    // // -----------------------------------------------------------------------------------------------------------------------------------------------
-
-                    // require_once '../../../lib/table/customerPhoneNumber.php';
-
-                    // $customerPhoneNumber = new customerPhoneNumber();
-
-                    // $customerPhoneNumber->customerId = '839961a6b50f16388';
-                    // $customerPhoneNumber->phonePrefix = '1';
-                    // $customerPhoneNumber->phone1 = '703';
-                    // $customerPhoneNumber->phone2 = '220';
-                    // $customerPhoneNumber->phone3 = '9158';
-                    // $customerPhoneNumber->description = 'Mobile Cell';
-
-                    // $customerPhoneNumber->set();
-
                 ?>
 
-                <a class="hoverTip">Tooltip Text<span>This is the text that will display in the tooltip pop-up.</span></a>
+                <!-- <a class="hoverTip">Tooltip Text<span>This is the text that will display in the tooltip pop-up.</span></a> -->
             </div>
         </div>
         
