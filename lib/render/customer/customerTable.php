@@ -147,7 +147,7 @@
 
             // Start div for table header (create customer button and nav)
             if ($this->options['showAdd'] || $this->options['showSort'] || $this->options['showPageNav']) {
-                $this->output .= '<div class="twoCol">';
+                $this->output .= '<div style="display: grid; grid-template-columns: 20% 80%; grid-template-rows: 1.5em; grid-template-areas: "1 2";">';
 
                 // Render the add customer button
                 $this->output .= '<div class="yCenteredFlex" style="width: 6em;">';
