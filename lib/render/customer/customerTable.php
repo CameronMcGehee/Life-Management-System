@@ -98,8 +98,6 @@
 
             $this->renderId = $renderId;
 
-            require_once dirname(__FILE__)."/../../database.php";
-            $this->database = new database();
             require_once dirname(__FILE__)."/../../table/authToken.php";
             require_once dirname(__FILE__)."/../../table/customer.php";
             require_once dirname(__FILE__)."/../../table/customerEmailAddress.php";
@@ -138,7 +136,7 @@
             // Get count for page count
             $pageCountQuery = "WHERE businessId = '".$_SESSION['ultiscape_businessId']."'";
             if ($this->options['useSearch'] != '') {
-                $pageCountQuery .= ' AND (firstName LIKE \'%'.$this->database->sanitize($this->options['useSearch']).'%\' OR lastName LIKE \'%'.$this->database->sanitize($this->options['useSearch']).'%\')';
+                $pageCountQuery .= ' AND (firstName LIKE \'%'.$this->db->sanitize($this->options['useSearch']).'%\' OR lastName LIKE \'%'.$this->db->sanitize($this->options['useSearch']).'%\')';
             }
             if ($this->options['queryParams'] != '') {
                 $pageCountQuery .= ' '.$this->options['queryParams'];
@@ -195,7 +193,7 @@
             $params = '';
 
             if ($this->options['useSearch'] != '') {
-                $params .= 'AND (firstName LIKE \'%'.$this->database->sanitize($this->options['useSearch']).'%\') OR (lastName LIKE \'%'.$this->database->sanitize($this->options['useSearch']).'%\') ';
+                $params .= 'AND (firstName LIKE \'%'.$this->db->sanitize($this->options['useSearch']).'%\') OR (lastName LIKE \'%'.$this->db->sanitize($this->options['useSearch']).'%\') ';
             }
 
             switch ($this->options['useSort']) {
