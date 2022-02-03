@@ -36,6 +36,12 @@
         exit;
     }
 
+    // Create the popops file
+    if (!file_exists('../config/popups.php')) {
+        // Create the file
+        copy('../lib/config/defaultPopups.php', '../config/popups.php');
+    }
+
     $ULTISCAPECONFIG = include('../config/mainConfig.php');
     error_reporting($ULTISCAPECONFIG['phpErrors']);
 
