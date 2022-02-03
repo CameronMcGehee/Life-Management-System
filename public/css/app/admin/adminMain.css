@@ -712,7 +712,16 @@ a.noUnderline {
 /*-----------------------------------------------------------------------------------------------------------------------------*/
 /*-----------------------------------------------------------------------------------------------------------------------------*/
 
-.overlay-dim {
+.overlay {
+	position: absolute;
+	left: 0em;
+	top: 0em;
+	width: 100%;
+	height: 100%;
+	background: rgba(0,0,0,0);
+}
+
+.dimOverlay {
 	position: absolute;
 	left: 0em;
 	top: 0em;
@@ -723,12 +732,14 @@ a.noUnderline {
 
 /*OVERLAY BOXES*/
 
-.alert {
+.popupMessageDialog {
 	background-color: white;
 	border-radius: .7em;
 	display: inline-block;
 	padding: 1.5em;
-	width: 500px;
+	max-width: 85%;
+	max-height: 85vh;
+	overflow: auto;
 }
 
 /*-----------------------------------------------------------------------------------------------------------------------------*/
@@ -1479,6 +1490,11 @@ html, body {
 	}
 	.twoColPage-Info-Content #twoColContentWrapper, .twoColPage-Content-Info #twoColInfoWrapper {
 		overflow: auto;
+	}
+
+	/* Overlays */
+	.popupMessageDialog {
+		max-width: 50em;
 	}
 
 	/* Responsive Visibility */

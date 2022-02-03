@@ -27,6 +27,14 @@
 
         <?php 
             echo $adminUIRender->renderAdminSideBar('../../');
+
+            require_once '../../../lib/render/ui/popupsHandler.php';
+
+            $popupsHandler = new popupsHandler('mainPopupsHandler', ["popups" => ['devWelcomeInfo'], 'class' => 'styledText spacedText defaultMainShadows', 'style' => 'width: 500em;']);
+
+            $popupsHandler->render();
+
+            echo $popupsHandler->output;
         ?>
 
         <div class="cmsMainContentWrapper styledText spacedText textColorThemeGray">
@@ -113,6 +121,7 @@
 
                     // // echo '<p>'.htmlspecialchars($business->businessId).'</p>';
                     // // echo '<p>'.htmlspecialchars($business->displayName).' '.htmlspecialchars($business->adminDisplayName).'</p>';
+
 
                 ?>
 
