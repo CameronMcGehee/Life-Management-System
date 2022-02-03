@@ -108,6 +108,11 @@
                             $("#'.$this->renderId.$popup.'").slideUp(200, function () {
                                 if ($("#'.$this->renderId.' div:visible").length < 1) {
                                     $("#'.$this->renderId.'").fadeOut(200);
+                                    
+                                    // Remove the popup variable so it doesn\'t show on a reload
+                                    var url = new URL(window.location.href);
+                                    url.searchParams.delete("popup");
+                                    window.history.pushState("string", "UltiScape", url.href);
                                 }
                             });
                         }
