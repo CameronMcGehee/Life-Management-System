@@ -719,6 +719,7 @@ a.noUnderline {
 	width: 100%;
 	height: 100%;
 	background: rgba(0,0,0,0);
+	z-index: 9999999999999;
 }
 
 .dimOverlay {
@@ -728,9 +729,10 @@ a.noUnderline {
 	width: 100%;
 	height: 100%;
 	background: rgba(0,0,0,0.5);
+	z-index: 9999999999999;
 }
 
-/*OVERLAY BOXES*/
+/* Popups */
 
 .popupMessageDialog {
 	background-color: white;
@@ -740,6 +742,27 @@ a.noUnderline {
 	max-width: 85%;
 	max-height: 85vh;
 	overflow: auto;
+}
+
+.popupMessageDialog .closeButton {
+	border-radius: 50%;
+	border: 1px solid gray;
+	background-color: rgb(153, 0, 0);
+
+	width: 2em;
+	height: 2em;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	float: right;
+
+	cursor: pointer;
+}
+
+.popupMessageDialog .closeButton img {
+	filter: brightness(100);
 }
 
 /*-----------------------------------------------------------------------------------------------------------------------------*/

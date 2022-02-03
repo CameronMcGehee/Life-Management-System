@@ -107,6 +107,13 @@
             echo $adminUIRender->renderAdminSideBar('../../');
         ?>
 
+		<?php
+            require_once '../../../lib/render/ui/popupsHandler.php';
+            $popupsHandler = new popupsHandler('mainPopupsHandler', ["rootPathPrefix" => '../../', 'class' => 'styledText spacedText defaultMainShadows']);
+            $popupsHandler->render();
+            echo $popupsHandler->output;
+        ?>
+
 		<div class="cmsMainContentWrapper textColorThemeGray styledText">
 			<div class="mobileOnlyBlock xyCenteredFlex centered" style="position: sticky; top: 0px; width: 100%; padding-top: .3em; padding-bottom: .3em; border-bottom: .1em solid gray; background-color: white;"><button class="mediumButtonWrapper greenButton centered defaultMainShadows" type="submit" onclick="$('#editBusinessForm').submit()">Save Changes</button>
 				<!-- <br>

@@ -28,7 +28,14 @@
 
             if (empty($options['popups']) || !is_array($options['popups'])) {
 				$options['popups'] = [];
-			} else {
+			}
+
+            // Get popup if set in url
+            if (isset($_GET['popup'])) {
+                array_push($options['popups'], $_GET['popup']);
+            }
+
+            if (count($options['popups']) > 0) {
                 $this->popupsArray = require_once dirname(__FILE__)."/../../../config/popups.php";
             }
 
@@ -54,7 +61,7 @@
 
             // If there is no popup set, render nothing
             
-            if ($this->options['popups'] == '') {
+            if ($this->options['popups'] == []) {
                 $this->output = '';
                 return;
             }
@@ -72,16 +79,38 @@
                 if (in_array($popup, array_keys($this->popupsArray))) {
 
                     // "alert" style Popup
-                    $this->output .= '<span class="overlay';
+                    $this->output .= '<span id="'.$this->renderId.$popup.'" class="overlay';
                     if ($this->options['center']) {
                         $this->output .= ' xyCenteredFlex';
                     }
 
-                    $this->output .= '"><div style="'.$this->options['style'].'" class="popupMessageDialog '.$this->options['class'].'" id="'.$popup.'">'.$this->popupsArray[$popup].'</div></span>';
+                    $content = $this->popupsArray[$popup];
+
+                    // Parse variables
+                    preg_match_all("/\[\[([^\]]*)\]\]/", $content, $matches);
+                    foreach ($matches[1] as $varName) {
+                        if (isset($_GET[$popup.$varName])) {
+                            $content = str_replace('[['.$varName.']]', htmlspecialchars($_GET[$popup.$varName]), $content);
+                        } else {
+                            $content = str_replace('[['.$varName.']]', 'unknown', $content);
+                        }
+                    }
+
+                    $this->output .= '"><div style="'.$this->options['style'].'" class="popupMessageDialog '.$this->options['class'].'">
+
+                    <div style="width: 100%;"><span class="closeButton" onclick="close'.$this->renderId.$popup.'()"><img src="'.$this->options['rootPathPrefix'].'images/ultiscape/icons/cross.svg" /></span></div>
+                    
+                    '.$content.'</div></span>';
 
                     // Output js function that closes the popup when the x is pressed
                     $this->output .= '<script>
-                        
+                        function close'.$this->renderId.$popup.'() {
+                            $("#'.$this->renderId.$popup.'").slideUp(200, function () {
+                                if ($("#'.$this->renderId.' div:visible").length < 1) {
+                                    $("#'.$this->renderId.'").fadeOut(200);
+                                }
+                            });
+                        }
                     </script>';
                 } else {
                     $this->output = '';

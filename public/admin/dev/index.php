@@ -29,11 +29,8 @@
             echo $adminUIRender->renderAdminSideBar('../../');
 
             require_once '../../../lib/render/ui/popupsHandler.php';
-
-            $popupsHandler = new popupsHandler('mainPopupsHandler', ["popups" => ['devWelcomeInfo'], 'class' => 'styledText spacedText defaultMainShadows', 'style' => 'width: 500em;']);
-
+            $popupsHandler = new popupsHandler('mainPopupsHandler', ["rootPathPrefix" => '../../', "popups" => ['businessCreated'], 'class' => 'styledText spacedText defaultMainShadows', 'style' => 'width: 500em;']);
             $popupsHandler->render();
-
             echo $popupsHandler->output;
         ?>
 
