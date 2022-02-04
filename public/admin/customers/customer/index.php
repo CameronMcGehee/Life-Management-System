@@ -480,6 +480,29 @@
 						<label for="notes"><p>Notes (Private to Admins)</p></label>
 						<textarea class="defaultInput" style="font-size: 1.2em; width: 80%;" name="notes" id="notes"><?php echo htmlspecialchars($currentCustomer->notes); ?></textarea>
 						<br><br>
+
+						<br><hr><br>
+
+						<h3>Properties</h3>
+
+						<?php
+
+							// Properties
+							require_once '../../../../lib/render/property/propertyTable.php';
+							$propertyTable = new propertyTable('customerProperties', [
+								'rootPathPrefix' => '../../../',
+								'queryParams' => '',
+								'maxRows' => 15,
+								'showAdd' => true,
+								'showSort' => true,
+								'showBatch' => true,
+							]);
+							$propertyTable->render();
+							echo $propertyTable->output;
+
+						?>
+
+						<br><br>
 					
 					</div>
 
