@@ -61,7 +61,7 @@
 - Goodies
     - Customer view/edit page now functional
 
-## v0.2.2 NF
+## v0.2.2
 - Goodies
     - Customer table improvements
     - Phone numbers no longer require three segments, will be split automatically when output if 10 digits but otherwise will just show the number to allow any type of phone number
@@ -70,3 +70,9 @@
     - Start of job view/edit page
 - Techies
     - Constraints in createTables.sql now cascade on delete
+
+## v0.2.3
+- Goodies
+    - Popups after creating a business to alert you it was successful
+- Techies
+    - Popups Handler system
