@@ -332,10 +332,10 @@
 
 			$("#showPasswordButton").on("click", function () {
 				if($("#showPasswordButton").html() == "Show"){
-					$('#password').show();
+					$('#password').show(200);
 					$("#showPasswordButton").html("Hide");
 				} else {
-					$('#password').hide();
+					$('#password').hide(200);
 					$("#showPasswordButton").html("Show");
 				}
 			})
