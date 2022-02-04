@@ -111,6 +111,7 @@
 			function inputChange (e) {
 				setUnsaved();
 				lastChange = new Date();
+				setTimeout(checkChanges, 100);
 			}
 
 			function setWaitingForError() {
@@ -311,12 +312,6 @@
 
 			// Load the phone number form on startup
 			loadPhoneNumbers();
-
-			var interval = setInterval(function() {
-				if (changesSaved == false && (new Date() - lastChange) / 1000 > .5) {
-					checkChanges();
-				}
-			}, 1000);
 
 			window.onbeforeunload = function() {
 				if (changesSaved == false || waitingForError == true) {
