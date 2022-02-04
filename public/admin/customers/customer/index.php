@@ -98,6 +98,10 @@
 
 		$(function() {
 
+			$("#customerForm").submit(function(event) {
+				event.preventDefault();
+			});
+
 			function setUnsaved() {
 				$(".changesMessage").each(function () {
 					$(this).html('<span style="color: gray; width: 10em;">⏳ Saving changes...</span>');
@@ -154,7 +158,7 @@
 				$("#emailAddressesLoader").load("./includes/emailAddresses.inc.php", {
 					customerId: customerId
 				}, function () {
-					$(":input").change(function () {
+					$("#customerForm :input").change(function () {
 						inputChange();
 					});
 					registerEmailDeleteButtonClicks();
@@ -179,7 +183,7 @@
 				$("#phoneNumbersLoader").load("./includes/phoneNumbers.inc.php", {
 					customerId: customerId
 				}, function () {
-					$(":input").change(function () {
+					$("#customerForm :input").change(function () {
 						inputChange();
 					});
 					registerPhoneNumberDeleteButtonClicks();
@@ -352,138 +356,149 @@
         ?>
 
 		<div class="cmsMainContentWrapper textColorThemeGray styledText">
-			<div class="mobileOnlyBlock xyCenteredFlex centered" style="position: sticky; top: 0px; width: 100%; padding-top: .3em; padding-bottom: .3em; border-bottom: .1em solid gray; background-color: white;">
+			<div class="mobileOnlyBlock xyCenteredFlex centered" style="position: sticky; top: 0px; width: 100%; padding-top: .3em; padding-bottom: .3em; border-bottom: .1em solid gray; background-color: white; z-index: 99;">
 				<div class="changesMessage"><span style="color: green;">Up to date ✔</span></div>
 				<img style="display: none; width: 2em;" src="../../../images/ultiscape/etc/loading.gif" class="loadingGif">
 			</div>
-			<form class="defaultForm maxHeight" id="customerForm">
-
-				<input type="hidden" name="mainAuthToken" id="mainAuthToken" value="<?php echo htmlspecialchars($mainAuthToken->authTokenId); ?>">
-				<input type="hidden" name="updateEmailAddressesAuthToken" id="updateEmailAddressesAuthToken" value="<?php echo htmlspecialchars($updateEmailAddressesAuthToken->authTokenId); ?>">
-				<input type="hidden" name="updatePhoneNumbersAuthToken" id="updatePhoneNumbersAuthToken" value="<?php echo htmlspecialchars($updatePhoneNumbersAuthToken->authTokenId); ?>">
 
 				<div class="twoColPage-Content-Info maxHeight">
 					<div id="twoColContentWrapper" class="paddingLeftRight90 maxHeight" style="overflow: auto;">
 
-						<?php
+						<form class="defaultForm" id="customerForm">
 
-							if (empty($currentCustomer->lastName)) {
-								$nameOutput = $currentCustomer->firstName;
-							} else {
-								$nameOutput = $currentCustomer->firstName.' '.$currentCustomer->lastName;
-							}
+							<input type="hidden" name="mainAuthToken" id="mainAuthToken" value="<?php echo htmlspecialchars($mainAuthToken->authTokenId); ?>">
+							<input type="hidden" name="updateEmailAddressesAuthToken" id="updateEmailAddressesAuthToken" value="<?php echo htmlspecialchars($updateEmailAddressesAuthToken->authTokenId); ?>">
+							<input type="hidden" name="updatePhoneNumbersAuthToken" id="updatePhoneNumbersAuthToken" value="<?php echo htmlspecialchars($updatePhoneNumbersAuthToken->authTokenId); ?>">
 
-						?>
-						<br>
 
-						<input class="bigInput" style="width: 93%;" type="text" name="firstLastName" id="firstLastName" placeholder="Name..." value="<?php echo htmlspecialchars($nameOutput); ?>">
-						<span id="firstLastNameError" class="underInputError" style="display: none;"><br>Please enter a name, preferrably first and last.</span>
+							<?php
 
-						<br><br>
+								if (empty($currentCustomer->lastName)) {
+									$nameOutput = $currentCustomer->firstName;
+								} else {
+									$nameOutput = $currentCustomer->firstName.' '.$currentCustomer->lastName;
+								}
 
-						<?php
+							?>
+							<br>
 
-							// Tag Editor
+							<input class="bigInput" style="width: 93%;" type="text" name="firstLastName" id="firstLastName" placeholder="Name..." value="<?php echo htmlspecialchars($nameOutput); ?>">
+							<span id="firstLastNameError" class="underInputError" style="display: none;"><br>Please enter a name, preferrably first and last.</span>
 
-							if ($currentCustomer->existed) {
-								$tagEditor = new tagEditor("underNameTagEditor", [
-									'rootPathPrefix' => '../../../',
-									'type' => 'customer',
-									'objectId' => $currentCustomer->customerId,
-									// 'style' => 'display: inline;',
-									'largeSize' => true
-								]);
-								$tagEditor->render();
-								echo $tagEditor->output;
-							}
+							<br><br>
 
-						?>
+							<?php
 
-						<br>
+								// Tag Editor
 
-						<table class="defaultTable" style="width: 35em; max-width: 100%;">
-							<tr>
-								<td class="defaultTableCell" style="padding: 1em;">Billing Address</td>
-								<td class="defaultTableCell" style="padding: 1em;">
-									<div>
-										<!-- <label for="billAddress1"><p>Address</p></label> -->
-										<input placeholder="Line 1..." class="almostInvisibleInput" style="font-size: 1.2em; width: 80%;" type="text" name="billAddress1" id="billAddress1" value="<?php echo htmlspecialchars($currentCustomer->billAddress1); ?>">
-										<br><br>
+								if ($currentCustomer->existed) {
+									$tagEditor = new tagEditor("underNameTagEditor", [
+										'rootPathPrefix' => '../../../',
+										'type' => 'customer',
+										'objectId' => $currentCustomer->customerId,
+										'largeSize' => false
+									]);
+									$tagEditor->render();
+									echo $tagEditor->output;
+								}
 
-										<input placeholder="Line 2..." class="almostInvisibleInput" style="font-size: 1.2em; width: 80%;" type="text" name="billAddress2" id="billAddress2" value="<?php echo htmlspecialchars($currentCustomer->billAddress2); ?>">
-										<br><br>
+							?>
 
-										<div class="twoCol">
-											<div>
-												<!-- <label for="billCity"><p>City</p></label> -->
-												<input placeholder="City..." class="almostInvisibleInput" style="font-size: 1.2em; width: 80%;" type="text" name="billCity" id="billCity" value="<?php echo htmlspecialchars($currentCustomer->billCity); ?>">
-												,
+							<br>
+
+							<h3>Billing and Contact Info</h3>
+							<table class="defaultTable" style="width: 35em; max-width: 100%;">
+								<tr>
+									<td class="defaultTableCell" style="padding: 1em;">Billing Address</td>
+									<td class="defaultTableCell" style="padding: 1em;">
+										<div>
+											<!-- <label for="billAddress1"><p>Address</p></label> -->
+											<input placeholder="Line 1..." class="almostInvisibleInput" style="font-size: 1.2em; width: 80%;" type="text" name="billAddress1" id="billAddress1" value="<?php echo htmlspecialchars($currentCustomer->billAddress1); ?>">
+											<br><br>
+
+											<input placeholder="Line 2..." class="almostInvisibleInput" style="font-size: 1.2em; width: 80%;" type="text" name="billAddress2" id="billAddress2" value="<?php echo htmlspecialchars($currentCustomer->billAddress2); ?>">
+											<br><br>
+
+											<div class="twoCol">
+												<div>
+													<!-- <label for="billCity"><p>City</p></label> -->
+													<input placeholder="City..." class="almostInvisibleInput" style="font-size: 1.2em; width: 80%;" type="text" name="billCity" id="billCity" value="<?php echo htmlspecialchars($currentCustomer->billCity); ?>">
+													,
+												</div>
+
+												<div>
+													<!-- <label for="billState"><p>State</p></label> -->
+													<input placeholder="State..." class="almostInvisibleInput" style="font-size: 1.2em; width: 80%;" type="text" name="billState" id="billState" value="<?php echo htmlspecialchars($currentCustomer->billState); ?>">
+												</div>
 											</div>
 
-											<div>
-												<!-- <label for="billState"><p>State</p></label> -->
-												<input placeholder="State..." class="almostInvisibleInput" style="font-size: 1.2em; width: 80%;" type="text" name="billState" id="billState" value="<?php echo htmlspecialchars($currentCustomer->billState); ?>">
-											</div>
+											<br>
+
+											<!-- <label for="billZipCode"><p>Zip Code</p></label> -->
+											<input placeholder="Zip Code..." class="almostInvisibleInput" style="font-size: 1.2em; width: 80%;" type="text" name="billZipCode" id="billZipCode" value="<?php echo htmlspecialchars($currentCustomer->billZipCode); ?>">
+
+											<span id="billAddressError" class="underInputError" style="display: none;"><br><br>Please enter a valid address.</span>
 										</div>
+									</td>
+								</tr>
+								<tr>
+									<td class="defaultTableCell" style="padding: 1em; width: 5em;">Emails</td>
+									<td class="defaultTableCell" style="padding: 1em;" id="emailAddressesLoader"><img style="width: 2em;" src="../../../images/ultiscape/etc/loading.gif"></td>
+								</tr>
+								<tr>
+									<td class="defaultTableCell" style="padding: 1em; width: 5em;">Phone Numbers</td>
+									<td class="defaultTableCell" style="padding: 1em;" id="phoneNumbersLoader"><img style="width: 2em;" src="../../../images/ultiscape/etc/loading.gif"></td>
+								</tr>
+							</table>
 
-										<br>
+							<br><br>
 
-										<!-- <label for="billZipCode"><p>Zip Code</p></label> -->
-										<input placeholder="Zip Code..." class="almostInvisibleInput" style="font-size: 1.2em; width: 80%;" type="text" name="billZipCode" id="billZipCode" value="<?php echo htmlspecialchars($currentCustomer->billZipCode); ?>">
+							<h3>Credit and Balance</h3>
+							<div class="twoCol themedInputGroup">
+								<div>
+									<input class="defaultInput" type="checkbox" name="overrideCreditAlertIsEnabled" id="overrideCreditAlertIsEnabled" <?php if ($currentCustomer->overrideCreditAlertIsEnabled == '1') {echo 'checked="checked"';} ?>><label for="overrideCreditAlertIsEnabled"> <p style="display: inline; clear: both;">Alert Customer when credit is less than or equal to</p></label>
+									<br>
+									<input class="defaultInput" type="number" name="overrideCreditAlertAmount" id="overrideCreditAlertAmount" placeholder="$100" min="0.00" step="0.01" value="<?php echo htmlspecialchars(number_format($currentCustomer->overrideCreditAlertAmount, 2)); ?>" style="width: 5em;">
+									<input class="defaultInput" type="checkbox" name="overrideCreditAlertAmountUseDefault" id="overrideCreditAlertAmountUseDefault" <?php if ($currentCustomer->overrideCreditAlertAmount == NULL) {echo 'checked="checked"';} ?>><label for="overrideCreditAlertAmountUseDefault"> <p style="display: inline; clear: both;">Use default</p></label>
+									<span id="overrideCreditAlertAmountError" class="underInputError" style="display: none;"><br>Input a number.</span>
+									<br><br>
 
-										<span id="billAddressError" class="underInputError" style="display: none;"><br><br>Please enter a valid address.</span>
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<td class="defaultTableCell" style="padding: 1em; width: 5em;">Emails</td>
-								<td class="defaultTableCell" style="padding: 1em;" id="emailAddressesLoader"><img style="width: 2em;" src="../../../images/ultiscape/etc/loading.gif"></td>
-							</tr>
-							<tr>
-								<td class="defaultTableCell" style="padding: 1em; width: 5em;">Phone Numbers</td>
-								<td class="defaultTableCell" style="padding: 1em;" id="phoneNumbersLoader"><img style="width: 2em;" src="../../../images/ultiscape/etc/loading.gif"></td>
-							</tr>
-						</table>
+									<input class="defaultInput" type="checkbox" name="overrideAutoApplyCredit" id="overrideAutoApplyCredit" <?php if ($currentCustomer->overrideAutoApplyCredit == '1') {echo 'checked="checked"';} ?>><label for="overrideAutoApplyCredit"> <p style="display: inline; clear: both;">Automatically apply any available credit to new invoices</p></label>
+								</div>
+								<div>
+									<input class="defaultInput" type="checkbox" name="overrideBalanceAlertIsEnabled" id="overrideBalanceAlertIsEnabled" <?php if ($currentCustomer->overrideBalanceAlertIsEnabled == '1') {echo 'checked="checked"';} ?>><label for="overrideBalanceAlertIsEnabled"> <p style="display: inline; clear: both;">Alert Customer when balance is greater than or equal to</p></label>
+									<br>
+									<input class="defaultInput" type="number" name="overrideBalanceAlertAmount" id="overrideBalanceAlertAmount" placeholder="$100" min="0.00" step="0.01" value="<?php echo htmlspecialchars(number_format($currentCustomer->overrideBalanceAlertAmount, 2)); ?>" style="width: 5em;">
+									<input class="defaultInput" type="checkbox" name="overrideBalanceAlertAmountUseDefault" id="overrideBalanceAlertAmountUseDefault" <?php if ($currentCustomer->overrideBalanceAlertAmount == NULL) {echo 'checked="checked"';} ?>><label for="overrideBalanceAlertAmountUseDefault"> <p style="display: inline; clear: both;">Use default</p></label>
+									<span id="overrideBalanceAlertAmountError" class="underInputError" style="display: none;"><br>Input a number.</span>
+								</div>
+							</div>
+
+							<br><br>
+
+							<h3>Customer Portal</h3>
+							<div class="twoCol themedInputGroup">
+								<div>
+									<input class="defaultInput" type="checkbox" name="allowCZSignIn" id="allowCZSignIn" <?php if ($currentCustomer->allowCZSignIn == '1') {echo 'checked="checked"';} ?>><label for="allowCZSignIn"> <p style="display: inline; clear: both;">Allow this customer to sign into the <a href="../../../customer">Customer Portal</a></p></label>
+								</div>
+								<div>
+									<label for="password"><p>Customer Portal Password</p></label>
+									<input class="defaultInput" style="font-size: 1.2em; width: 10em; display: none;" type="text" name="password" id="password" value="<?php if (!$currentCustomer->existed) { $newPassword = new tableUuid('customer', 'password'); echo $newPassword->generatedId; } else {echo htmlspecialchars($currentCustomer->password);} ?>">
+									<span class="smallButtonWrapper greenButton" id="showPasswordButton" style="display: inline-block;">Show</span>
+									<span id="passwordError" class="underInputError" style="display: none;"><br>You must enter a customer-unique password for security purposes.</span>
+								</div>
+							</div>
+							<br><br>
+
+							<label for="notes"><p>Notes (Private to Admins)</p></label>
+							<textarea class="defaultInput" style="font-size: 1.2em; width: 95%;" name="notes" id="notes"><?php echo htmlspecialchars($currentCustomer->notes); ?></textarea>
+
+						</form>
 
 						<br><br>
-
-						<input class="defaultInput" type="checkbox" name="overrideAutoApplyCredit" id="overrideAutoApplyCredit" <?php if ($currentCustomer->overrideAutoApplyCredit == '1') {echo 'checked="checked"';} ?>><label for="overrideAutoApplyCredit"> <p style="display: inline; clear: both;">Automatically apply any available credit to new invoices</p></label>
-
-						<br><br>
-
-						<div>
-							<input class="defaultInput" type="checkbox" name="overrideCreditAlertIsEnabled" id="overrideCreditAlertIsEnabled" <?php if ($currentCustomer->overrideCreditAlertIsEnabled == '1') {echo 'checked="checked"';} ?>><label for="overrideCreditAlertIsEnabled"> <p style="display: inline; clear: both;">Alert Customer when credit is less than or equal to</p></label>
-							<br>
-							<input class="defaultInput" type="number" name="overrideCreditAlertAmount" id="overrideCreditAlertAmount" placeholder="$100" min="0.00" step="0.01" value="<?php echo htmlspecialchars(number_format($currentCustomer->overrideCreditAlertAmount, 2)); ?>" style="width: 5em;">
-							<input class="defaultInput" type="checkbox" name="overrideCreditAlertAmountUseDefault" id="overrideCreditAlertAmountUseDefault" <?php if ($currentCustomer->overrideCreditAlertAmount == NULL) {echo 'checked="checked"';} ?>><label for="overrideCreditAlertAmountUseDefault"> <p style="display: inline; clear: both;">Use default</p></label>
-							<span id="overrideCreditAlertAmountError" class="underInputError" style="display: none;"><br>Input a number.</span>
-						</div>
-						<br>
-						<div>
-							<input class="defaultInput" type="checkbox" name="overrideBalanceAlertIsEnabled" id="overrideBalanceAlertIsEnabled" <?php if ($currentCustomer->overrideBalanceAlertIsEnabled == '1') {echo 'checked="checked"';} ?>><label for="overrideBalanceAlertIsEnabled"> <p style="display: inline; clear: both;">Alert Customer when balance is greater than or equal to</p></label>
-							<br>
-							<input class="defaultInput" type="number" name="overrideBalanceAlertAmount" id="overrideBalanceAlertAmount" placeholder="$100" min="0.00" step="0.01" value="<?php echo htmlspecialchars(number_format($currentCustomer->overrideBalanceAlertAmount, 2)); ?>" style="width: 5em;">
-							<input class="defaultInput" type="checkbox" name="overrideBalanceAlertAmountUseDefault" id="overrideBalanceAlertAmountUseDefault" <?php if ($currentCustomer->overrideBalanceAlertAmount == NULL) {echo 'checked="checked"';} ?>><label for="overrideBalanceAlertAmountUseDefault"> <p style="display: inline; clear: both;">Use default</p></label>
-							<span id="overrideBalanceAlertAmountError" class="underInputError" style="display: none;"><br>Input a number.</span>
-						</div>
-
-						<br><br>
-
-						<input class="defaultInput" type="checkbox" name="allowCZSignIn" id="allowCZSignIn" <?php if ($currentCustomer->allowCZSignIn == '1') {echo 'checked="checked"';} ?>><label for="allowCZSignIn"> <p style="display: inline; clear: both;">Allow this customer to sign into the <a href="../../../customer">Customer Portal</a></p></label>
-						<br><br>
-						<label for="password"><p>Customer Portal Password</p></label>
-						<input class="defaultInput" style="font-size: 1.2em; width: 10em; display: none;" type="text" name="password" id="password" value="<?php if (!$currentCustomer->existed) { $newPassword = new tableUuid('customer', 'password'); echo $newPassword->generatedId; } else {echo htmlspecialchars($currentCustomer->password);} ?>">
-						<span class="smallButtonWrapper greenButton" id="showPasswordButton" style="display: inline-block;">Show</span>
-						<span id="passwordError" class="underInputError" style="display: none;"><br>You must enter a customer-unique password for security purposes.</span>
-						<br><br>
-
-						<label for="notes"><p>Notes (Private to Admins)</p></label>
-						<textarea class="defaultInput" style="font-size: 1.2em; width: 80%;" name="notes" id="notes"><?php echo htmlspecialchars($currentCustomer->notes); ?></textarea>
-						<br><br>
-
-						<br><hr><br>
 
 						<h3>Properties</h3>
+						<br>
 
 						<?php
 
@@ -491,23 +506,23 @@
 							require_once '../../../../lib/render/property/propertyTable.php';
 							$propertyTable = new propertyTable('customerProperties', [
 								'rootPathPrefix' => '../../../',
-								'queryParams' => '',
+								'queryParams' => "AND customerId = '".$currentCustomer->customerId."'",
 								'maxRows' => 15,
 								'showAdd' => true,
 								'showSort' => true,
-								'showBatch' => true,
+								'showBatch' => true
 							]);
 							$propertyTable->render();
 							echo $propertyTable->output;
 
 						?>
 
-						<br><br>
+						<br>
 					
 					</div>
 
 					<div id="twoColInfoWrapper" class="paddingLeftRight90 paddingTopBottom90">
-						<br>
+						<br class="desktopOnlyBlock">
 						<span class="desktopOnlyBlock">
 							<div class="changesMessage"><span style="color: green;">Up to date ✔</span></div>
 							<img style="display: none; width: 2em;" src="../../../images/ultiscape/etc/loading.gif" class="loadingGif">
@@ -524,8 +539,6 @@
 						<p>Added on <?php echo $addedDate->format('D, d M y'); ?></p>
 					</div>
 				</div>
-			</form>
-
 		</div>
 
 		<?php
