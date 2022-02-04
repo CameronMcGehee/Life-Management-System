@@ -136,7 +136,10 @@
             // Get count for page count
             $pageCountQuery = "WHERE businessId = '".$_SESSION['ultiscape_businessId']."'";
             if ($this->options['useSearch'] != '') {
-                $pageCountQuery .= ' AND (firstName LIKE \'%'.$this->db->sanitize($this->options['useSearch']).'%\' OR lastName LIKE \'%'.$this->db->sanitize($this->options['useSearch']).'%\')';
+                $keywords = explode(" ", $this->options['useSearch']);
+                foreach ($keywords as $key => $keyword) {
+                    $pageCountQuery .= ' AND (firstName LIKE \'%'.$this->db->sanitize($keyword).'%\' OR lastName LIKE \'%'.$this->db->sanitize($keyword).'%\')';
+                }
             }
             if ($this->options['queryParams'] != '') {
                 $pageCountQuery .= ' '.$this->options['queryParams'];
@@ -193,7 +196,9 @@
             $params = '';
 
             if ($this->options['useSearch'] != '') {
-                $params .= 'AND (firstName LIKE \'%'.$this->db->sanitize($this->options['useSearch']).'%\') OR (lastName LIKE \'%'.$this->db->sanitize($this->options['useSearch']).'%\') ';
+                foreach ($keywords as $key => $keyword) {
+                    $params .= 'AND (firstName LIKE \'%'.$this->db->sanitize($keyword).'%\' OR lastName LIKE \'%'.$this->db->sanitize($keyword).'%\')';
+                }
             }
 
             switch ($this->options['useSort']) {
