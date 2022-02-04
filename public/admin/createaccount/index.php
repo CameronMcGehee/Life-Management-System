@@ -93,6 +93,13 @@
 			echo $adminUIRender->renderAdminTopBar('../../', true, false, false);
 		?>
 
+		<?php
+            require_once '../../../lib/render/ui/popupsHandler.php';
+            $popupsHandler = new popupsHandler('mainPopupsHandler', ["rootPathPrefix" => '../../', 'class' => 'styledText spacedText defaultMainShadows', 'popups' => ['devWelcomeInfo']]);
+            $popupsHandler->render();
+            echo $popupsHandler->output;
+        ?>
+
 		<div class="cmsMainContentWrapper">
 			
 		<div class="maxHeight xyCenteredFlex flexDirectionColumn marginLeftRight90 styledText textColorThemeGray">
