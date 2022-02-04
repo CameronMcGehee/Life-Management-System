@@ -166,23 +166,37 @@
                 // Render the page navigator, sort-by selector, and search bar
                 if ($selectAll || $this->options['useSearch'] != '') {
 
-                    if (!is_bool($selectAll)) {
+                    if (is_array($selectAll) && (int)$selectAll[0]['num'] > 0) {
                         $pageNav = new pageNavigator(ceil(($selectAll[0]['num'] / $this->options['maxRows'])), $this->options['usePage'], './', $this->renderId.'-p', 'float: right; padding: .2em;');
                         if ($this->options['showPageNav']) {
                             $pageNav->render();
                         }  
+
+                        $sortBySelector = new sortBySelector($this->renderId."sortSelector", './', $this->renderId.$this->options['sortGetVarName'], $this->options['useSort']);
+                        $sortBySelector->style = 'width: 5em;';
+                        
+                        if ($this->options['showSort']) {
+                            $sortBySelector->render();
+                        }
                     }
 
-                    $sortBySelector = new sortBySelector($this->renderId."sortSelector", './', $this->renderId.$this->options['sortGetVarName'], $this->options['useSort']);
-                    $sortBySelector->style = 'width: 5em;';
                     $searchBar = new searchBar($this->renderId."searchBar", './', $this->renderId.$this->options['searchGetVarName'], $this->options['useSearch']);
                     $searchBar->style = 'width: 5em;';
-                    
-                    if ($this->options['showSort']) {
-                        $sortBySelector->render();
-                    }
+
                     if ($this->options['showSearch']) {
                         $searchBar->render();
+                    }
+
+                    if (isset($searchBar)) {
+                        $searchBarOutput = '';
+                    } else {
+                        $searchBarOutput = '';
+                    }
+
+                    if (isset($sortBySelector)) {
+                        $sortBySelectorOutput = $sortBySelector->output;
+                    } else {
+                        $sortBySelectorOutput = '';
                     }
 
                     if (isset($pageNav)) {
@@ -191,7 +205,7 @@
                         $pageNavOutput = '';
                     }
 
-                    $this->output .= '<div><span style="height: 100%; float:right; margin-right: .3em;" class="yCenteredFlex">'.$pageNavOutput.'</span> <span style="width: min-content; height: 100%; float:right; margin-right: .3em;" class="yCenteredFlex">'.$sortBySelector->output.'</span> <span style="width: min-content; height: 100%; float:right; margin-right: .3em;" class="yCenteredFlex">'.$searchBar->output.'</span></div>';
+                    $this->output .= '<div><span style="height: 100%; float:right; margin-right: .3em;" class="yCenteredFlex">'.$pageNavOutput.'</span> <span style="width: min-content; height: 100%; float:right; margin-right: .3em;" class="yCenteredFlex">'.$sortBySelectorOutput.'</span> <span style="width: min-content; height: 100%; float:right; margin-right: .3em;" class="yCenteredFlex">'.$searchBarOutput.'</span></div>';
                 }
                 
                 // End div for table header
@@ -248,7 +262,7 @@
             ';
 
             if ($this->options['showCustomer']) {
-                $this->output .= '<th class="ca desktopOnlyTable-cell nrb nlb">Customer</th>
+                $this->output .= '<th class="ca nrb nlb">Customer</th>
                 ';
             }
             if ($this->options['showLawnSize']) {
@@ -256,15 +270,15 @@
                 ';
             }
             if ($this->options['showPricePerMow']) {
-                $this->output .= '<th class="la desktopOnlyTable-cell nlb">Price Per Mow</th>
+                $this->output .= '<th class="la nlb">Price Per Mow</th>
                 ';
             }
             if ($this->options['showMulchQuantity']) {
-                $this->output .= '<th class="ca desktopOnlyTable-cell nlb">Mulch ('.htmlspecialchars($this->currentBusiness->areaSymbol).'²)</th>
+                $this->output .= '<th class="ca desktopOnlyTable-cell nlb">Mulch (yd³)</th>
                 ';
             }
             if ($this->options['showLastServiced']) {
-                $this->output .= '<th class="ca desktopOnlyTable-cell nlb">Last Serviced</th>
+                $this->output .= '<th class="ca nlb">Last Serviced</th>
                 ';
             }
             if ($this->options['showDateAdded']) {
@@ -353,7 +367,7 @@
                     ';
                 }
                 if ($this->options['showLawnSize']) {
-                    $this->output .= '<td class="la nrb nlb">'.$lawnSize.'</td>
+                    $this->output .= '<td class="la desktopOnlyTable-cell nrb nlb">'.$lawnSize.'</td>
                     ';
                 }
                 if ($this->options['showPricePerMow']) {
@@ -361,7 +375,7 @@
                     ';
                 }
                 if ($this->options['showMulchQuantity']) {
-                    $this->output .= '<td class="la nrb nlb">'.$mulchQuantity.'</td>
+                    $this->output .= '<td class="la desktopOnlyTable-cell nrb nlb">'.$mulchQuantity.'</td>
                     ';
                 }
                 if ($this->options['showLastServiced']) {
@@ -375,7 +389,7 @@
                     $diffOutput = getDateTimeDiffString($property->dateTimeAdded, $this->currentDate);
                     $dateAddedOutput = new DateTime($property->dateTimeAdded);
                     $dateAddedOutput = $dateAddedOutput->format('m/d/Y');
-                    $this->output .= '<td class="ca nlb">'.htmlspecialchars($dateAddedOutput).' ('.$diffOutput.' ago)</td>
+                    $this->output .= '<td class="ca desktopOnlyTable-cell nlb">'.htmlspecialchars($dateAddedOutput).' ('.$diffOutput.' ago)</td>
                     ';
                 }
 

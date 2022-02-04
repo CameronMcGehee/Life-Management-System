@@ -160,23 +160,37 @@
                 // Render the page navigator, sort-by selector, and search bar
                 if ($selectAll || $this->options['useSearch'] != '') {
 
-                    if (!is_bool($selectAll)) {
+                    if (is_array($selectAll) && (int)$selectAll[0]['num'] > 0) {
                         $pageNav = new pageNavigator(ceil(($selectAll[0]['num'] / $this->options['maxRows'])), $this->options['usePage'], './', $this->renderId.'-p', 'float: right; padding: .2em;');
                         if ($this->options['showPageNav']) {
                             $pageNav->render();
-                        }  
-                    }
+                        }
 
-                    $sortBySelector = new sortBySelector($this->renderId."sortSelector", './', $this->renderId.$this->options['sortGetVarName'], $this->options['useSort']);
-                    $sortBySelector->style = 'width: 5em;';
+                        $sortBySelector = new sortBySelector($this->renderId."sortSelector", './', $this->renderId.$this->options['sortGetVarName'], $this->options['useSort']);
+                        $sortBySelector->style = 'width: 5em;';
+
+                        if ($this->options['showSort']) {
+                            $sortBySelector->render();
+                        }
+                    }
+                    
                     $searchBar = new searchBar($this->renderId."searchBar", './', $this->renderId.$this->options['searchGetVarName'], $this->options['useSearch']);
                     $searchBar->style = 'width: 5em;';
                     
-                    if ($this->options['showSort']) {
-                        $sortBySelector->render();
-                    }
                     if ($this->options['showSearch']) {
                         $searchBar->render();
+                    }
+
+                    if (isset($searchBar)) {
+                        $searchBarOutput = $searchBar->output;
+                    } else {
+                        $searchBarOutput = '';
+                    }
+
+                    if (isset($sortBySelector)) {
+                        $sortBySelectorOutput = $sortBySelector->output;
+                    } else {
+                        $sortBySelectorOutput = '';
                     }
 
                     if (isset($pageNav)) {
@@ -185,7 +199,7 @@
                         $pageNavOutput = '';
                     }
 
-                    $this->output .= '<div><span style="height: 100%; float:right; margin-right: .3em;" class="yCenteredFlex">'.$pageNavOutput.'</span> <span style="width: min-content; height: 100%; float:right; margin-right: .3em;" class="yCenteredFlex">'.$sortBySelector->output.'</span> <span style="width: min-content; height: 100%; float:right; margin-right: .3em;" class="yCenteredFlex">'.$searchBar->output.'</span></div>';
+                    $this->output .= '<div><span style="height: 100%; float:right; margin-right: .3em;" class="yCenteredFlex">'.$pageNavOutput.'</span> <span style="width: min-content; height: 100%; float:right; margin-right: .3em;" class="yCenteredFlex">'.$sortBySelectorOutput.'</span> <span style="width: min-content; height: 100%; float:right; margin-right: .3em;" class="yCenteredFlex">'.$searchBarOutput.'</span></div>';
                 }
                 
                 // End div for table header
