@@ -74,5 +74,6 @@
 ## v0.2.3
 - Goodies
     - Popups after creating a business to alert you it was successful
+    - Popup for dev info on create account screen
 - Techies
     - Popups Handler system
