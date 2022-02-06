@@ -23,7 +23,7 @@
     }
 
     // Get all the emails in the system
-    $currentCustomer->pullEmailAddresses();
+    $currentCustomer->pullEmailAddresses('ORDER BY dateTimeAdded ASC');
 
 	// Render the list of email inputs and buttons
 	require_once '../../../../../lib/table/customerEmailAddress.php';
@@ -35,7 +35,7 @@
 		';
 		echo ' <input class="almostInvisibleInputNoHover" style="font-size: 1.2em; width: 22%; display: inline;" type="text" name="emailAddressDescriptions[]" id="emailAddressDescription'.htmlspecialchars($emailAddressId).'" placeholder="Note" value="'.htmlspecialchars($emailInfo->description).'">
 		';
-		echo ' <span id="deleteEmailAddress:::'.htmlspecialchars($emailAddressId).'" class="extraSmallButtonWrapper orangeButton xyCenteredFlex" style="width: 1em; display: inline;"><img style="height: 1em;" src="../../../images/ultiscape/icons/cross.svg"></span>
+		echo ' <span id="deleteEmailAddress:::'.htmlspecialchars($emailAddressId).'" class="extraSmallButtonWrapper orangeButton xyCenteredFlex" style="width: 1em; display: inline;"><img style="height: 1em;" src="../../../images/ultiscape/icons/trash.svg"></span>
 		';
 		echo '<span id="emailAddress'.htmlspecialchars($emailAddressId).'Error" class="underInputError" style="display: none;"><br><br>Enter a valid address.</span><br><br>
 		';

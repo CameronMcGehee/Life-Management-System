@@ -23,7 +23,7 @@
     }
 
     // Get all the phone numbers in the system
-    $currentCustomer->pullPhoneNumbers();
+    $currentCustomer->pullPhoneNumbers('ORDER BY dateTimeAdded ASC');
 
 	// Render the list of phone number inputs and buttons
 	require_once '../../../../../lib/table/customerPhoneNumber.php';
@@ -37,7 +37,7 @@
 		';
 		echo ' <input class="almostInvisibleInputNoHover" style="font-size: 1.2em; width: 22%; display: inline;" type="text" name="phoneNumberDescriptions[]" id="phoneNumberDescription'.htmlspecialchars($phoneNumberId).'" placeholder="Note" value="'.htmlspecialchars($phoneInfo->description).'">
 		';
-		echo ' <span id="deletePhoneNumber:::'.htmlspecialchars($phoneNumberId).'" class="extraSmallButtonWrapper orangeButton xyCenteredFlex" style="width: 1em; display: inline;"><img style="height: 1em;" src="../../../images/ultiscape/icons/cross.svg"></span>
+		echo ' <span id="deletePhoneNumber:::'.htmlspecialchars($phoneNumberId).'" class="extraSmallButtonWrapper orangeButton xyCenteredFlex" style="width: 1em; display: inline;"><img style="height: 1em;" src="../../../images/ultiscape/icons/trash.svg"></span>
 		';
 		echo '<span id="phoneNumber'.htmlspecialchars($phoneNumberId).'Error" class="underInputError" style="display: none;"><br><br>Enter a valid phone number (digits only).</span><br><br>
 		';
