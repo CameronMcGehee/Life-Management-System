@@ -119,8 +119,14 @@
 			function inputChange (e) {
 				setUnsaved();
 				lastChange = new Date();
-				setTimeout(checkChanges, 100);
 			}
+
+			setInterval(() => {
+				currentTime = new Date();
+				if ((currentTime.getTime() - lastChange.getTime()) > 500 && !changesSaved) {
+					checkChanges();
+				}
+			}, 1000);
 
 			function setWaitingForError() {
 				$(".changesMessage").each(function () {
@@ -386,10 +392,15 @@
 
 							?>
 
-							<br><br>
+							<br>
 
-							<h3>Name/Tags</h3>
+							<br>
+
+							<h3>Billing and Contact Info</h3>
 							<div class="defaultInputGroup">
+
+							<br>
+								<label for="firstLastName"><p>Name</p></label>
 								<input class="bigInput" style="width: 95%;" type="text" name="firstLastName" id="firstLastName" placeholder="Name..." value="<?php echo htmlspecialchars($nameOutput); ?>">
 								<span id="firstLastNameError" class="underInputError" style="display: none;"><br>Please enter a name, preferrably first and last.</span>
 
@@ -402,54 +413,50 @@
 											'rootPathPrefix' => '../../../',
 											'type' => 'customer',
 											'objectId' => $currentCustomer->customerId,
-											'largeSize' => true
+											'largeSize' => false
 										]);
 										$tagEditor->render();
-										echo '<br><br>'.$tagEditor->output;
+										echo '<br><br>'.$tagEditor->output.'<br>';
+									}
+
+									if (!$currentCustomer->existed) {
+										echo "<br><br>";
 									}
 
 								?>
 
-							</div>
+								<label for="billAddress1"><p>Billing Address</p></label>
+								<div>
+									<!-- <label for="billAddress1"><p>Address</p></label> -->
+									<input placeholder="Line 1..." class="defaultInput" style="font-size: 1.2em; width: 80%;" type="text" name="billAddress1" id="billAddress1" value="<?php echo htmlspecialchars($currentCustomer->billAddress1); ?>">
+									<br><br>
 
-							<br>
+									<input placeholder="Line 2..." class="defaultInput" style="font-size: 1.2em; width: 80%;" type="text" name="billAddress2" id="billAddress2" value="<?php echo htmlspecialchars($currentCustomer->billAddress2); ?>">
+									<br><br>
 
-							<h3>Billing and Contact Info</h3>
-							<div class="defaultInputGroup">
+									<div class="twoCol">
+										<div>
+											<label for="billCity"><p>City</p></label>
+											<input placeholder="City..." class="defaultInput" style="font-size: 1.2em; width: 80%;" type="text" name="billCity" id="billCity" value="<?php echo htmlspecialchars($currentCustomer->billCity); ?>">
+											,
+										</div>
+										<div>
+											<label for="billState"><p>State</p></label>
+											<input placeholder="State..." class="defaultInput" style="font-size: 1.2em; width: 80%;" type="text" name="billState" id="billState" value="<?php echo htmlspecialchars($currentCustomer->billState); ?>">
+										</div>
+									</div>
+
+									<br>
+
+									<label for="billZipCode"><p>Zip Code</p></label>
+									<input placeholder="Zip Code..." class="defaultInput" style="font-size: 1.2em; width: 6em;" type="text" name="billZipCode" id="billZipCode" value="<?php echo htmlspecialchars($currentCustomer->billZipCode); ?>">
+
+									<span id="billAddressError" class="underInputError" style="display: none;"><br><br>Please enter a valid address.</span>
+								</div>
+
+								<br><hr style="border-color: var(--ultiscapeColorTheme);">
+
 								<table style="width: 100%">
-									<tr>
-										<td class="defaultTableCell" style="padding: 1em;">Billing Address</td>
-										<td class="defaultTableCell" style="padding: 1em;">
-											<div>
-												<!-- <label for="billAddress1"><p>Address</p></label> -->
-												<input placeholder="Line 1..." class="almostInvisibleInput" style="font-size: 1.2em; width: 80%;" type="text" name="billAddress1" id="billAddress1" value="<?php echo htmlspecialchars($currentCustomer->billAddress1); ?>">
-												<br><br>
-
-												<input placeholder="Line 2..." class="almostInvisibleInput" style="font-size: 1.2em; width: 80%;" type="text" name="billAddress2" id="billAddress2" value="<?php echo htmlspecialchars($currentCustomer->billAddress2); ?>">
-												<br><br>
-
-												<div class="twoCol">
-													<div>
-														<!-- <label for="billCity"><p>City</p></label> -->
-														<input placeholder="City..." class="almostInvisibleInput" style="font-size: 1.2em; width: 80%;" type="text" name="billCity" id="billCity" value="<?php echo htmlspecialchars($currentCustomer->billCity); ?>">
-														,
-													</div>
-
-													<div>
-														<!-- <label for="billState"><p>State</p></label> -->
-														<input placeholder="State..." class="almostInvisibleInput" style="font-size: 1.2em; width: 80%;" type="text" name="billState" id="billState" value="<?php echo htmlspecialchars($currentCustomer->billState); ?>">
-													</div>
-												</div>
-
-												<br>
-
-												<!-- <label for="billZipCode"><p>Zip Code</p></label> -->
-												<input placeholder="Zip Code..." class="almostInvisibleInput" style="font-size: 1.2em; width: 80%;" type="text" name="billZipCode" id="billZipCode" value="<?php echo htmlspecialchars($currentCustomer->billZipCode); ?>">
-
-												<span id="billAddressError" class="underInputError" style="display: none;"><br><br>Please enter a valid address.</span>
-											</div>
-										</td>
-									</tr>
 									<tr>
 										<td class="defaultTableCell" style="padding: 1em; width: 5em;">Emails</td>
 										<td class="defaultTableCell" style="padding: 1em;" id="emailAddressesLoader"><img style="width: 2em;" src="../../../images/ultiscape/etc/loading.gif"></td>
@@ -496,6 +503,7 @@
 									<input class="defaultInput" style="font-size: 1.2em; width: 10em; display: none;" type="text" name="password" id="password" value="<?php if (!$currentCustomer->existed) { $newPassword = new tableUuid('customer', 'password'); echo $newPassword->generatedId; } else {echo htmlspecialchars($currentCustomer->password);} ?>">
 									<span class="smallButtonWrapper greenButton" id="showPasswordButton" style="display: inline-block;">Show</span>
 									<span id="passwordError" class="underInputError" style="display: none;"><br>You must enter a customer-unique password for security purposes.</span>
+									<span id="passwordInUseError" class="underInputError" style="display: none;"><br>That password is already assigned to another customer.</span>
 								</div>
 							</div>
 							<br><br>
