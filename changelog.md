@@ -75,5 +75,6 @@
 - Goodies
     - Popups after creating a business to alert you it was successful
     - Popup for dev info on create account screen
+    - Input styling and grouping overhaul
 - Techies
     - Popups Handler system
