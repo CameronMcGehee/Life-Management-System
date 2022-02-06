@@ -141,7 +141,7 @@
 					<div id="twoColContentWrapper" class="paddingLeftRight90 maxHeight" style="overflow: auto;">
 						<div class="paddingTopBottom90">
 							<h3>General Info</h3>
-							<div class="themedInputGroup">
+							<div class="defaultInputGroup">
 
 								<label for="displayName"><p>Business Name <span style="color: rgb(167, 0, 0);">*</span></p></label>
 								<input class="bigInput" type="text" name="displayName" id="displayName" placeholder="Business name..." style="width: 70%;" required value="<?php echo htmlspecialchars($currentBusiness->displayName); ?>">
@@ -243,7 +243,7 @@
 							<br><br>
 
 							<h3>Units</h3>
-							<div class="themedInputGroup">
+							<div class="defaultInputGroup">
 								<div class="threeCol">
 									<div>
 										<label for="currencySymbol"><p>Currency Symbol</p></label>
@@ -268,7 +268,7 @@
 							<br><br>
 
 							<h3>Customers</h3>
-							<div class="themedInputGroup">
+							<div class="defaultInputGroup">
 								<div class="twoCol">
 									<div>
 										<input class="defaultInput" type="checkbox" name="creditAlertIsEnabled" id="creditAlertIsEnabled" <?php if ($currentBusiness->creditAlertIsEnabled == '1') {echo 'checked="checked"';} ?>><label for="creditAlertIsEnabled"> <p style="display: inline; clear: both;">Alert Customer when credit is less than or equal to</p></label>
@@ -288,7 +288,7 @@
 							<br><br>
 
 							<h3>Payroll</h3>
-							<div class="themedInputGroup">
+							<div class="defaultInputGroup">
 								<label for="modPayrSalDefaultType"><p>Default Salary Type</p></label>
 
 								<select class="defaultInput" name="modPayrSalDefaultType" id="modPayrSalDefaultType">
@@ -327,7 +327,7 @@
 							<br><br>
 
 							<h3>Documents</h3>
-							<div class="themedInputGroup">
+							<div class="defaultInputGroup">
 								<div class="twoCol" style="grid-template-columns: 25% 75%;">
 									<div>
 										<label for="docIdMin"><p>Minimum Document ID</p></label>
@@ -347,7 +347,7 @@
 							<br><br>
 
 							<h3>Invoices</h3>
-							<div class="themedInputGroup">
+							<div class="defaultInputGroup">
 								<div class="twoCol" style="grid-template-columns: 25% 75%;">
 									<div>
 										<label for="invoiceTerm"><p>Default Invoice Term (Days)</p></label>
@@ -367,7 +367,7 @@
 							<br><br>
 
 							<h3>Estimates</h3>
-							<div class="themedInputGroup">
+							<div class="defaultInputGroup">
 								<div class="twoCol" style="grid-template-columns: 25% 75%;">
 									<div>
 										<label for="estimateValidity"><p>Default Estimate Validity (Days)</p></label>

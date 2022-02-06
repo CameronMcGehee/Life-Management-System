@@ -779,10 +779,12 @@ a.noUnderline {
 
 .defaultForm input.defaultInput {
 	height: 1.5em;
+	background-color: inherit;
 }
 
 .defaultForm select.defaultInput {
 	height: 2em;
+	background-color: inherit;
 }
 
 .defaultForm input.defaultInput[type="checkbox"] {
@@ -802,6 +804,8 @@ a.noUnderline {
 	padding: .2em;
 
 	transition: all 300ms;
+
+	background-color: inherit;
 }
 .defaultInput:focus {
 	outline: 1px solid var(--utliscapeColorTheme);
@@ -812,7 +816,7 @@ a.noUnderline {
 	border: none;
 	border-bottom: 3px solid gray;
 
-	height: 2em;
+	height: 1em;
 
 	font-size: 1.5em;
 	color: rgb(68, 68, 68);
@@ -822,6 +826,7 @@ a.noUnderline {
 	padding-right: .3em;
 
 	transition: all 300ms;
+	background-color: inherit;
 }
 .bigInput:focus {
 	border-bottom: 3px solid var(--utliscapeColorTheme);
@@ -831,6 +836,7 @@ a.noUnderline {
 	outline: none;
 	border: none;
 	transition: all 300ms;
+	background-color: inherit;
 }
 
 .invisibleInput:hover {
@@ -841,6 +847,7 @@ a.noUnderline {
 	outline: none;
 	border: none;
 	border-bottom: 1px solid rgb(196, 196, 196);
+	background-color: inherit;
 }
 
 .almostInvisibleInput:hover {
@@ -856,11 +863,22 @@ a.noUnderline {
 
 /* Input Wrappers */
 
-.themedInputGroup {
-	border: 1px solid green;
+.defaultInputGroup {
+	/* border: 1px solid green; */
 	padding: 1em;
 	width: 93%;
 	border-radius: .3em;
+	box-shadow: -1px 2px 16px 0px rgba(0,0,0,0.15);
+	background-color: rgb(243, 243, 243);
+}
+
+.importantInputGroup {
+	/* border: 1px solid green; */
+	padding: 1em;
+	width: 93%;
+	border-radius: .3em;
+	box-shadow: -1px 2px 16px 0px rgba(0, 0, 0, 0.15);
+	background-color: #ffcccc;
 }
 
 /*-----------------------------------------------------------------------------------------------------------------------------*/
