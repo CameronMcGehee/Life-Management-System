@@ -78,7 +78,7 @@
 
         <div class="cmsMainContentWrapper">
             
-        <div class="maxHeight xyCenteredFlex flexDirectionColumn marginLeftRight90">
+        <div class="maxHeight xyCenteredFlex flexDirectionColumn marginLeftRight90 styledText textColorThemeGray">
                 <div class="cmsLoginFormArea defaultMainShadows">
                     
                     <h1 class="centered">Admin Login</h1>
@@ -112,6 +112,10 @@
                         <button class="smallButtonWrapper greenButton xyCenteredFlex centered defaultMainShadows" type="submit">Go!</button>
                     
                     </form>
+
+                    <br>
+
+					<p class="centered">Don't have an account? <a href="../createaccount">Create one here!</a></p>
 
                 </div>
             </div>
