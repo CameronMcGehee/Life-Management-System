@@ -867,8 +867,10 @@ a.noUnderline {
 	/* border: 1px solid green; */
 	padding: 1em;
 	width: 93%;
+	border: 1px solid #ccc;
 	border-radius: .3em;
-	box-shadow: -1px 2px 16px 0px rgba(0,0,0,0.15);
+	/* box-shadow: -1px 2px 16px 0px rgba(0,0,0,0.15); */
+	box-shadow: 0px 2px 6px 0px rgba(0,0,0,0.15);
 	background-color: rgb(243, 243, 243);
 }
 
@@ -877,7 +879,8 @@ a.noUnderline {
 	padding: 1em;
 	width: 93%;
 	border-radius: .3em;
-	box-shadow: -1px 2px 16px 0px rgba(0, 0, 0, 0.15);
+	/* box-shadow: -1px 2px 16px 0px rgba(0, 0, 0, 0.15); */
+	box-shadow: 0px 2px 6px 0px rgba(0,0,0,0.15);
 	background-color: #ffcccc;
 }
 
