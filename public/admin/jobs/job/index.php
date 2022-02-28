@@ -99,6 +99,10 @@
 
 		$(function() {
 
+			$("#jobForm").submit(function(event) {
+				event.preventDefault();
+			});
+
 			function setUnsaved() {
 				$(".changesMessage").each(function () {
 					$(this).html('<span style="color: gray; width: 10em;">⏳ Saving changes...</span>');
@@ -113,6 +117,13 @@
 				setUnsaved();
 				lastChange = new Date();
 			}
+
+			setInterval(() => {
+				currentTime = new Date();
+				if ((currentTime.getTime() - lastChange.getTime()) > 500 && !changesSaved) {
+					checkChanges();
+				}
+			}, 1000);
 
 			function setWaitingForError() {
 				$(".changesMessage").each(function () {
@@ -191,7 +202,7 @@
 					$(this).fadeIn(100);
 				});
 				
-				formData = $("#customerForm").serialize();
+				formData = $("#jobForm").serialize();
 				
 				$("#scriptLoader").load("./scripts/async/editJob.script.php", {
 					jobId: jobId,
@@ -212,8 +223,10 @@
 								isNewJob = false;
 								window.history.pushState("string", 'UltiScape (Admin) - New Job', "./?id="+jobId);
 							}
-							checkStaff = true;
-							checkCrews = true;
+							// checkStaff = true;
+							// checkCrews = true;
+							checkStaff = false;
+							checkCrews = false;
 							break;
 						default:
 							setWaitingForError();
@@ -228,64 +241,64 @@
 							break;
 					}
 
-					if (checkStaff) {
-						$("#scriptLoader").load("./scripts/async/updateJobStaff.script.php", {
-							jobId: jobId,
-							formData: formData
-						}, function () {
-							scriptOutput = $("#scriptLoader").html().split("::::");
-							formState = scriptOutput[1];
+					// if (checkStaff) {
+					// 	$("#scriptLoader").load("./scripts/async/updateJobStaff.script.php", {
+					// 		jobId: jobId,
+					// 		formData: formData
+					// 	}, function () {
+					// 		scriptOutput = $("#scriptLoader").html().split("::::");
+					// 		formState = scriptOutput[1];
 
-							switch (formState) {
-								case 'success':
-									setSaved();
-									checkCrews = true;
-									// Reload the emails box if a new email was put in
-									if ($("#newJobStaff").val().length > 0) {
-										loadJobStaff();
-									}
-									break;
-								default:
-									setWaitingForError();
-									showFormError("#"+formState+"Error", "#"+formState);
-									$("#"+formState).shake(50);
-									checkCrews = false;
-									$('.loadingGif').each(function() {
-										$(this).fadeOut(100);
-									});
-									break;
-							}
-						});
-					}
+					// 		switch (formState) {
+					// 			case 'success':
+					// 				setSaved();
+					// 				checkCrews = true;
+					// 				// Reload the emails box if a new email was put in
+					// 				if ($("#newJobStaff").val().length > 0) {
+					// 					loadJobStaff();
+					// 				}
+					// 				break;
+					// 			default:
+					// 				setWaitingForError();
+					// 				showFormError("#"+formState+"Error", "#"+formState);
+					// 				$("#"+formState).shake(50);
+					// 				checkCrews = false;
+					// 				$('.loadingGif').each(function() {
+					// 					$(this).fadeOut(100);
+					// 				});
+					// 				break;
+					// 		}
+					// 	});
+					// }
 
-					if (checkCrews) {
-						$("#scriptLoader").load("./scripts/async/updateJobCrews.script.php", {
-							jobId: jobId,
-							formData: formData
-						}, function () {
-							scriptOutput = $("#scriptLoader").html().split("::::");
-							formState = scriptOutput[1];
+					// if (checkCrews) {
+					// 	$("#scriptLoader").load("./scripts/async/updateJobCrews.script.php", {
+					// 		jobId: jobId,
+					// 		formData: formData
+					// 	}, function () {
+					// 		scriptOutput = $("#scriptLoader").html().split("::::");
+					// 		formState = scriptOutput[1];
 
-							switch (formState) {
-								case 'success':
-									setSaved();
-									// Reload the emails box if a new email was put in
-									if ($("#newJobCrews").val().length > 0) {
-										loadJobCrews();
-									}
-									break;
-								default:
-									setWaitingForError();
-									showFormError("#"+formState+"Error", "#"+formState);
-									$("#"+formState).shake(50);
+					// 		switch (formState) {
+					// 			case 'success':
+					// 				setSaved();
+					// 				// Reload the emails box if a new email was put in
+					// 				if ($("#newJobCrews").val().length > 0) {
+					// 					loadJobCrews();
+					// 				}
+					// 				break;
+					// 			default:
+					// 				setWaitingForError();
+					// 				showFormError("#"+formState+"Error", "#"+formState);
+					// 				$("#"+formState).shake(50);
 
-									$('.loadingGif').each(function() {
-										$(this).fadeOut(100);
-									});
-									break;
-							}
-						});
-					}
+					// 				$('.loadingGif').each(function() {
+					// 					$(this).fadeOut(100);
+					// 				});
+					// 				break;
+					// 		}
+					// 	});
+					// }
 
 					$('.loadingGif').each(function() {
 						$(this).fadeOut(100);
@@ -335,7 +348,7 @@
 				<div class="changesMessage"><span style="color: green;">Up to date ✔</span></div>
 				<img style="display: none; width: 2em;" src="../../../images/ultiscape/etc/loading.gif" class="loadingGif">
 			</div>
-			<form class="defaultForm maxHeight" id="customerForm">
+			<form class="defaultForm maxHeight" id="jobForm">
 
 				<input type="hidden" name="mainAuthToken" id="mainAuthToken" value="<?php echo htmlspecialchars($mainAuthToken->authTokenId); ?>">
 				<input type="hidden" name="updateJobStaffAuthToken" id="updateJobStaffAuthToken" value="<?php echo htmlspecialchars($updateJobStaffAuthToken->authTokenId); ?>">
