@@ -359,10 +359,19 @@
 
 						<br>
 
-						<input class="bigInput" style="width: 93%;" type="text" name="name" id="name" placeholder="Name..." value="<?php echo htmlspecialchars($currentJob->name); ?>">
-						<span id="nameError" class="underInputError" style="display: none;"><br>Please enter a name for the job.</span>
+						
+						<h3>General Info</h3>
+						<div class="defaultInputGroup">
+							<label for="name"><p>Name</p></label>
+							<input class="bigInput" style="width: 93%;" type="text" name="name" id="name" placeholder="Name..." value="<?php echo htmlspecialchars($currentJob->name); ?>">
+							<span id="nameError" class="underInputError" style="display: none;"><br>Please enter a name for the job.</span>
 
-						<br><br>
+							<br><br>
+
+							<label for="description"><p>Description (Visible to Customer)</p></label>
+							<textarea class="defaultInput" style="font-size: 1.2em; width: 80%;" name="description" id="description"><?php echo htmlspecialchars($currentJob->description); ?></textarea>
+							<span id="descriptionError" class="underInputError" style="display: none;"><br>Enter a valid description.</span>
+						</div>
 
 						<?php
 
