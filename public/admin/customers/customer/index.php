@@ -398,8 +398,7 @@
 
 							<h3>Billing and Contact Info</h3>
 							<div class="defaultInputGroup">
-
-							<br>
+								
 								<label for="firstLastName"><p>Name</p></label>
 								<input class="bigInput" style="width: 95%;" type="text" name="firstLastName" id="firstLastName" placeholder="Name..." value="<?php echo htmlspecialchars($nameOutput); ?>">
 								<span id="firstLastNameError" class="underInputError" style="display: none;"><br>Please enter a name, preferrably first and last.</span>
