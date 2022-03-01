@@ -45,6 +45,44 @@
 		$currentJob->name = $formData['name'];
 	}
 
+	// customer
+	if (!isset($formData['customer']) || empty($formData['customer'])) {
+		echo 'customer';
+		exit();
+	} else {
+		require_once '../../../../../../lib/table/customer.php';
+		$currentCustomer = new customer($formData['customer']);
+		if ($currentCustomer->existed) {
+			$currentJob->linkedToCustomerId = $formData['customer'];
+		} else {
+			$currentJob->linkedToCustomerId = 'NULL';
+		}
+	}
+
+	// property
+	if (!isset($formData['property']) || empty($formData['property'])) {
+		$currentJob->linkedToPropertyId = 'NULL';
+	} else {
+		require_once '../../../../../../lib/table/property.php';
+		$currentProperty = new property($formData['property']);
+		if ($currentProperty->existed) {
+			$currentJob->linkedToPropertyId = $formData['property'];
+		} else {
+			$currentJob->linkedToPropertyId = 'NULL';
+		}
+	}
+
+	// description
+	if (!isset($formData['description'])) {
+		echo 'description';
+		exit();
+	}
+	if (empty($formData['description'])) {
+		$currentJob->description = NULL;
+	} else {
+		$currentJob->description = $formData['description'];
+	}
+
 	// privateNotes
 	if (!isset($formData['privateNotes'])) {
 		echo 'privateNotes';
@@ -135,8 +173,6 @@
 			$currentJob->frequency = (int)$formData['frequency'];
 		}
 	}
-
-
 
 	// Use the auth token
 	require_once '../../../../../../lib/etc/authToken/useAuthToken.php';

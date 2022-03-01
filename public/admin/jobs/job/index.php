@@ -225,10 +225,24 @@
 								isNewJob = false;
 								window.history.pushState("string", 'UltiScape (Admin) - New Job', "./?id="+jobId);
 							}
-							// checkStaff = true;
-							// checkCrews = true;
-							checkStaff = false;
-							checkCrews = false;
+							checkStaff = true;
+							checkCrews = true;
+							
+							// property selector
+
+							if ($("#customerSelector").val() != 'none') {
+								$("#propertySelectorLoader").load('./includes/selectProperty.inc.php', {
+									jobId: jobId,
+									customerId: $("#customerSelector").val()
+								}, function () {
+									$(":input").change(function () {
+										inputChange();
+									});
+								});
+							} else {
+								$("#propertySelectorLoader").html('');
+							}
+
 							break;
 						default:
 							setWaitingForError();
@@ -315,6 +329,20 @@
 			// Load the crews form on startup
 			loadJobCrews();
 
+			// Load the property selector on startup
+			if ($("#customerSelector").val() != 'none') {
+				$("#propertySelectorLoader").load('./includes/selectProperty.inc.php', {
+					jobId: jobId,
+					customerId: $("#customerSelector").val()
+				}, function () {
+					$(":input").change(function () {
+						inputChange();
+					});
+				});
+			} else {
+				$("#propertySelectorLoader").html('');
+			}
+
 			var interval = setInterval(function() {
 				if (changesSaved == false && (new Date() - lastChange) / 1000 > .5) {
 					checkChanges();
@@ -369,6 +397,29 @@
 							<span id="nameError" class="underInputError" style="display: none;"><br>Enter a name for the job.</span>
 
 							<br><br>
+
+							<div class="twoCol">
+								<div>
+									<label for="customerSelector"><p>Customer</p></label>
+									<!-- Select customer dialog -->
+									<?php
+									
+										require_once '../../../../lib/render/input/customerSelector.php';
+										$customerSelector = new customerSelector("customerSelector", ["name" => 'customer', "selectedId" => $currentJob->linkedToCustomerId]);
+										$customerSelector->render();
+										echo $customerSelector->output;
+
+									?>
+
+									<span id="customerError" class="underInputError" style="display: none;"><br>Select a customer.</span>	
+								</div>
+
+								<div>
+									<span id="propertySelectorLoader"></span>
+								</div>
+							</div>
+
+							<br>
 
 							<label for="description"><p>Description (Visible to Customer)</p></label>
 							<textarea class="defaultInput" style="font-size: 1.2em; width: 80%;" name="description" id="description"><?php echo htmlspecialchars($currentJob->description); ?></textarea>
