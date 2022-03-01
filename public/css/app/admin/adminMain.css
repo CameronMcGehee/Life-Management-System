@@ -1485,6 +1485,7 @@ html, body {
 
 .jobCalendar tr td .job.completedJob {
     background-color: var(--utliscapeColorTheme);
+	text-decoration: line-through;
 }
 
 .jobCalendar tr td .job.cancelledJob {
