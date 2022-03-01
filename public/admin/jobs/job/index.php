@@ -13,16 +13,18 @@
 	$adminUIRender = new adminUIRender();
 
 	// Other required libraries
-	require_once '../../../../lib/table/admin.php';
+	require_once '../../../../lib/table/business.php';
 	require_once '../../../../lib/table/job.php';
-	require_once '../../../../lib/table/jobCancellation.php';
-	require_once '../../../../lib/table/jobCompleted.php';
-	require_once '../../../../lib/render/etc/tagEditor.php';
+	// require_once '../../../../lib/table/jobCancellation.php';
+	// require_once '../../../../lib/table/jobCompleted.php';
+	// require_once '../../../../lib/render/etc/tagEditor.php';
 	if (isset($_GET['id']) && !empty($_GET['id'])) {
 		$currentJob = new job($_GET['id']);
 	} else {
 		$currentJob = new job();
 	}
+
+	$currentBusiness = new business($_SESSION['ultiscape_businessId']);
 
 	if ($currentJob->existed) {
 		$titleName = $currentJob->name;
@@ -360,17 +362,122 @@
 						<br>
 
 						
-						<h3>General Info</h3>
+						<h3>Job Info</h3>
 						<div class="defaultInputGroup">
 							<label for="name"><p>Name</p></label>
 							<input class="bigInput" style="width: 93%;" type="text" name="name" id="name" placeholder="Name..." value="<?php echo htmlspecialchars($currentJob->name); ?>">
-							<span id="nameError" class="underInputError" style="display: none;"><br>Please enter a name for the job.</span>
+							<span id="nameError" class="underInputError" style="display: none;"><br>Enter a name for the job.</span>
 
 							<br><br>
 
 							<label for="description"><p>Description (Visible to Customer)</p></label>
 							<textarea class="defaultInput" style="font-size: 1.2em; width: 80%;" name="description" id="description"><?php echo htmlspecialchars($currentJob->description); ?></textarea>
 							<span id="descriptionError" class="underInputError" style="display: none;"><br>Enter a valid description.</span>
+
+							<br><br>
+
+							<div class="threeCol">
+								<div>
+									<label for="name"><p>Price (<?php echo htmlspecialchars($currentBusiness->currencySymbol); ?>)</p></label>
+									<input class="defaultInput" style="width: 5em;" type="number" min="0.00" max="999999999999" step="0.01" name="price" id="price" placeholder="Free" value="<?php echo htmlspecialchars($currentJob->price); ?>">
+									<span id="priceError" class="underInputError" style="display: none;"><br>Enter a number.</span>
+								</div>
+
+								<div>
+									<label for="name"><p>Estimated Hours</p></label>
+									<input class="defaultInput" style="width: 5em;" type="number" min="0" max="999999999999" name="estHours" id="estHours" placeholder="Est. Hours..." value="<?php echo htmlspecialchars($currentJob->estHours); ?>">
+									<span id="estHoursError" class="underInputError" style="display: none;"><br>Enter a number.</span>
+
+									<p id="perHourCalc" style="color: gray;">$--/hour</p>
+								</div>
+
+								<div>
+								<input class="defaultInput" type="checkbox" name="isPrepaid" id="isPrepaid" <?php if ($currentJob->isPrepaid == '1') {echo 'checked="checked"';} ?>><label for="isPrepaid"> <p style="display: inline; clear: both;">Customer has already paid for this service</p></label>
+								</div>
+							</div>
+
+							<br><hr style="border-color: var(--utliscapeColorTheme);" class="defaultMainShadows"><br>
+
+							<?php
+
+								// Seperate the dateTime strings
+
+								
+
+								if ($currentJob->existed) {
+									$startDateArray = explode(' ', $currentJob->startDateTime);
+									$endDateArray = explode(' ', $currentJob->endDateTime);
+	
+									$startDate = $startDateArray[0];
+									$endDate = $endDateArray[0];
+									$startTime = $startDateArray[1];
+									$endTime = $endDateArray[1];
+								} else {
+									$currentDate = new DateTime();
+									$startDate = $currentDate->format('Y-m-d');
+									$endDate = $currentDate->format('Y-m-d');
+									$startTime = '';
+									$endTime = '';
+								}
+
+							?>
+
+							<div><span id="clearEndDateTime" class="smallButtonWrapper orangeButton" style="float: right;">Clear Dates</span></div>
+
+								<div>
+									<div class="twoCol" style="max-width: 25em;">
+										<div>
+											<label for="startDate"><p>Start Date</p></label>
+											<input class="defaultInput" style="width: 100%; max-width: 9em;" type="date" name="startDate" id="startDate" value="<?php echo htmlspecialchars($startDate); ?>">
+											<span id="startDateError" class="underInputError" style="display: none;"><br>Select a valid date.</span>
+										</div>
+
+										<div style="padding-left: 1em;">
+											<label for="startTime"><p>Start Time (Optional)</p></label>
+											<input class="defaultInput" style="width: 100%; max-width: 6em;" type="time" name="startTime" id="startTime" value="<?php echo htmlspecialchars($startTime); ?>">
+											<span id="startTimeError" class="underInputError" style="display: none;"><br>Select a valid time.</span>
+										</div>
+									</div>
+								</div>
+
+								<br>
+
+								<div>
+									<div class="twoCol" style="max-width: 25em;">
+										<div>
+											<label for="endDate"><p>End Date</p></label>
+											<input class="defaultInput" style="width: 100%; max-width: 9em;" type="date" name="endDate" id="endDate" value="<?php echo htmlspecialchars($endDate); ?>">
+											<span id="endDateError" class="underInputError" style="display: none;"><br>Select a valid date.</span>
+										</div>
+
+										<div style="padding-left: 1em;">
+											<label for="endTime"><p>End Time (Optional)</p></label>
+											<input class="defaultInput" style="width: 100%; max-width: 6em;" type="time" name="endTime" id="endTime" value="<?php echo htmlspecialchars($endTime); ?>">
+											<span id="endTimeError" class="underInputError" style="display: none;"><br>Select a valid time.</span>
+										</div>
+									</div>
+								</div>
+							
+						</div>
+
+						<br>
+
+						<h3>Recurrence</h3>
+						<div class="defaultInputGroup">
+							<input class="defaultInput" type="checkbox" name="isRecurring" id="isRecurring" <?php if ($currentJob->frequencyInterval != 'none') {echo 'checked="checked"';} ?>><label for="isRecurring"> <p style="display: inline; clear: both;">Recurring</p></label>
+							<br><br>
+
+							<span>Every </span>
+							<input class="defaultInput" style="width: 5em;" type="number" min="0" max="999999999999" name="frequency" id="frequency" placeholder="Est. Hours..." value="<?php echo htmlspecialchars($currentJob->frequency); ?>">
+
+							<select class="defaultInput" name="frequencyInterval" id="frequencyInterval">
+								<option value="day"<?php if ($currentJob->frequencyInterval == 'day') {echo ' selected="selected"';} ?>>day(s)</option>
+								<option value="week"<?php if ($currentJob->frequencyInterval == 'week') {echo ' selected="selected"';} ?>>week(s)</option>
+								<option value="month"<?php if ($currentJob->frequencyInterval == 'month') {echo ' selected="selected"';} ?>>month(s)</option>
+								<option value="year"<?php if ($currentJob->frequencyInterval == 'year') {echo ' selected="selected"';} ?>>year(s)</option>
+							</select>
+							<span id="frequencyIntervalError" class="underInputError" style="display: none;"><br>Select an option from the menu.</span>
+							<span id="frequencyError" class="underInputError" style="display: none;"><br>Enter a number.</span>
 						</div>
 
 						<?php
