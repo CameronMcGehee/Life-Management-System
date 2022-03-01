@@ -59,7 +59,7 @@
 		}
 
 		function render() {
-			$this->output = '<select class="'.$this->options['class'].'" style="'.$this->options['style'].'" name="'.$this->options['name'].'">';
+			$this->output = '<select id="'.$this->options['id'].'" class="'.$this->options['class'].'" style="'.$this->options['style'].'" name="'.$this->options['name'].'">';
 
 			// For each customer, get the name and output it
 
