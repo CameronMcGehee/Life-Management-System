@@ -466,7 +466,7 @@
 								} else {
 									$currentDate = new DateTime();
 									$startDate = $currentDate->format('Y-m-d');
-									$endDate = $currentDate->format('Y-m-d');
+									$endDate = '';
 									$startTime = '';
 									$endTime = '';
 								}

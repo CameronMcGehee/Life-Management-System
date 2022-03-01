@@ -32,11 +32,18 @@
 
 		<div class="cmsMainContentWrapper styledText textColorThemeJobs">
 
-            <div class="desktopOnlyBlock" style="width: 100%; height: 80vh; overflow: scroll;">
+            <div class="desktopOnlyBlock" style="width: 100%; height: 90%;">
                 <?php
 
+					if (isset($_GET['main-m'])) {
+						$selectedMonth = $_GET['main-m'];
+					} else {
+						$currentDate = new DateTime();
+						$selectedMonth = $currentDate->format('Y-m');
+					}
+
                     require_once '../../../lib/render/job/jobCalendar.php';
-                    $jobCalendar = new jobCalendar('main', ['rootPathPrefix' => '../../', 'style' => 'width: 100%; height: 95%;']);
+                    $jobCalendar = new jobCalendar('main', ['rootPathPrefix' => '../../', 'month' => $selectedMonth, 'style' => 'width: 100%; height: 100%;']);
                     $jobCalendar->render();
                     echo $jobCalendar->output;
 
