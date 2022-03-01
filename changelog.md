@@ -78,3 +78,13 @@
     - Input styling and grouping overhaul
 - Techies
     - Popups Handler system
+
+# v0.2
+
+## v0.3.0
+- Goodies
+    - Job input
+    - Job calendar - now shows jobs and has month selector and button to create a new job
+- Techies
+    - Changed the way that jobs are stored in the database for simplicity
+    - Some functions relating to jobs and date/time calculations
