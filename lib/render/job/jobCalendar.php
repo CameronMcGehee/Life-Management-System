@@ -14,15 +14,28 @@
 			$this->renderId = $renderId;
 
             require_once dirname(__FILE__)."/../../table/job.php";
-            require_once dirname(__FILE__)."/../../table/jobCompleted.php";
             require_once dirname(__FILE__)."/../../table/jobCancellation.php";
+			require_once dirname(__FILE__)."/../../etc/job/getJobInstances.php";
 
 			if (empty($options['rootPathPrefix'])) {
 				$options['rootPathPrefix'] = './';
 			}
 
+			if (empty($options['showAdd'])) {
+				$options['showAdd'] = true;
+			}
+
+			if (empty($options['showMonthSelector'])) {
+				$options['showMonthSelector'] = true;
+			}
+
             if (empty($options['month'])) {
-				$options['month'] = date('Y-m');
+				$monthDate = new DateTime();
+				$options['month'] = $monthDate->format('Y-m');
+			}
+
+			if (empty($options['getVarName'])) {
+				$options['getVarName'] = 'm';
 			}
 
 			if (empty($options['style'])) {
@@ -62,9 +75,44 @@
 
             // Get all jobs within the date range
 
-            $currentMonthJobsArray = [];
+			$jobs = getJobInstances($month_ini->format('Y-m-d'), $month_end->format('Y-m-d'));
 
 			$this->output = '';
+
+			// Start div for table header (create customer button and nav)
+            if ($this->options['showAdd'] || $this->options['showMonthSelector']) {
+                $this->output .= '<div style="display: grid; grid-template-columns: 20% 80%; grid-template-rows: 3em; grid-template-areas: \'1 2\'; margin-left: 2em; margin-right: 2em;">';
+
+                // Render the add customer button
+                $this->output .= '<div class="yCenteredFlex" style="width: 10em;">';
+                if ($this->options['showAdd']) {
+                    $this->output .= '<a class="smallButtonWrapper greenButton noUnderline yCenteredFlex" href="'.$this->options['rootPathPrefix'].'admin/jobs/job">➕ Schedule Job</a>';
+                }
+                $this->output .= '</div>';
+
+				if ($this->options['showMonthSelector']) {
+					$monthSelectorOutput = '<input onchange="'.$this->renderId.'ChangeMonth()" class="defaultInput" type="month" name="monthSelector" id="'.$this->renderId.'MonthSelector" value="'.htmlspecialchars($this->options['month']).'">';
+
+					$this->output .= '
+						<script>
+							function '.$this->renderId.'ChangeMonth() {
+
+								var url = new URL(window.location.href);
+
+								url.searchParams.set("'.$this->renderId.'-'.$this->options['getVarName'].'", $("#'.$this->renderId.'MonthSelector").val());
+
+								window.location.replace(url.href);
+								
+							}
+						
+						</script>';
+				}
+
+				
+
+                $this->output .= '<div><span style="height: 100%; float:right; margin-right: .3em;" class="yCenteredFlex">'.$monthSelectorOutput.'</span></div></div>';
+
+			}
 
 			// Start the table with headers for weekdays
 
@@ -108,8 +156,19 @@
 
                     // Get jobs of that day
 
-                    foreach ($currentMonthJobsArray as $jobId) {
-                        echo '<p class="job activeJob">Active Job...</p>';
+					$jobsOutput = '';
+
+                    foreach ($jobs as $currentJob) {
+						$currentJobStartDateTime = new DateTime($currentJob['instanceDate']);
+						$currentJobEndDateTime = new DateTime($currentJob['endDateTime']);
+						if ($currentJobStartDateTime->format('Y-m-d') == $currentDate->format('Y-m-d')) { // If it is today
+							if ($currentJob['dateTimeCompleted'] !== NULL) { // If completed
+								$jobClass = 'completedJob';
+							} else {
+								$jobClass = 'activeJob';
+							}
+							$jobsOutput .= '<a href="'.$this->options['rootPathPrefix'].'/admin/jobs/job?id='.htmlspecialchars($currentJob['jobId']).'&instance='.$currentJob['instanceDate'].'"><p class="job '.$jobClass.'">'.htmlspecialchars($currentJob['name']).'</p></a>';
+						}
                     }
 
 					// If the current day is the actual current day, make the border of the cell green
@@ -120,7 +179,7 @@
                         $borderStyle = '';
                     }
 					
-					$this->output .= '<td class="vat" style="text-align: center;'.$borderStyle.' background-color: '.$backgroundColor.'"><p style="font-size: .8em; text-align: left;"><b>'.$dayNumber.'</b></p></td>';
+					$this->output .= '<td class="vat" style="text-align: center;'.$borderStyle.' background-color: '.$backgroundColor.'"><p style="font-size: .8em; text-align: left;"><b>'.$dayNumber.'</b></p>'.$jobsOutput.'</td>';
 					$dayNumber++;
 					$currentDate->add($oneDayInterval);
 				} else {
