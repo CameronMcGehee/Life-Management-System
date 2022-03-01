@@ -396,7 +396,7 @@
 
 							<br>
 
-							<h3>Billing and Contact Info</h3>
+							<h3>Customer Info</h3>
 							<div class="defaultInputGroup">
 								
 								<label for="firstLastName"><p>Name</p></label>
@@ -469,7 +469,7 @@
 
 							<br><br>
 
-							<h3>Credit and Balance</h3>
+							<h3>Credit and Balance Settings</h3>
 							<div class="twoCol defaultInputGroup">
 								<div>
 									<input class="defaultInput" type="checkbox" name="overrideCreditAlertIsEnabled" id="overrideCreditAlertIsEnabled" <?php if ($currentCustomer->overrideCreditAlertIsEnabled == '1') {echo 'checked="checked"';} ?>><label for="overrideCreditAlertIsEnabled"> <p style="display: inline; clear: both;">Alert Customer when credit is less than or equal to</p></label>
@@ -492,7 +492,7 @@
 
 							<br><br>
 
-							<h3>Customer Portal</h3>
+							<h3>Customer Portal Settings</h3>
 							<div class="twoCol defaultInputGroup">
 								<div>
 									<input class="defaultInput" type="checkbox" name="allowCZSignIn" id="allowCZSignIn" <?php if ($currentCustomer->allowCZSignIn == '1') {echo 'checked="checked"';} ?>><label for="allowCZSignIn"> <p style="display: inline; clear: both;">Allow this customer to sign into the <a href="../../../customer">Customer Portal</a></p></label>
