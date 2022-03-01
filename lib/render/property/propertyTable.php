@@ -274,7 +274,7 @@
                 ';
             }
             if ($this->options['showMulchQuantity']) {
-                $this->output .= '<th class="ca desktopOnlyTable-cell nlb">Mulch (yd³)</th>
+                $this->output .= '<th class="ca desktopOnlyTable-cell nlb">Mulch (UNIT³)</th>
                 ';
             }
             if ($this->options['showLastServiced']) {
