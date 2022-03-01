@@ -22,6 +22,7 @@
 		public $isPrepaid;
 		public $startDateTime;
 		public $endDateTime;
+		public $dateTimeCompleted;
 		public $dateTimeAdded;
 
 		// Arrays to store linked data.
@@ -54,6 +55,7 @@
 			$this->frequency = '0';
 			$this->startDateTime = '';
 			$this->endDateTime = NULL;
+			$this->dateTimeCompleted = NULL;
 			// Default dateTimeAdded to now since it is likely going to be inserted at this time
 			$currentDateTime = new DateTime();
 			$this->dateTimeAdded = $currentDateTime->format('Y-m-d H:i:s');
@@ -95,6 +97,7 @@
 				$this->frequency = $fetch[0]['frequency'];
 				$this->startDateTime = $fetch[0]['startDateTime'];
 				$this->endDateTime = $fetch[0]['endDateTime'];
+				$this->dateTimeCompleted = $fetch[0]['dateTimeCompleted'];
 				$this->dateTimeAdded = $fetch[0]['dateTimeAdded'];
 
 				$this->setType = 'UPDATE';
@@ -209,6 +212,7 @@
 				'frequencyInterval' => $this->db->sanitize($this->frequencyInterval),
 				'startDateTime' => $this->db->sanitize($this->startDateTime),
 				'endDateTime' => $this->db->sanitize($this->endDateTime),
+				'dateTimeCompleted' => $this->db->sanitize($this->dateTimeCompleted),
 				'dateTimeAdded' => $this->db->sanitize($this->dateTimeAdded)
 			);
 

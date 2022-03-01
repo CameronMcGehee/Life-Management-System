@@ -12,7 +12,7 @@
 		// Main database attributes
 		public $jobCancellationId;
 		public $businessId;
-		public $linkedToJobId;
+		public $jobId;
 		public $startDateTime;
 		public $endDateTime;
 		public $dateTimeAdded;
@@ -30,7 +30,7 @@
 			} else {
 				$this->businessId = '';
 			}
-			$this->linkedToJobId = NULL;
+			$this->jobId = '';
 			$this->startDateTime = '';
 			$this->endDateTime = '';
 			// Default dateTimeAdded to now since it is likely going to be inserted at this time
@@ -57,7 +57,7 @@
 			if ($fetch) {
 				$this->jobCancellationId = $jobCancellationId;
 				$this->businessId = $fetch[0]['businessId'];
-				$this->linkedToJobId = $fetch[0]['linkedToJobId'];
+				$this->jobId = $fetch[0]['jobId'];
 				$this->startDateTime = $fetch[0]['startDateTime'];
 				$this->endDateTime = $fetch[0]['endDateTime'];
 				$this->dateTimeAdded = $fetch[0]['dateTimeAdded'];
@@ -93,7 +93,7 @@
 			$attributes = array(
 				'jobCancellationId' => $this->db->sanitize($this->dbJobCompletedId),
 				'businessId' => $this->db->sanitize($this->businessId),
-				'linkedToJobId' => $this->db->sanitize($this->linkedToJobId),
+				'jobId' => $this->db->sanitize($this->jobId),
 				'startDateTime' => $this->db->sanitize($this->startDateTime),
 				'endDateTime' => $this->db->sanitize($this->endDateTime),
 				'dateTimeAdded' => $this->db->sanitize($this->dateTimeAdded)
