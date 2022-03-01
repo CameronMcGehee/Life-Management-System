@@ -91,8 +91,8 @@
 				$this->price = $fetch[0]['price'];
 				$this->estHours = $fetch[0]['estHours'];
 				$this->isPrepaid = $fetch[0]['isPrepaid'];
-				$this->frequencyInterval = $fetch[0]['isPrepaid'];
-				$this->frequency = $fetch[0]['isPrepaid'];
+				$this->frequencyInterval = $fetch[0]['frequencyInterval'];
+				$this->frequency = $fetch[0]['frequency'];
 				$this->startDateTime = $fetch[0]['startDateTime'];
 				$this->endDateTime = $fetch[0]['endDateTime'];
 				$this->dateTimeAdded = $fetch[0]['dateTimeAdded'];
