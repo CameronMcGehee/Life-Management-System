@@ -4,7 +4,7 @@
 
 		function getJobInstances($startDateTime, $endDateTime, array $exclude = array()) { // "singular", "recurring", "completed", "cancelled", "overdue"
 			
-            require_once dirname(__FILE__).'../getJobs.php';
+            require_once dirname(__FILE__).'../../job/getJobs.php';
             require_once dirname(__FILE__).'../../time/getRecurringDates.php';
 
             $jobs = getJobs($startDateTime, $endDateTime, $exclude);
@@ -16,10 +16,15 @@
                 $freqInt = $job['frequencyInterval'];
                 $startDate = new DateTime($job['startDateTime']);
 
-                $dates = getRecurringDates($startDate->format('Y-m-d'), $endDateTime, $freqInt, $freq);
-                foreach ($dates as $date) {
-                    $job['instanceDate'] = $date;
+                if ($freqInt == 'none') {
+                    $job['instanceDate'] = $startDate->format('Y-m-d');
                     array_push($instances, $job);
+                } else {
+                    $dates = getRecurringDates($startDate->format('Y-m-d'), $endDateTime, $freqInt, $freq);
+                    foreach ($dates as $date) {
+                        $job['instanceDate'] = $date;
+                        array_push($instances, $job);
+                    }
                 }
             }
 

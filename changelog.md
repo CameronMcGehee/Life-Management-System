@@ -88,3 +88,8 @@
 - Techies
     - Changed the way that jobs are stored in the database for simplicity
     - Some functions relating to jobs and date/time calculations
+
+## v0.3.1
+- Goodies
+    - Fixed bug where job edit page wouldn't save changes
+    - Fixed bug where job calendar was throwing errors when non-recurring jobs were present
