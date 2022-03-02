@@ -551,7 +551,7 @@
 
 						<br><br>
 
-						<table class="defaultTable" style="width: 35em; max-width: 100%;">
+						<!-- <table class="defaultTable" style="width: 35em; max-width: 100%;">
 							<tr>
 								<td class="defaultTableCell" style="padding: 1em; width: 5em;">Assigned Staff</td>
 								<td class="defaultTableCell" style="padding: 1em;" id="jobStaffLoader"><img style="width: 2em;" src="../../../images/ultiscape/etc/loading.gif"></td>
@@ -561,7 +561,7 @@
 								<td class="defaultTableCell" style="padding: 1em;" id="jobCrewsLoader"><img style="width: 2em;" src="../../../images/ultiscape/etc/loading.gif"></td>
 							</tr>
 						</table>
-						<br>
+						<br> -->
 
 						<label for="privateNotes"><p>Notes (Private to Admins)</p></label>
 						<textarea class="defaultInput" style="font-size: 1.2em; width: 80%;" name="privateNotes" id="privateNotes"><?php echo htmlspecialchars($currentJob->privateNotes); ?></textarea>
