@@ -93,3 +93,4 @@
 - Goodies
     - Fixed bug where job edit page wouldn't save changes
     - Fixed bug where job calendar was throwing errors when non-recurring jobs were present
+    - Fixed bug where recurring jobs were no showing past the month they start in in jobs calendar
