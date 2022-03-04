@@ -14,7 +14,6 @@
 			$this->renderId = $renderId;
 
             require_once dirname(__FILE__)."/../../table/job.php";
-            require_once dirname(__FILE__)."/../../table/jobCancellation.php";
 			require_once dirname(__FILE__)."/../../etc/job/getJobInstances.php";
 
 			if (empty($options['rootPathPrefix'])) {

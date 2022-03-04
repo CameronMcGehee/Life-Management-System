@@ -1055,7 +1055,7 @@
 	PRIMARY KEY (`jobInstanceExceptionId`),
 	KEY `jobInstanceExceptionBusinessId` (`businessId`),
 	KEY `jobInstanceExceptionJobId` (`jobId`),
-	CONSTRAINT `jobInstanceExceptionBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE
+	CONSTRAINT `jobInstanceExceptionBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE,
 	CONSTRAINT `jobInstanceExceptionJobId` FOREIGN KEY (`jobId`) REFERENCES `job` (`jobId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
