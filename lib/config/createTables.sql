@@ -1081,6 +1081,7 @@
 	`weekday` varchar(20) NULL DEFAULT NULL,
 	`startDateTime` datetime NOT NULL,
 	`endDateTime` datetime NULL,
+	`instanceDate` datetime NOT NULL,
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`completedJobId`),
 	KEY `completedJobBusinessId` (`businessId`),
