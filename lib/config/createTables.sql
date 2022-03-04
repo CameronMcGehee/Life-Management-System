@@ -1020,7 +1020,6 @@
 	`frequency` int(11) NOT NULL DEFAULT 0,
 	`startDateTime` datetime NOT NULL,
 	`endDateTime` datetime NULL,
-	`dateTimeCompleted` datetime NULL,
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`jobId`),
 	KEY `jobBusinessId` (`businessId`),
@@ -1034,17 +1033,30 @@
 	-- Table structure for table `jobCancellation`
 	--
 
-	CREATE TABLE IF NOT EXISTS `jobCancellation` (
-	`jobCancellationId` varchar(17) NOT NULL,
+	CREATE TABLE IF NOT EXISTS `jobInstanceException` (
+	`jobInstanceExceptionId` varchar(17) NOT NULL,
 	`businessId` varchar(17) NOT NULL,
 	`jobId` varchar(17) NOT NULL,
+	`startInstanceDate` date NOT NULL,
+	`endInstanceDate` date NULL,
+	`isRescheduled` tinyint(1) NOT NULL DEFAULT 0,
+	`isCancelled` tinyint(1) NOT NULL DEFAULT 0,
+	`isCompleted` tinyint(1) NOT NULL DEFAULT 0,
+	`name` text NOT NULL,
+	`description` text NULL,
+	`privateNotes` text NULL,
+	`price` float NULL,
+	`estHours` int(11) NULL,
+	`isPrepaid` tinyint(1) NOT NULL DEFAULT 0,
 	`startDateTime` datetime NOT NULL,
-	`endDateTime` datetime NOT NULL,
+	`endDateTime` datetime NULL,
+	`instanceDate` datetime NOT NULL,
 	`dateTimeAdded` datetime NOT NULL,
-	PRIMARY KEY (`jobCancellationId`),
-	KEY `jobCancellationBusinessId` (`businessId`),
-	KEY `jobCancellationJobId` (`jobId`),
-	CONSTRAINT `jobCancellationBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE
+	PRIMARY KEY (`jobInstanceExceptionId`),
+	KEY `jobInstanceExceptionBusinessId` (`businessId`),
+	KEY `jobInstanceExceptionJobId` (`jobId`),
+	CONSTRAINT `jobInstanceExceptionBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE
+	CONSTRAINT `jobInstanceExceptionJobId` FOREIGN KEY (`jobId`) REFERENCES `job` (`jobId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
