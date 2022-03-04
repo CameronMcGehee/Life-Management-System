@@ -1,0 +1,1 @@
+-- Drop and rebuild. No more singular non-drop updates to the database until final release since there may be a lot
