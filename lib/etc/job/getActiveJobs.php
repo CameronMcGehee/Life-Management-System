@@ -2,7 +2,7 @@
 
     // Get a full list of jobs within a date span (start and end dates are included) (overdue jobs do not have to be within the date span!)
 
-		function getJobs($startDateTime, $endDateTime, array $exclude = array()) { // "singular", "recurring", "completed", "cancelled", "overdue"
+		function getActiveJobs($startDateTime, $endDateTime, array $exclude = array()) { // "singular", "recurring", "completed", "cancelled", "overdue"
 			
             require_once dirname(__DIR__).'../../database.php';
             $db = new database();

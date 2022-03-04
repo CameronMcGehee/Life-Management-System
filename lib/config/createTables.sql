@@ -1018,6 +1018,7 @@
 	`isPrepaid` tinyint(1) NOT NULL DEFAULT 0,
 	`frequencyInterval` varchar(10) NOT NULL DEFAULT 'none',
 	`frequency` int(11) NOT NULL DEFAULT 0,
+	`weekday` varchar(20) NULL DEFAULT NULL,
 	`startDateTime` datetime NOT NULL,
 	`endDateTime` datetime NULL,
 	`dateTimeAdded` datetime NOT NULL,
@@ -1057,6 +1058,36 @@
 	KEY `jobInstanceExceptionJobId` (`jobId`),
 	CONSTRAINT `jobInstanceExceptionBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE,
 	CONSTRAINT `jobInstanceExceptionJobId` FOREIGN KEY (`jobId`) REFERENCES `job` (`jobId`) ON DELETE CASCADE
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
+	-- Table structure for table `completedJob`
+	--
+
+	CREATE TABLE IF NOT EXISTS `completedJob` (
+	`completedJobId` varchar(17) NOT NULL,
+	`businessId` varchar(17) NOT NULL,
+	`linkedToJobId` varchar(17) NULL COMMENT 'Optional FK',
+	`linkedToCustomerId` varchar(17) NULL COMMENT 'Optional FK',
+	`linkedToPropertyId` varchar(17) NULL COMMENT 'Optional FK',
+	`name` text NOT NULL,
+	`description` text NULL,
+	`privateNotes` text NULL,
+	`price` float NULL,
+	`estHours` int(11) NULL,
+	`isPrepaid` tinyint(1) NOT NULL DEFAULT 0,
+	`frequencyInterval` varchar(10) NOT NULL DEFAULT 'none',
+	`frequency` int(11) NOT NULL DEFAULT 0,
+	`weekday` varchar(20) NULL DEFAULT NULL,
+	`startDateTime` datetime NOT NULL,
+	`endDateTime` datetime NULL,
+	`dateTimeAdded` datetime NOT NULL,
+	PRIMARY KEY (`completedJobId`),
+	KEY `completedJobBusinessId` (`businessId`),
+	KEY `completedJobLinkedToJobId` (`linkedToJobId`),
+	KEY `completedJobLinkedToCustomerId` (`linkedToCustomerId`),
+	KEY `completedJobLinkedToPropertyId` (`linkedToPropertyId`),
+	CONSTRAINT `completedJobBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--

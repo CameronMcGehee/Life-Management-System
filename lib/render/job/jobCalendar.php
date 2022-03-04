@@ -14,7 +14,7 @@
 			$this->renderId = $renderId;
 
             require_once dirname(__FILE__)."/../../table/job.php";
-			require_once dirname(__FILE__)."/../../etc/job/getJobInstances.php";
+			require_once dirname(__FILE__)."/../../etc/job/getActiveJobInstances.php";
 
 			if (empty($options['rootPathPrefix'])) {
 				$options['rootPathPrefix'] = './';
@@ -74,7 +74,7 @@
 
             // Get all jobs within the date range
 
-			$jobs = getJobInstances($month_ini->format('Y-m-d'), $month_end->format('Y-m-d'));
+			$jobs = getActiveJobInstances($month_ini->format('Y-m-d'), $month_end->format('Y-m-d'));
 
 			$this->output = '';
 
