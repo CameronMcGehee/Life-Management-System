@@ -1061,7 +1061,7 @@
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
-	-- Table structure for table `completedJob`
+	-- Table structure for table `completedJob` - lots of plain text as this is meant to be an archive that doesn't get deleted even if related records are changed or removed.
 	--
 
 	CREATE TABLE IF NOT EXISTS `completedJob` (
@@ -1070,6 +1070,13 @@
 	`linkedToJobId` varchar(17) NULL COMMENT 'Optional FK',
 	`linkedToCustomerId` varchar(17) NULL COMMENT 'Optional FK',
 	`linkedToPropertyId` varchar(17) NULL COMMENT 'Optional FK',
+	`customerFirstName` text NOT NULL,
+	`customerLastName` text NOT NULL,
+	`propertyAddress1` text NOT NULL,
+	`propertyAddress2` text NULL,
+	`propertyCity` text NULL,
+	`propertyState` text NULL,
+	`propertyZipCode` int(11) NULL,
 	`name` text NOT NULL,
 	`description` text NULL,
 	`privateNotes` text NULL,
