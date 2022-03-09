@@ -94,3 +94,16 @@
     - Fixed bug where job edit page wouldn't save changes
     - Fixed bug where job calendar was throwing errors when non-recurring jobs were present
     - Fixed bug where recurring jobs were no showing past the month they start in in jobs calendar
+
+## v0.3.2
+- Goodies
+    - Added option to ingore weekends when scheduling a recurring job. They will instead be pushed to the next available weekday.
+- Techies
+    - Changed the way that instance exceptions (completed, rescheduled or cancelled jobs) are stored
+
+## v0.3.3
+- Goodies
+    - Much improved method of editing the recurring schedule of a job
+    - Removed option to ingore weekends when scheduling a recurring job and replaced it with selecting the Day of the week and/or week of the month.
+- Techies
+    - Updated code that generates recurring dates to use the library, "When", which is more efficient
