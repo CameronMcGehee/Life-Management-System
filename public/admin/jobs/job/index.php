@@ -37,6 +37,43 @@
 		exit();
     }
 
+	// Seperate the dateTime strings
+	if ($currentJob->existed) {
+		$startDateArray = explode(' ', $currentJob->startDateTime);
+		if ($currentJob->endDateTime == NULL) {
+			$endDateArray = ['', ''];
+		} else {
+			$endDateArray = explode(' ', $currentJob->endDateTime);
+		}
+
+		if ($startDateArray[1] == '00:00:00') {
+			$startTime = '';
+		} else {
+			$startTime = $startDateArray[1];
+		}
+
+		$startDate = $startDateArray[0];
+
+		if ($endDateArray[0] == '') {
+			$endDate = '';
+		} else {
+			$endDate = $endDateArray[0];
+		}
+
+		if ($endDateArray[1] == '00:00:00') {
+			$endTime = '';
+		} else {
+			$endTime = $endDateArray[1];
+		}
+
+	} else {
+		$currentDate = new DateTime();
+		$startDate = $currentDate->format('Y-m-d');
+		$endDate = '';
+		$startTime = '';
+		$endTime = '';
+	}
+
 	echo $adminUIRender->renderAdminHtmlTop('../../../', htmlspecialchars($titleName), 'Edit '.htmlspecialchars($titleName).'.');
 	echo $adminUIRender->renderAdminUIMenuToggleScripts('../../../');
 
@@ -99,51 +136,167 @@
 
 		var errorAddressId;
 
+		function getWeekNumber(thisDate) {
+			var dt = new Date(thisDate);
+			var thisDay = dt.getDate();
+
+			var newDate = dt;
+			newDate.setDate(1); // first day of month
+			var digit = newDate.getDay();
+
+			var Q = (thisDay + digit) / 7;
+
+			var R = (thisDay + digit) % 7;
+
+			if (R !== 0) return Math.ceil(Q);
+			else return Q;
+		}
+
+		function setUnsaved() {
+
+			$(".changesMessage").each(function () {
+				$(this).html('<span style="color: red;">You have unsaved changes!</span>');
+			});
+			$(".changesMessage").each(function () {
+				$(this).shake(50);
+			});
+		}
+
+		function inputChange (e) {
+			setUnsaved();
+		}
+
+		function setWaitingForError() {
+			$(".changesMessage").each(function () {
+				$(this).html('<span style="color: red;">Uh oh, fix the error!</span>');
+			});
+			$(".changesMessage").each(function () {
+				$(this).shake(50);
+			});
+			waitingForError = true;
+		}
+
+		function setSaved() {
+			$(".changesMessage").each(function () {
+				$(this).html('<span style="color: green;">Up to date ✔</span>');
+			});
+			changesSaved = true;
+			waitingForError = false;
+		}
+
+		function updateRecurrencePreview(freqInt, freq = null, weekday = null, weekNumber = null, dayOfMonth = null) {
+			// If freqInt is null, say 'not recurring'
+			if (freqInt == 'none') {
+				$("#recurrencePreview").html("Occurs once.");
+			} else {
+
+				var url = new URL(window.location.href);
+
+				if (url.searchParams.get('instance') != null) {
+					if (Date.parse(url.searchParams.get('instance'))) {
+						var currentInstanceDate = url.searchParams.get('instance');
+					} else {
+						if (Date.parse($("#startDate").val())) {
+							var currentInstanceDate = $("#startDate").val();
+						} else {
+							var currentInstanceDate = '<?php echo $startDate ?>';
+						}
+					}
+				} else {
+					if (Date.parse($("#startDate").val())) {
+						var currentInstanceDate = $("#startDate").val();
+					} else {
+						var currentInstanceDate = '<?php echo $startDate ?>';
+					}
+				}
+
+				switch (freqInt) {
+					case 'day':
+						$("#recurrencePreview").html("Recurs every " + freq + " day(s).");
+						break;
+					case 'week':
+						switch (weekday) {
+							case 0:
+								var weekDayName = 'Sunday';
+								break;
+							case 1:
+								var weekDayName = 'Monday';
+								break;
+							case 2:
+								var weekDayName = 'Tuesday';
+								break;
+							case 3:
+								var weekDayName = 'Wednesday';
+								break;
+							case 4:
+								var weekDayName = 'Thursday';
+								break;
+							case 5:
+								var weekDayName = 'Friday';
+								break;
+							case 6:
+								var weekDayName = 'Saturday';
+								break;
+							default:
+								var weekDayName = 'Error';
+								break;
+						}
+
+						$("#recurrencePreview").html("Recurs every " + freq + " week(s) on " + weekDayName + ".");
+						break;
+					case 'month':
+						
+						// If the weekday is set then it is using the week of month-weekday of week format
+						if (weekday !== null) {
+
+							switch (weekday) {
+								case 0:
+									var weekDayName = 'Sunday';
+									break;
+								case 1:
+									var weekDayName = 'Monday';
+									break;
+								case 2:
+									var weekDayName = 'Tuesday';
+									break;
+								case 3:
+									var weekDayName = 'Wednesday';
+									break;
+								case 4:
+									var weekDayName = 'Thursday';
+									break;
+								case 5:
+									var weekDayName = 'Friday';
+									break;
+								case 6:
+									var weekDayName = 'Saturday';
+									break;
+								default:
+									var weekDayName = 'Error';
+									break;
+							}
+							$("#recurrencePreview").html("Recurs every " + freq + " month(s) on the " + weekDayName + " of week " + weekNumber);
+						} else { // Otherwise, just use the month day provided
+							$("#recurrencePreview").html("Recurs every " + freq + " month(s) on day " + dayOfMonth + ".");
+						}
+
+						break;
+					case 'year':
+						
+						break;
+					default:
+						$("#recurrencePreview").html("Error...");
+						break;
+				}
+			}
+		}
+
+		// ON LOAD
 		$(function() {
 
-			$("#jobForm").submit(function(event) {
-				event.preventDefault();
+			$("#jobForm :input").change(function () {
+				inputChange();
 			});
-
-			function setUnsaved() {
-				$(".changesMessage").each(function () {
-					$(this).html('<span style="color: gray; width: 10em;">⏳ Saving changes...</span>');
-				});
-				// $(".changesMessage").each(function () {
-				// 	$(this).shake(50);
-				// });
-				changesSaved = false;
-			}
-
-			function inputChange (e) {
-				setUnsaved();
-				lastChange = new Date();
-			}
-
-			setInterval(() => {
-				currentTime = new Date();
-				if ((currentTime.getTime() - lastChange.getTime()) > 500 && !changesSaved) {
-					checkChanges();
-				}
-			}, 1000);
-
-			function setWaitingForError() {
-				$(".changesMessage").each(function () {
-					$(this).html('<span style="color: red;">Uh oh, fix the error!</span>');
-				});
-				$(".changesMessage").each(function () {
-					$(this).shake(50);
-				});
-				waitingForError = true;
-			}
-
-			function setSaved() {
-				$(".changesMessage").each(function () {
-					$(this).html('<span style="color: green;">Up to date ✔</span>');
-				});
-				changesSaved = true;
-				waitingForError = false;
-			}
 
 			if ($.isNumeric(url.searchParams.get('wsl'))) {
 				$(".cmsMainContentWrapper").scrollTop(url.searchParams.get('wsl'));
@@ -167,8 +320,8 @@
 				$("#jobStaffLoader").load("./includes/jobStaff.inc.php", {
 					jobId: jobId
 				}, function () {
-					$(":input").change(function () {
-						inputChange();
+					$(":input").change(function (e) {
+						inputChange(e);
 					});
 					registerJobStaffDeleteButtonClicks();
 				});
@@ -192,14 +345,15 @@
 				$("#jobCrewsLoader").load("./includes/jobCrews.inc.php", {
 					jobId: jobId
 				}, function () {
-					$(":input").change(function () {
-						inputChange();
+					$(":input").change(function (e) {
+						inputChange(e);
 					});
 					registerJobCrewsDeleteButtonClicks();
 				});
 			}
 
-			function checkChanges() {
+			$("#jobForm").submit(function(event) {
+				event.preventDefault();
 				$('.loadingGif').each(function() {
 					$(this).fadeIn(100);
 				});
@@ -235,8 +389,8 @@
 									jobId: jobId,
 									customerId: $("#customerSelector").val()
 								}, function () {
-									$(":input").change(function () {
-										inputChange();
+									$(":input").change(function (e) {
+										inputChange(e);
 									});
 								});
 							} else {
@@ -321,7 +475,7 @@
 					});
 				});
 				changesSaved = true;
-			}
+			});
 
 			// Load the staff form on startup
 			loadJobStaff();
@@ -329,25 +483,63 @@
 			// Load the crews form on startup
 			loadJobCrews();
 
+			// Load the recurring inputs correctly on startup
+			updateRecurringInputs();
+
+			<?php
+
+				require_once '../../../../lib/etc/time/getWeekNumbers.php';
+
+				if ($currentJob->frequencyInterval == NULL) {
+					$frequencyIntervalOutput = 'null';
+				} else {
+					$frequencyIntervalOutput = "'".$currentJob->frequencyInterval."'";
+				}
+
+				if ($currentJob->frequency == NULL) {
+					$frequencyOutput = 'null';
+				} else {
+					$frequencyOutput = "".$currentJob->frequency."";
+				}
+
+				if (strrpos($currentJob->weekday, '-')) {
+					$weekdayOutput = explode('-', $currentJob->weekday)[1];
+					$weekNumberOutput = explode('-', $currentJob->weekday)[0];
+					$dayOfMonthOutput = 'null';
+				} else {
+					if ($currentJob->weekday == NULL) {
+						$weekdayOutput = 'null';
+					} else {
+						$weekdayOutput = $currentJob->weekday;
+					}
+					$weekNumberOutput = 'null';
+
+					if ($currentJob->frequencyInterval == 'month') {
+						$dayOfMonthOutput = new DateTime($currentJob->startDateTime);
+						$dayOfMonthOutput = $dayOfMonthOutput->format('d');
+					} else {
+						$dayOfMonthOutput = 'null';
+					}
+				}
+				
+				
+
+			?>
+			updateRecurrencePreview(<?php echo $frequencyIntervalOutput ?>, <?php echo $frequencyOutput; ?>, <?php echo $weekdayOutput; ?>, <?php echo $weekNumberOutput; ?>, <?php echo $dayOfMonthOutput; ?>);
+
 			// Load the property selector on startup
 			if ($("#customerSelector").val() != 'none') {
 				$("#propertySelectorLoader").load('./includes/selectProperty.inc.php', {
 					jobId: jobId,
 					customerId: $("#customerSelector").val()
 				}, function () {
-					$(":input").change(function () {
-						inputChange();
+					$(":input").change(function (e) {
+						inputChange(e);
 					});
 				});
 			} else {
 				$("#propertySelectorLoader").html('');
 			}
-
-			var interval = setInterval(function() {
-				if (changesSaved == false && (new Date() - lastChange) / 1000 > .5) {
-					checkChanges();
-				}
-			}, 1000);
 
 			window.onbeforeunload = function() {
 				if (changesSaved == false || waitingForError == true) {
@@ -375,6 +567,7 @@
 
 		<div class="cmsMainContentWrapper textColorThemeGray styledText">
 			<div class="mobileOnlyBlock xyCenteredFlex centered" style="position: sticky; top: 0px; width: 100%; padding-top: .3em; padding-bottom: .3em; border-bottom: .1em solid gray; background-color: white;">
+			<button class="mediumButtonWrapper greenButton centered defaultMainShadows" type="submit" onclick="$('#jobForm').submit()">Save Changes</button>
 				<div class="changesMessage"><span style="color: green;">Up to date ✔</span></div>
 				<img style="display: none; width: 2em;" src="../../../images/ultiscape/etc/loading.gif" class="loadingGif">
 			</div>
@@ -383,6 +576,8 @@
 				<input type="hidden" name="mainAuthToken" id="mainAuthToken" value="<?php echo htmlspecialchars($mainAuthToken->authTokenId); ?>">
 				<input type="hidden" name="updateJobStaffAuthToken" id="updateJobStaffAuthToken" value="<?php echo htmlspecialchars($updateJobStaffAuthToken->authTokenId); ?>">
 				<input type="hidden" name="updateJobCrewsAuthToken" id="updateJobCrewsAuthToken" value="<?php echo htmlspecialchars($updateJobCrewsAuthToken->authTokenId); ?>">
+
+				<input type="hidden" name="instanceDate" id="instanceDate" value="<?php if (isset($_GET['instance'])) {echo htmlspecialchars($_GET['instance']);} else {echo htmlspecialchars($startDate);} ?>">
 
 				<div class="twoColPage-Content-Info maxHeight">
 					<div id="twoColContentWrapper" class="paddingLeftRight90 maxHeight" style="overflow: auto;">
@@ -451,35 +646,17 @@
 
 							<?php
 
-								// Seperate the dateTime strings
-
 								
-
-								if ($currentJob->existed) {
-									$startDateArray = explode(' ', $currentJob->startDateTime);
-									$endDateArray = explode(' ', $currentJob->endDateTime);
-	
-									$startDate = $startDateArray[0];
-									$endDate = $endDateArray[0];
-									$startTime = $startDateArray[1];
-									$endTime = $endDateArray[1];
-								} else {
-									$currentDate = new DateTime();
-									$startDate = $currentDate->format('Y-m-d');
-									$endDate = '';
-									$startTime = '';
-									$endTime = '';
-								}
 
 							?>
 
-							<div><span id="clearEndDateTime" class="smallButtonWrapper orangeButton" style="float: right;">Clear Dates</span></div>
+							<div><span id="clearEndDateTime" class="smallButtonWrapper orangeButton" style="float: right;" onclick="clearDates()">Clear Dates</span></div>
 
 								<div>
 									<div class="twoCol" style="max-width: 25em;">
 										<div>
 											<label for="startDate"><p>Start Date</p></label>
-											<input class="defaultInput" style="width: 100%; max-width: 9em;" type="date" name="startDate" id="startDate" value="<?php echo htmlspecialchars($startDate); ?>">
+											<input onchange="updateRecurringInputs()" class="defaultInput" style="width: 100%; max-width: 9em;" type="date" name="startDate" id="startDate" value="<?php echo htmlspecialchars($startDate); ?>">
 											<span id="startDateError" class="underInputError" style="display: none;"><br>Select a valid date.</span>
 										</div>
 
@@ -508,27 +685,208 @@
 										</div>
 									</div>
 								</div>
+
+							<script>
+								function clearDates() {
+									$("#startDate").val("");
+									$("#startTime").val("");
+									$("#endDate").val("");
+									$("#endTime").val("");
+								}
+
+								function changeStartDate() {
+									if ($("#endDate").val() == '') {
+										$("#endDate").val() == $("#startDate").val();
+									}
+									updateRecurringInputs();
+								}
+							</script>
 							
 						</div>
 
 						<br>
 
 						<h3>Recurrence</h3>
-						<div class="defaultInputGroup">
-							<input class="defaultInput" type="checkbox" name="isRecurring" id="isRecurring" <?php if ($currentJob->frequencyInterval != 'none') {echo 'checked="checked"';} ?>><label for="isRecurring"> <p style="display: inline; clear: both;">Recurring</p></label>
-							<br><br>
+						<div class="defaultInputGroup" id="recurringSettingsBox">
 
-							<span>Every </span>
-							<input class="defaultInput" style="width: 5em;" type="number" min="0" max="999999999999" name="frequency" id="frequency" placeholder="Est. Hours..." value="<?php echo htmlspecialchars($currentJob->frequency); ?>">
+						<div>
+							<p id="recurrencePreview"></p>
+						</div>
+						
+						<br>
 
-							<select class="defaultInput" name="frequencyInterval" id="frequencyInterval">
-								<option value="day"<?php if ($currentJob->frequencyInterval == 'day') {echo ' selected="selected"';} ?>>day(s)</option>
-								<option value="week"<?php if ($currentJob->frequencyInterval == 'week') {echo ' selected="selected"';} ?>>week(s)</option>
-								<option value="month"<?php if ($currentJob->frequencyInterval == 'month') {echo ' selected="selected"';} ?>>month(s)</option>
-								<option value="year"<?php if ($currentJob->frequencyInterval == 'year') {echo ' selected="selected"';} ?>>year(s)</option>
-							</select>
-							<span id="frequencyIntervalError" class="underInputError" style="display: none;"><br>Select an option from the menu.</span>
-							<span id="frequencyError" class="underInputError" style="display: none;"><br>Enter a number.</span>
+						<span onclick="openChangeRecurrenceDialog()" id="changeRecurrenceButton" class="smallButtonWrapper greenButton" style="">Change Recurrence</span>
+
+							<div id="recurrenceSettings" class="dimOverlay xyCenteredFlex" style="display: none;">
+								<div class="popupMessageDialog" style="width: 25em; max-width: 85%;">
+
+									<span onclick="saveRecurringSettings()" id="clearEndDateTime" class="smallButtonWrapper greenButton" style="float: right;">Save Changes</span>
+									<input class="defaultInput" type="checkbox" name="isRecurring" id="isRecurring" <?php if ($currentJob->frequencyInterval != 'none') {echo 'checked="checked"';} ?> onchange="updateRecurringInputs()"><label for="isRecurring"> <p style="display: inline; clear: both;">This job is recurring</p></label>
+									<br>
+									
+									<div id="recurringSettingsInnerBox">
+									
+										<br>
+
+										<span>Every </span>
+										<input class="defaultInput" style="width: 5em;" type="number" min="0" max="999999999999" name="frequency" id="frequency" placeholder="Est. Hours..." value="<?php echo htmlspecialchars($currentJob->frequency); ?>">
+
+										<select class="defaultInput" name="frequencyInterval" id="frequencyInterval" onchange="updateRecurringInputs()">
+											<option value="day"<?php if ($currentJob->frequencyInterval == 'day') {echo ' selected="selected"';} ?>>day(s)</option>
+											<option value="week"<?php if ($currentJob->frequencyInterval == 'week') {echo ' selected="selected"';} ?>>week(s)</option>
+											<option value="month"<?php if ($currentJob->frequencyInterval == 'month') {echo ' selected="selected"';} ?>>month(s)</option>
+											<option value="year"<?php if ($currentJob->frequencyInterval == 'year') {echo ' selected="selected"';} ?>>year(s)</option>
+										</select>
+										<span id="frequencyIntervalError" class="underInputError" style="display: none;"><br>Select an option from the menu.</span>
+										<span id="frequencyError" class="underInputError" style="display: none;"><br>Enter a number.</span>
+										
+										<div id="weekdaySelector" style="display: none;">
+											<br>
+											<span>On </span><select class="defaultInput" name="weekdaySelector" id="weekdaySelectorInput">
+												<option value="0"<?php if ($currentJob->weekday == '0') {echo ' selected="selected"';} ?>>Sunday</option>
+												<option value="1"<?php if ($currentJob->weekday == '1') {echo ' selected="selected"';} ?>>Monday</option>
+												<option value="2"<?php if ($currentJob->weekday == '2') {echo ' selected="selected"';} ?>>Tuesday</option>
+												<option value="3"<?php if ($currentJob->weekday == '3') {echo ' selected="selected"';} ?>>Wednesday</option>
+												<option value="4"<?php if ($currentJob->weekday == '4') {echo ' selected="selected"';} ?>>Thursday</option>
+												<option value="5"<?php if ($currentJob->weekday == '5') {echo ' selected="selected"';} ?>>Friday</option>
+												<option value="6"<?php if ($currentJob->weekday == '6') {echo ' selected="selected"';} ?>>Saturday</option>
+											</select>
+										</div>
+										<span id="weekdayError" class="underInputError" style="display: none;"><br>Select a valid weekday.</span>
+
+										<div id="monthRecurrenceSelector" style="display: none;">
+											<br>
+											<span>On </span><select class="defaultInput" name="monthRecurrenceSelector" id="monthRecurrenceSelectorInput">
+												<option value="dayNumber"<?php if ($currentJob->weekday == '0') {echo ' selected="selected"';} ?>>Day <span id="monthRecurrenceDayNumber">(Loading...)</span></option>
+												<option value="weekdayOfWeekNumber"<?php if ($currentJob->weekday == '1') {echo ' selected="selected"';} ?>>The <span id="monthRecurrenceWeekNumber">(Loading...)</span> <span id="monthRecurrenceWeekday">(Loading...)</span></option>
+											</select>
+										</div>
+										<span id="monthRecurrenceSelectorError" class="underInputError" style="display: none;"><br>Select a valid option.</span>
+									</div>
+
+								</div>
+							</div>
+
+							<div id="recurrenceUpdatePrompt" class="dimOverlay xyCenteredFlex" style="display: none;">
+								<div class="popupMessageDialog">
+									<h3>Update Recurring Job</h3>
+									<br>
+
+									<input type="radio" name="recurrenceUpdateType" id="thisInstance" value="thisInstance"><label for="thisInstance"> This Instance Only</label>
+									<br>
+									<input type="radio" name="recurrenceUpdateType" id="thisAndFutureInstances" value="thisAndFutureInstances"><label for="thisAndFutureInstances"> This and Future Instances</label>
+									<br>
+									<input type="radio" name="recurrenceUpdateType" id="allInstances" value="allInstances"><label for="allInstances"> All Instances</label>
+									<br><br>
+									<span id="recurrenceUpdatePromptOkButton" class="smallButtonWrapper greenButton xCenteredFlex">Ok</span>
+								</div>
+							</div>
+
+							<script>
+
+								function openChangeRecurrenceDialog() {
+									$("#recurrenceSettings .popupMessageDialog").hide(0, function () {
+										$("#recurrenceSettings").fadeIn(100, function () {
+											$("#recurrenceSettings .popupMessageDialog").show(300);
+										});
+									});
+								}
+
+								function saveRecurringSettings() {
+									$("#recurrenceSettings .popupMessageDialog").slideUp(300, function () {
+										$("#recurrenceSettings").fadeOut(100, function () {
+											setUnsaved();
+										});
+									});
+								}
+
+								function updateRecurringInputs() {
+
+									if ($("#isRecurring").is(':checked')) {
+										$("#recurringSettingsInnerBox").show(300);
+									} else {
+										$("#recurringSettingsInnerBox").hide(300);
+									}
+
+									var url = new URL(window.location.href);
+
+									if (url.searchParams.get('instance') != null) {
+										if (Date.parse(url.searchParams.get('instance'))) {
+											var currentInstanceDate = url.searchParams.get('instance');
+										} else {
+											if (Date.parse($("#startDate").val())) {
+												var currentInstanceDate = $("#startDate").val();
+											} else {
+												var currentInstanceDate = '<?php echo $startDate ?>';
+											}
+										}
+									} else {
+										if (Date.parse($("#startDate").val())) {
+											var currentInstanceDate = $("#startDate").val();
+										} else {
+											var currentInstanceDate = '<?php echo $startDate ?>';
+										}
+									}
+
+									var monthDayNumber = $('#startDate').val();
+									// If daily or yearly is selected, hide the week selector and month recurrence selector
+									if ($("#frequencyInterval option:selected").val() == 'day' || $("#frequencyInterval option:selected").val() == 'year') {
+										$("#weekdaySelector").hide(300);
+										$("#monthRecurrenceSelector").hide(300);
+									} else if ($("#frequencyInterval option:selected").val() == 'week') { // If week is selected, show the weekday selector
+										$("#weekdaySelector").show(300);
+										$("#monthRecurrenceSelector").hide(300);
+									} else if ($("#frequencyInterval option:selected").val() == 'month') { // If month is selected, show the monthRecurrenceSelector and update it's inputs
+										$("#weekdaySelector").hide(300);
+										$("#monthRecurrenceSelector").show(300);
+
+										var dateArray = currentInstanceDate.split('-');
+
+										var dateObject = new Date(parseInt(dateArray[0]), parseInt(dateArray[1])-1, parseInt(dateArray[2]));
+
+										// Set first option to the number of the day in the date
+										
+										$('select[id=monthRecurrenceSelectorInput] option:first').html("Day " + parseInt(dateArray[2]));
+
+										// Set second option to the week that the date falls in in the month
+										// and the day of the week (0-6, Sunday-Saturday) that the date falls in
+
+										var weekOfMonth = getWeekNumber(currentInstanceDate);
+										var weekDayOfWeek = dateObject.getDay();
+
+										switch (weekDayOfWeek) {
+											case 0:
+												var weekDayName = 'Sunday';
+												break;
+											case 1:
+												var weekDayName = 'Monday';
+												break;
+											case 2:
+												var weekDayName = 'Tuesday';
+												break;
+											case 3:
+												var weekDayName = 'Wednesday';
+												break;
+											case 4:
+												var weekDayName = 'Thursday';
+												break;
+											case 5:
+												var weekDayName = 'Friday';
+												break;
+											case 6:
+												var weekDayName = 'Saturday';
+												break;
+											default:
+												var weekDayName = 'Error';
+												break;
+										}
+
+										$('select[id=monthRecurrenceSelectorInput] option:eq(1)').html("The " + weekDayName + " of week " + weekOfMonth);
+
+									}
+								}
+
+							</script>
 						</div>
 
 						<?php
@@ -572,6 +930,8 @@
 					<div id="twoColInfoWrapper" class="paddingLeftRight90 paddingTopBottom90">
 						<br>
 						<span class="desktopOnlyBlock">
+						<button class="mediumButtonWrapper greenButton centered defaultMainShadows" type="submit">Save Changes</button>
+							<br><br>
 							<div class="changesMessage"><span style="color: green;">Up to date ✔</span></div>
 							<img style="display: none; width: 2em;" src="../../../images/ultiscape/etc/loading.gif" class="loadingGif">
 						</span>

@@ -35,7 +35,47 @@
 		exit();
 	}
 
-	// Check if input is set and valid
+	// Make sure the instance date is a valid instance date
+	require_once '../../../../../../lib/etc/time/validateDate.php';
+	if (!validateDate($formData['instanceDate'], 'Y-m-d')) {
+		echo 'instanceDate';
+		exit();
+	}
+
+	// Get instance dates for this job if it already existed (will get them later if not)
+	require_once '../../../../../../lib/etc/time/getRecurringDates.php';
+	if ($currentJob->existed) {
+		$jobInstancesCheck = getRecurringDates($currentJob->startDateTime, $currentJob->endDateTime, $currentJob->startDateTime, $formData['instanceDate'], $currentJob->frequencyInterval, $currentJob->frequency, $currentJob->weekday);
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	// If updating a recurring job, determine whether the frequency has been changed and whether the start date has been changed for later
+	$frequencyChanged = false;
+	$dateChanged = false;
+
+	if ($formData['frequency'] != $currentJob->frequency || $formData['frequencyInterval'] != $currentJob->frequencyInterval || $formData['weekdaySelector'] != $currentJob->weekday) {
+		$frequencyChanged = true;
+	}
+
+	$dbStartDate = explode(' ', $currentJob->startDateTime);
+
+	if ($formData['startDate'] != $dbStartDate[0]) {
+		$dateChanged = true;
+	}
+
+	// Main inputs
 
 	// name
 	if (!isset($formData['name']) || empty($formData['name'])) {
@@ -139,20 +179,32 @@
 
 	//endDate
 	if (!isset($formData['endDate']) || empty($formData['endDate']) || !validateDate($formData['endDate'], 'Y-m-d')) {
-		$currentDate = new DateTime();
-		$endDate = $currentDate->format('Y-m-d');
+		$endDate = NULL;
 	} else {
 		$endDate = $formData['endDate'];
 	}
 
 	//endTime
 	if (!isset($formData['endTime']) || empty($formData['endTime']) || !validateDate($formData['endTime'], 'H:i')) {
-		$currentJob->endDateTime = $endDate.' 00:00:00';
+		if ($endDate == NULL) {
+			$currentJob->endDateTime = NULL;
+		} else {
+			$currentJob->endDateTime = $endDate.' 00:00:00';
+		}
 	} else {
 		$currentJob->endDateTime = $endDate.' '.$formData['endTime'].':00';
 	}
 
-	// isRecurring
+
+
+	// Check if the given job instance exists for the dates given (if the job already existed it was done at the top of the script)
+	if (!$currentJob->existed) {
+		$jobInstancesCheck = getRecurringDates($currentJob->startDateTime, $currentJob->endDateTime, $currentJob->startDateTime, $formData['instanceDate'], $currentJob->frequencyInterval, $currentJob->frequency, $currentJob->weekday);
+	}
+
+
+
+	// isRecurring and recurring settings
 	if (!isset($formData['isRecurring'])) {
 		$currentJob->frequencyInterval = 'none';
 		$currentJob->frequency = 0;
@@ -171,6 +223,92 @@
 			exit();
 		} else {
 			$currentJob->frequency = (int)$formData['frequency'];
+		}
+
+
+
+
+
+
+
+
+
+
+
+		// HOW TO UPDATE THE RECURRING JOB
+
+		// If updating anything but recurrence interval, options are single instance and this and future
+		// if ($frequencyChanged == false) {
+		// 	if (!in_array($formData['recurrenceUpdateType'], ['thisInstance', 'thisAndFutureInstances'])) {
+		// 		echo 'optionNotAvailable';
+		// 		exit();
+		// 	}
+		// }
+
+		// // If updating the recurrence interval/freq of an instance, options are this and future and "all"
+		// if ($frequencyChanged == true && $dateChanged == false) {
+		// 	if (!in_array($formData['recurrenceUpdateType'], ['allInstances', 'thisAndFutureInstances'])) {
+		// 		echo 'optionNotAvailable';
+		// 		exit();
+		// 	}
+		// }
+		
+		// // If updating the recurrence interval/freq AND the start date of an instance, there are no options, the parent recurring job is ended the day before the one being updated and a new one is created with those new options
+
+		// if ($frequencyChanged == true && $dateChanged == true) {
+		// 	// Get the day before the one being updated. If it is the first job then just use the start date as the end
+
+		// 	if ($instanceDate == $dbStartDate) {
+
+		// 	}
+		// }
+
+		// if () {
+		// 	// if just this event, add an instance exception for this instance date
+
+		// } else { // Otherwise, end parent recurring job the day before the one being updated and make new recurring job with same details
+			
+		// }
+
+
+
+
+
+
+
+		// recurrence interval
+		if (!isset($formData['weekdaySelector']) || !in_array($formData['weekdaySelector'], [0, 1, 2, 3, 4, 5, 6, '0', '1', '2', '3', '4', '5', '6'])) {
+			echo 'weekday';
+			exit();
+		} else {
+			if ($currentJob->frequencyInterval == 'month') {
+				if (!isset($formData['monthRecurrenceSelector']) || empty($formData['monthRecurrenceSelector'])) {
+					echo 'monthRecurrenceSelector';
+					exit();
+				}
+				// If they have selected to repeat on a certain weekday, combine the week number (1,2,3,4) and the day of the week (0-6) in a string
+				if ($formData['monthRecurrenceSelector'] == 'weekdayOfWeekNumber') {
+					require_once '../../../../../../lib/etc/time/getWeekNumbers.php';
+					// Get the week number of the month
+					$weekNumberOfMonth = getWeekOfMonth(strtotime($formData['startDate']));
+
+					// Get the number of the day of the week
+					$dayOfWeekNumber = new DateTime($formData['startDate']);
+					$dayOfWeekNumber = $dayOfWeekNumber->format('w');
+
+					// Update
+					$currentJob->weekday = $weekNumberOfMonth.'-'.$dayOfWeekNumber;
+				} else {
+					// Set weekday to NULL to indicate that it should recur on the day number in the month
+					$currentJob->weekday = NULL;
+				}
+				
+			} elseif ($currentJob->frequencyInterval == 'week') {
+				// Set weekday to the weekday they selected
+				$currentJob->weekday = $formData['weekdaySelector'];
+			} else {
+				$currentJob->weekday = NULL;
+			}
 		}
 	}
 

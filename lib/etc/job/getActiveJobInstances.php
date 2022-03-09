@@ -4,8 +4,8 @@
 
 		function getActiveJobInstances($startDateTime, $endDateTime, array $exclude = array()) { // "singular", "recurring", "completed", "cancelled", "overdue"
 			
-            require_once dirname(__FILE__).'../../job/getActiveJobs.php';
-            require_once dirname(__FILE__).'../../time/getRecurringDates.php';
+            require_once dirname(__DIR__).'../job/getActiveJobs.php';
+            require_once dirname(__DIR__).'../time/getRecurringDates.php';
 
             $instances = [];
 
@@ -14,16 +14,23 @@
             foreach ($jobs as $job) {
                 $freq = $job['frequency'];
                 $freqInt = $job['frequencyInterval'];
+                $weekday = $job['weekday'];
                 $startDate = new DateTime($job['startDateTime']);
+                if ($job['endDateTime'] == NULL) {
+                    $endDate = NULL;
+                } else {
+                    $endDate = new DateTime($job['endDateTime']);
+                    $endDate = $endDate->format('Y-m-d');
+                }
 
                 if ($freqInt == 'none') {
                     $job['instanceDate'] = $startDate->format('Y-m-d');
                     $job['isCompleted'] = false;
                     array_push($instances, $job);
                 } else {
-                    $dates = getRecurringDates($startDate->format('Y-m-d'), $endDateTime, $freqInt, $freq);
+                    $dates = getRecurringDates($startDate->format('Y-m-d'), $endDate, $startDateTime, $endDateTime, $freqInt, $freq, $weekday);
                     foreach ($dates as $date) {
-                        // Check for an exception that matches this instasnce date - if there is then push the exception date
+                        // Check for an exception that matches this instance date - if there is then push the exception date
                         if (false) {
 
                         } else {
