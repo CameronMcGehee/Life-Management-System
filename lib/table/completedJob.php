@@ -14,6 +14,13 @@
 		public $businessId;
 		public $linkedToCustomerId;
 		public $linkedToPropertyId;
+		public $customerFirstName;
+		public $customerLastName;
+		public $propertyAddress1;
+		public $propertyAddress2;
+		public $propertyCity;
+		public $propertyState;
+		public $propertyZipCode;
 		public $name;
 		public $description;
 		public $privateNotes;
@@ -48,6 +55,13 @@
 			}
 			$this->linkedToCustomerId = NULL;
 			$this->linkedToPropertyId = NULL;
+			$this->customerFirstName = '';
+			$this->customerLastName = '';
+			$this->propertyAddress1 = '';
+			$this->propertyAddress2 = NULL;
+			$this->propertyCity = NULL;
+			$this->propertyState = NULL;
+			$this->propertyZipCode = NULL;
 			$this->name = '';
 			$this->description = NULL;
 			$this->privateNotes = NULL;
@@ -91,6 +105,13 @@
 				$this->businessId = $fetch[0]['businessId'];
 				$this->linkedToCustomerId = $fetch[0]['linkedToCustomerId'];
 				$this->linkedToPropertyId = $fetch[0]['linkedToPropertyId'];
+				$this->customerFirstName = $fetch[0]['customerFirstName'];
+				$this->customerLastName = $fetch[0]['customerLastName'];
+				$this->propertyAddress1 = $fetch[0]['propertyAddress1'];
+				$this->propertyAddress2 = $fetch[0]['propertyAddress2'];
+				$this->propertyCity = $fetch[0]['propertyCity'];
+				$this->propertyState = $fetch[0]['propertyState'];
+				$this->propertyZipCode = $fetch[0]['propertyZipCode'];
 				$this->name = $fetch[0]['name'];
 				$this->description = $fetch[0]['description'];
 				$this->privateNotes = $fetch[0]['privateNotes'];
@@ -186,6 +207,12 @@
 				'businessId' => $this->db->sanitize($this->businessId),
 				'linkedToCustomerId' => $this->db->sanitize($this->linkedToCustomerId),
 				'linkedToPropertyId' => $this->db->sanitize($this->linkedToPropertyId),
+				'customerFirstName' => $this->db->sanitize($this->customerFirstName),
+				'customerLastName' => $this->db->sanitize($this->customerLastName),
+				'propertyAddress1' => $this->db->sanitize($this->propertyAddress1),
+				'propertyAddress2' => $this->db->sanitize($this->propertyAddress2),
+				'propertyCity' => $this->db->sanitize($this->propertyCity),
+				'propertyState' => $this->db->sanitize($this->propertyState),
 				'name' => $this->db->sanitize($this->name),
 				'description' => $this->db->sanitize($this->description),
 				'privateNotes' => $this->db->sanitize($this->privateNotes),
