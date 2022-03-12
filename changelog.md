@@ -105,5 +105,12 @@
 - Goodies
     - Much improved method of editing the recurring schedule of a job
     - Removed option to ingore weekends when scheduling a recurring job and replaced it with selecting the Day of the week and/or week of the month.
+    - Fixed edit page not showing changes notifiction in mobile view
+    - Fixed button content sometimes not centering
 - Techies
     - Updated code that generates recurring dates to use the library, "When", which is more efficient
+
+## v0.3.4
+- Goodies
+    - Ability to delete jobs from the job view/edit page
+- Techies
