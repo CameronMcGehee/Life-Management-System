@@ -9,35 +9,34 @@
 		exit();
 	}
 
-    if (!isset($_POST['emailAddressId'])) {
+    if (!isset($_POST['jobId'])) {
 		echo 'noId';
 		exit();
 	}
 
     // Validate the auth token
 	require_once '../../../../../../lib/etc/authToken/validateAuthToken.php';
-	if (!isset($_POST['deleteEmailAddressAuthToken']) || !validateAuthToken($_POST['deleteEmailAddressAuthToken'], 'deleteEmailAddress')) {
+	if (!isset($_POST['deleteJobAuthToken']) || !validateAuthToken($_POST['deleteJobAuthToken'], 'deleteJob')) {
 		echo 'tokenInvalid';
 		exit();
 	}
 
-    require_once '../../../../../../lib/table/customerEmailAddress.php';
-	$currentEmailAddress = new customerEmailAddress($_POST['emailAddressId']);
-    if ($currentEmailAddress->businessId != $_SESSION['ultiscape_businessId']) {
+	//Verify the job belongs to the business that is signed in
+    require_once '../../../../../../lib/table/job.php';
+	$currentJob = new job($_POST['jobId']);
+    if ($currentJob->businessId != $_SESSION['ultiscape_businessId']) {
         echo 'unauthorized';
         exit();
     }
 
-    echo $currentEmailAddress->customerId.'::::';
-
     // Delete the address
-    if ($currentEmailAddress->delete()) {
-        echo 'success';
+    if (!$currentJob->delete()) {
+        echo 'deleteError';
     }
 
 	// Use the auth token
 	require_once '../../../../../../lib/etc/authToken/useAuthToken.php';
-	useAuthToken($_POST['deleteEmailAddressAuthToken'], 'deleteEmailAddress');
+	useAuthToken($_POST['deleteJobAuthToken'], 'deleteJob');
 	
 	// Success if gotten to bottom of script
 	echo 'success';

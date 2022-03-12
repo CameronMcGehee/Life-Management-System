@@ -100,6 +100,18 @@
 	$deleteJobCrewAuthToken->authName = 'deleteJobCrewLinks';
 	$deleteJobCrewAuthToken->set();
 
+	$deleteJobAuthToken = new authToken();
+	$deleteJobAuthToken->authName = 'deleteJob';
+	$deleteJobAuthToken->set();
+
+	$cancelJobAuthToken = new authToken();
+	$cancelJobAuthToken->authName = 'cancelJob';
+	$cancelJobAuthToken->set();
+
+	$completeJobAuthToken = new authToken();
+	$completeJobAuthToken->authName = 'completeJob';
+	$completeJobAuthToken->set();
+
 ?>
 
 	<style>
@@ -160,6 +172,8 @@
 			$(".changesMessage").each(function () {
 				$(this).shake(50);
 			});
+
+			changesSaved = false;
 		}
 
 		function inputChange (e) {
@@ -291,6 +305,38 @@
 			}
 		}
 
+		function deleteButton() {
+			// Save changes to avoid issues
+			if (!changesSaved) {
+				$('#jobForm').submit(function () {
+					$("#deletePrompt").fadeIn(300);
+				});
+			} else {
+				$("#deletePrompt").fadeIn(300);
+			}
+		}
+
+		function deleteYes() {
+			// Delete run the script
+			$("#deleteLoading").fadeIn(300);
+			$("#scriptLoader").load("./scripts/async/deleteJob.script.php", {
+				jobId: jobId,
+				deleteJobAuthToken: '<?php echo $deleteJobAuthToken->authTokenId; ?>'
+			}, function () {
+				if ($("#scriptLoader").html() == 'success') {
+					window.location.href = '../?popup=jobDeleted';
+				} else {
+					$("#deleteLoading").fadeOut(300);
+					$("#deletePrompt").fadeOut(300);
+				}
+			});
+		}
+
+		function deleteNo() {
+			// Just hide the prompt
+			$("#deletePrompt").fadeOut(300);
+		}
+
 		// ON LOAD
 		$(function() {
 
@@ -378,6 +424,7 @@
 							if (isNewJob) {
 								isNewJob = false;
 								window.history.pushState("string", 'UltiScape (Admin) - New Job', "./?id="+jobId);
+								window.location.reload();
 							}
 							checkStaff = true;
 							checkCrews = true;
@@ -577,12 +624,32 @@
 				<input type="hidden" name="updateJobStaffAuthToken" id="updateJobStaffAuthToken" value="<?php echo htmlspecialchars($updateJobStaffAuthToken->authTokenId); ?>">
 				<input type="hidden" name="updateJobCrewsAuthToken" id="updateJobCrewsAuthToken" value="<?php echo htmlspecialchars($updateJobCrewsAuthToken->authTokenId); ?>">
 
+				<input type="hidden" name="deleteJobAuthToken" id="deleteJobAuthToken" value="<?php echo htmlspecialchars($deleteJobAuthToken->authTokenId); ?>">
+				<input type="hidden" name="cancelJobAuthToken" id="cancelJobAuthToken" value="<?php echo htmlspecialchars($deleteJobAuthToken->authTokenId); ?>">
+				<input type="hidden" name="completeJobAuthToken" id="completeJobAuthToken" value="<?php echo htmlspecialchars($completeJobAuthToken->authTokenId); ?>">
+
 				<input type="hidden" name="instanceDate" id="instanceDate" value="<?php if (isset($_GET['instance'])) {echo htmlspecialchars($_GET['instance']);} else {echo htmlspecialchars($startDate);} ?>">
 
 				<div class="twoColPage-Content-Info maxHeight">
 					<div id="twoColContentWrapper" class="paddingLeftRight90 maxHeight" style="overflow: auto;">
 
 						<br>
+
+						<?php
+						
+							if ($currentJob->existed) {
+								echo '<div class="threeCol" style="width: 25em;">';
+									echo '<span class="smallButtonWrapper greenButton centered defaultMainShadows" onclick="completeButton()">✔ Complete</span>';
+									echo '<span class="smallButtonWrapper orangeButton centered defaultMainShadows" onclick="cancelButton()">❌Cancel</span>';
+									echo '<span class="smallButtonWrapper redButton centered defaultMainShadows" onclick="deleteButton()"><img style="height: 1.2em;" src="../../../images/ultiscape/icons/trash.svg"> Delete</span>';
+								echo '</div>';
+
+								echo '<br>';
+							}
+						
+						?>
+
+						
 
 						
 						<h3>Job Info</h3>
@@ -778,7 +845,7 @@
 									<br>
 									<input type="radio" name="recurrenceUpdateType" id="allInstances" value="allInstances"><label for="allInstances"> All Instances</label>
 									<br><br>
-									<span id="recurrenceUpdatePromptOkButton" class="smallButtonWrapper greenButton xCenteredFlex">Ok</span>
+									<span id="recurrenceUpdatePromptOkButton" class="smallButtonWrapper greenButton xCenteredFlex" onclick="checkRecurrenceUpdatePrompt()">Ok</span>
 								</div>
 							</div>
 
@@ -947,6 +1014,27 @@
 						<p>Added on <?php echo $addedDate->format('D, d M y'); ?></p>
 					</div>
 				</div>
+
+				<div id="deletePrompt" class="dimOverlay xyCenteredFlex" style="display: none;">
+					<div class="popupMessageDialog">
+						<h3>Delete Job?</h3>
+						<p>This will delete ALL occurrences of this job!</p>
+						<br>
+
+						<div id="deleteButtons" class="twoCol centered" style="width: 10em;">
+							<div>
+								<span id="deleteYesButton" class="smallButtonWrapper greenButton" onclick="deleteYes()">Yes</span>
+							</div>
+
+							<div>
+								<span id="deleteNoButton" class="smallButtonWrapper redButton" onclick="deleteNo()">No</span>
+							</div>
+						</div>
+
+						<span style="display: none;" id="deleteLoading"><img style="display: none; width: 2em;" src="../../../images/ultiscape/etc/loading.gif" class="loadingGif"></span>
+					</div>
+				</div>
+
 			</form>
 
 		</div>
