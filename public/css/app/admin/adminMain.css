@@ -8,7 +8,7 @@
   \____/|_|\__|_|_____/ \___\__,_| .__/ \___|
                                  | |                                 
                                  |_|                                      
-   Copyright McGehee Enterprises 2021 */
+   Copyright McGehee Enterprises 2022 */
 
    @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap');
 
@@ -618,8 +618,6 @@ a.noUnderline {
 	padding-left: .5em;
 	padding-right: .5em;
 
-	height: 1em;
-
 	border: 1px solid #707070 !important;
 	border-radius: .2em;
 
@@ -640,7 +638,6 @@ a.noUnderline {
 	padding-left: 1em;
 	padding-right: 1em;
 
-	height: 1em;
 
 	border: 1px solid #707070 !important;
 	border-radius: .2em;
