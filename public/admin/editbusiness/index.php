@@ -53,8 +53,10 @@
 		$(function() {
 
 			function setUnsaved() {
-				$("#changesMessage").html('<span style="color: red;">You have unsaved changes.</span>');
-				$("#changesMessage").shake(50);
+				$(".changesMessage").each(function () {
+					$(this).html('<span style="color: red;">You have unsaved changes.</span>');
+					$(this).shake(50);
+				});
 			}
 
 			if ($.isNumeric(url.searchParams.get('fsl'))) {
@@ -115,9 +117,11 @@
         ?>
 
 		<div class="cmsMainContentWrapper textColorThemeGray styledText">
-			<div class="mobileOnlyBlock xyCenteredFlex centered" style="position: sticky; top: 0px; width: 100%; padding-top: .3em; padding-bottom: .3em; border-bottom: .1em solid gray; background-color: white;"><button class="mediumButtonWrapper greenButton centered defaultMainShadows" type="submit" onclick="$('#editBusinessForm').submit()">Save Changes</button>
-				<!-- <br>
-				<img style="display: none; width: 3em;" src="../../images/ultiscape/etc/loading.gif" class="loadingGif"> -->
+			<div class="mobileOnlyBlock xyCenteredFlex centered" style="position: sticky; top: 0px; width: 100%; padding-top: .3em; padding-bottom: .3em; border-bottom: .1em solid gray; background-color: white;">
+				<button class="mediumButtonWrapper greenButton centered defaultMainShadows" type="submit" onclick="$('#editBusinessForm').submit()">Save Changes</button>
+				<br>
+
+				<div class="changesMessage"><span style="color: green;">Up to date ✔</span></div>
 			</div>
 			<form class="defaultForm maxHeight" action="./" method="POST" id="editBusinessForm">
 
@@ -133,7 +137,7 @@
 							<br><br>
 							<img style="display: none; width: 3em;" src="../../images/ultiscape/etc/loading.gif" class="loadingGif">
 							
-							<div id="changesMessage"><span style="color: green;">Up to date ✔</span></div>
+							<div class="changesMessage"><span style="color: green;">Up to date ✔</span></div>
 						</span>
 
 					</div>
