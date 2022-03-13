@@ -4,8 +4,8 @@
 
 		function getActiveJobInstances($startDateTime, $endDateTime, array $exclude = array()) { // "singular", "recurring", "completed", "cancelled", "overdue"
 			
-            require_once dirname(__DIR__).'../job/getActiveJobs.php';
-            require_once dirname(__DIR__).'../time/getRecurringDates.php';
+            require_once dirname(__DIR__).'/job/getActiveJobs.php';
+            require_once dirname(__DIR__).'/time/getRecurringDates.php';
 
             $instances = [];
 
