@@ -113,4 +113,6 @@
 ## v0.3.4
 - Goodies
     - Ability to delete jobs from the job view/edit page
+    - Ability to complete jobs, which will create an archived job that (if recurring) will not be removed if the parent active job is ever deleted
 - Techies
+    - Minor change to the schema of the jobInstanceException table
