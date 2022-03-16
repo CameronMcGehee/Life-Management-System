@@ -29,7 +29,7 @@
         exit();
     }
 
-    // Delete the address
+    // Delete the job (will cascade linked instance exceptions and such)
     if (!$currentJob->delete()) {
         echo 'deleteError';
     }
