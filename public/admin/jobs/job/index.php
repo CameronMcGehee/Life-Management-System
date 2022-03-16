@@ -148,6 +148,24 @@
 
 		var errorAddressId;
 
+		if (url.searchParams.get('instance') != null) {
+			if (Date.parse(url.searchParams.get('instance'))) {
+				var currentInstanceDate = url.searchParams.get('instance');
+			} else {
+				if (Date.parse($("#startDate").val())) {
+					var currentInstanceDate = $("#startDate").val();
+				} else {
+					var currentInstanceDate = '<?php echo $startDate ?>';
+				}
+			}
+		} else {
+			if (Date.parse($("#startDate").val())) {
+				var currentInstanceDate = $("#startDate").val();
+			} else {
+				var currentInstanceDate = '<?php echo $startDate ?>';
+			}
+		}
+
 		function getWeekNumber(thisDate) {
 			var dt = new Date(thisDate);
 			var thisDay = dt.getDate();
@@ -196,6 +214,108 @@
 			});
 			changesSaved = true;
 			waitingForError = false;
+		}
+
+		function openChangeRecurrenceDialog() {
+			$("#recurrenceSettings .popupMessageDialog").hide(0, function () {
+				$("#recurrenceSettings").fadeIn(100, function () {
+					$("#recurrenceSettings .popupMessageDialog").show(300);
+				});
+			});
+		}
+
+		function saveRecurringSettings() {
+			$("#recurrenceSettings .popupMessageDialog").slideUp(300, function () {
+				$("#recurrenceSettings").fadeOut(100, function () {
+					setUnsaved();
+				});
+			});
+		}
+
+		function updateRecurringInputs() {
+
+			if ($("#isRecurring").is(':checked')) {
+				$("#recurringSettingsInnerBox").show(300);
+			} else {
+				$("#recurringSettingsInnerBox").hide(300);
+			}
+
+			var url = new URL(window.location.href);
+
+			if (url.searchParams.get('instance') != null) {
+				if (Date.parse(url.searchParams.get('instance'))) {
+					var currentInstanceDate = url.searchParams.get('instance');
+				} else {
+					if (Date.parse($("#startDate").val())) {
+						var currentInstanceDate = $("#startDate").val();
+					} else {
+						var currentInstanceDate = '<?php echo $startDate ?>';
+					}
+				}
+			} else {
+				if (Date.parse($("#startDate").val())) {
+					var currentInstanceDate = $("#startDate").val();
+				} else {
+					var currentInstanceDate = '<?php echo $startDate ?>';
+				}
+			}
+
+			var monthDayNumber = $('#startDate').val();
+			// If daily or yearly is selected, hide the week selector and month recurrence selector
+			if ($("#frequencyInterval option:selected").val() == 'day' || $("#frequencyInterval option:selected").val() == 'year') {
+				$("#weekdaySelector").hide(300);
+				$("#monthRecurrenceSelector").hide(300);
+			} else if ($("#frequencyInterval option:selected").val() == 'week') { // If week is selected, show the weekday selector
+				$("#weekdaySelector").show(300);
+				$("#monthRecurrenceSelector").hide(300);
+			} else if ($("#frequencyInterval option:selected").val() == 'month') { // If month is selected, show the monthRecurrenceSelector and update it's inputs
+				$("#weekdaySelector").hide(300);
+				$("#monthRecurrenceSelector").show(300);
+
+				var dateArray = currentInstanceDate.split('-');
+
+				var dateObject = new Date(parseInt(dateArray[0]), parseInt(dateArray[1])-1, parseInt(dateArray[2]));
+
+				// Set first option to the number of the day in the date
+				
+				$('select[id=monthRecurrenceSelectorInput] option:first').html("Day " + parseInt(dateArray[2]));
+
+				// Set second option to the week that the date falls in in the month
+				// and the day of the week (0-6, Sunday-Saturday) that the date falls in
+
+				var weekOfMonth = getWeekNumber(currentInstanceDate);
+				var weekDayOfWeek = dateObject.getDay();
+
+				switch (weekDayOfWeek) {
+					case 0:
+						var weekDayName = 'Sunday';
+						break;
+					case 1:
+						var weekDayName = 'Monday';
+						break;
+					case 2:
+						var weekDayName = 'Tuesday';
+						break;
+					case 3:
+						var weekDayName = 'Wednesday';
+						break;
+					case 4:
+						var weekDayName = 'Thursday';
+						break;
+					case 5:
+						var weekDayName = 'Friday';
+						break;
+					case 6:
+						var weekDayName = 'Saturday';
+						break;
+					default:
+						var weekDayName = 'Error';
+						break;
+				}
+
+				$('select[id=monthRecurrenceSelectorInput] option:eq(1)').html("The " + weekDayName + " of week " + weekOfMonth);
+
+			}
 		}
 
 		function updateRecurrencePreview(freqInt, freq = null, weekday = null, weekNumber = null, dayOfMonth = null) {
@@ -305,6 +425,8 @@
 			}
 		}
 
+		// DELETE BUTTON FUNCTIONS
+
 		function deleteButton() {
 			// Save changes to avoid issues
 			if (!changesSaved) {
@@ -315,7 +437,6 @@
 				$("#deletePrompt").fadeIn(300);
 			}
 		}
-
 		function deleteYes() {
 			// Delete run the script
 			$("#deleteLoading").fadeIn(300);
@@ -331,10 +452,43 @@
 				}
 			});
 		}
-
 		function deleteNo() {
 			// Just hide the prompt
 			$("#deletePrompt").fadeOut(300);
+		}
+
+		//COMPLETE BUTTON FUNCTIONS
+
+		function makeCompleted() {
+			// Load the script to convert it into a completed job and redirect if successful
+			$("#completeLoading").fadeIn(300);
+			$("#completeButtonText").hide(300);
+			
+			$("#scriptLoader").load("./scripts/async/completeJob.script.php", {
+				jobId: jobId,
+				instanceDate: currentInstanceDate,
+				completeJobAuthToken: '<?php echo $completeJobAuthToken->authTokenId; ?>'
+			}, function () {
+				scriptOutput = $("#scriptLoader").html().split(":::");
+				jobId = scriptOutput[0];
+				formState = scriptOutput[1];
+				if (formState == 'success') {
+					window.location.href = '../completedJob?id=' + jobId;
+				} else {
+					$("#completeLoading").fadeOut(300);
+					$("#completeButtonText").show(300);
+				}
+			});
+		}
+		function completeButton() {
+			// Save changes to avoid issues
+			if (!changesSaved) {
+				$('#jobForm').submit(function () {
+					makeCompleted();
+				});
+			} else {
+				makeCompleted();
+			}
 		}
 
 		// ON LOAD
@@ -572,6 +726,7 @@
 				
 
 			?>
+
 			updateRecurrencePreview(<?php echo $frequencyIntervalOutput ?>, <?php echo $frequencyOutput; ?>, <?php echo $weekdayOutput; ?>, <?php echo $weekNumberOutput; ?>, <?php echo $dayOfMonthOutput; ?>);
 
 			// Load the property selector on startup
@@ -639,7 +794,7 @@
 						
 							if ($currentJob->existed) {
 								echo '<div class="threeCol" style="width: 25em;">';
-									echo '<span class="smallButtonWrapper greenButton centered defaultMainShadows" onclick="completeButton()">✔ Complete</span>';
+									echo '<span class="smallButtonWrapper greenButton centered defaultMainShadows" onclick="completeButton()"><span id="completeButtonText">✔ Complete</span><span style="display: none;" id="completeLoading"><img style="display: none; width: 2em;" src="../../../images/ultiscape/etc/loading.gif" class="loadingGif"></span></span>';
 									echo '<span class="smallButtonWrapper orangeButton centered defaultMainShadows" onclick="cancelButton()">❌Cancel</span>';
 									echo '<span class="smallButtonWrapper redButton centered defaultMainShadows" onclick="deleteButton()"><img style="height: 1.2em;" src="../../../images/ultiscape/icons/trash.svg"> Delete</span>';
 								echo '</div>';
@@ -851,107 +1006,7 @@
 
 							<script>
 
-								function openChangeRecurrenceDialog() {
-									$("#recurrenceSettings .popupMessageDialog").hide(0, function () {
-										$("#recurrenceSettings").fadeIn(100, function () {
-											$("#recurrenceSettings .popupMessageDialog").show(300);
-										});
-									});
-								}
-
-								function saveRecurringSettings() {
-									$("#recurrenceSettings .popupMessageDialog").slideUp(300, function () {
-										$("#recurrenceSettings").fadeOut(100, function () {
-											setUnsaved();
-										});
-									});
-								}
-
-								function updateRecurringInputs() {
-
-									if ($("#isRecurring").is(':checked')) {
-										$("#recurringSettingsInnerBox").show(300);
-									} else {
-										$("#recurringSettingsInnerBox").hide(300);
-									}
-
-									var url = new URL(window.location.href);
-
-									if (url.searchParams.get('instance') != null) {
-										if (Date.parse(url.searchParams.get('instance'))) {
-											var currentInstanceDate = url.searchParams.get('instance');
-										} else {
-											if (Date.parse($("#startDate").val())) {
-												var currentInstanceDate = $("#startDate").val();
-											} else {
-												var currentInstanceDate = '<?php echo $startDate ?>';
-											}
-										}
-									} else {
-										if (Date.parse($("#startDate").val())) {
-											var currentInstanceDate = $("#startDate").val();
-										} else {
-											var currentInstanceDate = '<?php echo $startDate ?>';
-										}
-									}
-
-									var monthDayNumber = $('#startDate').val();
-									// If daily or yearly is selected, hide the week selector and month recurrence selector
-									if ($("#frequencyInterval option:selected").val() == 'day' || $("#frequencyInterval option:selected").val() == 'year') {
-										$("#weekdaySelector").hide(300);
-										$("#monthRecurrenceSelector").hide(300);
-									} else if ($("#frequencyInterval option:selected").val() == 'week') { // If week is selected, show the weekday selector
-										$("#weekdaySelector").show(300);
-										$("#monthRecurrenceSelector").hide(300);
-									} else if ($("#frequencyInterval option:selected").val() == 'month') { // If month is selected, show the monthRecurrenceSelector and update it's inputs
-										$("#weekdaySelector").hide(300);
-										$("#monthRecurrenceSelector").show(300);
-
-										var dateArray = currentInstanceDate.split('-');
-
-										var dateObject = new Date(parseInt(dateArray[0]), parseInt(dateArray[1])-1, parseInt(dateArray[2]));
-
-										// Set first option to the number of the day in the date
-										
-										$('select[id=monthRecurrenceSelectorInput] option:first').html("Day " + parseInt(dateArray[2]));
-
-										// Set second option to the week that the date falls in in the month
-										// and the day of the week (0-6, Sunday-Saturday) that the date falls in
-
-										var weekOfMonth = getWeekNumber(currentInstanceDate);
-										var weekDayOfWeek = dateObject.getDay();
-
-										switch (weekDayOfWeek) {
-											case 0:
-												var weekDayName = 'Sunday';
-												break;
-											case 1:
-												var weekDayName = 'Monday';
-												break;
-											case 2:
-												var weekDayName = 'Tuesday';
-												break;
-											case 3:
-												var weekDayName = 'Wednesday';
-												break;
-											case 4:
-												var weekDayName = 'Thursday';
-												break;
-											case 5:
-												var weekDayName = 'Friday';
-												break;
-											case 6:
-												var weekDayName = 'Saturday';
-												break;
-											default:
-												var weekDayName = 'Error';
-												break;
-										}
-
-										$('select[id=monthRecurrenceSelectorInput] option:eq(1)').html("The " + weekDayName + " of week " + weekOfMonth);
-
-									}
-								}
+								
 
 							</script>
 						</div>

@@ -5,7 +5,7 @@
 		private string $setType;
 		private database $db;
 
-		private string $dbJobCompletedId; // Used when updating the table incase the jobInstanceExceptionId has been changed after instantiation
+		private string $dbJobInstanceExceptionId; // Used when updating the table incase the jobInstanceExceptionId has been changed after instantiation
 
 		public bool $existed; // Used to see whether the given entity existed already (in the database) at the time of instantiation
 
@@ -13,11 +13,11 @@
 		public $jobInstanceExceptionId;
 		public $businessId;
 		public $jobId;
-		public $startInstanceDate;
-		public $endInstanceDate;
+		public $instanceDate;
 		public $isRescheduled;
 		public $isCancelled;
 		public $isCompleted;
+		public $linkedToCompletedJobId;
 		public $name;
 		public $description;
 		public $privateNotes;
@@ -42,6 +42,19 @@
 				$this->businessId = '';
 			}
 			$this->jobId = '';
+			$this->instanceDate = '';
+			$this->newStartDateTime = '';
+			$this->newEndDateTime = '';
+			$this->isRescheduled = 0;
+			$this->isCancelled = 0;
+			$this->isCompleted = 0;
+			$this->linkedToCompletedJobId = NULL;
+			$this->name = '';
+			$this->description = NULL;
+			$this->privateNotes = NULL;
+			$this->price = NULL;
+			$this->estHours = NULL;
+			$this->isPrepaid = 0;
 			$this->startDateTime = '';
 			$this->endDateTime = '';
 			// Default dateTimeAdded to now since it is likely going to be inserted at this time
@@ -68,21 +81,21 @@
 			if ($fetch) {
 				$this->jobInstanceExceptionId = $jobInstanceExceptionId;
 				$this->businessId = $fetch[0]['businessId'];
-				public $jobId= $fetch[0]['jobId'];
-				public $startInstanceDate= $fetch[0]['startInstanceDate'];
-				public $endInstanceDate= $fetch[0]['endInstanceDate'];
-				public $isRescheduled= $fetch[0]['isRescheduled'];
-				public $isCancelled= $fetch[0]['isCancelled'];
-				public $isCompleted= $fetch[0]['isCompleted'];
-				public $name= $fetch[0]['name'];
-				public $description= $fetch[0]['description'];
-				public $privateNotes= $fetch[0]['privateNotes'];
-				public $price= $fetch[0]['price'];
-				public $estHours= $fetch[0]['estHours'];
-				public $isPrepaid= $fetch[0]['isPrepaid'];
-				public $startDateTime= $fetch[0]['startDateTime'];
-				public $endDateTime= $fetch[0]['endDateTime'];
-				public $dateTimeAdded= $fetch[0]['dateTimeAdded'];
+				$this->jobId = $fetch[0]['jobId'];
+				$this->instanceDate = $fetch[0]['instanceDate'];
+				$this->isRescheduled = $fetch[0]['isRescheduled'];
+				$this->isCancelled = $fetch[0]['isCancelled'];
+				$this->isCompleted = $fetch[0]['isCompleted'];
+				$this->linkedToCompletedJobId = $fetch[0]['linkedToCompletedJobId'];
+				$this->name = $fetch[0]['name'];
+				$this->description = $fetch[0]['description'];
+				$this->privateNotes = $fetch[0]['privateNotes'];
+				$this->price = $fetch[0]['price'];
+				$this->estHours = $fetch[0]['estHours'];
+				$this->isPrepaid = $fetch[0]['isPrepaid'];
+				$this->startDateTime = $fetch[0]['startDateTime'];
+				$this->endDateTime = $fetch[0]['endDateTime'];
+				$this->dateTimeAdded = $fetch[0]['dateTimeAdded'];
 
 				$this->setType = 'UPDATE';
 				$this->existed = true;
@@ -90,7 +103,7 @@
 			// If jobInstanceExceptionId does not exist then set the set method type to INSERT and inititialize default values
 			} else {
 				// Make a new jobInstanceExceptionId
-				require_once direndDateTime(__FILE__)."/tableUuid.php";
+				require_once dirname(__FILE__)."/tableUuid.php";
 				$uuid = new tableUuid('jobInstanceException', 'jobInstanceExceptionId');
 				$this->jobInstanceExceptionId = $uuid->generatedId;
 
@@ -100,7 +113,7 @@
 				$this->existed = false;
 			}
 
-			$this->dbJobCompletedId = $this->jobInstanceExceptionId;
+			$this->dbJobInstanceExceptionId = $this->jobInstanceExceptionId;
 			
 		}
 
@@ -113,14 +126,14 @@
 		public function set() {
 
 			$attributes = array(
-				'jobInstanceExceptionId' => $this->db->sanitize($this->dbJobCompletedId),
+				'jobInstanceExceptionId' => $this->db->sanitize($this->dbJobInstanceExceptionId),
 				'businessId' => $this->db->sanitize($this->businessId),
 				'jobId' => $this->db->sanitize($this->jobId),
-				'startInstanceDate' => $this->db->sanitize($this->startInstanceDate),
-				'endInstanceDate' => $this->db->sanitize($this->endInstanceDate),
+				'instanceDate' => $this->db->sanitize($this->instanceDate),
 				'isRescheduled' => $this->db->sanitize($this->isRescheduled),
 				'isCancelled' => $this->db->sanitize($this->isCancelled),
 				'isCompleted' => $this->db->sanitize($this->isCompleted),
+				'linkedToCompletedJobId' => $this->db->sanitize($this->linkedToCompletedJobId),
 				'name' => $this->db->sanitize($this->name),
 				'description' => $this->db->sanitize($this->description),
 				'privateNotes' => $this->db->sanitize($this->privateNotes),
@@ -134,7 +147,7 @@
 
 			if ($this->setType == 'UPDATE') {
 				// Update the values in the database after sanitizing them
-				if ($this->db->update('jobInstanceException', $attributes, "WHERE jobInstanceExceptionId = '".$this->db->sanitize($this->dbJobCompletedId)."'", 1)) {
+				if ($this->db->update('jobInstanceException', $attributes, "WHERE jobInstanceExceptionId = '".$this->db->sanitize($this->dbJobInstanceExceptionId)."'", 1)) {
 					return true;
 				} elseif ($this->db->getLastError() === '') {
 					return true;
@@ -163,7 +176,7 @@
 		public function delete() {
 
 			// Remove row from database
-			if (!$this->db->delete('jobInstanceException', "WHERE jobInstanceExceptionId = '".$this->db->sanitize($this->dbJobCompletedId)."'", 1)) {
+			if (!$this->db->delete('jobInstanceException', "WHERE jobInstanceExceptionId = '".$this->db->sanitize($this->dbJobInstanceExceptionId)."'", 1)) {
 				return $this->db->getLastError();
 			}
 

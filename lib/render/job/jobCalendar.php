@@ -161,8 +161,10 @@
 						$currentJobStartDateTime = new DateTime($currentJob['instanceDate']);
 						$currentJobEndDateTime = new DateTime($currentJob['endDateTime']);
 						if ($currentJobStartDateTime->format('Y-m-d') == $currentDate->format('Y-m-d')) { // If it is today
-							$jobClass = 'activeJob';
-							$jobsOutput .= '<a href="'.$this->options['rootPathPrefix'].'/admin/jobs/job?id='.htmlspecialchars($currentJob['jobId']).'&instance='.$currentJob['instanceDate'].'"><p class="job '.$jobClass.'">'.htmlspecialchars($currentJob['name']).'</p></a>';
+							if (!$currentJob['isCompleted'] && !$currentJob['isCancelled']) {
+								// Will get completed and cancelled jobs seperately
+								$jobsOutput .= '<a href="'.$this->options['rootPathPrefix'].'admin/jobs/job?id='.htmlspecialchars($currentJob['jobId']).'&instance='.$currentJob['instanceDate'].'"><p class="job activeJob">'.htmlspecialchars($currentJob['name']).'</p></a>';
+							}
 						}
                     }
 
