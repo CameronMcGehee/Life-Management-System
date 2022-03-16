@@ -15,8 +15,6 @@
 	// Other required libraries
 	require_once '../../../../lib/table/business.php';
 	require_once '../../../../lib/table/job.php';
-	// require_once '../../../../lib/table/jobCancellation.php';
-	// require_once '../../../../lib/table/jobCompleted.php';
 	// require_once '../../../../lib/render/etc/tagEditor.php';
 	if (isset($_GET['id']) && !empty($_GET['id'])) {
 		$currentJob = new job($_GET['id']);
