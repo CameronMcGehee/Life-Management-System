@@ -1004,11 +1004,6 @@
 								</div>
 							</div>
 
-							<script>
-
-								
-
-							</script>
 						</div>
 
 						<?php
