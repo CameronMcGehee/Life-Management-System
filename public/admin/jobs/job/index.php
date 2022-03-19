@@ -422,7 +422,7 @@
 
 						break;
 					case 'year':
-						
+						$("#recurrencePreview").html("Recurs every " + freq + " year(s).");
 						break;
 					default:
 						$("#recurrencePreview").html("Error...");
