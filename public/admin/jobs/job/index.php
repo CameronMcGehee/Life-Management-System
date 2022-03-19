@@ -132,6 +132,14 @@
 
 	<script>
 		var formData;
+
+		var lastFreq;
+		var lastFreqInt;
+		var lastStartDate;
+		var lastWeekday;
+		var lastMonthRecurrenceType;
+		var lastIsRecurring;
+
 		var scriptOutput;
 		var jobId ='<?php echo $currentJob->jobId; ?>';
 		var formState;
@@ -496,6 +504,22 @@
 				inputChange();
 			});
 
+			// Update the last job recurring details so that it shows the right recurrance update prompt options
+			lastFreq = $("input[name='frequency']").val();
+			lastFreqInt = $("#frequencyInterval option:selected").val();
+			lastStartDate = $("input[name='startDate']").val();
+			lastWeekday = $("input[name='weekday']").val();
+			lastMonthRecurrenceType = $("input[name='monthRecurrenceSelector']").val();
+			if ($("#isRecurring").is(':checked')) {
+				lastIsRecurring = true;
+			} else {
+				lastIsRecurring = false;
+			}
+
+			console.log(lastFreq);
+					console.log(lastFreqInt);
+					console.log(lastStartDate);
+
 			if ($.isNumeric(url.searchParams.get('wsl'))) {
 				$(".cmsMainContentWrapper").scrollTop(url.searchParams.get('wsl'));
 			}
@@ -550,14 +574,7 @@
 				});
 			}
 
-			$("#jobForm").submit(function(event) {
-				event.preventDefault();
-				$('.loadingGif').each(function() {
-					$(this).fadeIn(100);
-				});
-				
-				formData = $("#jobForm").serialize();
-				
+			function sendChanges(formData) {
 				$("#scriptLoader").load("./scripts/async/editJob.script.php", {
 					jobId: jobId,
 					formData: formData
@@ -669,11 +686,58 @@
 					// 	});
 					// }
 
-					$('.loadingGif').each(function() {
+					// Update the last job recurring details so that it shows the right recurrance update prompt options
+					lastFreq = $("input[name='frequency']").val();
+					lastFreqInt = $("#frequencyInterval option:selected").val();
+					lastStartDate = $("input[name='startDate']").val();
+					lastWeekday = $("input[name='weekday']").val();
+					lastMonthRecurrenceType = $("input[name='monthRecurrenceSelector']").val();
+					if ($("#isRecurring").is(':checked')) {
+						lastIsRecurring = true;
+					} else {
+						lastIsRecurring = false;
+					}
+				});
+			}
+
+			$("#jobForm").submit(function(event) {
+				event.preventDefault();
+				$('.loadingGif').each(function() {
+					$(this).fadeIn(100);
+				});
+
+				if (!changesSaved) {
+					formData = $("#jobForm").serialize();
+
+					// If the job was a one-time job to start with, just load the script
+					if (!lastIsRecurring) { 
+						sendChanges(formData);
+					// If we are updating a recurring job
+					} else { 
+						// If updating anything but recurrence, options are single instance and this and future
+						if (lastFreq == $("input[name='frequency']").val() && lastFreqInt == $("#frequencyInterval option:selected").val() && lastWeekday == $("input[name='weekday']").val() && lastMonthRecurrenceType == $("input[name='monthRecurrenceSelector']").val()) {
+							$("#recurrenceUpdateOptionThisOnly").show(0);
+							$("#recurrenceUpdateOptionThisAndFuture").show(0);
+							$("#recurrenceUpdateOptionAll").hide(0);
+							$("#recurrenceUpdatePrompt").fadeIn(300);
+						// If updating the recurrence of an instance, options are this and future and "all"
+						} else if (!(lastFreq == $("input[name='frequency']").val() && lastFreqInt == $("#frequencyInterval option:selected").val() && lastWeekday == $("input[name='weekday']").val() && lastMonthRecurrenceType == $("input[name='monthRecurrenceSelector']").val()) && lastStartDate == $("input[name='startDate']").val()) {
+							$("#recurrenceUpdateOptionThisOnly").hide(0);
+							$("#recurrenceUpdateOptionThisAndFuture").show(0);
+							$("#recurrenceUpdateOptionAll").show(0);
+							$("#recurrenceUpdatePrompt").fadeIn(300);
+						// If updating the recurrence AND the start date of an instance, there are no options, the parent recurring job is ended and a new one is created with those new options
+						} else {
+							sendChanges(formData);
+						}
+					}
+				}
+
+				$('.loadingGif').each(function() {
 						$(this).fadeOut(100);
 					});
-				});
-				changesSaved = true;
+				
+				
 			});
 
 			// Load the staff form on startup
@@ -992,12 +1056,23 @@
 									<h3>Update Recurring Job</h3>
 									<br>
 
-									<input type="radio" name="recurrenceUpdateType" id="thisInstance" value="thisInstance"><label for="thisInstance"> This Instance Only</label>
+									<span id="recurrenceUpdateOptionThisOnly">
+										<input type="radio" name="recurrenceUpdateType" id="thisInstance" value="thisInstance"><label for="thisInstance"> This Instance Only</label>
+										<br>
+									</span>
+
+									<span id="recurrenceUpdateOptionThisAndFuture">
+										<input type="radio" name="recurrenceUpdateType" id="thisAndFutureInstances" value="thisAndFutureInstances"><label for="thisAndFutureInstances"> This and Future Instances</label>
+										<br>
+									</span>
+
+									<span id="recurrenceUpdateOptionAll">
+										<input type="radio" name="recurrenceUpdateType" id="allInstances" value="allInstances"><label for="allInstances"> All Instances</label>
+										<br>
+									</span>
+
 									<br>
-									<input type="radio" name="recurrenceUpdateType" id="thisAndFutureInstances" value="thisAndFutureInstances"><label for="thisAndFutureInstances"> This and Future Instances</label>
-									<br>
-									<input type="radio" name="recurrenceUpdateType" id="allInstances" value="allInstances"><label for="allInstances"> All Instances</label>
-									<br><br>
+
 									<span id="recurrenceUpdatePromptOkButton" class="smallButtonWrapper greenButton xCenteredFlex" onclick="checkRecurrenceUpdatePrompt()">Ok</span>
 								</div>
 							</div>
