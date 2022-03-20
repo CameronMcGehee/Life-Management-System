@@ -72,6 +72,38 @@
 		$endTime = '';
 	}
 
+	//Verify that the instanceDate given is a real date, and fits in the pattern of the job if it existed already
+	require_once '../../../../lib/etc/time/getRecurringDates.php';
+	if ($currentJob->existed && !isset($_GET['instance'])) {
+		header("location: ../");
+		exit();
+	}
+	if ($currentJob->frequencyInterval != 'none') {
+		$jobInstancesCheck = getRecurringDates($currentJob->startDateTime, $currentJob->endDateTime, $currentJob->startDateTime, $_GET['instance'], $currentJob->frequencyInterval, $currentJob->frequency, $currentJob->weekday);
+		if (!in_array($_GET['instance'], $jobInstancesCheck)) {
+			header("location: ../");
+			exit();
+		}
+	} else {
+		if ($currentJob->existed && $_GET['instance'] != $startDate) {
+			header("location: ../");
+			exit();
+		}
+	}
+
+	// Make sure there is not an instance exception for this instance
+	$currentJob->pullInstanceExceptions();
+	if (($currentJob->instanceExceptions) > 0) {
+		require_once '../../../../lib/table/jobInstanceException.php';
+		foreach ($currentJob->instanceExceptions as $instanceExceptionId) {
+			$currentInstanceException = new jobInstanceException($instanceExceptionId);
+			if ($currentInstanceException->instanceDate == $_GET['instance']) {
+				header("location: ../");
+				exit();
+			}
+		}
+	}
+
 	echo $adminUIRender->renderAdminHtmlTop('../../../', htmlspecialchars($titleName), 'Edit '.htmlspecialchars($titleName).'.');
 	echo $adminUIRender->renderAdminUIMenuToggleScripts('../../../');
 

@@ -165,8 +165,12 @@
 		}
 
 		// Check if the given job instance exists for the dates given (if the job already existed it was done at the top of the script)
-		if (!$currentJob->existed) {
+		if (!$currentJob->existed && isset($formData['isRecurring'])) {
 			$jobInstancesCheck = getRecurringDates($currentJob->startDateTime, $currentJob->endDateTime, $currentJob->startDateTime, $formData['instanceDate'], $currentJob->frequencyInterval, $currentJob->frequency, $currentJob->weekday);
+			if (!in_array($formData['instanceDate'], $jobInstancesCheck)) {
+				echo 'instanceDate';
+				exit();
+			}
 		}
 
 		// isRecurring and recurring settings
@@ -230,8 +234,12 @@
 
 	// Get instance dates for this job if it already existed (will get them later if not)
 	require_once '../../../../../../lib/etc/time/getRecurringDates.php';
-	if ($currentJob->existed) {
+	if ($currentJob->existed && isset($formData['isRecurring'])) {
 		$jobInstancesCheck = getRecurringDates($currentJob->startDateTime, $currentJob->endDateTime, $currentJob->startDateTime, $formData['instanceDate'], $currentJob->frequencyInterval, $currentJob->frequency, $currentJob->weekday);
+		if ($jobInstancesCheck && !in_array($formData['instanceDate'], $jobInstancesCheck)) {
+			echo 'instanceDate';
+			exit();
+		}
 	}
 
 	// If updating a recurring job,
@@ -247,7 +255,7 @@
 	
 		$dbStartDate = explode(' ', $currentJob->startDateTime);
 	
-		if ($formData['startDate'] != $dbStartDate[0]) {
+		if ($formData['startDate'] != $formData['instanceDate']) {
 			$dateChanged = true;
 		}
 	
@@ -334,7 +342,7 @@
 					break;
 				case 'thisAndFutureInstances':
 
-					// End the recurring job the day before this instance
+					// End the recurring job the day before this instance (2 days to account for the recurring dates calculations)
 					$dayBeforeThisInstance = new DateTime($formData['instanceDate']);
 					$dayBeforeThisInstance = $dayBeforeThisInstance->sub(new DateInterval('P1D'));
 					$currentJob->endDateTime = $dayBeforeThisInstance->format('Y-m-d');
