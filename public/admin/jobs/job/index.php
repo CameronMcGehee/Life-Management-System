@@ -963,7 +963,7 @@
 									<div class="twoCol" style="max-width: 25em;">
 										<div>
 											<label for="startDate"><p>Start Date</p></label>
-											<input onchange="updateRecurringInputs()" class="defaultInput" style="width: 100%; max-width: 9em;" type="date" name="startDate" id="startDate" value="<?php echo htmlspecialchars($startDate); ?>">
+											<input onchange="updateRecurringInputs()" class="defaultInput" style="width: 100%; max-width: 9em;" type="date" name="startDate" id="startDate" value="<?php if (isset($_GET['instance'])) {echo htmlspecialchars($_GET['instance']);} else {echo htmlspecialchars($startDate);} ?>">
 											<span id="startDateError" class="underInputError" style="display: none;"><br>Select a valid date.</span>
 										</div>
 
