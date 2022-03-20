@@ -44,24 +44,24 @@
                     // $lastNames = require_once '../../../lib/arrays/lastNames.php';
                     // $firstNames = require_once '../../../lib/arrays/firstNames.php';
 
-                    for ($x = 0; $x <= 15; $x++) {
-                        $job = new job();
+                    // for ($x = 0; $x <= 1500; $x++) {
+                    //     $job = new job();
 
-                        $job->linkedToCustomerId = NULL;
-                        $job->linkedToPropertyId = NULL;
-                        $job->name = 'Mowing'.uniqid();
-                        $job->description = NULL;
-                        $job->privateNotes = NULL;
-                        $job->price = NULL;
-                        $job->estHours = NULL;
-                        $job->isPrepaid = 0;
-                        $job->frequencyInterval = 'week';
-                        $job->frequency = 1;
-                        $job->weekday = '5';
-                        $job->startDateTime = '2022-03-18 00:00:00';
-                        $job->endDateTime = NULL;
+                    //     $job->linkedToCustomerId = NULL;
+                    //     $job->linkedToPropertyId = NULL;
+                    //     $job->name = 'Mowing'.uniqid();
+                    //     $job->description = NULL;
+                    //     $job->privateNotes = NULL;
+                    //     $job->price = NULL;
+                    //     $job->estHours = NULL;
+                    //     $job->isPrepaid = 0;
+                    //     $job->frequencyInterval = 'none';
+                    //     $job->frequency = 1;
+                    //     $job->weekday = '5';
+                    //     $job->startDateTime = '2022-02-18 00:00:00';
+                    //     $job->endDateTime = NULL;
     
-                        $job->set();
+                    //     $job->set();
     
     
                     //     $customerEmailAddress = new customerEmailAddress();
@@ -79,7 +79,7 @@
                     //     $customerPhoneNumber->phone1 = (string)rand(0,9).(string)rand(0,9).(string)rand(0,9).(string)rand(0,9).(string)rand(0,9).(string)rand(0,9).(string)rand(0,9).(string)rand(0,9).(string)rand(0,9).(string)rand(0,9);
     
                     //     $customerPhoneNumber->set();
-                    }
+                    // }
 
                     // -----------------------------------------------------------------------------------------------------------------------------------------------
 

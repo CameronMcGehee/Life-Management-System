@@ -689,7 +689,7 @@
 			sendChanges(formData);
 
 			// Reirect to the jobs page
-			// window.location.href = '../';
+			window.location.href = '../';
 
 			$('.loadingGif').each(function() {
 				$(this).fadeOut(100);
@@ -733,7 +733,7 @@
 					formData = $("#jobForm").serialize();
 
 					// If the job was a one-time job to start with, just load the script
-					if (!lastIsRecurring) { 
+					if (!lastIsRecurring || isNewJob) { 
 						sendChanges(formData);
 					// If we are updating a recurring job
 					} else { 
@@ -752,6 +752,7 @@
 						// If updating the recurrence AND the start date of an instance, there are no options, the parent recurring job is ended and a new one is created with those new options
 						} else {
 							sendChanges(formData);
+							window.location.href = '../';
 						}
 					}
 				}
