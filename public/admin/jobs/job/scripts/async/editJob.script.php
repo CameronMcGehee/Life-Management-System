@@ -323,7 +323,7 @@
 					$jobInstanceException->price = $currentJob->price;
 					$jobInstanceException->estHours = $currentJob->estHours;
 					$jobInstanceException->isPrepaid = $currentJob->isPrepaid;
-					$jobInstanceException->startDateTime = $formData['instanceDate'];
+					$jobInstanceException->startDateTime = $currentJob->startDateTime;
 					$jobInstanceException->endDateTime = NULL;
 
 					if (!$jobInstanceException->set()) {
