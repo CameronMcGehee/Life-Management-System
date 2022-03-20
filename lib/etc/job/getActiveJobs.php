@@ -19,7 +19,13 @@
             }
 
             // Get all jobs from the jobs table that match the date range
-            $fetch = $db->select('job', '*', "WHERE businessId = '".$_SESSION['ultiscape_businessId']."' AND ((startDateTime >= '".$startDateTimeSan."' AND endDateTime <= '".$startDateTimeSan."') OR (startDateTime >= '".$startDateTimeSan."' AND endDateTime IS NULL) OR (endDateTime >= '".$startDateTimeSan."' AND endDateTime <= '".$endDateTimeSan."') OR (startDateTime <= '".$endDateTimeSan."' AND endDateTime IS NULL) OR (frequencyInterval != 'none' AND startDateTime <= '".$startDateTimeSan."' AND endDateTime <= '".$endDateTimeSan."' ))");
+            $fetch = $db->select('job', '*', "WHERE businessId = '".$_SESSION['ultiscape_businessId']."' 
+            AND (
+                (startDateTime >= '".$startDateTimeSan."' AND startDateTime <= '".$endDateTimeSan."')
+            OR (endDateTime >= '".$startDateTimeSan."' AND endDateTime <= '".$endDateTimeSan."') 
+            OR (startDateTime <= '".$endDateTimeSan."' AND endDateTime IS NULL) 
+            OR (frequencyInterval != 'none' AND startDateTime <= '".$startDateTimeSan."' AND endDateTime <= '".$endDateTimeSan."' )
+            )");
             if ($fetch) {
                 $jobs = array_merge($jobs, $fetch);
             }
