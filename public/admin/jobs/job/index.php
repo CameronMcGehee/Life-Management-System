@@ -140,6 +140,8 @@
 		var lastMonthRecurrenceType;
 		var lastIsRecurring;
 
+		var redirectType;
+
 		var scriptOutput;
 		var jobId ='<?php echo $currentJob->jobId; ?>';
 		var formState;
@@ -497,6 +499,203 @@
 			}
 		}
 
+		function registerJobStaffDeleteButtonClicks() {
+			$("span[id*='deleteJobStaff:::']").each(function (i, el) {
+				$(el).on('click', function(e) {
+					currentId = this.id.split(":::")[1];
+					$.post("./scripts/async/deleteJobStaff.script.php", {
+						emailAddressId: currentId,
+						deleteJobStaffAuthToken: '<?php echo $deleteJobStaffAuthToken->authTokenId; ?>'
+					}, function () {
+						loadJobStaff();
+					});
+				});
+			});
+		}
+
+		function loadJobStaff() {
+			$("#jobStaffLoader").load("./includes/jobStaff.inc.php", {
+				jobId: jobId
+			}, function () {
+				$(":input").change(function (e) {
+					inputChange(e);
+				});
+				registerJobStaffDeleteButtonClicks();
+			});
+		}
+
+		function registerJobCrewsDeleteButtonClicks() {
+			$("span[id*='deleteJobCrew:::']").each(function (i, el) {
+				$(el).on('click', function(e) {
+					currentId = this.id.split(":::")[1];
+					$.post("./scripts/async/deleteJobCrew.script.php", {
+						jobCrewId: currentId,
+						deleteJobCrewAuthToken: '<?php echo $deleteJobCrewAuthToken->authTokenId; ?>'
+					}, function () {
+						loadJobCrews();
+					});
+				});
+			});
+		}
+
+		function loadJobCrews() {
+			$("#jobCrewsLoader").load("./includes/jobCrews.inc.php", {
+				jobId: jobId
+			}, function () {
+				$(":input").change(function (e) {
+					inputChange(e);
+				});
+				registerJobCrewsDeleteButtonClicks();
+			});
+		}
+
+		function sendChanges(formData) {
+			$("#scriptLoader").load("./scripts/async/editJob.script.php", {
+				jobId: jobId,
+				formData: formData
+			}, function () {
+				scriptOutput = $("#scriptLoader").html().split(":::");
+				jobId = scriptOutput[0];
+				formState = scriptOutput[1];
+				clearFormErrors();
+
+				checkStaff = false;
+				checkCrews = false;
+
+				switch (formState) {
+					case 'success':
+						setSaved();
+						if (isNewJob) {
+							isNewJob = false;
+							window.history.pushState("string", 'UltiScape (Admin) - New Job', "./?id="+jobId);
+							window.location.reload();
+						}
+						checkStaff = true;
+						checkCrews = true;
+						
+						// property selector
+
+						if ($("#customerSelector").val() != 'none') {
+							$("#propertySelectorLoader").load('./includes/selectProperty.inc.php', {
+								jobId: jobId,
+								customerId: $("#customerSelector").val()
+							}, function () {
+								$(":input").change(function (e) {
+									inputChange(e);
+								});
+							});
+						} else {
+							$("#propertySelectorLoader").html('');
+						}
+
+						break;
+					default:
+						setWaitingForError();
+						showFormError("#"+formState+"Error", "#"+formState);
+						$("#"+formState).shake(50);
+
+						$('.loadingGif').each(function() {
+							$(this).fadeOut(100);
+						});
+						checkStaff = false;
+						checkCrews = false;
+						break;
+				}
+
+				// if (checkStaff) {
+				// 	$("#scriptLoader").load("./scripts/async/updateJobStaff.script.php", {
+				// 		jobId: jobId,
+				// 		formData: formData
+				// 	}, function () {
+				// 		scriptOutput = $("#scriptLoader").html().split("::::");
+				// 		formState = scriptOutput[1];
+
+				// 		switch (formState) {
+				// 			case 'success':
+				// 				setSaved();
+				// 				checkCrews = true;
+				// 				// Reload the emails box if a new email was put in
+				// 				if ($("#newJobStaff").val().length > 0) {
+				// 					loadJobStaff();
+				// 				}
+				// 				break;
+				// 			default:
+				// 				setWaitingForError();
+				// 				showFormError("#"+formState+"Error", "#"+formState);
+				// 				$("#"+formState).shake(50);
+				// 				checkCrews = false;
+				// 				$('.loadingGif').each(function() {
+				// 					$(this).fadeOut(100);
+				// 				});
+				// 				break;
+				// 		}
+				// 	});
+				// }
+
+				// if (checkCrews) {
+				// 	$("#scriptLoader").load("./scripts/async/updateJobCrews.script.php", {
+				// 		jobId: jobId,
+				// 		formData: formData
+				// 	}, function () {
+				// 		scriptOutput = $("#scriptLoader").html().split("::::");
+				// 		formState = scriptOutput[1];
+
+				// 		switch (formState) {
+				// 			case 'success':
+				// 				setSaved();
+				// 				// Reload the emails box if a new email was put in
+				// 				if ($("#newJobCrews").val().length > 0) {
+				// 					loadJobCrews();
+				// 				}
+				// 				break;
+				// 			default:
+				// 				setWaitingForError();
+				// 				showFormError("#"+formState+"Error", "#"+formState);
+				// 				$("#"+formState).shake(50);
+
+				// 				$('.loadingGif').each(function() {
+				// 					$(this).fadeOut(100);
+				// 				});
+				// 				break;
+				// 		}
+				// 	});
+				// }
+
+				// Update the last job recurring details so that it shows the right recurrance update prompt options
+				lastFreq = $("input[name='frequency']").val();
+				lastFreqInt = $("#frequencyInterval option:selected").val();
+				lastStartDate = $("input[name='startDate']").val();
+				lastWeekday = $("input[name='weekday']").val();
+				lastMonthRecurrenceType = $("input[name='monthRecurrenceSelector']").val();
+				if ($("#isRecurring").is(':checked')) {
+					lastIsRecurring = true;
+				} else {
+					lastIsRecurring = false;
+				}
+			});
+		}
+
+		// RECURRING PROMPT
+		function clickRecurringTypePrompt() {
+			
+			// Close prompt and submit form
+			$("#recurrenceUpdatePrompt").fadeOut(300);
+
+			$('.loadingGif').each(function() {
+				$(this).fadeIn(100);
+			});
+
+			formData = $("#jobForm").serialize();
+			sendChanges(formData);
+
+			// Reirect to the jobs page
+			// window.location.href = '../';
+
+			$('.loadingGif').each(function() {
+				$(this).fadeOut(100);
+			});
+		}
+
 		// ON LOAD
 		$(function() {
 
@@ -522,182 +721,6 @@
 
 			if ($.isNumeric(url.searchParams.get('wsl'))) {
 				$(".cmsMainContentWrapper").scrollTop(url.searchParams.get('wsl'));
-			}
-
-			function registerJobStaffDeleteButtonClicks() {
-				$("span[id*='deleteJobStaff:::']").each(function (i, el) {
-					$(el).on('click', function(e) {
-						currentId = this.id.split(":::")[1];
-						$.post("./scripts/async/deleteJobStaff.script.php", {
-							emailAddressId: currentId,
-							deleteJobStaffAuthToken: '<?php echo $deleteJobStaffAuthToken->authTokenId; ?>'
-						}, function () {
-							loadJobStaff();
-						});
-					});
-				});
-			}
-
-			function loadJobStaff() {
-				$("#jobStaffLoader").load("./includes/jobStaff.inc.php", {
-					jobId: jobId
-				}, function () {
-					$(":input").change(function (e) {
-						inputChange(e);
-					});
-					registerJobStaffDeleteButtonClicks();
-				});
-			}
-
-			function registerJobCrewsDeleteButtonClicks() {
-				$("span[id*='deleteJobCrew:::']").each(function (i, el) {
-					$(el).on('click', function(e) {
-						currentId = this.id.split(":::")[1];
-						$.post("./scripts/async/deleteJobCrew.script.php", {
-							jobCrewId: currentId,
-							deleteJobCrewAuthToken: '<?php echo $deleteJobCrewAuthToken->authTokenId; ?>'
-						}, function () {
-							loadJobCrews();
-						});
-					});
-				});
-			}
-
-			function loadJobCrews() {
-				$("#jobCrewsLoader").load("./includes/jobCrews.inc.php", {
-					jobId: jobId
-				}, function () {
-					$(":input").change(function (e) {
-						inputChange(e);
-					});
-					registerJobCrewsDeleteButtonClicks();
-				});
-			}
-
-			function sendChanges(formData) {
-				$("#scriptLoader").load("./scripts/async/editJob.script.php", {
-					jobId: jobId,
-					formData: formData
-				}, function () {
-					scriptOutput = $("#scriptLoader").html().split(":::");
-					jobId = scriptOutput[0];
-					formState = scriptOutput[1];
-					clearFormErrors();
-
-					checkStaff = false;
-					checkCrews = false;
-
-					switch (formState) {
-						case 'success':
-							setSaved();
-							if (isNewJob) {
-								isNewJob = false;
-								window.history.pushState("string", 'UltiScape (Admin) - New Job', "./?id="+jobId);
-								window.location.reload();
-							}
-							checkStaff = true;
-							checkCrews = true;
-							
-							// property selector
-
-							if ($("#customerSelector").val() != 'none') {
-								$("#propertySelectorLoader").load('./includes/selectProperty.inc.php', {
-									jobId: jobId,
-									customerId: $("#customerSelector").val()
-								}, function () {
-									$(":input").change(function (e) {
-										inputChange(e);
-									});
-								});
-							} else {
-								$("#propertySelectorLoader").html('');
-							}
-
-							break;
-						default:
-							setWaitingForError();
-							showFormError("#"+formState+"Error", "#"+formState);
-							$("#"+formState).shake(50);
-
-							$('.loadingGif').each(function() {
-								$(this).fadeOut(100);
-							});
-							checkStaff = false;
-							checkCrews = false;
-							break;
-					}
-
-					// if (checkStaff) {
-					// 	$("#scriptLoader").load("./scripts/async/updateJobStaff.script.php", {
-					// 		jobId: jobId,
-					// 		formData: formData
-					// 	}, function () {
-					// 		scriptOutput = $("#scriptLoader").html().split("::::");
-					// 		formState = scriptOutput[1];
-
-					// 		switch (formState) {
-					// 			case 'success':
-					// 				setSaved();
-					// 				checkCrews = true;
-					// 				// Reload the emails box if a new email was put in
-					// 				if ($("#newJobStaff").val().length > 0) {
-					// 					loadJobStaff();
-					// 				}
-					// 				break;
-					// 			default:
-					// 				setWaitingForError();
-					// 				showFormError("#"+formState+"Error", "#"+formState);
-					// 				$("#"+formState).shake(50);
-					// 				checkCrews = false;
-					// 				$('.loadingGif').each(function() {
-					// 					$(this).fadeOut(100);
-					// 				});
-					// 				break;
-					// 		}
-					// 	});
-					// }
-
-					// if (checkCrews) {
-					// 	$("#scriptLoader").load("./scripts/async/updateJobCrews.script.php", {
-					// 		jobId: jobId,
-					// 		formData: formData
-					// 	}, function () {
-					// 		scriptOutput = $("#scriptLoader").html().split("::::");
-					// 		formState = scriptOutput[1];
-
-					// 		switch (formState) {
-					// 			case 'success':
-					// 				setSaved();
-					// 				// Reload the emails box if a new email was put in
-					// 				if ($("#newJobCrews").val().length > 0) {
-					// 					loadJobCrews();
-					// 				}
-					// 				break;
-					// 			default:
-					// 				setWaitingForError();
-					// 				showFormError("#"+formState+"Error", "#"+formState);
-					// 				$("#"+formState).shake(50);
-
-					// 				$('.loadingGif').each(function() {
-					// 					$(this).fadeOut(100);
-					// 				});
-					// 				break;
-					// 		}
-					// 	});
-					// }
-
-					// Update the last job recurring details so that it shows the right recurrance update prompt options
-					lastFreq = $("input[name='frequency']").val();
-					lastFreqInt = $("#frequencyInterval option:selected").val();
-					lastStartDate = $("input[name='startDate']").val();
-					lastWeekday = $("input[name='weekday']").val();
-					lastMonthRecurrenceType = $("input[name='monthRecurrenceSelector']").val();
-					if ($("#isRecurring").is(':checked')) {
-						lastIsRecurring = true;
-					} else {
-						lastIsRecurring = false;
-					}
-				});
 			}
 
 			$("#jobForm").submit(function(event) {
@@ -736,7 +759,6 @@
 				$('.loadingGif').each(function() {
 						$(this).fadeOut(100);
 					});
-				
 				
 			});
 
@@ -1041,8 +1063,8 @@
 										<div id="monthRecurrenceSelector" style="display: none;">
 											<br>
 											<span>On </span><select class="defaultInput" name="monthRecurrenceSelector" id="monthRecurrenceSelectorInput">
-												<option value="dayNumber"<?php if ($currentJob->weekday == '0') {echo ' selected="selected"';} ?>>Day <span id="monthRecurrenceDayNumber">(Loading...)</span></option>
-												<option value="weekdayOfWeekNumber"<?php if ($currentJob->weekday == '1') {echo ' selected="selected"';} ?>>The <span id="monthRecurrenceWeekNumber">(Loading...)</span> <span id="monthRecurrenceWeekday">(Loading...)</span></option>
+												<option value="dayNumber"<?php if (!strpos($currentJob->weekday, '-')) {echo ' selected="selected"';} ?>>Day <span id="monthRecurrenceDayNumber">(Loading...)</span></option>
+												<option value="weekdayOfWeekNumber"<?php if (strpos($currentJob->weekday, '-')) {echo ' selected="selected"';} ?>>The <span id="monthRecurrenceWeekNumber">(Loading...)</span> <span id="monthRecurrenceWeekday">(Loading...)</span></option>
 											</select>
 										</div>
 										<span id="monthRecurrenceSelectorError" class="underInputError" style="display: none;"><br>Select a valid option.</span>
@@ -1073,7 +1095,7 @@
 
 									<br>
 
-									<span id="recurrenceUpdatePromptOkButton" class="smallButtonWrapper greenButton xCenteredFlex" onclick="checkRecurrenceUpdatePrompt()">Ok</span>
+									<span id="recurrenceUpdatePromptOkButton" class="smallButtonWrapper greenButton xCenteredFlex" onclick="clickRecurringTypePrompt()">Ok</span>
 								</div>
 							</div>
 

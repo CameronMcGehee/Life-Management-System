@@ -163,7 +163,11 @@
 						if ($currentJobStartDateTime->format('Y-m-d') == $currentDate->format('Y-m-d')) { // If it is today
 							if (!$currentJob['isCompleted'] && !$currentJob['isCancelled']) {
 								// Will get completed and cancelled jobs seperately
-								$jobsOutput .= '<a href="'.$this->options['rootPathPrefix'].'admin/jobs/job?id='.htmlspecialchars($currentJob['jobId']).'&instance='.$currentJob['instanceDate'].'"><p class="job activeJob">'.htmlspecialchars($currentJob['name']).'</p></a>';
+								if ($currentJob['isRescheduled']) {
+									$jobsOutput .= '<a href="'.$this->options['rootPathPrefix'].'admin/jobs/jobException?id='.htmlspecialchars($currentJob['jobId']).'&instance='.$currentJob['instanceDate'].'"><p class="job activeJob">'.htmlspecialchars($currentJob['name']).'</p></a>';
+								} else {
+									$jobsOutput .= '<a href="'.$this->options['rootPathPrefix'].'admin/jobs/job?id='.htmlspecialchars($currentJob['jobId']).'&instance='.$currentJob['instanceDate'].'"><p class="job activeJob">'.htmlspecialchars($currentJob['name']).'</p></a>';
+								}
 							}
 						}
                     }

@@ -35,7 +35,8 @@
                     $dates = getRecurringDates($startDate->format('Y-m-d'), $endDate, $startDateTime, $endDateTime, $freqInt, $freq, $weekday);
 
                     // Get instance exceptions
-                    $instanceExceptions = $db->select('jobInstanceException', 'instanceDate, startDateTime, isCancelled, isCompleted, linkedToCompletedJobId, isRescheduled', "WHERE jobId = '".$job['jobId']."'");
+                    require_once dirname(__DIR__).'../../table/jobInstanceException.php';
+                    $instanceExceptions = $db->select('jobInstanceException', '*', "WHERE jobId = '".$job['jobId']."'");
                     $exceptionsList = [];
                     if ($instanceExceptions) {
                         foreach ($instanceExceptions as $exception) {
@@ -47,27 +48,37 @@
                         foreach ($exceptionsList as $exception) { // Check for an exception that matches this instance date - if there is then push the exception date
                             if ($exception['instanceDate'] == $date) {
                                 $foundException = true;
-                                $job['instanceDate'] = new DateTime($exception['startDateTime']);
-                                $job['instanceDate'] = $job['instanceDate']->format('Y-m-d');
+                                $instanceJobForPush = $job;
+                                $instanceJobForPush['instanceDate'] = new DateTime($exception['startDateTime']);
+                                $instanceJobForPush['instanceDate'] = $instanceJobForPush['instanceDate']->format('Y-m-d');
 
-                                $job['isCompleted'] = false;
-                                $job['isCancelled'] = false;
-                                $job['isRescheduled'] = false;
+                                $instanceJobForPush['isCompleted'] = false;
+                                $instanceJobForPush['isCancelled'] = false;
+                                $instanceJobForPush['isRescheduled'] = false;
+
+                                $instanceJobForPush['name'] = $exception['name'];
+                                $instanceJobForPush['description'] = $exception['description'];
+                                $instanceJobForPush['privateNotes'] = $exception['privateNotes'];
+                                $instanceJobForPush['price'] = $exception['price'];
+                                $instanceJobForPush['estHours'] = $exception['estHours'];
+                                $instanceJobForPush['isPrepaid'] = $exception['isPrepaid'];
+                                $instanceJobForPush['startDateTime'] = $exception['startDateTime'];
+                                $instanceJobForPush['endDateTime'] = $exception['endDateTime'];
 
                                 if ($exception['isCompleted']) {
-                                    $job['isCompleted'] = true;
-                                    $job['completedJobId'] = $exception['linkedToCompletedJobId'];
+                                    $instanceJobForPush['isCompleted'] = true;
+                                    $instanceJobForPush['completedJobId'] = $exception['linkedToCompletedJobId'];
                                 }
 
                                 if ($exception['isCancelled']) {
-                                    $job['isCancelled'] = true;
+                                    $instanceJobForPush['isCancelled'] = true;
                                 }
 
                                 if ($exception['isRescheduled']) {
-                                    $job['isRescheduled'] = true;
+                                    $instanceJobForPush['isRescheduled'] = true;
                                 }
                                 
-                                array_push($instances, $job);
+                                array_push($instances, $instanceJobForPush);
                             }
                         }
 

@@ -28,35 +28,40 @@
         <?php 
             echo $adminUIRender->renderAdminSideBar('../../');
 
-            require_once '../../../lib/render/ui/popupsHandler.php';
-            $popupsHandler = new popupsHandler('mainPopupsHandler', ["rootPathPrefix" => '../../', "popups" => ['businessCreated'], 'class' => 'styledText spacedText defaultMainShadows', 'style' => 'width: 500em;']);
-            $popupsHandler->render();
-            echo $popupsHandler->output;
+            // require_once '../../../lib/render/ui/popupsHandler.php';
+            // $popupsHandler = new popupsHandler('mainPopupsHandler', ["rootPathPrefix" => '../../', "popups" => ['businessCreated'], 'class' => 'styledText spacedText defaultMainShadows', 'style' => 'width: 500em;']);
+            // $popupsHandler->render();
+            // echo $popupsHandler->output;
         ?>
 
         <div class="cmsMainContentWrapper styledText spacedText textColorThemeGray">
             <div style="margin-left: 2em; margin-right: 2em;">
                 <?php
 
-                    // require_once '../../../lib/table/customer.php';
+                    require_once '../../../lib/table/job.php';
                     // require_once '../../../lib/table/customerEmailAddress.php';
                     // require_once '../../../lib/table/customerPhoneNumber.php';
                     // $lastNames = require_once '../../../lib/arrays/lastNames.php';
                     // $firstNames = require_once '../../../lib/arrays/firstNames.php';
 
-                    // for ($x = 0; $x <= 1000; $x++) {
-                    //     $customer = new customer();
+                    for ($x = 0; $x <= 15; $x++) {
+                        $job = new job();
 
-                    //     $customer->firstName = $firstNames[rand(0, count($firstNames)-1)];
-                    //     $customer->lastName = $lastNames[rand(0, count($lastNames)-1)];
+                        $job->linkedToCustomerId = NULL;
+                        $job->linkedToPropertyId = NULL;
+                        $job->name = 'Mowing'.uniqid();
+                        $job->description = NULL;
+                        $job->privateNotes = NULL;
+                        $job->price = NULL;
+                        $job->estHours = NULL;
+                        $job->isPrepaid = 0;
+                        $job->frequencyInterval = 'week';
+                        $job->frequency = 1;
+                        $job->weekday = '5';
+                        $job->startDateTime = '2022-03-18 00:00:00';
+                        $job->endDateTime = NULL;
     
-                    //     $customer->billAddress1 = '5555 N. Example St.';
-                    //     $customer->billAddress2 = NULL;
-                    //     $customer->billState = 'NA';
-                    //     $customer->billCity = 'Citytown';
-                    //     $customer->billZipCode = 55555;
-    
-                    //     $customer->set();
+                        $job->set();
     
     
                     //     $customerEmailAddress = new customerEmailAddress();
@@ -74,7 +79,7 @@
                     //     $customerPhoneNumber->phone1 = (string)rand(0,9).(string)rand(0,9).(string)rand(0,9).(string)rand(0,9).(string)rand(0,9).(string)rand(0,9).(string)rand(0,9).(string)rand(0,9).(string)rand(0,9).(string)rand(0,9);
     
                     //     $customerPhoneNumber->set();
-                    // }
+                    }
 
                     // -----------------------------------------------------------------------------------------------------------------------------------------------
 

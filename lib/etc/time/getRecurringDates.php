@@ -13,8 +13,8 @@
 		}
 
 		// Add one day so that it will create a date on the end date if there is an instance there
-		$untilDate = new DateTime($untilDate);
-		$untilDate = $untilDate->modify("+1 day")->format('Y-m-d');
+		// $untilDate = new DateTime($untilDate);
+		// $untilDate = $untilDate->modify("+1 day")->format('Y-m-d');
 
 		require_once dirname(__DIR__).'../../when/When.php';
 
