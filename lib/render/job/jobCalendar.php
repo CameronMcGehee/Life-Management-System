@@ -164,7 +164,7 @@
 							if (!$currentJob['isCompleted'] && !$currentJob['isCancelled']) {
 								// Will get completed and cancelled jobs seperately
 								if ($currentJob['isRescheduled']) {
-									$jobsOutput .= '<a href="'.$this->options['rootPathPrefix'].'admin/jobs/jobException?id='.htmlspecialchars($currentJob['jobId']).'&instance='.$currentJob['instanceDate'].'"><p class="job activeJob">'.htmlspecialchars($currentJob['name']).'</p></a>';
+									$jobsOutput .= '<a href="'.$this->options['rootPathPrefix'].'admin/jobs/instance?id='.htmlspecialchars($currentJob['jobId']).'&instance='.$currentJob['instanceDate'].'"><p class="job activeJob">'.htmlspecialchars($currentJob['name']).'</p></a>';
 								} else {
 									$jobsOutput .= '<a href="'.$this->options['rootPathPrefix'].'admin/jobs/job?id='.htmlspecialchars($currentJob['jobId']).'&instance='.$currentJob['instanceDate'].'"><p class="job activeJob">'.htmlspecialchars($currentJob['name']).'</p></a>';
 								}
