@@ -101,7 +101,7 @@
 - Techies
     - Changed the way that instance exceptions (completed, rescheduled or cancelled jobs) are stored
 
-## v0.3.3
+## v0.3.3 - March 2022
 - Goodies
     - Much improved method of editing the recurring schedule of a job
     - Removed option to ingore weekends when scheduling a recurring job and replaced it with selecting the Day of the week and/or week of the month.
@@ -110,13 +110,17 @@
 - Techies
     - Updated code that generates recurring dates to use the library, "When", which is more efficient
 
-## v0.3.4
+## v0.3.4 - March 2022
 - Goodies
     - Ability to delete jobs from the job view/edit page
     - Ability to complete jobs, which will create an archived job that (if recurring) will not be removed if the parent active job is ever deleted
 - Techies
     - Minor change to the schema of the jobInstanceException table
 
-## v0.3.5
+## v0.3.5 - March 2022
 - Goodies
     - Ability to reschedule recurring jobs properly
+    - Ability to edit, cancel and complete rescheduled/edited instances of recurring jobs
+- Techies
+    - Fixed job scheduling bugs related to end dates and recurrance view scopes
+    - Added customer and property fields back to job instances - there is no reason to not have them
