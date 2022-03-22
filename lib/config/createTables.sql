@@ -1042,7 +1042,9 @@
 	`isRescheduled` tinyint(1) NOT NULL DEFAULT 0,
 	`isCancelled` tinyint(1) NOT NULL DEFAULT 0,
 	`isCompleted` tinyint(1) NOT NULL DEFAULT 0,
-	`linkedToCompletedJobId` varchar(17) NULL,
+	`linkedToCompletedJobId` varchar(17) NULL COMMENT 'Optional FK',
+	`linkedToCustomerId` varchar(17) NULL COMMENT 'Optional FK',
+	`linkedToPropertyId` varchar(17) NULL COMMENT 'Optional FK',
 	`name` text NOT NULL,
 	`description` text NULL,
 	`privateNotes` text NULL,
@@ -1055,6 +1057,8 @@
 	PRIMARY KEY (`jobInstanceExceptionId`),
 	KEY `jobInstanceExceptionBusinessId` (`businessId`),
 	KEY `jobInstanceExceptionJobId` (`jobId`),
+	KEY `jobInstanceExceptionLinkedToCustomerId` (`linkedToCustomerId`),
+	KEY `jobInstanceExceptionLinkedToPropertyId` (`linkedToPropertyId`),
 	CONSTRAINT `jobInstanceExceptionBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE,
 	CONSTRAINT `jobInstanceExceptionJobId` FOREIGN KEY (`jobId`) REFERENCES `job` (`jobId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;

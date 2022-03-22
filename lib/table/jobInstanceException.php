@@ -18,6 +18,8 @@
 		public $isCancelled;
 		public $isCompleted;
 		public $linkedToCompletedJobId;
+		public $linkedToCustomerId;
+		public $linkedToPropertyId;
 		public $name;
 		public $description;
 		public $privateNotes;
@@ -49,6 +51,8 @@
 			$this->isCancelled = 0;
 			$this->isCompleted = 0;
 			$this->linkedToCompletedJobId = NULL;
+			$this->linkedToCustomerId = NULL;
+			$this->linkedToPropertyId = NULL;
 			$this->name = '';
 			$this->description = NULL;
 			$this->privateNotes = NULL;
@@ -87,6 +91,8 @@
 				$this->isCancelled = $fetch[0]['isCancelled'];
 				$this->isCompleted = $fetch[0]['isCompleted'];
 				$this->linkedToCompletedJobId = $fetch[0]['linkedToCompletedJobId'];
+				$this->linkedToCustomerId = $fetch[0]['linkedToCustomerId'];
+				$this->linkedToPropertyId = $fetch[0]['linkedToPropertyId'];
 				$this->name = $fetch[0]['name'];
 				$this->description = $fetch[0]['description'];
 				$this->privateNotes = $fetch[0]['privateNotes'];
@@ -134,6 +140,8 @@
 				'isCancelled' => $this->db->sanitize($this->isCancelled),
 				'isCompleted' => $this->db->sanitize($this->isCompleted),
 				'linkedToCompletedJobId' => $this->db->sanitize($this->linkedToCompletedJobId),
+				'linkedToCustomerId' => $this->db->sanitize($this->linkedToCustomerId),
+				'linkedToPropertyId' => $this->db->sanitize($this->linkedToPropertyId),
 				'name' => $this->db->sanitize($this->name),
 				'description' => $this->db->sanitize($this->description),
 				'privateNotes' => $this->db->sanitize($this->privateNotes),
