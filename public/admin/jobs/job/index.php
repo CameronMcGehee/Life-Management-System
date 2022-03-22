@@ -876,11 +876,11 @@
 	<span style="display: none;" id="scriptLoader"></span>
 	<div class="cmsBodyWrapper">
 
-		<?php 
+		<?php
 			echo $adminUIRender->renderAdminTopBar('../../../', true, true, true);
 		?>
 
-		<?php 
+		<?php
             echo $adminUIRender->renderAdminSideBar('../../../');
         ?>
 
@@ -1027,10 +1027,11 @@
 
 							<script>
 								function clearDates() {
-									$("#startDate").val("");
+									// $("#startDate").val("");
 									$("#startTime").val("");
 									$("#endDate").val("");
 									$("#endTime").val("");
+									setUnsaved();
 								}
 
 								function changeStartDate() {

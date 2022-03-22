@@ -167,7 +167,7 @@
 		// Check if the given job instance exists for the dates given (if the job already existed it was done at the top of the script)
 		if (!$currentJob->existed && isset($formData['isRecurring'])) {
 			$jobInstancesCheck = getRecurringDates($currentJob->startDateTime, $currentJob->endDateTime, $currentJob->startDateTime, $formData['instanceDate'], $currentJob->frequencyInterval, $currentJob->frequency, $currentJob->weekday);
-			if (!in_array($formData['instanceDate'], $jobInstancesCheck)) {
+			if ($jobInstancesCheck && !in_array($formData['instanceDate'], $jobInstancesCheck)) {
 				echo 'instanceDate';
 				exit();
 			}
@@ -342,38 +342,53 @@
 					break;
 				case 'thisAndFutureInstances':
 
-					// End the recurring job the day before this instance (2 days to account for the recurring dates calculations)
-					$dayBeforeThisInstance = new DateTime($formData['instanceDate']);
-					$dayBeforeThisInstance = $dayBeforeThisInstance->sub(new DateInterval('P1D'));
-					$currentJob->endDateTime = $dayBeforeThisInstance->format('Y-m-d');
-
-					if ($currentJob->set() !== true) {
-						echo 'setError';
-						exit();
+					if (new DateTime($currentJob->startDateTime) == new DateTime($formData['instanceDate'])) {
+						// simply delete the job as this is the first instance and it will output wrong
+						if ($currentJob->delete() !== true) {
+							echo 'deleteError';
+							exit();
+						}
 					}
+					
+						// End the recurring job before this instance
+						$dayBeforeThisInstance = new DateTime($formData['instanceDate']);
+						if ($currentJob->frequencyInterval == 'week') {
+							$dayBeforeThisInstance = $dayBeforeThisInstance->sub(new DateInterval('P6D'));
+							$currentJob->endDateTime = $dayBeforeThisInstance->format('Y-m-d');
+						} else if ($currentJob->frequencyInterval == 'month') {
+							$dayBeforeThisInstance = $dayBeforeThisInstance->sub(new DateInterval('P27D'));
+							$currentJob->endDateTime = $dayBeforeThisInstance->format('Y-m-d');
+						} else {
+							$dayBeforeThisInstance = $dayBeforeThisInstance->sub(new DateInterval('P1D'));
+							$currentJob->endDateTime = $dayBeforeThisInstance->format('Y-m-d');
+						}
+						if ($currentJob->set() !== true) {
+							echo 'setError';
+							exit();
+						}
 
-					// and make new recurring job with the given details
-					setValuesFromForm($formData); // But do not set this job
+						// and make new recurring job with the given details
+						setValuesFromForm($formData); // But do not set this job
 
-					$newJob = new job();
-					$newJob->linkedToCustomerId = $currentJob->linkedToCustomerId;
-					$newJob->linkedToPropertyId = $currentJob->linkedToPropertyId;
-					$newJob->name = $currentJob->name;
-					$newJob->description = $currentJob->description;
-					$newJob->privateNotes = $currentJob->privateNotes;
-					$newJob->price = $currentJob->price;
-					$newJob->estHours = $currentJob->estHours;
-					$newJob->isPrepaid = $currentJob->isPrepaid;
-					$newJob->frequencyInterval = $currentJob->frequencyInterval;
-					$newJob->frequency = $currentJob->frequency;
-					$newJob->weekday = $currentJob->weekday;
-					$newJob->startDateTime = $formData['instanceDate'];
-					$newJob->endDateTime = $currentJob->endDateTime;
+						$newJob = new job();
+						$newJob->linkedToCustomerId = $currentJob->linkedToCustomerId;
+						$newJob->linkedToPropertyId = $currentJob->linkedToPropertyId;
+						$newJob->name = $currentJob->name;
+						$newJob->description = $currentJob->description;
+						$newJob->privateNotes = $currentJob->privateNotes;
+						$newJob->price = $currentJob->price;
+						$newJob->estHours = $currentJob->estHours;
+						$newJob->isPrepaid = $currentJob->isPrepaid;
+						$newJob->frequencyInterval = $currentJob->frequencyInterval;
+						$newJob->frequency = $currentJob->frequency;
+						$newJob->weekday = $currentJob->weekday;
+						$newJob->startDateTime = $currentJob->startDateTime;
+						$newJob->endDateTime = $currentJob->endDateTime;
 
-					if ($newJob->set() !== true) {
-						echo 'newJobSetError';
-						exit();
-					}
+						if ($newJob->set() !== true) {
+							echo 'newJobSetError';
+							exit();
+						}
 
 					break;
 				case 'allInstances':

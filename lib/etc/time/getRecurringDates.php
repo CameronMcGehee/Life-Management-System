@@ -12,7 +12,7 @@
 			$untilDate = $viewEndDate;
 		}
 
-		// Add one day so that it will create a date on the end date if there is an instance there
+		// For some reason daily recurence with When does not include the last date. Add one day so that it will create a date on the end date if there is an instance there
 		$untilDate = new DateTime($untilDate);
 		$untilDate = $untilDate->modify("+1 day")->format('Y-m-d');
 
@@ -26,6 +26,7 @@
 
 		switch ($int) {
 			case 'day':
+
 				$r->startDate(new DateTime($eventStartDate));
 				$r->freq("daily");
 				$r->interval($freq);
@@ -34,7 +35,9 @@
 				$r->generateOccurrences();
 				
 				foreach ($r->occurrences as $dateObj) {
-					array_push($result, $dateObj->format('Y-m-d'));
+					if ($dateObj <= new DateTime($untilDate)) {
+						array_push($result, $dateObj->format('Y-m-d'));
+					}
 				}
 				return $result;
 				break;
@@ -135,7 +138,9 @@
 				$r->generateOccurrences();
 
 				foreach ($r->occurrences as $dateObj) {
-					array_push($result, $dateObj->format('Y-m-d'));
+					if ($dateObj <= new DateTime($untilDate)) {
+						array_push($result, $dateObj->format('Y-m-d'));
+					}
 				}
 				return $result;
 				
@@ -149,7 +154,9 @@
 				$r->generateOccurrences();
 				
 				foreach ($r->occurrences as $dateObj) {
-					array_push($result, $dateObj->format('Y-m-d'));
+					if ($dateObj <= new DateTime($untilDate)) {
+						array_push($result, $dateObj->format('Y-m-d'));
+					}
 				}
 				return $result;
 				break;
