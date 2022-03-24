@@ -757,7 +757,7 @@
 						<br>
 
 						<label for="privateNotes"><p>Notes (Private to Admins)</p></label>
-						<textarea class="defaultInput" style="font-size: 1.2em; width: 80%;" name="privateNotes" id="privateNotes"><?php echo htmlspecialchars($currentJob->privateNotes); ?></textarea>
+						<textarea class="defaultInput" style="font-size: 1.2em; width: 80%;" name="privateNotes" id="privateNotes"><?php echo htmlspecialchars($currentInstance->privateNotes); ?></textarea>
 						<br><br>
 					
 					</div>
