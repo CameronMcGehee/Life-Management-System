@@ -1487,6 +1487,7 @@ html, body {
 
 .jobCalendar tr td .job.cancelledJob {
     background-color: rgb(196, 54, 54);
+	text-decoration: line-through;
 }
 
 /*-----------------------------------------------------------------------------------------------------------------------------*/

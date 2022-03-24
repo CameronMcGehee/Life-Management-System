@@ -316,7 +316,6 @@
 		}
 
 		// DELETE BUTTON FUNCTIONS
-
 		function deleteButton() {
 			// Save changes to avoid issues
 			if (!changesSaved) {
@@ -375,6 +374,37 @@
 				});
 			} else {
 				makeCompleted();
+			}
+		}
+
+		//CANCEL BUTTON FUNCTIONS
+		function makeCancelled() {
+			// Load the script to convert it into a completed job and redirect if successful
+			$("#completeLoading").fadeIn(300);
+			$("#completeButtonText").hide(300);
+			
+			$("#scriptLoader").load("./scripts/async/cancelJobInstance.script.php", {
+				instanceId: instanceId,
+				instanceDate: currentInstanceDate,
+				cancelJobInstanceAuthToken: '<?php echo $cancelJobInstanceAuthToken->authTokenId; ?>'
+			}, function () {
+				scriptOutput = $("#scriptLoader").html().split(":::");
+				if (scriptOutput[1] == 'success') {
+					window.location.href = './?id=' + scriptOutput[0];
+				} else {
+					$("#completeLoading").fadeOut(300);
+					$("#completeButtonText").show(300);
+				}
+			});
+		}
+		function cancelButton() {
+			// Save changes to avoid issues
+			if (!changesSaved) {
+				$('#jobForm').submit(function () {
+					makeCancelled();
+				});
+			} else {
+				makeCancelled();
 			}
 		}
 

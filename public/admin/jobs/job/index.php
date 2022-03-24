@@ -498,7 +498,6 @@
 		}
 
 		//COMPLETE BUTTON FUNCTIONS
-
 		function makeCompleted() {
 			// Load the script to convert it into a completed job and redirect if successful
 			$("#completeLoading").fadeIn(300);
