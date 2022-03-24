@@ -16,7 +16,7 @@
 
     // Validate the auth token
 	require_once '../../../../../../lib/etc/authToken/validateAuthToken.php';
-	if (!isset($_POST['deleteJobAuthToken']) || !validateAuthToken($_POST['deleteJobAuthToken'], 'deleteJob')) {
+	if (!isset($_POST['deleteJobInstanceAuthToken']) || !validateAuthToken($_POST['deleteJobInstanceAuthToken'], 'deleteJobInstance')) {
 		echo 'tokenInvalid';
 		exit();
 	}
@@ -36,7 +36,7 @@
 
 	// Use the auth token
 	require_once '../../../../../../lib/etc/authToken/useAuthToken.php';
-	useAuthToken($_POST['deleteJobAuthToken'], 'deleteJob');
+	useAuthToken($_POST['deleteJobInstanceAuthToken'], 'deleteJobInstance');
 	
 	// Success if gotten to bottom of script
 	echo 'success';

@@ -330,9 +330,9 @@
 		function deleteYes() {
 			// Delete run the script
 			$("#deleteLoading").fadeIn(300);
-			$("#scriptLoader").load("./scripts/async/deleteJob.script.php", {
+			$("#scriptLoader").load("./scripts/async/deleteJobInstance.script.php", {
 				jobId: jobId,
-				deleteJob$deleteJobInstanceAuthToken: '<?php echo $deleteJobInstanceAuthToken->authTokenId; ?>'
+				deleteJobInstanceAuthToken: '<?php echo $deleteJobInstanceAuthToken->authTokenId; ?>'
 			}, function () {
 				if ($("#scriptLoader").html() == 'success') {
 					window.location.href = '../?popup=jobDeleted';
@@ -543,7 +543,7 @@
 
 				<input type="hidden" name="mainAuthToken" id="mainAuthToken" value="<?php echo htmlspecialchars($mainAuthToken->authTokenId); ?>">
 
-				<input type="hidden" name="deleteJob$deleteJobInstanceAuthToken" id="deleteJob$deleteJobInstanceAuthToken" value="<?php echo htmlspecialchars($deleteJobInstanceAuthToken->authTokenId); ?>">
+				<input type="hidden" name="deleteJob$deleteJobInstanceAuthToken" id="deleteJobInstanceAuthToken" value="<?php echo htmlspecialchars($deleteJobInstanceAuthToken->authTokenId); ?>">
 				<input type="hidden" name="cancelJobInstanceAuthToken" id="cancelJobInstanceAuthToken" value="<?php echo htmlspecialchars($cancelJobInstanceAuthToken->authTokenId); ?>">
 				<input type="hidden" name="completeJobInstanceAuthToken" id="completeJobInstanceAuthToken" value="<?php echo htmlspecialchars($completeJobInstanceAuthToken->authTokenId); ?>">
 
