@@ -111,7 +111,7 @@
 	$currentInstance->isCancelled = false;
 
 	if (!$currentInstance->set()) {
-		echo 'current$currentInstanceSetError';
+		echo 'currentInstanceSetError';
 		exit();
 	}
 
