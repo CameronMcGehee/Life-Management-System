@@ -315,6 +315,18 @@
 			$("#instancePreviewNotice").html("This is a single edited occurrence of the recurring job \"<b><?php echo htmlspecialchars($currentJob->name) ?></b>\", which recurs <b>" + recurrencePreview + "</b>. You cannot change the recurrence of an edited instance of a recurring job. ");
 		}
 
+		// Per hour calculator
+		function updatePerHourCalc() {
+			var price = parseFloat($("#price").val());
+			var estHours = parseFloat($("#estHours").val());
+
+			if (isNaN(price / estHours)) {
+				$("#perHourCalc").html("<?php echo htmlspecialchars($currentBusiness->currencySymbol); ?>--/hour");
+			} else {
+				$("#perHourCalc").html("<?php echo htmlspecialchars($currentBusiness->currencySymbol); ?>" + (price / estHours).toFixed(2) + "/hour");
+			}
+		}
+
 		// DELETE BUTTON FUNCTIONS
 		function deleteButton() {
 			// Save changes to avoid issues
@@ -565,7 +577,7 @@
 
 		<div class="cmsMainContentWrapper textColorThemeGray styledText">
 			<div class="mobileOnlyBlock xyCenteredFlex centered" style="position: sticky; top: 0px; width: 100%; padding-top: .3em; padding-bottom: .3em; border-bottom: .1em solid gray; background-color: white;">
-			<button class="mediumButtonWrapper greenButton centered defaultMainShadows" type="submit" onclick="$('#jobForm').submit()">Save Changes</button>
+				<button class="mediumButtonWrapper greenButton centered defaultMainShadows" type="submit" onclick="$('#jobForm').submit()">Save Changes</button>
 				<div class="changesMessage"><span style="color: green;">Up to date ✔</span></div>
 				<img style="display: none; width: 2em;" src="../../../images/ultiscape/etc/loading.gif" class="loadingGif">
 			</div>
@@ -637,13 +649,13 @@
 							<div class="threeCol">
 								<div>
 									<label for="name"><p>Price (<?php echo htmlspecialchars($currentBusiness->currencySymbol); ?>)</p></label>
-									<input class="defaultInput" style="width: 5em;" type="number" min="0.00" max="999999999999" step="0.01" name="price" id="price" placeholder="Free" value="<?php echo htmlspecialchars($currentInstance->price); ?>">
+									<input onchange="updatePerHourCalc()" class="defaultInput" style="width: 5em;" type="number" min="0.00" max="999999999999" step="0.01" name="price" id="price" placeholder="Free" value="<?php echo htmlspecialchars($currentInstance->price); ?>">
 									<span id="priceError" class="underInputError" style="display: none;"><br>Enter a number.</span>
 								</div>
 
 								<div>
 									<label for="name"><p>Estimated Hours</p></label>
-									<input class="defaultInput" style="width: 5em;" type="number" min="0" max="999999999999" step =".01" name="estHours" id="estHours" placeholder="Est. Hours..." value="<?php echo htmlspecialchars($currentInstance->estHours); ?>">
+									<input onchange="updatePerHourCalc()" class="defaultInput" style="width: 5em;" type="number" min="0" max="999999999999" step =".01" name="estHours" id="estHours" placeholder="Est. Hours..." value="<?php echo htmlspecialchars($currentInstance->estHours); ?>">
 									<span id="estHoursError" class="underInputError" style="display: none;"><br>Enter a number.</span>
 
 									<p id="perHourCalc" style="color: gray;">$--/hour</p>
@@ -765,7 +777,7 @@
 					<div id="twoColInfoWrapper" class="paddingLeftRight90 paddingTopBottom90">
 						<br>
 						<span class="desktopOnlyBlock">
-						<button class="mediumButtonWrapper greenButton centered defaultMainShadows" type="submit">Save Changes</button>
+							<button class="mediumButtonWrapper greenButton centered defaultMainShadows" type="submit">Save Changes</button>
 							<br><br>
 							<div class="changesMessage"><span style="color: green;">Up to date ✔</span></div>
 							<img style="display: none; width: 2em;" src="../../../images/ultiscape/etc/loading.gif" class="loadingGif">
@@ -776,10 +788,10 @@
 						<h3>Other Info</h3>
 
 						<?php
-							$addedDate = new DateTime($currentJob->dateTimeAdded);
+							$jobAdded = new DateTime($currentJob->dateTimeAdded);
 						?>
 
-						<p>Added on <?php echo $addedDate->format('D, d M y'); ?></p>
+						<p>Recurring Job created on <?php echo $jobAdded->format('D, d M y'); ?></p>
 					</div>
 				</div>
 

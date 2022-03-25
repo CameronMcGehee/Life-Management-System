@@ -465,8 +465,19 @@
 			}
 		}
 
-		// DELETE BUTTON FUNCTIONS
+		// Per hour calculator
+		function updatePerHourCalc() {
+			var price = parseFloat($("#price").val());
+			var estHours = parseFloat($("#estHours").val());
 
+			if (isNaN(price / estHours)) {
+				$("#perHourCalc").html("<?php echo htmlspecialchars($currentBusiness->currencySymbol); ?>--/hour");
+			} else {
+				$("#perHourCalc").html("<?php echo htmlspecialchars($currentBusiness->currencySymbol); ?>" + (price / estHours).toFixed(2) + "/hour");
+			}
+		}
+
+		// DELETE BUTTON FUNCTIONS
 		function deleteButton() {
 			// Save changes to avoid issues
 			if (!changesSaved) {
@@ -803,6 +814,9 @@
 			// Load the recurring inputs correctly on startup
 			updateRecurringInputs();
 
+			//Update the per hour calc on startup
+			updatePerHourCalc();
+
 			<?php
 
 				require_once '../../../../lib/etc/time/getWeekNumbers.php';
@@ -963,13 +977,13 @@
 							<div class="threeCol">
 								<div>
 									<label for="name"><p>Price (<?php echo htmlspecialchars($currentBusiness->currencySymbol); ?>)</p></label>
-									<input class="defaultInput" style="width: 5em;" type="number" min="0.00" max="999999999999" step="0.01" name="price" id="price" placeholder="Free" value="<?php echo htmlspecialchars($currentJob->price); ?>">
+									<input onchange="updatePerHourCalc()" class="defaultInput" style="width: 5em;" type="number" min="0.00" max="999999999999" step="0.01" name="price" id="price" placeholder="Free" value="<?php echo htmlspecialchars($currentJob->price); ?>">
 									<span id="priceError" class="underInputError" style="display: none;"><br>Enter a number.</span>
 								</div>
 
 								<div>
 									<label for="name"><p>Estimated Hours</p></label>
-									<input class="defaultInput" style="width: 5em;" type="number" min="0" max="999999999999" name="estHours" id="estHours" placeholder="Est. Hours..." value="<?php echo htmlspecialchars($currentJob->estHours); ?>">
+									<input onchange="updatePerHourCalc()" class="defaultInput" style="width: 5em;" type="number" min="0" max="999999999999" step="0.01" name="estHours" id="estHours" placeholder="Est. Hours..." value="<?php echo htmlspecialchars($currentJob->estHours); ?>">
 									<span id="estHoursError" class="underInputError" style="display: none;"><br>Enter a number.</span>
 
 									<p id="perHourCalc" style="color: gray;">$--/hour</p>
