@@ -24,8 +24,8 @@
 	//Verify the job belongs to the business that is signed in
     require_once '../../../../../../lib/table/job.php';
 	$currentJob = new job($_POST['jobId']);
-    if ($currentJob->businessId != $_SESSION['ultiscape_businessId']) {
-        echo 'unauthorized';
+    if (!$currentJob->existed || $currentJob->businessId != $_SESSION['ultiscape_businessId']) {
+        echo 'noJob';
         exit();
     }
 

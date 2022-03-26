@@ -541,6 +541,39 @@
 			}
 		}
 
+		//CANCEL BUTTON FUNCTIONS
+		function makeCancelled() {
+			// Load the script to convert it into a completed job and redirect if successful
+			$("#completeLoading").fadeIn(300);
+			$("#completeButtonText").hide(300);
+			
+			$("#scriptLoader").load("./scripts/async/cancelJob.script.php", {
+				jobId: jobId,
+				instanceDate: currentInstanceDate,
+				cancelJobAuthToken: '<?php echo $cancelJobAuthToken->authTokenId; ?>'
+			}, function () {
+				scriptOutput = $("#scriptLoader").html().split(":::");
+				jobId = scriptOutput[0];
+				formState = scriptOutput[1];
+				if (formState == 'success') {
+					window.location.href = '../instance?id=' + jobId;
+				} else {
+					$("#completeLoading").fadeOut(300);
+					$("#completeButtonText").show(300);
+				}
+			});
+		}
+		function cancelButton() {
+			// Save changes to avoid issues
+			if (!changesSaved) {
+				$('#jobForm').submit(function () {
+					makeCancelled();
+				});
+			} else {
+				makeCancelled();
+			}
+		}
+
 		function registerJobStaffDeleteButtonClicks() {
 			$("span[id*='deleteJobStaff:::']").each(function (i, el) {
 				$(el).on('click', function(e) {

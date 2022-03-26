@@ -120,6 +120,7 @@
 ## v0.3.5 - March 2022
 - Goodies
     - Ability to reschedule recurring jobs properly
+    - Ability to cancel jobs
     - Ability to edit, cancel and complete rescheduled/edited instances of recurring jobs
 - Techies
     - Fixed job scheduling bugs related to end dates and recurrance view scopes

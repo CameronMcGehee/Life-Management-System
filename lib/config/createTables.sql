@@ -1021,6 +1021,7 @@
 	`weekday` varchar(20) NULL DEFAULT NULL,
 	`startDateTime` datetime NOT NULL,
 	`endDateTime` datetime NULL,
+	`isCancelled` tinyint(1) NOT NULL DEFAULT 0,
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`jobId`),
 	KEY `jobBusinessId` (`businessId`),

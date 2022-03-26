@@ -22,7 +22,7 @@
 	}
 	require_once '../../../../../../lib/table/jobInstanceException.php';
 	$currentInstance = new jobInstanceException($_POST['instanceId']);
-	if ($currentInstance->businessId != $_SESSION['ultiscape_businessId']) {
+	if (!$currentInstance->existed || $currentInstance->businessId != $_SESSION['ultiscape_businessId']) {
         echo 'noJob';
         exit();
     }

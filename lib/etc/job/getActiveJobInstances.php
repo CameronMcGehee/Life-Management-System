@@ -26,7 +26,7 @@
                 if ($freqInt == 'none') {
                     $job['instanceDate'] = $startDate->format('Y-m-d');
                     $job['isCompleted'] = false;
-                    $job['isCancelled'] = false;
+                    $job['isCancelled'] = $job['isCancelled'];
                     $job['isRescheduled'] = false;
                     array_push($instances, $job);
                 } else {

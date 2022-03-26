@@ -25,6 +25,7 @@
 		public $weekday;
 		public $startDateTime;
 		public $endDateTime;
+		public $isCancelled;
 		public $dateTimeAdded;
 
 		// Arrays to store linked data.
@@ -58,6 +59,7 @@
 			$this->weekday = NULL;
 			$this->startDateTime = '';
 			$this->endDateTime = NULL;
+			$this->isCancelled = '0';
 			// Default dateTimeAdded to now since it is likely going to be inserted at this time
 			$currentDateTime = new DateTime();
 			$this->dateTimeAdded = $currentDateTime->format('Y-m-d H:i:s');
@@ -100,6 +102,7 @@
 				$this->weekday = $fetch[0]['weekday'];
 				$this->startDateTime = $fetch[0]['startDateTime'];
 				$this->endDateTime = $fetch[0]['endDateTime'];
+				$this->isCancelled = $fetch[0]['isCancelled'];
 				$this->dateTimeAdded = $fetch[0]['dateTimeAdded'];
 
 				$this->setType = 'UPDATE';
@@ -215,6 +218,7 @@
 				'weekday' => $this->db->sanitize($this->weekday),
 				'startDateTime' => $this->db->sanitize($this->startDateTime),
 				'endDateTime' => $this->db->sanitize($this->endDateTime),
+				'isCancelled' => $this->db->sanitize($this->isCancelled),
 				'dateTimeAdded' => $this->db->sanitize($this->dateTimeAdded)
 			);
 

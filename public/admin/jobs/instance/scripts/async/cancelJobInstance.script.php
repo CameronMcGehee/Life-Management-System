@@ -37,7 +37,7 @@
     require_once '../../../../../../lib/table/jobInstanceException.php';
 	$currentInstance = new jobInstanceException($_POST['instanceId']);
     if ($currentInstance->businessId != $_SESSION['ultiscape_businessId'] || !$currentInstance->existed) {
-        echo 'unauthorized';
+        echo 'noJob';
         exit();
     }
 
