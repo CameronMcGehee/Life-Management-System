@@ -523,7 +523,7 @@
 				jobId = scriptOutput[0];
 				formState = scriptOutput[1];
 				if (formState == 'success') {
-					window.location.href = '../completedJob?id=' + jobId;
+					window.location.href = '../completedjob?id=' + jobId;
 				} else {
 					$("#completeLoading").fadeOut(300);
 					$("#completeButtonText").show(300);
