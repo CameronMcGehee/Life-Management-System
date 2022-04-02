@@ -115,12 +115,14 @@
 
 			require_once '../../../../../../lib/table/jobInstanceException.php';
 			$instanceException = new jobInstanceException($instanceExceptionId);
+
+			echo $instanceException->jobId.':::job';
+
 			if (!$instanceException->delete()) {
 				echo 'instanceExceptionDeleteError';
 				exit();
 			}
 		}
-
 		
 	}
 
