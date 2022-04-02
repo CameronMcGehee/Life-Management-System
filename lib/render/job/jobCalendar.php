@@ -15,6 +15,7 @@
 
             require_once dirname(__FILE__)."/../../table/job.php";
 			require_once dirname(__FILE__)."/../../etc/job/getActiveJobInstances.php";
+			require_once dirname(__FILE__)."/../../etc/job/getCompletedJobs.php";
 
 			if (empty($options['rootPathPrefix'])) {
 				$options['rootPathPrefix'] = './';
@@ -75,6 +76,7 @@
             // Get all jobs within the date range
 
 			$jobs = getActiveJobInstances($month_ini->format('Y-m-d'), $month_end->format('Y-m-d'));
+			$completedJobs = getCompletedJobs($month_ini->format('Y-m-d'), $month_end->format('Y-m-d'));
 
 			$this->output = '';
 
@@ -157,12 +159,18 @@
 
 					$jobsOutput = '';
 
+					foreach ($completedJobs as $currentJob) {
+						$currentJobStartDateTime = new DateTime($currentJob['instanceDate']);
+						if ($currentJobStartDateTime->format('Y-m-d') == $currentDate->format('Y-m-d')) { // If it is today
+							$jobsOutput .= '<a href="'.$this->options['rootPathPrefix'].'admin/jobs/completedjob?id='.htmlspecialchars($currentJob['completedJobId']).'&instance='.$currentJob['instanceDate'].'"><p class="job completedJob">'.htmlspecialchars($currentJob['name']).'</p></a>';
+						}
+                    }
+
                     foreach ($jobs as $currentJob) {
 						$currentJobStartDateTime = new DateTime($currentJob['instanceDate']);
 						$currentJobEndDateTime = new DateTime($currentJob['endDateTime']);
 						if ($currentJobStartDateTime->format('Y-m-d') == $currentDate->format('Y-m-d')) { // If it is today
 							if (!$currentJob['isCompleted']) {
-								// Will get completed and cancelled jobs seperately
 								if ($currentJob['isCancelled']) {
 									if ($currentJob['frequencyInterval'] == 'none') {
 										$jobsOutput .= '<a href="'.$this->options['rootPathPrefix'].'admin/jobs/job?id='.htmlspecialchars($currentJob['jobId']).'&instance='.$currentJob['instanceDate'].'"><p class="job cancelledJob">'.htmlspecialchars($currentJob['name']).'</p></a>';
