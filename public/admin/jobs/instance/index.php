@@ -371,7 +371,7 @@
 			}, function () {
 				scriptOutput = $("#scriptLoader").html().split(":::");
 				if (scriptOutput[1] == 'success') {
-					window.location.href = '../completedJob?id=' + scriptOutput[0];
+					window.location.href = '../completedjob?id=' + scriptOutput[0];
 				} else {
 					$("#completeLoading").fadeOut(300);
 					$("#completeButtonText").show(300);

@@ -55,6 +55,7 @@
 	// Echo the completedJobId
 	echo $completedJob->completedJobId.':::';
 
+	$completedJob->linkedToJobId = $currentInstance->jobId;
 	$completedJob->linkedToCustomerId = $currentInstance->linkedToCustomerId;
 	$completedJob->linkedToPropertyId = $currentInstance->linkedToPropertyId;
 
@@ -88,16 +89,17 @@
 	$completedJob->weekday = $parentJob->weekday;
 	$completedJob->startDateTime = $currentInstance->startDateTime;
 	$completedJob->endDateTime = $currentInstance->endDateTime;
+	$completedJob->instanceDate = $_POST['instanceDate'];
 
 	// Check if it is a valid instance date
-	require_once '../../../../../../lib/etc/time/getRecurringDates.php';
-	$jobInstancesCheck = getRecurringDates($currentInstance->startDateTime, $currentInstance->endDateTime, $currentInstance->startDateTime, $_POST['instanceDate'], $parentJob->frequencyInterval, $parentJob->frequency, $parentJob->weekday);
-	if (in_array($_POST['instanceDate'], $jobInstancesCheck)) {
-		$completedJob->instanceDate = $_POST['instanceDate'];
-	} else {
-		echo 'instanceDate';
-		exit();
-	}
+	// require_once '../../../../../../lib/etc/time/getRecurringDates.php';
+	// $jobInstancesCheck = getRecurringDates($currentInstance->startDateTime, $currentInstance->endDateTime, $currentInstance->startDateTime, $_POST['instanceDate'], $parentJob->frequencyInterval, $parentJob->frequency, $parentJob->weekday);
+	// if (in_array($_POST['instanceDate'], $jobInstancesCheck)) {
+	// 	$completedJob->instanceDate = $_POST['instanceDate'];
+	// } else {
+	// 	echo 'instanceDate';
+	// 	exit();
+	// }
 
 	if (!$completedJob->set()) {
 		echo 'completedJobSetError';
