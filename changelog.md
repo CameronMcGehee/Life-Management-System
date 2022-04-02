@@ -122,6 +122,8 @@
     - Ability to reschedule recurring jobs properly
     - Ability to cancel jobs
     - Ability to edit, cancel and complete rescheduled/edited instances of recurring jobs
+    - Ability to view completed jobs
+    - Ability to set completed jobs as incomplete
 - Techies
     - Fixed job scheduling bugs related to end dates and recurrance view scopes
     - Added customer and property fields back to job instances - there is no reason to not have them
