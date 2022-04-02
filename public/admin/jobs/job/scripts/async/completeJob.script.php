@@ -86,6 +86,7 @@
 	if ($currentJob->frequencyInterval == 'none') {
 		$completedJob->instanceDate = NULL;
 	} else {
+		$completedJob->linkedToJobId = $currentJob->jobId;
 		// Check if it is a valid instance date
 		require_once '../../../../../../lib/etc/time/getRecurringDates.php';
 		$jobInstancesCheck = getRecurringDates($currentJob->startDateTime, $currentJob->endDateTime, $currentJob->startDateTime, $_POST['instanceDate'], $currentJob->frequencyInterval, $currentJob->frequency, $currentJob->weekday);
