@@ -12,6 +12,7 @@
 		// Main database attributes
 		public $completedJobId;
 		public $businessId;
+		public $linkedToJobId;
 		public $linkedToCustomerId;
 		public $linkedToPropertyId;
 		public $customerFirstName;
@@ -53,6 +54,7 @@
 			} else {
 				$this->businessId = '';
 			}
+			$this->linkedToJobId = NULL;
 			$this->linkedToCustomerId = NULL;
 			$this->linkedToPropertyId = NULL;
 			$this->customerFirstName = '';
@@ -103,6 +105,7 @@
 			if ($fetch) {
 				$this->completedJobId = $completedJobId;
 				$this->businessId = $fetch[0]['businessId'];
+				$this->linkedToJobId = $fetch[0]['linkedToJobId'];
 				$this->linkedToCustomerId = $fetch[0]['linkedToCustomerId'];
 				$this->linkedToPropertyId = $fetch[0]['linkedToPropertyId'];
 				$this->customerFirstName = $fetch[0]['customerFirstName'];
@@ -205,6 +208,7 @@
 			$attributes = array(
 				'completedJobId' => $this->db->sanitize($this->dbJobSingularId),
 				'businessId' => $this->db->sanitize($this->businessId),
+				'linkedToJobId' => $this->db->sanitize($this->linkedToJobId),
 				'linkedToCustomerId' => $this->db->sanitize($this->linkedToCustomerId),
 				'linkedToPropertyId' => $this->db->sanitize($this->linkedToPropertyId),
 				'customerFirstName' => $this->db->sanitize($this->customerFirstName),
