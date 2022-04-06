@@ -1,37 +1,37 @@
 <?php
 
-    // Start Session
-    require_once '../../php/startSession.php';
+	// Start Session
+	require_once '../../php/startSession.php';
 
-    // If not signed in, just redirect to the login page
-    require_once '../../../lib/etc/adminHeaderRedirect.php';
-    adminHeaderRedirect('../', '../');
+	// If not signed in, just redirect to the login page
+	require_once '../../../lib/etc/adminHeaderRedirect.php';
+	adminHeaderRedirect('../', '../');
 
-    require_once '../../../lib/adminUIRender.php';
-    $adminUIRender = new adminUIRender();
+	require_once '../../../lib/adminUIRender.php';
+	$adminUIRender = new adminUIRender();
 
-    echo $adminUIRender->renderAdminHtmlTop('../../', 'Invoices', 'Create, edit, and view invoices.');
+	echo $adminUIRender->renderAdminHtmlTop('../../', 'Invoices', 'Create, edit, and view invoices.');
 
-    echo $adminUIRender->renderAdminUIMenuToggleScripts('../../');
+	echo $adminUIRender->renderAdminUIMenuToggleScripts('../../');
 
 ?>
 
 </head>
 
 <body>
-    <div style="display: none;" id="scriptLoader"></div>
-    <div class="cmsBodyWrapper">
+	<div style="display: none;" id="scriptLoader"></div>
+	<div class="cmsBodyWrapper">
 
-        <?php 
-            echo $adminUIRender->renderAdminTopBar('../../');
-        ?>
+		<?php
+			echo $adminUIRender->renderAdminTopBar('../../');
+		?>
 
-        <?php 
-            echo $adminUIRender->renderAdminSideBar('../../');
-        ?>
+		<?php
+			echo $adminUIRender->renderAdminSideBar('../../');
+		?>
 
-        <div class="cmsMainContentWrapper styledText spacedText textColorThemeInvoices">
-        <div style="margin-left: 2em; margin-right: 2em;" class="spacedText">
+		<div class="cmsMainContentWrapper styledText textColorThemeInvoices">
+			<div style="margin-left: 2em; margin-right: 2em;" class="spacedText">
 				<h1>Invoices</h1>
 			</div>
 
@@ -41,11 +41,16 @@
 				<div id="twoColContentWrapper" class="paddingLeftRight90">
 					<?php
 
-						// require_once '../../../lib/render/invoice/invoiceTable.php';
-						// $invoiceTable = new invoiceTable('main');
-						// $invoiceTable->rootPathPrefix = '../../';
-						// $invoiceTable->render();
-						// echo $invoiceTable->output;
+						require_once '../../../lib/render/invoice/invoiceTable.php';
+						$invoiceTable = new invoiceTable('main', [
+							'rootPathPrefix' => '../../',
+							'maxRows' => 15,
+							'showAdd' => true,
+							'showSort' => true,
+							'showBatch' => true,
+						]);
+						$invoiceTable->render();
+						echo $invoiceTable->output;
 
 						require_once '../../../lib/render/etc/didYouKnowBox.php';
 						$didYouKnowBox = new didYouKnowBox('invoicesPageDidYouKnowBox', ['rootPathPrefix' => '../../']);
@@ -66,27 +71,28 @@
 
 					<br>
 
-					<a style="color: var(--grayTextColorTheme); display: inline-block;" href="#">Export (coming soon)</a>
+					<a style="color: var(--grayTextColorTheme); display: inline-block;" href="./import">Import</a> | <a style="color: var(--grayTextColorTheme); display: inline-block;" href="./export">Export</a>
 
 				</div>
 			</div>
 			<br>
-        </div>
-        
-        <?php 
-            echo $adminUIRender->renderAdminFooter('../../');
-        ?>
+		</div>
+		
+		<?php 
+			echo $adminUIRender->renderAdminFooter('../../');
+		?>
 
-        <?php 
-            echo $adminUIRender->renderAdminMobileNavBar('../../');
-        ?>
+		<?php 
+			echo $adminUIRender->renderAdminMobileNavBar('../../');
+		?>
 
-    </div>
+	</div>
 
-    <?php
+	<?php
 		echo $adminUIRender->renderAdminTopBarDropdowns('../../');
 	?>
 </body>
+
 <?php 
-    echo $adminUIRender->renderAdminHtmlBottom('../../');
+	echo $adminUIRender->renderAdminHtmlBottom('../../');
 ?>
