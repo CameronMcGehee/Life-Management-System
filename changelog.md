@@ -127,3 +127,11 @@
 - Techies
     - Fixed job scheduling bugs related to end dates and recurrance view scopes
     - Added customer and property fields back to job instances - there is no reason to not have them
+
+## v0.4.0 - April 2022
+- Goodies
+    - Ability to create and edit invoices
+- Techies
+    - Fixed docId class needing businessId instead of docIdId to construct
+    - Created script to batch delete invoices
+    - Various fixes to invoice class
