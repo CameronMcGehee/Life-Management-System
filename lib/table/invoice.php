@@ -43,7 +43,7 @@
 			}
 			$this->docIdId = '';
 			$this->customerId = NULL;
-			$this->discountIsPercent = NULL;
+			$this->discountIsPercent = '0';
 			$this->discount = '0';
 			$this->customJobDetails = NULL;
 			$this->comments = NULL;
@@ -70,6 +70,7 @@
 
 			// Connect to the database
 			require_once dirname(__FILE__)."/../database.php";
+			require_once dirname(__FILE__)."/../table/docId.php";
 			$this->db = new database;
 
 			// Fetch from database
@@ -100,8 +101,13 @@
 				require_once dirname(__FILE__)."/tableUuid.php";
 				$uuid = new tableUuid('invoice', 'invoiceId');
 				$this->invoiceId = $uuid->generatedId;
-				
+
 				$this->setToDefaults();
+
+				// Make a new docId
+				require_once dirname(__FILE__)."/docId.php";
+				$docId = new docId($this->businessId);
+				$this->docIdId = $docId->docIdId;
 
 				$this->setType = 'INSERT';
 				$this->existed = false;
