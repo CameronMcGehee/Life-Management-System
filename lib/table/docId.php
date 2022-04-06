@@ -6,7 +6,6 @@
 		private database $db;
 
 		private string $dbDocIdId; // Used when updating the table incase the docIdId has been changed after instantiation
-		private string $selectedBusinessId; // Used when generating new docIds
 		
 		public bool $existed; // Can be used to see whether the given entity existed already at the time of instantiation
 
@@ -49,17 +48,14 @@
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 
-		function __construct(string $businessId, string $docIdId = '') {
-
-			// Set the businessId so that we can generate new ids
-			$this->selectedBusinessId = $businessId;
+		function __construct(string $docIdId = '') {
 
 			// Connect to the database
 			require_once dirname(__FILE__)."/../database.php";
 			$this->db = new database;
 
 			// Fetch from database
-			$fetch = $this->db->select('docId', '*', "WHERE docIdId ='".$this->db->sanitize($docIdId)."'");
+			$fetch = $this->db->select('docId', '*', "WHERE docIdId = '".$this->db->sanitize($docIdId)."'");
 
 			// If docIdId already exists then set the set method type to UPDATE and fetch the values for the docId
 			if ($fetch) {
@@ -87,10 +83,10 @@
 
 			$this->dbDocIdId = $this->docIdId;
 
-			if ($existed) {
+			if ($this->existed) {
 				// If the docId existed, fill the linkedItem array with whatever the docId is linked to
 				$this->pullLinkedItem();
-			} elseif ($this->selectedBusinessId != '') {
+			} elseif ($this->businessId != '') {
 				$this->generateIncrementalId();
 				$this->generateRandomId();
 			}
@@ -104,7 +100,7 @@
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 
 		// linkedItem
-		public function pullLinkedItem () {
+		public function pullLinkedItem (string $params = '') {
 			$this->linkedItem = array();
 			// Add space before params
 			if ($params != '') {
@@ -144,7 +140,7 @@
 
 		public function generateIncrementalId() {
 			// For incremental id, find the last highest id for this business and then set this one to one above that
-			$fetch = $this->db->select('docId', 'incrementalId', "WHERE businessId = '".$this->db->sanitize($this->selectedBusinessId)."' ORDER BY incrementalId DESC LIMIT 1");
+			$fetch = $this->db->select('docId', 'incrementalId', "WHERE businessId = '".$this->db->sanitize($this->businessId)."' ORDER BY incrementalId DESC LIMIT 1");
 			if (!$fetch) {
 				$newIncrementalId = 1;
 			} else {
@@ -156,7 +152,7 @@
 		public function generateRandomId() {
 			// for random id, generate a random 5 number id until it doesn't exist already
 			$newRandomId = (string)rand(0,9).(string)rand(0,9).(string)rand(0,9).(string)rand(0,9).(string)rand(0,9);
-			while ($this->db->select('docId', 'randomId', "WHERE businessId = '".$this->db->sanitize($this->selectedBusinessId)."' AND randomId = '$newRandomId'")) {
+			while ($this->db->select('docId', 'randomId', "WHERE businessId = '".$this->db->sanitize($this->businessId)."' AND randomId = '$newRandomId'")) {
 				$newRandomId = (string)rand(0,9).(string)rand(0,9).(string)rand(0,9).(string)rand(0,9).(string)rand(0,9);
 			}
 			$this->randomId = (string)$newRandomId;
