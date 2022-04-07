@@ -55,7 +55,7 @@
 			}
 
             if (!isset($options['useSort']) || !in_array($options['useSort'], ['az', 'za', 'newest', 'oldest'])) {
-				$options['useSort'] = 'az';
+				$options['useSort'] = 'newest';
 			}
 
             if (!isset($options['showPageNav'])) {
@@ -65,7 +65,6 @@
             if (!isset($options['showCustomer'])) {
 				$options['showCustomer'] = true;
 			}
-
 
             if (!isset($options['showTotal'])) {
 				$options['showTotal'] = true;
@@ -84,7 +83,7 @@
 			}
 
             if (!isset($options['showDateAdded'])) {
-				$options['showDateAdded'] = false;
+				$options['showDateAdded'] = true;
 			}
 
             if (!isset($options['showFunctions'])) {
@@ -95,18 +94,19 @@
 				$options['showBatch'] = false;
 			}
 
+            require_once dirname(__FILE__)."/../../table/business.php";
             $this->currentBusiness = new business($options['businessId']);
 
             $this->renderId = $renderId;
 
             require_once dirname(__FILE__)."/../../table/authToken.php";
             require_once dirname(__FILE__)."/../../table/invoice.php";
+            require_once dirname(__FILE__)."/../../table/customer.php";
             require_once dirname(__FILE__)."/../../table/docId.php";
-            require_once dirname(__FILE__)."/../../table/business.php";
-            // require_once dirname(__FILE__)."/../etc/tagEditor.php";
             require_once dirname(__FILE__)."/../etc/pageNavigator.php";
             require_once dirname(__FILE__)."/../etc/sortBySelector.php";
             require_once dirname(__FILE__)."/../../etc/time/diffCalc.php";
+            require_once dirname(__FILE__)."/../../etc/invoice/getGrandTotal.php";
 
             // Page
             if (isset($_GET[$renderId.$options['pageGetVarName']])) {
@@ -230,11 +230,11 @@
                 ';
             }
             if ($this->options['showTotal']) {
-                $this->output .= '<th class="ca desktopOnlyTable-cell nrb nlb">Total</th>
+                $this->output .= '<th class="ca nrb nlb">Total</th>
                 ';
             }
             if ($this->options['showItems']) {
-                $this->output .= '<th class="la nlb">Items</th>
+                $this->output .= '<th class="la desktopOnlyTable-cell nlb">Items</th>
                 ';
             }
             if ($this->options['showAge']) {
@@ -243,6 +243,10 @@
             }
             if ($this->options['showPaymentStatus']) {
                 $this->output .= '<th class="ca nlb">Payment Status</th>
+                ';
+            }
+            if ($this->options['showDateAdded']) {
+                $this->output .= '<th class="ca desktopOnlyTable-cell nlb">Date</th>
                 ';
             }
             if ($this->options['showFunctions']) {
@@ -259,13 +263,42 @@
                 $docId = new docId($invoice->docIdId);
 
                 if ((string)$this->currentBusiness->docIdIsRandom == '1') {
-                    $docIdOutput = $docId->randomId;
+                    $docIdOutput = (string)$docId->randomId;
                 } else {
-                    $docIdOutput = $docId->incrementalId;
+                    $docIdOutput = (string)$docId->incrementalId;
                 }
-                $customerNameOutput = 'NF';
-                $totalOutput = 'NF';
-                $paymentStatusOutput = 'NF';
+
+                switch (strlen($docIdOutput)) {
+                    case 1:
+                        $docIdOutput = '0000'.$docIdOutput;
+                        break;
+                    case 2:
+                        $docIdOutput = '000'.$docIdOutput;
+                        break;
+                    case 3:
+                        $docIdOutput = '00'.$docIdOutput;
+                        break;
+                    case 4:
+                        $docIdOutput = '0'.$docIdOutput;
+                        break;
+                    default:
+                        break;
+                }
+
+                // Customer Name
+                $customer = new customer($invoice->customerId);
+                if (!empty($customer->lastName)) {
+                    $customerNameOutput = htmlspecialchars($customer->firstName.' '.$customer->lastName);
+                } else {
+                    $customerNameOutput = htmlspecialchars($customer->firstName);
+                }
+
+                // Total
+                $total = getGrandTotal($invoice->invoiceId);
+                $totalOutput = htmlspecialchars($this->currentBusiness->currencySymbol).number_format($total, 2, '.', ',');
+
+                // Payment Status
+                $paymentStatusOutput = 'No payments (NF)';
 
                 // Render the row
 				$this->output .= '<tr>';
@@ -276,16 +309,16 @@
                 ';
                                     
                 if ($this->options['showCustomer']) {
-                    $this->output .= '<td class="la nlb nrb">'.$customerNameOutput.'</td>
+                    $this->output .= '<td class="la nlb nrb"><a href="../customers/customer?id='.htmlspecialchars($customer->customerId).'">'.$customerNameOutput.'</a></td>
                     ';
                 }
                 if ($this->options['showTotal']) {
-                    $this->output .= '<td class="la desktopOnlyTable-cell nrb nlb">'.$totalOutput.'</td>
+                    $this->output .= '<td class="la nrb nlb">'.$totalOutput.'</td>
                     ';
                 }
                 if ($this->options['showAge']) {
                     $diffOutput = getDateTimeDiffString($invoice->dateTimeAdded, $this->currentDate);
-                    $this->output .= '<td class="ca nlb">('.$diffOutput.')</td>
+                    $this->output .= '<td class="ca desktopOnlyTable-cell nlb">('.$diffOutput.')</td>
                     ';
                 }
                 if ($this->options['showItems']) {
@@ -293,14 +326,14 @@
                     ';
                 }
                 if ($this->options['showPaymentStatus']) {
-                    $this->output .= '<td class="la desktopOnlyTable-cell nrb nlb">'.$paymentStatusOutput.'</td>
+                    $this->output .= '<td class="la nrb nlb">'.$paymentStatusOutput.'</td>
                     ';
                 }
                 if ($this->options['showDateAdded']) {
                     $diffOutput = getDateTimeDiffString($invoice->dateTimeAdded, $this->currentDate);
                     $dateAddedOutput = new DateTime($invoice->dateTimeAdded);
                     $dateAddedOutput = $dateAddedOutput->format('m/d/Y');
-                    $this->output .= '<td class="ca desktopOnlyTable-cell nlb">'.htmlspecialchars($dateAddedOutput).' ('.$diffOutput.' ago)</td>
+                    $this->output .= '<td class="ca desktopOnlyTable-cell nlb nrb">'.htmlspecialchars($dateAddedOutput).' ('.$diffOutput.' ago)</td>
                     ';
                 }
 
