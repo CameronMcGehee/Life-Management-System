@@ -301,6 +301,31 @@ a.noUnderline {
 	grid-area: content;
 }
 
+/* Smaller info two col pages*/
+.twoColPage-InfoSmall-Content {
+	display: grid;
+	grid-template-columns: 100%;
+	grid-template-rows: min-content min-content;
+	grid-template-areas:
+	"info"
+	"content";
+}
+.twoColPage-Content-InfoSmall {
+	display: grid;
+	grid-template-columns: 100%;
+	grid-template-rows: min-content min-content;
+	grid-template-areas:
+	"content"
+	"info";
+}
+
+.twoColPage-InfoSmall-Content #twoColInfoWrapper, .twoColPage-Content-InfoSmall #twoColInfoWrapper {
+	grid-area: info;
+}
+.twoColPage-InfoSmall-Content #twoColContentWrapper, .twoColPage-Content-InfoSmall #twoColContentWrapper {
+	grid-area: content;
+}
+
 .twoCol {
 	display: grid;
 	grid-template-columns: 50% 50%;
@@ -1547,6 +1572,30 @@ html, body {
 		text-align: left;
 	}
 	.twoColPage-Info-Content #twoColContentWrapper, .twoColPage-Content-Info #twoColInfoWrapper {
+		overflow: auto;
+	}
+
+	/* Smaller info two col pages*/
+	.twoColPage-InfoSmall-Content {
+		grid-template-columns: 20% 80%;
+		grid-template-rows: 100%;
+		grid-template-areas: "info content";
+	}
+	.twoColPage-Content-InfoSmall {
+		grid-template-columns: 80% 20%;
+		grid-template-rows: 100%;
+		grid-template-areas: "content info";
+	}
+	.twoColPage-InfoSmall-Content #twoColInfoWrapper {
+		text-align: right;
+	}
+	.twoColPage-Content-InfoSmall #twoColInfoWrapper {
+		text-align: left;
+	}
+	.twoColPage-InfoSmall-Content #twoColInfoWrapper, .twoColPage-Content-InfoSmall #twoColInfoWrapper {
+		grid-area: info;
+	}
+	.twoColPage-InfoSmall-Content #twoColContentWrapper, .twoColPage-Content-InfoSmall #twoColContentWrapper {
 		overflow: auto;
 	}
 
