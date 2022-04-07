@@ -218,8 +218,14 @@
 			})
 
 			function updateTotals() {
+
+				if (discountAmount == '' || discountAmount == ' ' || grandTotal < 0) {
+					$("#discount").val(0);
+					discountAmount = 0;
+				}
+				
 				var subTotal = 0;
-				var discount = 0;
+				var discountIsPercent = <?php if ((string)$currentInvoice->discountIsPercent == '1') {echo 'true';} else {echo 'false';} ?>;
 				var totalTax = 0;
 				var grandTotal = 0;
 				var discountAmount = 0;
@@ -248,21 +254,22 @@
 				});
 
 				totalTaxOutput = totalTax.toFixed(2);
-				discountAmount = $("#discount").val();
 				subTotalOutput = subTotal.toFixed(2);
-				grandTotal = subTotal + totalTax - discountAmount;
+				grandTotal = subTotal + totalTax;
+
+				if (discountIsPercent == false) {
+					grandTotal = grandTotal - $("#discount").val();
+					$("#discountOutput").html("-$" + $("#discount").val());
+				} else {
+					grandTotal = grandTotal * (1 - ($("#discount").val()/100));
+					$("#discountOutput").html("-$" + (grandTotal * (($("#discount").val()/100))).toFixed(2));
+				}
 				
 				grandTotalOutput = grandTotal.toFixed(2);
 
 				$("#totalTax").html("$" + totalTaxOutput);
 				$("#subTotal").html("$" + subTotalOutput);
 				$("#grandTotal").html("$" + grandTotalOutput);
-				$("#discount").html("-$" + discountAmount);
-
-				if (discountAmount == '' || discountAmount == ' ' || grandTotal < 0) {
-					$("#discount").val(0);
-					discountAmount = 0;
-				}
 
 			}
 
@@ -305,7 +312,7 @@
 								case 'success':
 
 									// Append item to list
-									$("#items").append('<tr><td><input type="hidden" name="itemId[]" value="' + itemId + '"><input class="invisibleInput" style="height: 1.3em; width: 10em; font-size: 1.3em;" type="text" name="itemName[]"> <span id="deleteItem:::' + itemId + '" class="smallButtonWrapper orangeButton xyCenteredFlex" style="width: 1em; display: inline;"><img style="height: 1em;" src="../../../images/ultiscape/icons/trash.svg"></span></td><td class="tg-0lax"><input class="invisibleInput" style="height: 1.3em; width: 5em; font-size: 1.3em;" type="number" step="0.01" name="itemPrice[]"  min="0" style="width: 5em;" value="25"></td><td class="tg-0lax"><input class="invisibleInput" style="height: 1.3em; width: 3em; font-size: 1.3em;" type="number" step="any" name="itemQuantity[]" min="1" style="width: 5em;" value="1"></td><td class="tg-0lax"><input class="invisibleInput" style="height: 1.3em; width: 3em; font-size: 1.3em;" type="number" step="any" name="itemTax[]" min="0" max="100"style="width: 5em;" value="0"><label for="itemTax">%</label></td><td class="tg-0lax"><span class="itemTotal"></span></td></tr>');
+									$("#items").append('<tr><td><input type="hidden" name="itemId[]" value="' + itemId + '"><input class="invisibleInput" style="height: 1.3em; width: 16em; font-size: 1.3em;" type="text" name="itemName[]"> <span id="deleteItem:::' + itemId + '" class="smallButtonWrapper orangeButton xyCenteredFlex" style="width: 1em; display: inline;"><img style="height: 1em;" src="../../../images/ultiscape/icons/trash.svg"></span></td><td class="tg-0lax"><input class="invisibleInput" style="height: 1.3em; width: 5em; font-size: 1.3em;" type="number" step="0.01" name="itemPrice[]"  min="0" style="width: 5em;" value="25"></td><td class="tg-0lax"><input class="invisibleInput" style="height: 1.3em; width: 3em; font-size: 1.3em;" type="number" step="any" name="itemQuantity[]" min="1" style="width: 5em;" value="1"></td><td class="tg-0lax"><input class="invisibleInput" style="height: 1.3em; width: 3em; font-size: 1.3em;" type="number" step="any" name="itemTax[]" min="0" max="100"style="width: 5em;" value="0"><label for="itemTax">%</label></td><td class="tg-0lax"><span class="itemTotal"></span></td></tr>');
 									updateTotals();
 
 									// Make sure the new inputs update the changes tracker
@@ -363,7 +370,7 @@
 				<img style="display: none; width: 2em;" src="../../../images/ultiscape/etc/loading.gif" class="loadingGif">
 			</div>
 
-				<div class="twoColPage-Content-Info maxHeight">
+				<div class="twoColPage-Content-InfoSmall maxHeight">
 					<div id="twoColContentWrapper" class="paddingLeftRight90 maxHeight" style="overflow: auto;">
 
 						<form class="defaultForm" id="invoiceForm">
@@ -398,6 +405,8 @@
 								</div>
 							</div>
 
+							<br>
+
 							<h3>Items</h3>
 
 							<table class="defaultTable" style="width: 100%;" id="itemsTable">
@@ -416,7 +425,7 @@
 									foreach ($currentInvoice->items as $itemId) {
 										$currentItem = new invoiceItem($itemId);
 										if ($currentItem->existed) {
-											echo '<tr><td><input type="hidden" name="itemId[]" value="'.htmlspecialchars($itemId).'"><input class="invisibleInput" style="height: 1.3em; width: 10em; font-size: 1.3em;" type="text" name="itemName[]" value="'.htmlspecialchars($currentItem->name).'"> 
+											echo '<tr><td><input type="hidden" name="itemId[]" value="'.htmlspecialchars($itemId).'"><input class="invisibleInput" style="height: 1.3em; width: 16em; max-width: 30vw; font-size: 1.3em;" type="text" name="itemName[]" value="'.htmlspecialchars($currentItem->name).'"> 
 											<span id="deleteItem:::'.htmlspecialchars($itemId).'" class="smallButtonWrapper orangeButton xyCenteredFlex" style="width: 1em; display: inline;"><img style="height: 1em;" src="../../../images/ultiscape/icons/trash.svg"></span>
 											</td><td class="tg-0lax"><input class="invisibleInput" style="height: 1.3em; width: 5em; font-size: 1.3em;" type="number" step="0.01" name="itemPrice[]" value="'.htmlspecialchars($currentItem->price).'" min="0" style="width: 5em;" value="25"></td><td class="tg-0lax"><input class="invisibleInput" style="height: 1.3em; width: 3em; font-size: 1.3em;" type="number" step="any" name="itemQuantity[]" value="'.htmlspecialchars($currentItem->quantity).'" min="1" style="width: 5em;" value="1"></td><td class="tg-0lax"><input class="invisibleInput" style="height: 1.3em; width: 3em; font-size: 1.3em;" type="number" step="any" name="itemTax[]" value="'.htmlspecialchars($currentItem->tax).'" min="0" max="100"style="width: 5em;" value="0"><label for="itemTax">%</label></td><td class="tg-0lax"><span class="itemTotal"></span></td></tr>';
 										}
@@ -441,7 +450,7 @@
 								<tr id="discountRow">
 									<td colspan="3"></td>
 									<td style="text-decoration: underline; border-left-width: 2px; border-left-color: green;">Discount:</td>
-									<td id="discount">-$0</td>
+									<td id="discountOutput">-$0</td>
 								</tr>
 
 								<tr id="grandTotalRow">
@@ -451,9 +460,9 @@
 								</tr>
 							</table>
 
-							<br><br>
+							<br>
 							<label for="discount"><p>Discount</p></label>
-							<input class="defaultInput" id="discount" type="number" step="0.01" name="discount" min="0" style="width: 5em;" value="0">
+							<input class="defaultInput" id="discount" type="number" step="0.01" name="discount" min="0" style="width: 5em;" value="<?php echo htmlspecialchars($currentInvoice->discount); ?>">
 
 							<br><br>
 

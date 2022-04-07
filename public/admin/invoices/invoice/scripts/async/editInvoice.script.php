@@ -120,6 +120,13 @@
 		$currentInvoice->privateNotes = $formData['privateNotes'];
 	}
 
+	// discount
+	if (empty($formData['discount']) || !isset($formData['discount']) || !is_numeric($formData['discount'])) {
+		$currentInvoice->discount = 0;
+	} else {
+		$currentInvoice->discount = (float)$formData['discount'];
+	}
+
 	// Use the auth token
 	require_once '../../../../../../lib/etc/authToken/useAuthToken.php';
 	useAuthToken($formData['mainAuthToken'], 'editInvoice');
