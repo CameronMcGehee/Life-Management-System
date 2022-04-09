@@ -966,7 +966,7 @@
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`paymentMethodId`),
 	KEY `paymentMethodBusinessId` (`businessId`),
-	CONSTRAINT `paymentMethodBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE,
+	CONSTRAINT `paymentMethodBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
