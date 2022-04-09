@@ -933,9 +933,12 @@
 	CREATE TABLE IF NOT EXISTS `payment` (
 	`paymentId` varchar(17) NOT NULL,
 	`businessId` varchar(17) NOT NULL,
-	`linkedToInvoiceId` varchar(17) NULL COMMENT 'Optional FK',
+	`linkedToInvoiceId` varchar(17) NULL,
+	`linkedToPaymentMethodId` varchar(17) NULL,
+	`methodName` varchar(20) NOT NULL,
+	`methodPercentCut` float NOT NULL DEFAULT 0,
+	`methodAmountCut` float NOT NULL DEFAULT 0,
 	`customerId` varchar(17) NOT NULL,
-	`method` varchar(20) NOT NULL,
 	`amount` float NOT NULL,
 	`notes` text NULL,
 	`excessWasAddedToCredit` tinyint(1) NOT NULL DEFAULT 0,
@@ -943,9 +946,27 @@
 	PRIMARY KEY (`paymentId`),
 	KEY `paymentBusinessId` (`businessId`),
 	KEY `paymentCustomerId` (`customerId`),
-	KEY `paymentLinkedToInvoiceId` (`linkedToInvoiceId`),
+	KEY `paymentLinkedToInvoiceInvoiceId` (`linkedToInvoiceId`),
 	CONSTRAINT `paymentBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE,
 	CONSTRAINT `paymentCustomerId` FOREIGN KEY (`customerId`) REFERENCES `customer` (`customerId`) ON DELETE CASCADE
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
+	-- Table structure for table `paymentMethod`
+	--
+
+	CREATE TABLE IF NOT EXISTS `paymentMethod` (
+	`paymentMethodId` varchar(17) NOT NULL,
+	`businessId` varchar(17) NOT NULL,
+	`name` varchar(20) NOT NULL,
+	`percentCut` float NOT NULL DEFAULT 0,
+	`amountCut` float NOT NULL DEFAULT 0,
+	`notes` text NULL,
+	`excessWasAddedToCredit` tinyint(1) NOT NULL DEFAULT 0,
+	`dateTimeAdded` datetime NOT NULL,
+	PRIMARY KEY (`paymentMethodId`),
+	KEY `paymentMethodBusinessId` (`businessId`),
+	CONSTRAINT `paymentMethodBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE,
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
