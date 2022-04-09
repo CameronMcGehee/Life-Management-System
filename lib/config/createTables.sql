@@ -962,7 +962,6 @@
 	`percentCut` float NOT NULL DEFAULT 0,
 	`amountCut` float NOT NULL DEFAULT 0,
 	`notes` text NULL,
-	`excessWasAddedToCredit` tinyint(1) NOT NULL DEFAULT 0,
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`paymentMethodId`),
 	KEY `paymentMethodBusinessId` (`businessId`),
