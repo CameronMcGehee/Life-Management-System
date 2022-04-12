@@ -13,8 +13,11 @@
 		public $paymentId;
 		public $businessId;
 		public $linkedToInvoiceId;
+		public $linkedToPaymentMethodId;
 		public $customerId;
-		public $method;
+		public $methodName;
+		public $methodPercentCut;
+		public $methodAmountCut;
 		public $amount;
 		public $notes;
 		public $excessWasAddedToCredit;
@@ -34,8 +37,11 @@
 				$this->businessId = '';
 			}
 			$this->linkedToInvoiceId = '';
+			$this->linkedToPaymentMethodId = '';
 			$this->customerId = '';
-			$this->method = '';
+			$this->methodName = '';
+			$this->methodPercentCut = '';
+			$this->methodAmountCut = '';
 			$this->amount = '0';
 			$this->notes = NULL;
 			$this->excessWasAddedToCredit = '0';
@@ -59,13 +65,16 @@
 			// Fetch from database
 			$fetch = $this->db->select('payment', '*', "WHERE paymentId ='".$this->db->sanitize($paymentId)."'");
 
-			// If paymentId already exists then set the set method type to UPDATE and fetch the values for the payment
+			// If paymentId already exists then set the set methodName type to UPDATE and fetch the values for the payment
 			if ($fetch) {
 				$this->paymentId = $paymentId;
 				$this->businessId = $fetch[0]['businessId'];
 				$this->linkedToInvoiceId = $fetch[0]['linkedToInvoiceId'];
+				$this->linkedToPaymentMethodId = $fetch[0]['linkedToPaymentMethodId'];
 				$this->customerId = $fetch[0]['customerId'];
-				$this->method = $fetch[0]['method'];
+				$this->methodName = $fetch[0]['methodName'];
+				$this->methodPercentCut = $fetch[0]['methodPercentCut'];
+				$this->methodAmountCut = $fetch[0]['methodAmountCut'];
 				$this->amount = $fetch[0]['amount'];
 				$this->notes = $fetch[0]['notes'];
 				$this->excessWasAddedToCredit = $fetch[0]['excessWasAddedToCredit'];
@@ -74,7 +83,7 @@
 				$this->setType = 'UPDATE';
 				$this->existed = true;
 
-			// If paymentId does not exist then set the set method type to INSERT and inititialize default values
+			// If paymentId does not exist then set the set methodName type to INSERT and inititialize default values
 			} else {
 				// Make a new paymentId
 				require_once dirname(__FILE__)."/tableUuid.php";
@@ -103,8 +112,11 @@
 				'paymentId' => $this->db->sanitize($this->dbPaymentId),
 				'businessId' => $this->db->sanitize($this->businessId),
 				'linkedToInvoiceId' => $this->db->sanitize($this->linkedToInvoiceId),
+				'linkedToPaymentMethodId' => $this->db->sanitize($this->linkedToPaymentMethodId),
 				'customerId' => $this->db->sanitize($this->customerId),
-				'method' => $this->db->sanitize($this->method),
+				'methodName' => $this->db->sanitize($this->methodName),
+				'methodPercentCut' => $this->db->sanitize($this->methodPercentCut),
+				'methodAmountCut' => $this->db->sanitize($this->methodAmountCut),
 				'amount' => $this->db->sanitize($this->amount),
 				'notes' => $this->db->sanitize($this->notes),
 				'excessWasAddedToCredit' => $this->db->sanitize($this->excessWasAddedToCredit),
