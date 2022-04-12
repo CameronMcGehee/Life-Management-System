@@ -37,6 +37,12 @@
             echo 'unauthorized';
             die();
         }
+
+        // Delete any linked payments
+        require_once '../../../../../lib/database.php';
+        $db = new database();
+        $db->delete('payment', "WHERE linkedToInvoiceId = '$currentInvoice->invoiceId'", 1);
+
         // delete the invoice
         $currentInvoice->delete();
     }
