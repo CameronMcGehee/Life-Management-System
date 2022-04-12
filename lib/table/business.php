@@ -158,6 +158,7 @@
 		public $estimateApprovals = array();
 		public $invoices = array();
 		public $invoiceItems = array();
+		public $paymentMethods = array();
 		public $payments = array();
 		public $properties = array();
 		public $jobCancellations = array();
@@ -1153,6 +1154,27 @@
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->invoiceItems, $row['invoiceItemId']);
+				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+					return true;
+			} else {
+				return $this->db->getLastError();
+			}
+		}
+
+		// paymentMethods
+		public function pullPaymentMethods ($params = '') {
+			$this->paymentMethods = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('paymentMethod', 'paymentMethodId', "WHERE businessId = '$this->dbBusinessId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->paymentMethods, $row['paymentMethodId']);
 				}
 				return true;
 			} elseif ($this->db->getLastError() === '') {
