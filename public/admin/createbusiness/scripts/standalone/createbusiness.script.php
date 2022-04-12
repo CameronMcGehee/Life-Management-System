@@ -40,13 +40,30 @@
         require_once '../../../../../lib/database.php'; $db = new database();
         // Link the current admin to the new business
         if ($db->insert("adminBusinessBridge", array("businessId" => $newBusiness->businessId, "adminId" => $_SESSION['ultiscape_adminId'], "adminIsOwner" => 1, "dateTimeAdded" => date('Y-m-d H:i:s')))) {
-            $result = 'success';
             // Set the current business to the new one
             $_SESSION['ultiscape_businessId'] = $newBusiness->businessId;
         } else {
             $result = 'linkError';
             $newBusiness->delete();
         }
+    }
+
+    if ($result == 'incomplete') {
+        require_once '../../../../../lib/table/paymentMethod.php';
+        // Add default payment methods
+        $paymentMethod = new paymentMethod();
+        $paymentMethod->name = 'Cash';
+        $paymentMethod->set();
+
+        $paymentMethod = new paymentMethod();
+        $paymentMethod->name = 'Check';
+        $paymentMethod->set();
+
+        $paymentMethod = new paymentMethod();
+        $paymentMethod->name = 'PayPal';
+        $paymentMethod->set();
+
+        $result = 'success';
     }
     
     // Redirect
@@ -58,7 +75,6 @@
             header("location: ../../../overview?popup=businessCreated&businessCreatedbusinessName=".$newBusiness->displayName);
             exit();
         }
-        
     } else {
         header("location: ../../../createbusiness?e=".urlencode($result));
         exit();
