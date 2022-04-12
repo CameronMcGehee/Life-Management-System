@@ -107,6 +107,7 @@
             require_once dirname(__FILE__)."/../etc/sortBySelector.php";
             require_once dirname(__FILE__)."/../../etc/time/diffCalc.php";
             require_once dirname(__FILE__)."/../../etc/invoice/getGrandTotal.php";
+            require_once dirname(__FILE__)."/../../etc/invoice/getPaymentTotal.php";
 
             // Page
             if (isset($_GET[$renderId.$options['pageGetVarName']])) {
@@ -242,17 +243,17 @@
                 ';
             }
             if ($this->options['showPaymentStatus']) {
-                $this->output .= '<th class="ca nlb">Payment Status</th>
+                $this->output .= '<th class="ca nlb">Amount Paid</th>
                 ';
             }
             if ($this->options['showDateAdded']) {
                 $this->output .= '<th class="ca desktopOnlyTable-cell nlb">Date</th>
                 ';
             }
-            if ($this->options['showFunctions']) {
-                $this->output .= '<th class="ca desktopOnlyTable-cell nlb">Functions</th>
-                ';
-            }
+            // if ($this->options['showFunctions']) {
+            //     $this->output .= '<th class="ca desktopOnlyTable-cell nlb">Functions</th>
+            //     ';
+            // }
 
             $this->output .= '</tr>
             ';
@@ -298,7 +299,26 @@
                 $totalOutput = htmlspecialchars($this->currentBusiness->currencySymbol).number_format($total, 2, '.', ',');
 
                 // Payment Status
-                $paymentStatusOutput = 'No payments (NF)';
+                $amountPaid = getPaymentTotal($invoice->invoiceId);
+                if ($total == 0) {
+                    $percentPaid = 100;
+                } else {
+                    $percentPaid = round(($amountPaid / $total) * 100, 0);
+                }
+                if ($percentPaid == 0) {
+                    $paymentStatusColor = '#a6a6a6';
+                } else if ($percentPaid < 50) {
+                    $paymentStatusColor = 'red';
+                } else if ($percentPaid < 80) {
+                    $paymentStatusColor = 'orange';
+                } else if ($percentPaid < 100) {
+                    $paymentStatusColor = '#bfff00';
+                } else if ($percentPaid == 100){
+                    $paymentStatusColor = '#47d147';
+                } else {
+                    $paymentStatusColor = '#006600';
+                }
+                $paymentStatusOutput = '<div style="display: inline-block; width: .9em; height: .9em; border-radius: 50%; background-color: '.$paymentStatusColor.'"></div> <b>'.htmlspecialchars($this->currentBusiness->currencySymbol).$amountPaid.'</b> ('.$percentPaid.'%)';
 
                 // Render the row
 				$this->output .= '<tr>';
@@ -337,10 +357,10 @@
                     ';
                 }
 
-                if ($this->options['showFunctions']) {
-                    $this->output .= '<td class="ca desktopOnlyTable-cell nlb">Print | Email | Delete</td>
-                    ';
-                }
+                // if ($this->options['showFunctions']) {
+                //     $this->output .= '<td class="ca desktopOnlyTable-cell nlb">Print | Email | Delete</td>
+                //     ';
+                // }
 
                 $this->output .='</tr>
                 ';
