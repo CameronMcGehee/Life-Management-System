@@ -32,8 +32,8 @@
 				$this->businessId = '';
 			}
 			$this->name = '';
-			$this->percentCut = '';
-			$this->amountCut = '';
+			$this->percentCut = '0';
+			$this->amountCut = '0';
 			$this->notes = NULL;
 			// Default dateTimeAdded to now since it is likely going to be inserted at this time
 			$currentDateTime = new DateTime();
