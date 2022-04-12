@@ -130,8 +130,16 @@
 
 ## v0.4.0 - April 2022
 - Goodies
+    - Invoices table on invoices page
     - Ability to create and edit invoices
+    - Ability to record payments to invoices
 - Techies
     - Fixed docId class needing businessId instead of docIdId to construct
     - Created script to batch delete invoices
     - Various fixes to invoice class
+    - Invoice table render
+    - getPaymentTotal function for getting total payment amount for an invoice
+    - paymentMethod database table, schema, and class to store custom payment method options for each business
+    - paymentMethodSelector render (but no way to edit methods yet)
+    - Added paymentMethods array and pull function to business class
+    - Update to payment data schema and class to allow archival of payment method info after the linked method is possibly deleted
