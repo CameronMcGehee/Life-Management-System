@@ -143,3 +143,10 @@
     - paymentMethodSelector render (but no way to edit methods yet)
     - Added paymentMethods array and pull function to business class
     - Update to payment data schema and class to allow archival of payment method info after the linked method is possibly deleted
+
+## v0.4.1 - April 2022
+- Goodies
+    - Three default payments are now created at business creation (Cash, Check and PayPal)
+- Techies
+    - Fixed typo-based bug on edit invoice async script load call on case-sensitive url servers
+    - Added check to make sure a number is given on invoice payment amount and added respective error message
