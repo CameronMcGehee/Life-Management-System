@@ -19,6 +19,7 @@
 	require_once '../../../../lib/table/docId.php';
 	require_once '../../../../lib/render/etc/tagEditor.php';
 	require_once '../../../../lib/table/invoiceItem.php';
+	require_once '../../../../lib/table/payment.php';
 	if (isset($_GET['id']) && !empty($_GET['id'])) {
 		$currentInvoice = new invoice($_GET['id']);
 		$currentDocId = new docId($currentInvoice->docIdId);
@@ -53,6 +54,18 @@
 	$mainAuthToken = new authToken();
 	$mainAuthToken->authName = 'editInvoice';
 	$mainAuthToken->set();
+
+	$recordPaymentAuthToken = new authToken();
+	$recordPaymentAuthToken->authName = 'recordPayment';
+	$recordPaymentAuthToken->set();
+
+	$deletePaymentAuthToken = new authToken();
+	$deletePaymentAuthToken->authName = 'deletePayment';
+	$deletePaymentAuthToken->set();
+
+	$deleteInvoiceAuthToken = new authToken();
+	$deleteInvoiceAuthToken->authName = 'deleteInvoice';
+	$deleteInvoiceAuthToken->set();
 
 	$addItemAuthToken = new authToken();
 	$addItemAuthToken->authName = 'addInvoiceItem';
@@ -95,10 +108,99 @@
 
 		var isNewInvoice = <?php if ($currentInvoice->existed) {echo 'false';} else {echo 'true';} ?>;
 		var lastChange = new Date();
+
 		var changesSaved = true;
 		var waitingForError = false;
+		var recordingPayment = false;
+		var deleting = false;
+
+		// RECORD PAYMENT BUTTON FUNCTIONS
+		function recordPaymentButton() {
+			// Save changes to avoid issues
+			if (!changesSaved) {
+				saveChanges();
+				$("#recordPaymentPrompt").fadeIn(300);
+			} else {
+				$("#recordPaymentPrompt").fadeIn(300);
+			}
+		}
+		function recordPaymentYes() {
+			if (!recordingPayment) {
+				recordingPayment = true;
+				// Run the script and reload
+				$("#recordPaymentLoading").fadeIn(300);
+				$("#scriptLoader").load("./scripts/async/recordPayment.script.php", {
+					invoiceId: invoiceId,
+					amount: $("#recordPaymentAmount").val(),
+					method: $("#recordPaymentMethod").val(),
+					notes: $("#recordPaymentNotes").val(),
+					excessType: $("input:radio[name=recordPaymentExcessType]:checked").val(),
+					recordPaymentAuthToken: '<?php echo $recordPaymentAuthToken->authTokenId; ?>'
+				}, function () {
+					scriptOutput = $("#scriptLoader").html();
+					clearFormErrors();
+
+					switch (scriptOutput) {
+						case 'success':
+								window.location.reload();
+							break;
+						default:
+							recordingPayment = false;
+							showFormError("#"+scriptOutput+"Error", "#"+scriptOutput);
+							$("#"+scriptOutput).shake(50);
+
+							$('.loadingGif').each(function() {
+								$(this).fadeOut(100);
+							});
+							break;
+					}
+				});
+			}
+			
+		}
+		function recordPaymentCancel() {
+			// Just hide the prompt
+			$("#recordPaymentPrompt").fadeOut(300);
+		}
+
+		// DELETE BUTTON FUNCTIONS
+		function deleteButton() {
+			// Save changes to avoid issues
+			if (!changesSaved) {
+				saveChanges();
+				$("#deletePrompt").fadeIn(300);
+			} else {
+				$("#deletePrompt").fadeIn(300);
+			}
+		}
+		function deleteYes() {
+			// Delete run the script
+			if (!deleting) {
+				deleting = true;
+				$("#deleteLoading").fadeIn(300);
+				$("#scriptLoader").load("./scripts/async/deleteInvoice.script.php", {
+					invoiceId: invoiceId,
+					deleteInvoiceAuthToken: '<?php echo $deleteInvoiceAuthToken->authTokenId; ?>'
+				}, function () {
+					if ($("#scriptLoader").html() == 'success') {
+						window.location.href = '../?popup=invoiceDeleted';
+					} else {
+						deleting = false;
+						$("#deleteLoading").fadeOut(300);
+						$("#deletePrompt").fadeOut(300);
+					}
+				});
+			}
+			
+		}
+		function deleteNo() {
+			// Just hide the prompt
+			$("#deletePrompt").fadeOut(300);
+		}
 
 		$(function() {
+
+			var updatePaymentValue = true;
 
 			if (isNewInvoice) {
 				$("#firstLastName").focus();
@@ -126,7 +228,7 @@
 			setInterval(() => {
 				currentTime = new Date();
 				if ((currentTime.getTime() - lastChange.getTime()) > 500 && !changesSaved) {
-					checkChanges();
+					saveChanges();
 				}
 			}, 1000);
 
@@ -152,7 +254,7 @@
 				$(".cmsMainContentWrapper").scrollTop(url.searchParams.get('wsl'));
 			}
 
-			function checkChanges() {
+			function saveChanges() {
 				$('.loadingGif').each(function() {
 					$(this).fadeIn(100);
 				});
@@ -271,6 +373,36 @@
 				$("#subTotal").html("$" + subTotalOutput);
 				$("#grandTotal").html("$" + grandTotalOutput);
 
+				if (updatePaymentValue) {
+					$("#recordPaymentAmount").val(grandTotalOutput);
+					updatePaymentValue = false;
+				}
+
+				// Payments
+
+				runningTotal = grandTotalOutput;
+				$(".paymentRow").each(function (i, el) {
+					$("#grandTotal").css('text-decoration', 'line-through');
+					// Define elements
+					paymentAmount = parseFloat($(el).find('.paymentAmount').html());
+					runningTotal = runningTotal - paymentAmount;
+					$(el).find('.paymentBalanceUpdate').html("$" + runningTotal.toFixed(2));
+
+					// If not the last row (not last payment, cross out total above it)
+
+					if (!$(el).closest('tr').is(':last-child')) {
+						$(el).find('.paymentBalanceUpdate').css('text-decoration', 'line-through');
+					} else {
+						$(el).find('.paymentBalanceUpdate').css('font-weight', 'bold');
+
+					}
+				});
+
+				if ($('.paymentRow').length == 0) {
+					$("#grandTotal").css('text-decoration', 'none');
+					$("#grandTotal").css('font-weight', 'bold');
+				}
+
 			}
 
 			function registerItemDeleteButtonClicks() {
@@ -290,10 +422,27 @@
 
 			registerItemDeleteButtonClicks();
 
+			function registerPaymentDeleteButtonClicks() {
+				$("span[id*='deletePayment:::']").each(function (i, el) {
+					$(el).on('click', function(e) {
+						currentId = this.id.split(":::")[1];
+						$.post("./scripts/async/deletePayment.script.php", {
+							paymentId: currentId,
+							deletePaymentAuthToken: '<?php echo $deletePaymentAuthToken->authTokenId; ?>'
+						}, function () {
+							// find the closest <tr> to the delete button and remove it.
+							$(el).closest('tr').remove();
+						});
+					});
+				});
+			}
+
+			registerPaymentDeleteButtonClicks();
+
 			$("#add").click(function(event) {
 
 				if (isNewInvoice) {
-					checkChanges();
+					saveChanges();
 				} else {
 					$('.addItemLoadingGif').fadeIn(100);
 
@@ -343,10 +492,22 @@
 				});
 			});
 
-			window.setInterval(updateTotals, 100);
+			window.setInterval(updateTotals, 500);
 
 			$("#invoiceForm :input").change(function () {
 				inputChange();
+			});
+
+			$("#invoiceForm :input[name=customer]").change(function () {
+				// Show the customer's billing address
+				customerId = $(":input[name=customer]").val();
+				$("#billingAddressLoader").load("./includes/customerBillingAddress.inc.php", {
+					customerId: customerId
+				});
+			});
+
+			$("#billingAddressLoader").load("./includes/customerBillingAddress.inc.php", {
+				customerId: $(":input[name=customer]").val()
 			});
 		});
 	</script>
@@ -379,7 +540,18 @@
 
 							<br>
 
-							<br>
+							<?php
+							
+								if ($currentInvoice->existed) {
+									echo '<div class="twoCol" style="width: 21em;">';
+										echo '<span style="width: 9em;" class="smallButtonWrapper greenButton centered defaultMainShadows" onclick="recordPaymentButton()"><img style="height: 1.2em;" src="../../../images/ultiscape/icons/credit_card.svg"> Record Payment</span>';
+										echo '<span style="width: 5em;" class="smallButtonWrapper redButton centered defaultMainShadows" onclick="deleteButton()"><img style="height: 1.2em;" src="../../../images/ultiscape/icons/trash.svg"> Delete</span>';
+									echo '</div>';
+
+									echo '<br>';
+								}
+							
+							?>
 
 							<h3>Invoice</h3>
 
@@ -401,7 +573,7 @@
 
 									?>
 									<span id="customerError" class="underInputError" style="display: none;"><br>Select a customer.</span>
-									<p>Customer Billing Address...</p>
+									<p id="billingAddressLoader"></p>
 								</div>
 							</div>
 
@@ -442,28 +614,48 @@
 								</tr>
 
 								<tr id="totalTaxRow">
-									<td colspan="3"></td>
+									<td style="border: none;" colspan="3"></td>
 									<td style="text-decoration: underline; border-left-width: 2px; border-left-color: green;">Total Tax:</td>
 									<td id="totalTax">$0</td>
 								</tr>
 
 								<tr id="discountRow">
-									<td colspan="3"></td>
+									<td style="border: none;" colspan="3"></td>
 									<td style="text-decoration: underline; border-left-width: 2px; border-left-color: green;">Discount:</td>
 									<td id="discountOutput">-$0</td>
 								</tr>
 
 								<tr id="grandTotalRow">
-									<td colspan="3"></td>
+									<td style="border: none;" colspan="3"></td>
 									<td style="text-decoration: underline; border-left-width: 2px; border-left-color: green;"><b>Grand Total:</b></td>
 									<td><span style="font-size: 1.5em; color: green;" id="grandTotal">$0</span></td>
 								</tr>
+
+								<?php
+
+									$currentInvoice->pullPayments("ORDER BY dateTimeAdded ASC");
+									foreach ($currentInvoice->payments as $paymentId) {
+										$currentPayment = new payment($paymentId);
+										if ($currentPayment->existed) {
+											$paymentDateOutput = new DateTime($currentPayment->dateTimeAdded);
+											$paymentDateOutput = $paymentDateOutput->format('D, M d Y');
+											echo '<tr class="paymentRow">
+													<td style="border: none;" colspan="2"></td>
+													<td style="background-color: #fff2e6;">Payment on '.htmlspecialchars($paymentDateOutput).' <span id="deletePayment:::'.htmlspecialchars($paymentId).'" class="smallButtonWrapper orangeButton xyCenteredFlex" style="width: 1em; display: inline;"><img style="height: 1em;" src="../../../images/ultiscape/icons/trash.svg"></span></td>
+													<td style="background-color: #fff2e6;"><span class="paymentAmount" style="display: none;">'.htmlspecialchars(number_format($currentPayment->amount, 2, '.', ',')).'</span>-$'.htmlspecialchars(number_format($currentPayment->amount, 2, '.', ',')).'</td>
+													<td style="background-color: #fff2e6;"><span class="paymentBalanceUpdate" style="font-size: 1.5em; color: green;">Loading...</span></td>
+												</tr>';
+										}
+									}
+
+								?>
 							</table>
 
 							<br>
-							<label for="discount"><p>Discount</p></label>
-							<input class="defaultInput" id="discount" type="number" step="0.01" name="discount" min="0" style="width: 5em;" value="<?php echo htmlspecialchars($currentInvoice->discount); ?>">
-
+							<div style="text-align: right;">
+								<label for="discount"><p>Discount</p></label>
+								<input class="defaultInput" id="discount" type="number" step="0.01" name="discount" min="0" style="width: 5em;" value="<?php echo htmlspecialchars($currentInvoice->discount); ?>">
+							</div>
 							<br><br>
 
 							<h3>Notes</h3>
@@ -497,7 +689,76 @@
 							$addedDate = new DateTime($currentInvoice->dateTimeAdded);
 						?>
 
-						<p>Added on <?php echo $addedDate->format('D, d M y'); ?></p>
+						<p>Added on <?php echo $addedDate->format('D, M d Y'); ?></p>
+					</div>
+				</div>
+
+				<div id="deletePrompt" class="dimOverlay xyCenteredFlex" style="display: none;">
+					<div class="popupMessageDialog">
+						<h3>Delete Invoice?</h3>
+						<p>This is not reversable!</p>
+						<br>
+
+						<div id="deleteButtons" class="twoCol centered" style="width: 10em;">
+							<div>
+								<span id="deleteYesButton" class="smallButtonWrapper greenButton" onclick="deleteYes()">Yes</span>
+							</div>
+
+							<div>
+								<span id="deleteNoButton" class="smallButtonWrapper redButton" onclick="deleteNo()">No</span>
+							</div>
+						</div>
+
+						<span style="display: none;" id="deleteLoading"><img style="display: none; width: 2em;" src="../../../images/ultiscape/etc/loading.gif" class="loadingGif"></span>
+					</div>
+				</div>
+
+				<div id="recordPaymentPrompt" class="dimOverlay xyCenteredFlex" style="display: none;">
+					<div class="popupMessageDialog" style="width: 30em;">
+						<h3>Record Payment</h3>
+
+						<br>
+						<label for="recordPaymentAmount"><p>Amount</p></label>
+						<input class="defaultInput" id="recordPaymentAmount" type="number" step="0.01" name="recordPaymentAmount" min="0.01" style="width: 5em;" value="5">
+						<br><br>
+
+						<label for="recordPaymentMethod"><p style="display: inline;">Method</p> <a href="../../editbusiness/#paymentMethods"><span style="font-size: .75em; width: 20em;" class="extraSmallButtonWrapper orangeButton">Edit Methods</span></a></label>
+						<br>
+							<?php
+
+								// Select Payment Method
+
+								require_once '../../../../lib/render/input/paymentMethodSelector.php';
+								$paymentMethodSelector = new paymentMethodSelector("paymentMethodSelector", ["name" => 'recordPaymentMethod', "id" => 'recordPaymentMethod']);
+								$paymentMethodSelector->render();
+								echo $paymentMethodSelector->output;
+
+							?>
+						<br><br>
+
+						<p>If amount is greater than invoice balance, </p>
+						<input type="radio" name="recordPaymentExcessType" value="tip" id="tipRadio" checked="checked"><label for="tipRadio">Record as Tip</label>
+						<br>
+						<input type="radio" name="recordPaymentExcessType" value="credit" id="creditRadio"><label for="creditRadio">Add to Customer's Account Credit</label>
+						<span id="recordPaymentExcessTypeError" class="underInputError" style="display: none;"><br>Select an option.</span>
+
+						<br><br>
+						
+						<label for="recordPaymentNotes"><p>Notes</p></label>
+						<textarea class="defaultInput" style="font-size: 1.2em; width: 95%;" name="recordPaymentNotes" id="recordPaymentNotes"></textarea>
+						
+						<br><br>
+
+						<div id="recordPaymentButtons" class="twoCol centered" style="width: 15em;">
+							<div>
+								<span id="recordPaymentYesButton" class="smallButtonWrapper greenButton" onclick="recordPaymentYes()">Record <span style="display: none;" id="recordPaymentLoading"><img style="width: 1em;" src="../../../images/ultiscape/etc/loading.gif" class="loadingGif"></span></span>
+							</div>
+
+							<div>
+								<span id="recordPaymentCancelButton" class="smallButtonWrapper redButton" onclick="recordPaymentCancel()">Cancel</span>
+							</div>
+						</div>
+
 					</div>
 				</div>
 		</div>

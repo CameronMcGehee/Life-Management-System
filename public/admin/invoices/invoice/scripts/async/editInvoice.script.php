@@ -86,10 +86,10 @@
 		foreach($formData['itemId'] as $itemNum => $itemId) {
 			// check if the id exists, if it doesn't just don't bother since they are messing with the code
 			$currentItem = new invoiceItem($itemId);
-			if ($currentItem->existed) {
+			if ($currentItem->existed && $currentItem->invoiceId == $currentInvoice->invoiceId) {
 				// Update it
 				$currentItem->name = $formData['itemName'][$itemNum];
-				$currentItem->price = $formData['itemPrice'][$itemNum];
+				$currentItem->price = round($formData['itemPrice'][$itemNum], 2);
 				$currentItem->quantity = $formData['itemQuantity'][$itemNum];
 				$currentItem->tax = $formData['itemTax'][$itemNum];
 				
