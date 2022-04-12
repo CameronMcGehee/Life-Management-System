@@ -261,7 +261,7 @@
 				
 				formData = $("#invoiceForm").serialize();
 				
-				$("#scriptLoader").load("./scripts/async/editinvoice.script.php", {
+				$("#scriptLoader").load("./scripts/async/editInvoice.script.php", {
 					invoiceId: invoiceId,
 					formData: formData
 				}, function () {
@@ -720,6 +720,7 @@
 						<br>
 						<label for="recordPaymentAmount"><p>Amount</p></label>
 						<input class="defaultInput" id="recordPaymentAmount" type="number" step="0.01" name="recordPaymentAmount" min="0.01" style="width: 5em;" value="5">
+						<span id="recordPaymentAmountError" class="underInputError" style="display: none;"><br>Enter an amount greater than 0.01.</span>
 						<br><br>
 
 						<label for="recordPaymentMethod"><p style="display: inline;">Method</p> <a href="../../editbusiness/#paymentMethods"><span style="font-size: .75em; width: 20em;" class="extraSmallButtonWrapper orangeButton">Edit Methods</span></a></label>
