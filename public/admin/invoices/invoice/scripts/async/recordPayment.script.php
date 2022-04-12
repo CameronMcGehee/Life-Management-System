@@ -14,7 +14,7 @@
 		exit();
 	}
 
-	if (!isset($_POST['amount']) || !is_numeric($_POST['amount'])) {
+	if (!isset($_POST['amount']) || !is_numeric($_POST['amount']) || (float)$_POST['amount'] < 0.01) {
 		echo 'recordPaymentAmount';
 		exit();
 	}
