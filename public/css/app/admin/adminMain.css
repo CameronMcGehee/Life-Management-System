@@ -918,10 +918,10 @@ a.noUnderline {
 
 .defaultTable {
 	border-collapse:collapse;
-	/* border-spacing:0;
+	/* border-spacing:0; */
 	border-color:#ccc;
 	border-style: solid;
-	border-width: 0px; */
+	border-width: 1px;
 	border-radius: .4em;
 	overflow: hidden;
 	box-shadow: 0px 2px 6px 0px rgba(0,0,0,0.15);

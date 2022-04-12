@@ -365,7 +365,7 @@
 
 								<br><br>
 
-								<input class="defaultInput" type="checkbox" name="autoApplyCredit" id="autoApplyCredit" <?php if ($currentBusiness->autoApplyCredit == '1') {echo 'checked="checked"';} ?>><label for="autoApplyCredit"> <p style="display: inline; clear: both;">Automatically apply available customer credit to new invoices</p></label>
+								<input class="defaultInput" type="checkbox" name="autoApplyCredit" id="autoApplyCredit" <?php if ($currentBusiness->autoApplyCredit == '1') {echo 'checked="checked"';} ?>><label for="autoApplyCredit"> <p style="display: inline; clear: both;">By default, automatically apply available customer credit to new invoices</p></label>
 							</div>
 							
 							<br><br>

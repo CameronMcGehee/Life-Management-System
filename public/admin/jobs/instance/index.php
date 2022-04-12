@@ -791,7 +791,7 @@
 							$jobAdded = new DateTime($currentJob->dateTimeAdded);
 						?>
 
-						<p>Recurring Job created on <?php echo $jobAdded->format('D, d M y'); ?></p>
+						<p>Recurring Job created on <?php echo $jobAdded->format('D, M d Y'); ?></p>
 					</div>
 				</div>
 

@@ -591,14 +591,14 @@
 
 										if (!empty($currentJob->startDateTime)) {
 											$startDateTimeOutput = new DateTime($currentJob->startDateTime);
-											$startDateTimeOutput = $startDateTimeOutput->format('D, d M y \a\t h:i');
+											$startDateTimeOutput = $startDateTimeOutput->format('D, M d Y \a\t h:i');
 										} else {
 											$startDateTimeOutput = NULL;
 										}
 
 										if (!empty($currentJob->startDateTime)) {
 											$endDateTimeOutput = new DateTime($currentJob->endDateTime);
-											$endDateTimeOutput = $endDateTimeOutput->format('D, d M y \a\t h:i');
+											$endDateTimeOutput = $endDateTimeOutput->format('D, M d Y \a\t h:i');
 										} else {
 											$endDateTimeOutput = NULL;
 										}
@@ -675,7 +675,7 @@
 							$jobAdded = new DateTime($currentJob->dateTimeAdded);
 						?>
 
-						<p>Marked completed on <?php echo $jobAdded->format('D, d M y'); ?></p>
+						<p>Marked completed on <?php echo $jobAdded->format('D, M d Y'); ?></p>
 					</div>
 				</div>
 

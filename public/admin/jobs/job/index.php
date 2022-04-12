@@ -1236,7 +1236,7 @@
 							$addedDate = new DateTime($currentJob->dateTimeAdded);
 						?>
 
-						<p>Added on <?php echo $addedDate->format('D, d M y'); ?></p>
+						<p>Added on <?php echo $addedDate->format('D, M d Y'); ?></p>
 					</div>
 				</div>
 
