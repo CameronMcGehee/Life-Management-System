@@ -147,6 +147,7 @@
 ## v0.4.1 - April 2022
 - Goodies
     - Three default payments are now created at business creation (Cash, Check and PayPal)
+    - Ability to edit and delete payment methods on the edit business page
 - Techies
     - Fixed typo-based bug on edit invoice async script load call on case-sensitive url servers
     - Added check to make sure a number is given on invoice payment amount and added respective error message

@@ -293,6 +293,24 @@
 		$business->autoApplyCredit = '1';
 	}
 
+	// Payment Methods
+	require_once '../../../../../lib/table/paymentMethod.php';
+	if (!empty($formData['paymentMethodId'])) {
+		foreach($formData['paymentMethodId'] as $methodNum => $paymentMethodId) {
+			// check if the id exists, if it doesn't just don't bother since they are messing with the code
+			$currentPaymentMethod = new paymentMethod($paymentMethodId);
+			if ($currentPaymentMethod->existed && $currentPaymentMethod->businessId == $business->businessId) {
+				// Update it
+				$currentPaymentMethod->name = $formData['paymentMethodName'][$methodNum];
+				$currentPaymentMethod->amountCut = round($formData['paymentMethodAmountCut'][$methodNum], 2);
+				$currentPaymentMethod->percentCut = $formData['paymentMethodPercentCut'][$methodNum];
+				$currentPaymentMethod->notes = $formData['paymentMethodNotes'][$methodNum];
+				
+				$currentPaymentMethod->set();
+			}
+		}
+	}
+
 	// estimateValidity
 	if (!isset($formData['estimateValidity'])) {
 		echo 'estimateValidity';

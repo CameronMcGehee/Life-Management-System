@@ -15,10 +15,26 @@
 	// Other required libraries
 	require_once '../../../lib/table/admin.php';
 	require_once '../../../lib/table/business.php'; $currentBusiness = new business($_SESSION['ultiscape_businessId']);
+	require_once '../../../lib/table/paymentMethod.php';
 	require_once '../../../lib/timezones/Timezones.php';
 
 	echo $adminUIRender->renderAdminHtmlTop('../../', 'Edit '.htmlspecialchars($currentBusiness->adminDisplayName), 'Edit your UltiScape business.');
 	echo $adminUIRender->renderAdminUIMenuToggleScripts('../../');
+
+		// Generate the auth tokens for the form
+		require_once '../../../lib/table/authToken.php';
+
+		$mainAuthToken = new authToken();
+		$mainAuthToken->authName = 'editBusiness';
+		$mainAuthToken->set();
+
+		$deletePaymentMethodAuthToken = new authToken();
+		$deletePaymentMethodAuthToken->authName = 'deletePaymentMethod';
+		$deletePaymentMethodAuthToken->set();
+
+		$addPaymentMethodAuthToken = new authToken();
+		$addPaymentMethodAuthToken->authName = 'addPaymentMethod';
+		$addPaymentMethodAuthToken->set();
 
 ?>
 
@@ -50,21 +66,84 @@
 		var formOutput;
 		var url = new URL(window.location.href);
 
+		function setUnsaved() {
+			$(".changesMessage").each(function () {
+				$(this).html('<span style="color: red;">You have unsaved changes.</span>');
+				$(this).shake(50);
+			});
+		}
+
+		function setSaved() {
+			$(".changesMessage").each(function () {
+				$(this).html('<span style="color: green;">Up to date ✔</span>');
+			});
+		}
+
 		$(function() {
 
-			function setUnsaved() {
-				$(".changesMessage").each(function () {
-					$(this).html('<span style="color: red;">You have unsaved changes.</span>');
-					$(this).shake(50);
+			function registerPaymentMethodDeleteButtonClicks() {
+				$("span[id*='deletePaymentMethod:::']").each(function (i, el) {
+					$(el).on('click', function(e) {
+						currentId = this.id.split(":::")[1];
+						$.post("./scripts/async/deletePaymentMethod.script.php", {
+							paymentMethodId: currentId,
+							deletePaymentMethodAuthToken: '<?php echo $deletePaymentMethodAuthToken->authTokenId; ?>'
+						}, function () {
+							// find the closest <tr> to the delete button and remove it.
+							$(el).closest('tr').remove();
+						});
+					});
 				});
 			}
 
-			if ($.isNumeric(url.searchParams.get('fsl'))) {
-				$("#twoColContentWrapper").scrollTop(url.searchParams.get('fsl'));
-			}
-			if ($.isNumeric(url.searchParams.get('wsl'))) {
-				$(".cmsMainContentWrapper").scrollTop(url.searchParams.get('wsl'));
-			}
+			registerPaymentMethodDeleteButtonClicks();
+
+			$("#addPaymentMethod").click(function(event) {
+
+				$('.addPaymentMethodLoadingGif').fadeIn(100);
+
+				// set a new paymentMethod with script, and then add it to the list with it's Id
+
+				setTimeout(() => {
+					$("#scriptLoader").load("./scripts/async/addPaymentMethod.script.php", {
+						businessId: '<?php echo $currentBusiness->businessId; ?>',
+						addPaymentMethodAuthToken: '<?php echo $addPaymentMethodAuthToken->authTokenId; ?>'
+					}, function () {
+						scriptOutput = $("#scriptLoader").html().split(":::");
+						paymentMethodId = scriptOutput[0];
+						formState = scriptOutput[1];
+
+						switch (formState) {
+							case 'success':
+
+								// Append paymentMethod to list
+								$("#paymentMethods").append('<tr><td><input type="hidden" name="paymentMethodId[]" value="' + paymentMethodId + '"><input class="invisibleInput" style="height: 1.3em; width: 5em; max-width: 30vw; font-size: 1.3em;" type="text" name="paymentMethodName[]" value="" placeholder="Name..."> <br><br><span id="deletePaymentMethod:::' + paymentMethodId + '" class="smallButtonWrapper orangeButton xyCenteredFlex" style="width: 1em; display: inline;"><img style="height: 1em;" src="../../images/ultiscape/icons/trash.svg"></span></td><td class="tg-0lax"><div class="twoCol" style="grid-template-columns: 30% 70%"><div><p>Amount Cut</p><input class="invisibleInput" style="height: 1.3em; width: 3em; font-size: 1.3em;" type="number" step="0.01" name="paymentMethodAmountCut[]" value="0" min="0" style="width: 5em;" value="25"><p>Percent Cut</p><input class="invisibleInput" style="height: 1.3em; width: 3em; font-size: 1.3em;" type="number" step=".001" name="paymentMethodPercentCut[]" value="0" min="0" max="100" style="width: 5em;" value="1"><label for="paymentMethodTax">%</label></div><div><p>Notes to Customer (included on payment screen)</p><textarea class="invisibleInput" style="height: 1.3em; width: 15em; max-width: 30vw; font-size: 1.3em; resize: none; height: 4em;" type="text" name="paymentMethodNotes[]"></textarea></div></div></td></tr>');
+
+								// Make sure the new inputs update the changes tracker
+								$("#editBusinessForm :input").change(function () {
+									setUnsaved();
+								});
+								registerPaymentMethodDeleteButtonClicks()
+
+								break;
+							default:
+								break;
+						}
+
+						$('.addPaymentMethodLoadingGif').fadeOut(100);
+					});
+				}, 300);
+				
+				
+			});
+
+			// if ($.isNumeric(url.searchParams.get('fsl'))) {
+			// 	$("#twoColContentWrapper").scrollTop(url.searchParams.get('fsl'));
+			// }
+			// if ($.isNumeric(url.searchParams.get('wsl'))) {
+			// 	$(".cmsMainContentWrapper").scrollTop(url.searchParams.get('wsl'));
+			// }
+
 			$("#editBusinessForm").submit(function(event) {
 				event.preventDefault();
 				$('.loadingGif').fadeIn(100);
@@ -77,10 +156,13 @@
 					clearFormErrors();
 
 					if (formOutput == 'success') {
+
 						// Get the current scroll position of the form to scroll back to it after the reload
-						url.searchParams.set('fsl', $("#twoColContentWrapper").scrollTop());
-						url.searchParams.set('wsl', $(".cmsMainContentWrapper").scrollTop());
-						window.location.replace(url.href);
+						// url.searchParams.set('fsl', $("#twoColContentWrapper").scrollTop());
+						// url.searchParams.set('wsl', $(".cmsMainContentWrapper").scrollTop());
+						// window.location.replace(url.href);
+
+						setSaved();
 					} else {
 						showFormError("#"+formOutput+"Error", "#"+formOutput);
 						$("#"+formOutput).shake(50);
@@ -93,6 +175,7 @@
 			$("#editBusinessForm input, #editBusinessForm select").change(function () {
 				setUnsaved();
 			});
+
 		});
 	</script>
 </head>
@@ -366,6 +449,62 @@
 								<br><br>
 
 								<input class="defaultInput" type="checkbox" name="autoApplyCredit" id="autoApplyCredit" <?php if ($currentBusiness->autoApplyCredit == '1') {echo 'checked="checked"';} ?>><label for="autoApplyCredit"> <p style="display: inline; clear: both;">By default, automatically apply available customer credit to new invoices</p></label>
+								<br><br>
+								
+								<a name="paymentmethods"></a>
+								<p>Available Payment Methods</p>
+								
+								<table class="defaultTable" style="width: 100%;" id="itemsTable">
+									<tr id="tableHeader">
+										<th class="la" style="text-decoration: underline; width: 25%;">Name</th>
+										<th class="la" style="text-decoration: underline;">Settings</th>
+									</tr>
+									<tbody id="paymentMethods">
+
+										<?php
+
+											$currentBusiness->pullPaymentMethods("ORDER BY dateTimeAdded ASC");
+											foreach ($currentBusiness->paymentMethods as $paymentMethodId) {
+												$currentPaymentMethod = new paymentMethod($paymentMethodId);
+												if ($currentPaymentMethod->existed) {
+													echo '<tr>
+													<td><input type="hidden" name="paymentMethodId[]" value="'.htmlspecialchars($paymentMethodId).'">
+													<input class="invisibleInput" style="height: 1.3em; width: 5em; max-width: 30vw; font-size: 1.3em;" type="text" name="paymentMethodName[]" value="'.htmlspecialchars($currentPaymentMethod->name).'"> 
+													<br><br>
+													<span id="deletePaymentMethod:::'.htmlspecialchars($paymentMethodId).'" class="smallButtonWrapper orangeButton xyCenteredFlex" style="width: 1em; display: inline;"><img style="height: 1em;" src="../../images/ultiscape/icons/trash.svg"></span>
+													</td>
+													<td class="tg-0lax">
+													<div class="twoCol" style="grid-template-columns: 30% 70%">
+														<div>
+															<p>Amount Cut</p>
+																<input class="invisibleInput" style="height: 1.3em; width: 3em; font-size: 1.3em;" type="number" step="0.01" name="paymentMethodAmountCut[]" value="'.htmlspecialchars($currentPaymentMethod->amountCut).'" min="0" style="width: 5em;" value="25">
+															<p>Percent Cut</p>
+																<input class="invisibleInput" style="height: 1.3em; width: 3em; font-size: 1.3em;" type="number" step=".001" name="paymentMethodPercentCut[]" value="'.htmlspecialchars($currentPaymentMethod->percentCut).'" min="0" max="100" style="width: 5em;" value="1"><label for="paymentMethodTax">%</label>
+														</div>
+
+														<div>
+															<p>Notes to Customer (included on payment screen)</p>
+																<textarea class="invisibleInput" style="height: 1.3em; width: 15em; max-width: 20vw; font-size: 1.3em; resize: none; height: 4em;" type="text" name="paymentMethodNotes[]">'.htmlspecialchars($currentPaymentMethod->notes).'</textarea>
+														</div>
+													</div>
+													</td>
+													</tr>';
+												}
+											}
+
+										?>
+
+									</tbody>
+
+									<tr id="subTotalRow">
+										<td colspan="2"><a href="#" id="addPaymentMethod">Add Method</a><img style="display: none; width: 2em;" src="../../images/ultiscape/etc/loading.gif" class="addPaymentMethodLoadingGif"></td>
+									</tr>
+
+								</table>
+
+								<br>
+
+								<p>Methods that can be chosen from when recording a payment for an invoice. If PayPal is enabled and connected, a PayPal payment method will be automatically created.</p>
 							</div>
 							
 							<br><br>
@@ -385,16 +524,11 @@
 							</div>
 							
 							<br><br>
-							
-							<?php
-								// Generate an auth token for the form
-								require_once '../../../lib/table/authToken.php';
-								$token = new authToken();
-								$token->authName = 'editBusiness';
-								$token->set();
-							?>
 
-							<input type="hidden" name="authToken" id="authToken" value="<?php echo htmlspecialchars($token->authTokenId); ?>">
+							<input type="hidden" name="authToken" id="authToken" value="<?php echo htmlspecialchars($mainAuthToken->authTokenId); ?>">
+
+							<input type="hidden" name="deletePaymentMethodAuthToken" id="authToken" value="<?php echo htmlspecialchars($deletePaymentMethodAuthToken->authTokenId); ?>">
+							<input type="hidden" name="addPaymentMethodAuthToken" id="authToken" value="<?php echo htmlspecialchars($addPaymentMethodAuthToken->authTokenId); ?>">
 						</div>
 					</div>
 				</div>
