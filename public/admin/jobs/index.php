@@ -30,6 +30,13 @@
 			echo $adminUIRender->renderAdminSideBar('../../');
 		?>
 
+		<?php
+            require_once '../../../lib/render/ui/popupsHandler.php';
+            $popupsHandler = new popupsHandler('mainPopupsHandler', ["rootPathPrefix" => '../../', 'class' => 'styledText spacedText defaultMainShadows']);
+            $popupsHandler->render();
+            echo $popupsHandler->output;
+        ?>
+
 		<div class="cmsMainContentWrapper styledText textColorThemeJobs">
 
             <div class="desktopOnlyBlock" style="width: 100%; height: 90%;">

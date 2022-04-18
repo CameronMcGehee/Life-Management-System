@@ -148,6 +148,7 @@
 - Goodies
     - Three default payments are now created at business creation (Cash, Check and PayPal)
     - Ability to edit and delete payment methods on the edit business page
+    - Popups now alerting you when an invoice or job is deleted successfully
 - Techies
     - Fixed typo-based bug on edit invoice async script load call on case-sensitive url servers
     - Added check to make sure a number is given on invoice payment amount and added respective error message
