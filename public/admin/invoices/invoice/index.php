@@ -71,10 +71,6 @@
 	$addItemAuthToken->authName = 'addInvoiceItem';
 	$addItemAuthToken->set();
 
-	$updateItemsAuthToken = new authToken();
-	$updateItemsAuthToken->authName = 'updateItems';
-	$updateItemsAuthToken->set();
-
 	$deleteItemAuthToken = new authToken();
 	$deleteItemAuthToken->authName = 'deleteInvoiceItem';
 	$deleteItemAuthToken->set();
@@ -482,16 +478,6 @@
 				
 			});
 
-			$("#itemsTable").on('click', '.remove', function(event) {
-				event.preventDefault();
-				$(this).closest('tr').remove();
-				updateTotals();
-
-				$("#invoiceForm :input").change(function () {
-					inputChange();
-				});
-			});
-
 			window.setInterval(updateTotals, 500);
 
 			$("#invoiceForm :input").change(function () {
@@ -723,7 +709,7 @@
 						<span id="recordPaymentAmountError" class="underInputError" style="display: none;"><br>Enter an amount greater than 0.01.</span>
 						<br><br>
 
-						<label for="recordPaymentMethod"><p style="display: inline;">Method</p> <a href="../../editbusiness/#paymentMethods"><span style="font-size: .75em; width: 20em;" class="extraSmallButtonWrapper orangeButton">Edit Methods</span></a></label>
+						<label for="recordPaymentMethod"><p style="display: inline;">Method</p> <a href="../../editbusiness/#paymentmethods"><span style="font-size: .75em; width: 20em;" class="extraSmallButtonWrapper orangeButton">Edit Methods</span></a></label>
 						<br>
 							<?php
 
