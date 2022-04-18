@@ -548,7 +548,7 @@
 									<span id="docIdError" class="underInputError" style="display: none;"><br>Input a valid Id.</span>	
 								</div>
 								<div style="text-align: right;">
-									<!-- <label for="customerSelector"><p>Customer</p></label> -->
+									<label for="customerSelector"><p>Customer</p></label>
 									<!-- Select customer dialog -->
 									<?php
 									
