@@ -79,7 +79,7 @@
 - Techies
     - Popups Handler system
 
-# v0.2
+# v0.3
 
 ## v0.3.0
 - Goodies
@@ -128,6 +128,8 @@
     - Fixed job scheduling bugs related to end dates and recurrance view scopes
     - Added customer and property fields back to job instances - there is no reason to not have them
 
+# v0.4
+
 ## v0.4.0 - April 2022
 - Goodies
     - Invoices table on invoices page
@@ -152,3 +154,10 @@
 - Techies
     - Fixed typo-based bug on edit invoice async script load call on case-sensitive url servers
     - Added check to make sure a number is given on invoice payment amount and added respective error message
+
+## v0.5.0 - April 2022
+- Goodies
+    - Estimates table on estimates page
+    - Ability to create, edit and view estimates
+- Techies
+    - Changed the way that estimate approvals are stored
