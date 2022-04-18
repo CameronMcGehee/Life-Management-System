@@ -21,6 +21,9 @@
 		public $privateNotes;
 		public $isViewed;
 		public $isEmailed;
+		public $approvedByAdminId;
+		public $adminReason;
+		public $dateTimeApproved;
 		public $dateTimeAdded;
 
 		// Arrays to store linked data
@@ -49,6 +52,9 @@
 			$this->privateNotes = NULL;
 			$this->isViewed = '0';
 			$this->isEmailed = '0';
+			$this->approvedByAdminId = NULL;
+			$this->adminReason = NULL;
+			$this->dateTimeApproved = NULL;
 			// Default dateTimeAdded to now since it is likely going to be inserted at this time
 			$currentDateTime = new DateTime();
 			$this->dateTimeAdded = $currentDateTime->format('Y-m-d H:i:s');
@@ -86,6 +92,9 @@
 				$this->privateNotes = $fetch[0]['privateNotes'];
 				$this->isViewed = $fetch[0]['isViewed'];
 				$this->isEmailed = $fetch[0]['isEmailed'];
+				$this->approvedByAdminId = $fetch[0]['approvedByAdminId'];
+				$this->adminReason = $fetch[0]['adminReason'];
+				$this->dateTimeApproved = $fetch[0]['dateTimeApproved'];
 				$this->dateTimeAdded = $fetch[0]['dateTimeAdded'];
 
 				$this->setType = 'UPDATE';
@@ -134,27 +143,6 @@
 				return $this->db->getLastError();
 			}
 		}
-
-		// approvals
-		public function pullApprovals($params = '') {
-			$this->approvals = array();
-			// Add space before params
-			if ($params != '') {
-				$params = " ".$params;
-			}
-			// If there are entries, push them to the array
-			$fetch = $this->db->select('estimateApproval', 'estimateApprovalId', "WHERE estimateId = '$this->dbEstimateId'".$params);
-			if ($fetch) {
-				foreach ($fetch as $row) {
-					array_push($this->approvals, $row['estimateApprovalId']);
-				}
-				return true;
-			} elseif ($this->db->getLastError() === '') {
-					return true;
-			} else {
-				return $this->db->getLastError();
-			}
-		}
 		
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -176,6 +164,9 @@
 				'privateNotes' => $this->db->sanitize($this->privateNotes),
 				'isViewed' => $this->db->sanitize($this->isViewed),
 				'isEmailed' => $this->db->sanitize($this->isEmailed),
+				'approvedByAdminId' => $this->db->sanitize($this->approvedByAdminId),
+				'adminReason' => $this->db->sanitize($this->adminReason),
+				'dateTimeApproved' => $this->db->sanitize($this->dateTimeApproved),
 				'dateTimeAdded' => $this->db->sanitize($this->dateTimeAdded)
 			);
 
