@@ -59,11 +59,6 @@
 	} else {
 		$currentDocId->incrementalId = (int)$formData['docId'];
 	}
-
-	if ($currentDocId->set() !== true) {
-		echo 'setError';
-		exit();
-	}
 	
 	// customer
 	if (!isset($formData['customer']) || $formData['customer'] == 'none') {
@@ -130,6 +125,11 @@
 	// Use the auth token
 	require_once '../../../../../../lib/etc/authToken/useAuthToken.php';
 	useAuthToken($formData['mainAuthToken'], 'editInvoice');
+
+	if ($currentDocId->set() !== true) {
+		echo 'setError';
+		exit();
+	}
 
 	if ($currentInvoice->set() !== true) {
 		echo 'setError';
