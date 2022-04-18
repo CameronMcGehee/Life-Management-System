@@ -161,3 +161,4 @@
     - Ability to create, edit and view estimates
 - Techies
     - Changed the way that estimate approvals are stored
+    - Fixed bug where docId would increment even if invoice or estimate was not created if customer had not been selected before changing an input
