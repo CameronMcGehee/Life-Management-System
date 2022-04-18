@@ -59,9 +59,9 @@
 	$recordApprovalAuthToken->authName = 'recordApproval';
 	$recordApprovalAuthToken->set();
 
-	$deletePaymentAuthToken = new authToken();
-	$deletePaymentAuthToken->authName = 'deletePayment';
-	$deletePaymentAuthToken->set();
+	$removeApprovalAuthToken = new authToken();
+	$removeApprovalAuthToken->authName = 'removeApproval';
+	$removeApprovalAuthToken->set();
 
 	$deleteEstimateAuthToken = new authToken();
 	$deleteEstimateAuthToken->authName = 'deleteEstimate';
@@ -107,10 +107,10 @@
 
 		var changesSaved = true;
 		var waitingForError = false;
-		var recordingPayment = false;
+		var workingOnApproval = false;
 		var deleting = false;
 
-		// RECORD PAYMENT BUTTON FUNCTIONS
+		// RECORD APPROVAL BUTTON FUNCTIONS
 		function recordApprovalButton() {
 			// Save changes to avoid issues
 			if (!changesSaved) {
@@ -121,8 +121,8 @@
 			}
 		}
 		function recordApprovalYes() {
-			if (!recordingPayment) {
-				recordingPayment = true;
+			if (!workingOnApproval) {
+				workingOnApproval = true;
 				// Run the script and reload
 				$("#recordApprovalLoading").fadeIn(300);
 				$("#scriptLoader").load("./scripts/async/recordApproval.script.php", {
@@ -138,7 +138,7 @@
 								window.location.reload();
 							break;
 						default:
-							recordingPayment = false;
+							workingOnApproval = false;
 							showFormError("#"+scriptOutput+"Error", "#"+scriptOutput);
 							$("#"+scriptOutput).shake(50);
 
@@ -149,11 +149,54 @@
 					}
 				});
 			}
-			
 		}
 		function recordApprovalCancel() {
 			// Just hide the prompt
 			$("#recordApprovalPrompt").fadeOut(300);
+		}
+
+		// REMOVE APPROVAL BUTTON FUNCTIONS
+		function removeApprovalButton() {
+			// Save changes to avoid issues
+			if (!changesSaved) {
+				saveChanges();
+				$("#removeApprovalPrompt").fadeIn(300);
+			} else {
+				$("#removeApprovalPrompt").fadeIn(300);
+			}
+		}
+		function removeApprovalYes() {
+			if (!workingOnApproval) {
+				workingOnApproval = true;
+				// Run the script and reload
+				$("#removeApprovalLoading").fadeIn(300);
+				$("#scriptLoader").load("./scripts/async/removeApproval.script.php", {
+					estimateId: estimateId,
+					removeApprovalAuthToken: '<?php echo $removeApprovalAuthToken->authTokenId; ?>'
+				}, function () {
+					scriptOutput = $("#scriptLoader").html();
+					clearFormErrors();
+
+					switch (scriptOutput) {
+						case 'success':
+								window.location.reload();
+							break;
+						default:
+							workingOnApproval = false;
+							showFormError("#"+scriptOutput+"Error", "#"+scriptOutput);
+							$("#"+scriptOutput).shake(50);
+
+							$('.loadingGif').each(function() {
+								$(this).fadeOut(100);
+							});
+							break;
+					}
+				});
+			}
+		}
+		function removeApprovalNo() {
+			// Just hide the prompt
+			$("#removeApprovalPrompt").fadeOut(300);
 		}
 
 		// DELETE BUTTON FUNCTIONS
@@ -415,23 +458,6 @@
 
 			registerItemDeleteButtonClicks();
 
-			function registerPaymentDeleteButtonClicks() {
-				$("span[id*='deletePayment:::']").each(function (i, el) {
-					$(el).on('click', function(e) {
-						currentId = this.id.split(":::")[1];
-						$.post("./scripts/async/deletePayment.script.php", {
-							paymentId: currentId,
-							deletePaymentAuthToken: '<?php echo $deletePaymentAuthToken->authTokenId; ?>'
-						}, function () {
-							// find the closest <tr> to the delete button and remove it.
-							$(el).closest('tr').remove();
-						});
-					});
-				});
-			}
-
-			registerPaymentDeleteButtonClicks();
-
 			$("#add").click(function(event) {
 
 				if (isNewEstimate) {
@@ -524,10 +550,44 @@
 							<br>
 
 							<?php
+
+								if ($currentEstimate->dateTimeApproved != NULL) {
+
+									if ($currentEstimate->approvedByAdminId != NULL) {
+										// Get the admin's name
+										$currentAdmin = new admin($currentEstimate->approvedByAdminId);
+										if ($currentEstimate->approvedByAdminId == $_SESSION['ultiscape_adminId']) {
+											$approvalNameOutput = '<a href="../../myprofile">You</a>';
+										} elseif ($currentAdmin->existed) {
+											$approvalNameOutput = '<a href="../../profile?id='.htmlspecialchars($currentEstimate->approvedByAdminId).'">'.htmlspecialchars($currentAdmin->firstName).' '.htmlspecialchars($currentAdmin->lastName).'</a>';
+										} else {
+											$approvalNameOutput = 'an admin';
+										}
+									} else {
+										$approvalNameOutput = '<a href="../../customers/customer?id='.htmlspecialchars($currentEstimate->customerId).'">the customer</a>';
+									}
+
+									$approvalDateOutput = new DateTime($currentEstimate->dateTimeApproved);
+									$approvalDateOutput = $approvalDateOutput->format('D, M d Y');
+									echo '<div class="defaultInputGroup twoCol" style="grid-template-columns: min-content auto; background-color: rgb(179, 255, 179);">
+											<div><img style="height: 3em;" src="../../../images/ultiscape/icons/thumbs_up.svg"></div>
+											<div>
+											<p style="display: inline;">This estimate was approved on <b>'.$approvalDateOutput.'</b> by <b>'.$approvalNameOutput.'</b>.</p>';
+
+											if ($currentEstimate->adminReason != NULL) {
+												echo '<p>Reason for admin approval: <b>'.htmlspecialchars($currentEstimate->adminReason).'</b></p>';
+											}
+									echo '</div></div>
+									<br>';
+								}
 							
 								if ($currentEstimate->existed) {
-									echo '<div class="twoCol" style="width: 21em;">';
-										echo '<span style="width: 9em;" class="smallButtonWrapper greenButton centered defaultMainShadows" onclick="recordApprovalButton()"><img style="height: 1.2em;" src="../../../images/ultiscape/icons/thumbs_up.svg"> Record Approval</span>';
+									echo '<div class="twoCol" style="width: 23em;">';
+										if ($currentEstimate->dateTimeApproved == NULL) {
+											echo '<span style="width: 9em;" class="smallButtonWrapper greenButton centered defaultMainShadows" onclick="recordApprovalButton()"><img style="height: 1.2em;" src="../../../images/ultiscape/icons/thumbs_up.svg"> Record Approval</span>';
+										} else {
+											echo '<span style="width: 11em;" class="smallButtonWrapper orangeButton centered defaultMainShadows" onclick="removeApprovalButton()"><img style="height: 1.2em;" src="../../../images/ultiscape/icons/thumbs_down.svg"> Remove Approval</span>';
+										}
 										echo '<span style="width: 5em;" class="smallButtonWrapper redButton centered defaultMainShadows" onclick="deleteButton()"><img style="height: 1.2em;" src="../../../images/ultiscape/icons/trash.svg"> Delete</span>';
 									echo '</div>';
 
@@ -613,25 +673,6 @@
 									<td style="text-decoration: underline; border-left-width: 2px; border-left-color: green;"><b>Grand Total:</b></td>
 									<td><span style="font-size: 1.5em; color: green;" id="grandTotal">$0</span></td>
 								</tr>
-
-								<?php
-
-									// $currentEstimate->pullPayments("ORDER BY dateTimeAdded ASC");
-									// foreach ($currentEstimate->payments as $paymentId) {
-									// 	$currentPayment = new payment($paymentId);
-									// 	if ($currentPayment->existed) {
-									// 		$paymentDateOutput = new DateTime($currentPayment->dateTimeAdded);
-									// 		$paymentDateOutput = $paymentDateOutput->format('D, M d Y');
-									// 		echo '<tr class="paymentRow">
-									// 				<td style="border: none;" colspan="2"></td>
-									// 				<td style="background-color: #fff2e6;">Payment on '.htmlspecialchars($paymentDateOutput).' <span id="deletePayment:::'.htmlspecialchars($paymentId).'" class="smallButtonWrapper orangeButton xyCenteredFlex" style="width: 1em; display: inline;"><img style="height: 1em;" src="../../../images/ultiscape/icons/trash.svg"></span></td>
-									// 				<td style="background-color: #fff2e6;"><span class="paymentAmount" style="display: none;">'.htmlspecialchars(number_format($currentPayment->amount, 2, '.', ',')).'</span>-$'.htmlspecialchars(number_format($currentPayment->amount, 2, '.', ',')).'</td>
-									// 				<td style="background-color: #fff2e6;"><span class="paymentBalanceUpdate" style="font-size: 1.5em; color: green;">Loading...</span></td>
-									// 			</tr>';
-									// 	}
-									// }
-
-								?>
 							</table>
 
 							<br>
@@ -714,6 +755,25 @@
 
 							<div>
 								<span id="recordApprovalCancelButton" class="smallButtonWrapper redButton" onclick="recordApprovalCancel()">Cancel</span>
+							</div>
+						</div>
+
+					</div>
+				</div>
+
+				<div id="removeApprovalPrompt" class="dimOverlay xyCenteredFlex" style="display: none;">
+					<div class="popupMessageDialog" style="width: 30em;">
+						<h3>Remove Approval?</h3>
+						<p>If the customer has approved this estimate, the approval status will be reset!</p>
+						<br>
+
+						<div id="removeApprovalButtons" class="twoCol centered" style="width: 15em;">
+							<div>
+								<span id="removeApprovalYesButton" class="smallButtonWrapper greenButton" onclick="removeApprovalYes()">Yes <span style="display: none;" id="removeApprovalLoading"><img style="width: 1em;" src="../../../images/ultiscape/etc/loading.gif" class="loadingGif"></span></span>
+							</div>
+
+							<div>
+								<span id="removeApprovalNoButton" class="smallButtonWrapper redButton" onclick="removeApprovalNo()">No</span>
 							</div>
 						</div>
 
