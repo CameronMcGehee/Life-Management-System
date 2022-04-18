@@ -826,6 +826,9 @@
 	`privateNotes` text NULL,
 	`isViewed` tinyint(1) NOT NULL DEFAULT 0,
 	`isEmailed` tinyint(1) NOT NULL DEFAULT 0,
+	`approvedByAdminId` varchar(17) NULL COMMENT 'Optional FK',
+	`adminReason` text NULL,
+	`dateTimeApproved` datetime NULL,
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`estimateId`),
 	KEY `estimateBusinessId` (`businessId`),
@@ -855,26 +858,6 @@
 	KEY `estimateItemEstimateId` (`estimateId`),
 	CONSTRAINT `estimateItemBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE,
 	CONSTRAINT `estimateItemEstimateId` FOREIGN KEY (`estimateId`) REFERENCES `estimate` (`estimateId`) ON DELETE CASCADE
-	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-	--
-	-- Table structure for table `estimateApproval`
-	--
-
-	CREATE TABLE IF NOT EXISTS `estimateApproval` (
-	`estimateApprovalId` varchar(17) NOT NULL,
-	`businessId` varchar(17) NOT NULL,
-	`estimateId` varchar(17) NOT NULL,
-	`approvedByAdminId` varchar(17) NULL COMMENT 'Optional FK',
-	`adminReason` text NOT NULL,
-	`dateTimeApproved` datetime NOT NULL,
-	PRIMARY KEY (`estimateApprovalId`),
-	KEY `estimateApprovalBusinessId` (`businessId`),
-	KEY `estimateApprovalEstimateId` (`estimateId`),
-	KEY `estimateApprovalapprovedByAdminId` (`approvedByAdminId`),
-	CONSTRAINT `estimateApprovalBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE,
-	CONSTRAINT `estimateApprovalEstimateId` FOREIGN KEY (`estimateId`) REFERENCES `estimate` (`estimateId`) ON DELETE CASCADE,
-	CONSTRAINT `estimateApprovalapprovedByAdminId` FOREIGN KEY (`approvedByAdminId`) REFERENCES `admin` (`adminId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -950,12 +933,12 @@
 	CREATE TABLE IF NOT EXISTS `payment` (
 	`paymentId` varchar(17) NOT NULL,
 	`businessId` varchar(17) NOT NULL,
+	`customerId` varchar(17) NOT NULL,
 	`linkedToInvoiceId` varchar(17) NULL,
 	`linkedToPaymentMethodId` varchar(17) NULL,
 	`methodName` varchar(20) NOT NULL,
 	`methodPercentCut` float NOT NULL DEFAULT 0,
 	`methodAmountCut` float NOT NULL DEFAULT 0,
-	`customerId` varchar(17) NOT NULL,
 	`amount` float NOT NULL,
 	`notes` text NULL,
 	`excessWasAddedToCredit` tinyint(1) NOT NULL DEFAULT 0,
