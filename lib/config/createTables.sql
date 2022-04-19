@@ -1386,11 +1386,11 @@
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
-	-- Table structure for table `mailoutCampaignTemplate`
+	-- Table structure for table `emailTemplate`
 	--
 
-	CREATE TABLE IF NOT EXISTS `mailoutCampaignTemplate` (
-	`mailoutCampaignTemplateId` varchar(17) NOT NULL,
+	CREATE TABLE IF NOT EXISTS `emailTemplate` (
+	`emailTemplateId` varchar(17) NOT NULL,
 	`businessId` varchar(17) NOT NULL,
 	`campaignName` text NOT NULL,
 	`subject` text NOT NULL,
@@ -1398,30 +1398,30 @@
 	`bodyFile` varchar(17) NOT NULL,
 	`footerFile` varchar(17) NOT NULL,
 	`dateTimeAdded` datetime NOT NULL,
-	PRIMARY KEY (`mailoutCampaignTemplateId`),
-	KEY `mailoutCampaignTemplateBusinessId` (`businessId`),
-	CONSTRAINT `mailoutCampaignTemplateBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE
+	PRIMARY KEY (`emailTemplateId`),
+	KEY `emailTemplateBusinessId` (`businessId`),
+	CONSTRAINT `emailTemplateBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
-	-- Table structure for table `mailoutSubscriptionBridge`
+	-- Table structure for table `emailSubscriptionBridge`
 	--
 
-	CREATE TABLE IF NOT EXISTS `mailoutSubscriptionBridge` (
-	`mailoutSubscriptionId` int(11) NOT NULL AUTO_INCREMENT,
+	CREATE TABLE IF NOT EXISTS `emailSubscriptionBridge` (
+	`emailSubscriptionId` int(11) NOT NULL AUTO_INCREMENT,
 	`businessId` varchar(17) NOT NULL,
 	`customerEmailAddressId` varchar(17) NOT NULL,
-	`mailoutCampaignTemplateId` varchar(17) NOT NULL,
+	`emailTemplateId` varchar(17) NOT NULL,
 	`frequencyInterval` varchar(10) NOT NULL DEFAULT 'none',
 	`frequency` int(11) NOT NULL DEFAULT 0,
 	`dateTimeAdded` datetime NOT NULL,
-	PRIMARY KEY (`mailoutSubscriptionId`),
-	KEY `mailoutSubscriptionBridgeBusinessId` (`businessId`),
-	KEY `mailoutSubscriptionBridgeCustomerEmailAddressId` (`customerEmailAddressId`),
-	KEY `mailoutSubscriptionBridgeMailoutCampaignTemplateId` (`mailoutCampaignTemplateId`),
-	CONSTRAINT `mailoutSubscriptionBridgeBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE,
-	CONSTRAINT `mailoutSubscriptionBridgeCustomerEmailAddressId` FOREIGN KEY (`customerEmailAddressId`) REFERENCES `customerEmailAddress` (`customerEmailAddressId`) ON DELETE CASCADE,
-	CONSTRAINT `mailoutSubscriptionBridgeMailoutCampaignTemplateId` FOREIGN KEY (`mailoutCampaignTemplateId`) REFERENCES `mailoutCampaignTemplate` (`mailoutCampaignTemplateId`) ON DELETE CASCADE
+	PRIMARY KEY (`emailSubscriptionId`),
+	KEY `emailSubscriptionBridgeBusinessId` (`businessId`),
+	KEY `emailSubscriptionBridgeCustomerEmailAddressId` (`customerEmailAddressId`),
+	KEY `emailSubscriptionBridgeEmailTemplateId` (`emailTemplateId`),
+	CONSTRAINT `emailSubscriptionBridgeBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE,
+	CONSTRAINT `emailSubscriptionBridgeCustomerEmailAddressId` FOREIGN KEY (`customerEmailAddressId`) REFERENCES `customerEmailAddress` (`customerEmailAddressId`) ON DELETE CASCADE,
+	CONSTRAINT `emailSubscriptionBridgeEmailTemplateId` FOREIGN KEY (`emailTemplateId`) REFERENCES `emailTemplate` (`emailTemplateId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -1431,17 +1431,16 @@
 	CREATE TABLE IF NOT EXISTS `emailSend` (
 	`emailSendId` varchar(17) NOT NULL,
 	`businessId` varchar(17) NOT NULL,
-	`linkedToMailoutSubscriptionId` varchar(17) NULL COMMENT 'Optional FK',
-	`linkedToMailoutCampaignTemplateId` varchar(17) NULL COMMENT 'Optional FK',
+	`linkedToEmailSubscriptionId` varchar(17) NULL COMMENT 'Optional FK',
+	`linkedToEmailTemplateId` varchar(17) NULL COMMENT 'Optional FK',
+	`toEmail` text NOT NULL,
 	`subject` text NOT NULL,
-	`headerFile` varchar(17) NOT NULL,
-	`bodyFile` varchar(17) NOT NULL,
-	`footerFile` varchar(17) NOT NULL,
+	`contentHtmlFile` varchar(17) NOT NULL,
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`emailSendId`),
 	KEY `emailSendBusinessId` (`businessId`),
-	KEY `emailSendLinkedToMailoutSubscriptionId` (`linkedToMailoutSubscriptionId`),
-	KEY `emailSendLinkedToMailoutCampaignTemplateId` (`linkedToMailoutCampaignTemplateId`),
+	KEY `emailSendLinkedToEmailSubscriptionId` (`linkedToEmailSubscriptionId`),
+	KEY `emailSendLinkedToEmailTemplateId` (`linkedToEmailTemplateId`),
 	CONSTRAINT `emailSendBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -1513,10 +1512,10 @@
 	PRIMARY KEY (`smsSubscriptionId`),
 	KEY `smsSubscriptionBridgeBusinessId` (`businessId`),
 	KEY `smsSubscriptionBridgeCustomerPhoneNumberId` (`customerPhoneNumberId`),
-	KEY `smsSubscriptionBridgeMailoutCampaignTemplateId` (`smsCampaignTemplateId`),
+	KEY `smsSubscriptionBridgeEmailTemplateId` (`smsCampaignTemplateId`),
 	CONSTRAINT `smsSubscriptionBridgeBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE,
 	CONSTRAINT `smsSubscriptionBridgeCustomerPhoneNumberId` FOREIGN KEY (`customerPhoneNumberId`) REFERENCES `customerPhoneNumber` (`customerPhoneNumberId`) ON DELETE CASCADE,
-	CONSTRAINT `smsSubscriptionBridgeMailoutCampaignTemplateId` FOREIGN KEY (`smsCampaignTemplateId`) REFERENCES `smsCampaignTemplate` (`smsCampaignTemplateId`) ON DELETE CASCADE
+	CONSTRAINT `smsSubscriptionBridgeEmailTemplateId` FOREIGN KEY (`smsCampaignTemplateId`) REFERENCES `smsCampaignTemplate` (`smsCampaignTemplateId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -1636,10 +1635,20 @@
 
 	CREATE TABLE IF NOT EXISTS `emailQueueMessage` (
 	`emailQueueMessageId` varchar(17) NOT NULL,
+	`linkedToBusinessId` varchar(17) NULL COMMENT 'Optional FK',
+	`linkedToEmailSubscriptionId` varchar(17) NULL COMMENT 'Optional FK',
+	`linkedToEmailTemplateId` varchar(17) NULL COMMENT 'Optional FK',
 	`messageType` text NOT NULL,
-	`toEmail` text NOT NULL,
-	`subject` text NOT NULL,
-	`content` varchar(17) NOT NULL,
+	`templateVarInputs` text NULL,
+	`toEmails` text NOT NULL,
+	`ccEmails` text NULL,
+	`bccEmails` text NULL,
+	`fromName` text NOT NULL,
+	`subject` text NULL,
+	`contentHtml` text NULL,
 	`dateTimeAdded` datetime NOT NULL,
-	PRIMARY KEY (`emailQueueMessageId`)
+	PRIMARY KEY (`emailQueueMessageId`),
+	KEY `emailQueueMessageLinkedToBusinessId` (`linkedToBusinessId`),
+	KEY `emailQueueMessageLinkedToEmailSubscriptionId` (`linkedToEmailSubscriptionId`),
+	KEY `emailQueueMessageLinkedToEmailTemplateId` (`linkedToEmailTemplateId`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
