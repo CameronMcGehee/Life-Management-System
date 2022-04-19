@@ -1629,3 +1629,17 @@
 	CONSTRAINT `blogPostReadTokenBlogPostId` FOREIGN KEY (`blogPostId`) REFERENCES `blogPost` (`blogPostId`) ON DELETE CASCADE,
 	CONSTRAINT `blogPostReadTokenBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
+	-- Table structure for table `emailQueueMessage`
+	--
+
+	CREATE TABLE IF NOT EXISTS `emailQueueMessage` (
+	`emailQueueMessageId` varchar(17) NOT NULL,
+	`messageType` text NOT NULL,
+	`toEmail` text NOT NULL,
+	`subject` text NOT NULL,
+	`content` varchar(17) NOT NULL,
+	`dateTimeAdded` datetime NOT NULL,
+	PRIMARY KEY (`emailQueueMessageId`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
