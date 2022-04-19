@@ -298,12 +298,17 @@
                 $totalOutput = htmlspecialchars($this->currentBusiness->currencySymbol).number_format($total, 2, '.', ',');
 
                 // Approval Status
-                if (true) {
-                    $approvalStatusColor = 'green';
+                if ($estimate->dateTimeApproved == NULL) {
+                    $approvalStatusOutput = '<b style="color: red;">No</b>';
                 } else {
-                    $approvalStatusColor = 'red';
+                    $approvalStatusOutput = '<b style="color: green;">Yes</b>';
+
+                    if ($estimate->approvedByAdminId == NULL) {
+                        $approvalStatusOutput .= ' (by customer)';
+                    } else {
+                        $approvalStatusOutput .= ' (by admin)';
+                    }
                 }
-                $approvalStatusOutput = '<div style="display: inline-block; width: .9em; height: .9em; border-radius: 50%; background-color: '.$approvalStatusColor.'"></div> <b>NF</b> (NF)';
 
                 // Render the row
 				$this->output .= '<tr>';
