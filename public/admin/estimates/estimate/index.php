@@ -584,7 +584,7 @@
 								if ($currentEstimate->existed) {
 									echo '<div class="twoCol" style="width: 23em;">';
 										if ($currentEstimate->dateTimeApproved == NULL) {
-											echo '<span style="width: 9em;" class="smallButtonWrapper greenButton centered defaultMainShadows" onclick="recordApprovalButton()"><img style="height: 1.2em;" src="../../../images/ultiscape/icons/thumbs_up.svg"> Record Approval</span>';
+											echo '<span style="width: 9em;" class="smallButtonWrapper greenButton centered defaultMainShadows" onclick="recordApprovalButton()"><img style="height: 1.2em;" src="../../../images/ultiscape/icons/thumbs_up.svg"> Admin Approve</span>';
 										} else {
 											echo '<span style="width: 11em;" class="smallButtonWrapper orangeButton centered defaultMainShadows" onclick="removeApprovalButton()"><img style="height: 1.2em;" src="../../../images/ultiscape/icons/thumbs_down.svg"> Remove Approval</span>';
 										}
@@ -601,7 +601,7 @@
 							<div class="twoCol">
 								<div>
 									<label for="docId"><p>Doc ID</p></label>
-									<input class="defaultInput" id="docId" type="number" step="1" name="docId" min="0" style="width: 5em;" value="<?php if ((string)$currentBusiness->docIdIsRandom == '1') {echo $currentDocId->randomId;} else {echo $currentDocId->incrementalId;}  ?>">
+									<input <?php if ($currentEstimate->dateTimeApproved != NULL) { echo 'readonly ';} ?>class="defaultInput" id="docId" type="number" step="1" name="docId" min="0" style="width: 5em;" value="<?php if ((string)$currentBusiness->docIdIsRandom == '1') {echo $currentDocId->randomId;} else {echo $currentDocId->incrementalId;}  ?>">
 									<span id="docIdError" class="underInputError" style="display: none;"><br>Input a valid Id.</span>	
 								</div>
 								<div style="text-align: right;">
@@ -610,7 +610,13 @@
 									<?php
 									
 										require_once '../../../../lib/render/input/customerSelector.php';
-										$customerSelector = new customerSelector("customerSelector", ["name" => 'customer', "selectedId" => $currentEstimate->customerId]);
+
+										if ($currentEstimate->dateTimeApproved != NULL) {
+											$customerReadonly = true;
+										} else {
+											$customerReadonly = false;
+										}
+										$customerSelector = new customerSelector("customerSelector", ["readonly" => $customerReadonly, "name" => 'customer', "selectedId" => $currentEstimate->customerId]);
 										$customerSelector->render();
 										echo $customerSelector->output;
 
@@ -640,9 +646,45 @@
 									foreach ($currentEstimate->items as $itemId) {
 										$currentItem = new estimateItem($itemId);
 										if ($currentItem->existed) {
-											echo '<tr><td><input type="hidden" name="itemId[]" value="'.htmlspecialchars($itemId).'"><input class="invisibleInput" style="height: 1.3em; width: 16em; max-width: 30vw; font-size: 1.3em;" type="text" name="itemName[]" value="'.htmlspecialchars($currentItem->name).'"> 
-											<span id="deleteItem:::'.htmlspecialchars($itemId).'" class="smallButtonWrapper orangeButton xyCenteredFlex" style="width: 1em; display: inline;"><img style="height: 1em;" src="../../../images/ultiscape/icons/trash.svg"></span>
-											</td><td class="tg-0lax"><input class="invisibleInput" style="height: 1.3em; width: 5em; font-size: 1.3em;" type="number" step="0.01" name="itemPrice[]" value="'.htmlspecialchars($currentItem->price).'" min="0" style="width: 5em;" value="25"></td><td class="tg-0lax"><input class="invisibleInput" style="height: 1.3em; width: 3em; font-size: 1.3em;" type="number" step="any" name="itemQuantity[]" value="'.htmlspecialchars($currentItem->quantity).'" min="1" style="width: 5em;" value="1"></td><td class="tg-0lax"><input class="invisibleInput" style="height: 1.3em; width: 3em; font-size: 1.3em;" type="number" step="any" name="itemTax[]" value="'.htmlspecialchars($currentItem->tax).'" min="0" max="100"style="width: 5em;" value="0"><label for="itemTax">%</label></td><td class="tg-0lax"><span class="itemTotal"></span></td></tr>';
+											if ($currentEstimate->dateTimeApproved != NULL) {
+												echo '<tr>
+														<td>
+															<input type="hidden" name="itemId[]" value="'.htmlspecialchars($itemId).'"><input readonly class="invisibleInput" style="height: 1.3em; width: 16em; max-width: 30vw; font-size: 1.3em;" type="text" name="itemName[]" value="'.htmlspecialchars($currentItem->name).'"> 
+														</td>
+														<td class="tg-0lax">
+															<input readonly class="invisibleInput" style="height: 1.3em; width: 5em; font-size: 1.3em;" type="number" step="0.01" name="itemPrice[]" value="'.htmlspecialchars($currentItem->price).'" min="0" style="width: 5em;" value="25">
+														</td>
+														<td class="tg-0lax">
+															<input readonly class="invisibleInput" style="height: 1.3em; width: 3em; font-size: 1.3em;" type="number" step="any" name="itemQuantity[]" value="'.htmlspecialchars($currentItem->quantity).'" min="1" style="width: 5em;" value="1">
+														</td>
+														<td class="tg-0lax">
+															<input readonly class="invisibleInput" style="height: 1.3em; width: 3em; font-size: 1.3em;" type="number" step="any" name="itemTax[]" value="'.htmlspecialchars($currentItem->tax).'" min="0" max="100"style="width: 5em;" value="0"><label for="itemTax">%</label>
+														</td>
+														<td class="tg-0lax">
+															<span class="itemTotal"></span>
+														</td>
+													</tr>';
+											} else {
+												echo '<tr>
+														<td>
+															<input type="hidden" name="itemId[]" value="'.htmlspecialchars($itemId).'"><input class="invisibleInput" style="height: 1.3em; width: 16em; max-width: 30vw; font-size: 1.3em;" type="text" name="itemName[]" value="'.htmlspecialchars($currentItem->name).'"> 
+															<span id="deleteItem:::'.htmlspecialchars($itemId).'" class="smallButtonWrapper orangeButton xyCenteredFlex" style="width: 1em; display: inline;"><img style="height: 1em;" src="../../../images/ultiscape/icons/trash.svg"></span>
+														</td>
+														<td class="tg-0lax">
+															<input class="invisibleInput" style="height: 1.3em; width: 5em; font-size: 1.3em;" type="number" step="0.01" name="itemPrice[]" value="'.htmlspecialchars($currentItem->price).'" min="0" style="width: 5em;" value="25">
+														</td>
+														<td class="tg-0lax">
+															<input class="invisibleInput" style="height: 1.3em; width: 3em; font-size: 1.3em;" type="number" step="any" name="itemQuantity[]" value="'.htmlspecialchars($currentItem->quantity).'" min="1" style="width: 5em;" value="1">
+														</td>
+														<td class="tg-0lax">
+															<input class="invisibleInput" style="height: 1.3em; width: 3em; font-size: 1.3em;" type="number" step="any" name="itemTax[]" value="'.htmlspecialchars($currentItem->tax).'" min="0" max="100"style="width: 5em;" value="0"><label for="itemTax">%</label>
+														</td>
+														<td class="tg-0lax">
+															<span class="itemTotal"></span>
+														</td>
+													</tr>';
+											}
+											
 										}
 									}
 
@@ -651,7 +693,15 @@
 								</tbody>
 
 								<tr id="subTotalRow">
-									<td colspan="3"><a href="#" id="add">Add Item</a><img style="display: none; width: 2em;" src="../../../images/ultiscape/etc/loading.gif" class="addItemLoadingGif"></td>
+									<?php
+
+										if ($currentEstimate->dateTimeApproved != NULL) {
+											echo '<td colspan="3">You cannot alter, add or remove items once an estimate has been approved.</td>';
+										} else {
+											echo '<td colspan="3"><a href="#" id="add">Add Item</a><img style="display: none; width: 2em;" src="../../../images/ultiscape/etc/loading.gif" class="addItemLoadingGif"></td>';
+										}
+
+									?>
 									<td style="text-decoration: underline; border-top-width: 2px; border-left-width: 2px; border-left-color: green; border-top-color: green;">Subtotal:</td>
 									<td id="subTotal" style="border-top-width: 2px; border-top-color: green;">$0</td>
 								</tr>
@@ -678,19 +728,19 @@
 							<br>
 							<div style="text-align: right;">
 								<label for="discount"><p>Discount</p></label>
-								<input class="defaultInput" id="discount" type="number" step="0.01" name="discount" min="0" style="width: 5em;" value="<?php echo htmlspecialchars($currentEstimate->discount); ?>">
+								<input <?php if ($currentEstimate->dateTimeApproved != NULL) { echo 'readonly ';} ?>class="defaultInput" id="discount" type="number" step="0.01" name="discount" min="0" style="width: 5em;" value="<?php echo htmlspecialchars($currentEstimate->discount); ?>">
 							</div>
 							<br><br>
 
 							<h3>Notes</h3>
 							<div class="defaultInputGroup">
 								<label for="notes"><p>Comments (included on estimate)</p></label>
-								<textarea class="defaultInput" style="font-size: 1.2em; width: 95%;" name="comments" id="comments"><?php echo htmlspecialchars($currentEstimate->comments); ?></textarea>
+								<textarea <?php if ($currentEstimate->dateTimeApproved != NULL) { echo 'readonly ';} ?>class="defaultInput" style="font-size: 1.2em; width: 95%;" name="comments" id="comments"><?php echo htmlspecialchars($currentEstimate->comments); ?></textarea>
 
 								<br><br>
 								
 								<label for="notes"><p>Private (to Admins)</p></label>
-								<textarea class="defaultInput" style="font-size: 1.2em; width: 95%;" name="privateNotes" id="privateNotes"><?php echo htmlspecialchars($currentEstimate->privateNotes); ?></textarea>
+								<textarea <?php if ($currentEstimate->dateTimeApproved != NULL) { echo 'readonly ';} ?>class="defaultInput" style="font-size: 1.2em; width: 95%;" name="privateNotes" id="privateNotes"><?php echo htmlspecialchars($currentEstimate->privateNotes); ?></textarea>
 							</div>
 							<br><br>
 
@@ -739,11 +789,11 @@
 
 				<div id="recordApprovalPrompt" class="dimOverlay xyCenteredFlex" style="display: none;">
 					<div class="popupMessageDialog" style="width: 30em;">
-						<h3>Record Manual Approval</h3>
+						<h3>Record Admin Approval</h3>
 
 						<br>
 						
-						<label for="recordApprovalReason"><p>Reason for manual approval</p></label>
+						<label for="recordApprovalReason"><p>Reason for admin approval</p></label>
 						<textarea class="defaultInput" style="font-size: 1.2em; width: 95%;" name="recordApprovalReason" id="recordApprovalReason"></textarea>
 						
 						<br><br>

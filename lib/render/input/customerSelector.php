@@ -55,6 +55,10 @@
 				$options['allowNone'] = true;
 			}
 
+			if (empty($options['readonly'])) {
+				$options['readonly'] = false;
+			}
+
 			$this->options = $options;
 		}
 
@@ -63,19 +67,37 @@
 
 			// For each customer, get the name and output it
 
-			if ($this->options['allowNone']) {
-				$this->output .= '<option value="none">None</option>';
+			if ($this->options['readonly']) {
+				if ($this->options['selectedId'] == 'none') {
+					$this->output .= '<option value="none">None</option>';
+				}
+			} else {
+				if ($this->options['allowNone']) {
+					$this->output .= '<option value="none">None</option>';
+				}
 			}
+
+			
 			
 			foreach ($this->currentBusiness->customers as $customerId) {
 				$currentCustomer = new customer($customerId);
-				$this->output .= '<option ';
-				
-				if ($this->options['selectedId'] == $customerId) {
-					$this->output .= 'selected="selected"';
+
+				$renderThisCustomer = true;
+
+				if ($this->options['readonly'] && $this->options['selectedId'] != $currentCustomer->customerId) {
+					$renderThisCustomer = false;
 				}
 
-				$this->output .= 'value="'.htmlspecialchars($customerId).'">'.htmlspecialchars($currentCustomer->firstName).' '.htmlspecialchars($currentCustomer->lastName).'</option>';
+				if ($renderThisCustomer) {
+					$this->output .= '<option ';
+				
+					if ($this->options['selectedId'] == $customerId) {
+						$this->output .= 'selected="selected"';
+					}
+	
+					$this->output .= 'value="'.htmlspecialchars($customerId).'">'.htmlspecialchars($currentCustomer->firstName).' '.htmlspecialchars($currentCustomer->lastName).'</option>';
+				}
+				
 			}
 
 			$this->output .= '</select>';
