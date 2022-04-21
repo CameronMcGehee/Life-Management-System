@@ -1392,11 +1392,10 @@
 	CREATE TABLE IF NOT EXISTS `emailTemplate` (
 	`emailTemplateId` varchar(17) NOT NULL,
 	`businessId` varchar(17) NOT NULL,
-	`campaignName` text NOT NULL,
+	`templateName` text NOT NULL,
 	`subject` text NOT NULL,
-	`headerFile` varchar(17) NOT NULL,
-	`bodyFile` varchar(17) NOT NULL,
-	`footerFile` varchar(17) NOT NULL,
+	`contentHtml` text NOT NULL,
+	`isSystemTemplate` tinyint(1) NOT NULL DEFAULT 0,
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`emailTemplateId`),
 	KEY `emailTemplateBusinessId` (`businessId`),
@@ -1483,18 +1482,19 @@
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
-	-- Table structure for table `smsCampaignTemplate`
+	-- Table structure for table `smsTemplate`
 	--
 
-	CREATE TABLE IF NOT EXISTS `smsCampaignTemplate` (
-	`smsCampaignTemplateId` varchar(17) NOT NULL,
+	CREATE TABLE IF NOT EXISTS `smsTemplate` (
+	`smsTemplateId` varchar(17) NOT NULL,
 	`businessId` varchar(17) NOT NULL,
-	`campaignName` varchar(200) NOT NULL,
+	`templateName` text NOT NULL,
 	`message` text NOT NULL,
+	`isSystemTemplate` tinyint(1) NOT NULL DEFAULT 0,
 	`dateTimeAdded` datetime NOT NULL,
-	PRIMARY KEY (`smsCampaignTemplateId`),
-	KEY `smsCampaignTemplateBusinessId` (`businessId`),
-	CONSTRAINT `smsCampaignTemplateBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE
+	PRIMARY KEY (`smsTemplateId`),
+	KEY `smsTemplateBusinessId` (`businessId`),
+	CONSTRAINT `smsTemplateBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
@@ -1505,17 +1505,17 @@
 	`smsSubscriptionId` int(11) NOT NULL AUTO_INCREMENT,
 	`businessId` varchar(17) NOT NULL,
 	`customerPhoneNumberId` varchar(17) NOT NULL,
-	`smsCampaignTemplateId` varchar(17) NOT NULL,
+	`smsTemplateId` varchar(17) NOT NULL,
 	`frequencyInterval` varchar(10) NOT NULL DEFAULT 'none',
 	`frequency` int(11) NOT NULL DEFAULT 0,
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`smsSubscriptionId`),
 	KEY `smsSubscriptionBridgeBusinessId` (`businessId`),
 	KEY `smsSubscriptionBridgeCustomerPhoneNumberId` (`customerPhoneNumberId`),
-	KEY `smsSubscriptionBridgeEmailTemplateId` (`smsCampaignTemplateId`),
+	KEY `smsSubscriptionBridgeSmsTemplateId` (`smsTemplateId`),
 	CONSTRAINT `smsSubscriptionBridgeBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE,
 	CONSTRAINT `smsSubscriptionBridgeCustomerPhoneNumberId` FOREIGN KEY (`customerPhoneNumberId`) REFERENCES `customerPhoneNumber` (`customerPhoneNumberId`) ON DELETE CASCADE,
-	CONSTRAINT `smsSubscriptionBridgeEmailTemplateId` FOREIGN KEY (`smsCampaignTemplateId`) REFERENCES `smsCampaignTemplate` (`smsCampaignTemplateId`) ON DELETE CASCADE
+	CONSTRAINT `smsSubscriptionBridgeSmsTemplateId` FOREIGN KEY (`smsTemplateId`) REFERENCES `smsTemplate` (`smsTemplateId`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
