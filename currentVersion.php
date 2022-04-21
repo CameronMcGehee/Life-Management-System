@@ -1,5 +1,5 @@
 <?php
 
-	$version = '0.5.0 (NF)';
+	$version = '0.5.0';
 
 ?>

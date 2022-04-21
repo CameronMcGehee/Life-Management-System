@@ -5,9 +5,9 @@
 
 ## v0.1.1 - 11-24-2021
 - Goodies
-    - Mostly working login, register, and edit business pages
+    - Mostly working login, register, and edit business (business settings as of v0.5.0) pages
     - Fully working register page
-    - Mostly working edit business page
+    - Mostly working edit business (business settings as of v0.5.0) page
     - Working but not good looking switch business page
 - Techies
     - PHP fuctions for managing authTokens
@@ -149,7 +149,7 @@
 ## v0.4.1 - April 2022
 - Goodies
     - Three default payments are now created at business creation (Cash, Check and PayPal)
-    - Ability to edit and delete payment methods on the edit business page
+    - Ability to edit and delete payment methods on the edit business (business settings as of v0.5.0) page
     - Popups now alerting you when an invoice or job is deleted successfully
 - Techies
     - Fixed typo-based bug on edit invoice async script load call on case-sensitive url servers
@@ -162,3 +162,6 @@
 - Techies
     - Changed the way that estimate approvals are stored
     - Fixed bug where docId would increment even if invoice or estimate was not created if customer had not been selected before changing an input
+    - Change edit business page to business settings page
+    - Update how email templates are stored
+    - Backend email sender (emailManager) that reads email queue and sends mail asynchronously (general email only, template email generation WIP)
