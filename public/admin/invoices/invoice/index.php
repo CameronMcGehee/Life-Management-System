@@ -709,7 +709,7 @@
 						<span id="recordPaymentAmountError" class="underInputError" style="display: none;"><br>Enter an amount greater than 0.01.</span>
 						<br><br>
 
-						<label for="recordPaymentMethod"><p style="display: inline;">Method</p> <a href="../../editbusiness/#paymentmethods"><span style="font-size: .75em; width: 20em;" class="extraSmallButtonWrapper orangeButton">Edit Methods</span></a></label>
+						<label for="recordPaymentMethod"><p style="display: inline;">Method</p> <a href="../../businesssettings/#paymentmethods"><span style="font-size: .75em; width: 20em;" class="extraSmallButtonWrapper orangeButton">Edit Methods</span></a></label>
 						<br>
 							<?php
 

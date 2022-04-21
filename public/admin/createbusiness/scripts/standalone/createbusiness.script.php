@@ -69,7 +69,7 @@
     // Redirect
     if ($result == 'success') {
         if (isset($_POST['takeToEditPage'])) {
-            header("location: ../../../editbusiness?popup=businessCreated&businessCreatedbusinessName=".$newBusiness->displayName);
+            header("location: ../../../businesssettings?popup=businessCreated&businessCreatedbusinessName=".$newBusiness->displayName);
             exit();
         } else {
             header("location: ../../../overview?popup=businessCreated&businessCreatedbusinessName=".$newBusiness->displayName);

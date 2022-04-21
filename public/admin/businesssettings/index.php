@@ -18,7 +18,7 @@
 	require_once '../../../lib/table/paymentMethod.php';
 	require_once '../../../lib/timezones/Timezones.php';
 
-	echo $adminUIRender->renderAdminHtmlTop('../../', 'Edit '.htmlspecialchars($currentBusiness->adminDisplayName), 'Edit your UltiScape business.');
+	echo $adminUIRender->renderAdminHtmlTop('../../', 'Settings for'.htmlspecialchars($currentBusiness->adminDisplayName), 'Edit your UltiScape business.');
 	echo $adminUIRender->renderAdminUIMenuToggleScripts('../../');
 
 		// Generate the auth tokens for the form
@@ -211,7 +211,7 @@
 				<div class="twoColPage-Info-Content maxHeight">
 					<div id="twoColInfoWrapper" class="paddingLeftRight90 paddingTopBottom90">
 					
-						<h1>Edit <i><?php echo htmlspecialchars($currentBusiness->adminDisplayName); ?></i></h1>
+						<h2>Settings: <i><?php echo htmlspecialchars($currentBusiness->adminDisplayName); ?></i></h2>
 
 						<!-- <br> -->
 

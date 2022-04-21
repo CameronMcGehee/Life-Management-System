@@ -139,7 +139,7 @@
 				';
 
 				// Edit button temporarily until we make it look nice
-				$output .= '<p><a href="'.$rootPathPrefix.'admin/editbusiness">Edit Business</a></p>
+				$output .= '<p><a href="'.$rootPathPrefix.'admin/businesssettings">Business Settings</a></p>
 				';
 
 				// Button to create a new business
