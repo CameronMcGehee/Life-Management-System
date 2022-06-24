@@ -376,7 +376,7 @@
 
 				// Payments
 
-				runningTotal = grandTotalOutput;
+				runningTotal = parseFloat(grandTotalOutput);
 				$(".paymentRow").each(function (i, el) {
 					$("#grandTotal").css('text-decoration', 'line-through');
 					// Define elements
@@ -501,7 +501,7 @@
 
 <body>
 	<span style="display: none;" id="scriptLoader"></span>
-	<div class="cmsBodyWrapper">
+	<div class="adminBodyWrapper">
 
 		<?php 
 			echo $adminUIRender->renderAdminTopBar('../../../', true, true, true);

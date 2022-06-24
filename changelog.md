@@ -165,3 +165,14 @@
     - Change edit business page to business settings page
     - Update how email templates are stored
     - Backend email sender (emailManager) that reads email queue and sends mail asynchronously (general email only, template email generation WIP)
+
+## v0.6.0 - April 2022
+- Goodies
+    - Customer Portal Login
+    - Customer Home Page
+    - Customer invoices and invoice view pages (accepting payments is still WIP)
+- Techies
+    - Updated file structure for css directory
+    - Changed adminMain.css to main.css
+    - Created customerUIRender class
+    - Created customerInvoiceTable render

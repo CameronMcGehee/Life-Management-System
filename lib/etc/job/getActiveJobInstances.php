@@ -2,14 +2,14 @@
 
     // Get a full list of jobs within a date span (start and end dates are included) (overdue jobs do not have to be within the date span!)
 
-		function getActiveJobInstances($startDateTime, $endDateTime, array $exclude = array()) { // "singular", "recurring", "completed", "cancelled", "overdue"
+		function getActiveJobInstances($startDateTime, $endDateTime, $queryParams = '') {
 			
             require_once dirname(__DIR__).'/job/getActiveJobs.php';
             require_once dirname(__DIR__).'/time/getRecurringDates.php';
 
             $instances = [];
 
-            $jobs = getActiveJobs($startDateTime, $endDateTime, $exclude);
+            $jobs = getActiveJobs($startDateTime, $endDateTime, $queryParams);
 
             foreach ($jobs as $job) {
                 $freq = $job['frequency'];

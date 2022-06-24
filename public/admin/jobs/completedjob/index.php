@@ -423,7 +423,7 @@
 
 <body>
 	<span style="display: none;" id="scriptLoader"></span>
-	<div class="cmsBodyWrapper">
+	<div class="adminBodyWrapper">
 
 		<?php 
 			echo $adminUIRender->renderAdminTopBar('../../../', true, true, true);

@@ -20,7 +20,7 @@
 
 <body>
 	<div style="display: none;" id="scriptLoader"></div>
-	<div class="cmsBodyWrapper">
+	<div class="adminBodyWrapper">
 
 		<?php
 			echo $adminUIRender->renderAdminTopBar('../../');

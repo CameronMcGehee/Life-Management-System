@@ -19,7 +19,7 @@
 </head>
 
 <body>
-    <div class="cmsBodyWrapper">
+    <div class="adminBodyWrapper">
 
         <?php 
             echo $adminUIRender->renderAdminTopBar('../../');

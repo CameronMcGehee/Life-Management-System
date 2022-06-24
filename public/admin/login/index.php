@@ -18,7 +18,7 @@
 
 ?>
 
-    <link rel="stylesheet" type="text/css" href="../../css/app/admin/adminLoginPage.css">
+    <link rel="stylesheet" type="text/css" href="../../css/app/adminLoginPage.css">
 
     <script src="../../js/etc/animation/shake.js"></script>
 

@@ -39,7 +39,7 @@
 
 				// CSS
 
-				$output .= '<link rel="stylesheet" type="text/css" href="'.$rootPathPrefix.'css/app/admin/adminMain.css">
+				$output .= '<link rel="stylesheet" type="text/css" href="'.$rootPathPrefix.'css/app/main.css">
 				';
 
 				// Javascript

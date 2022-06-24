@@ -186,21 +186,35 @@
             // Get actual results
             $params = '';
 
-            switch ($this->options['useSort']) {
-                case 'newest':
-                    $params .= 'ORDER BY dateTimeAdded DESC ';
-                    break;
-                case 'oldest':
-                    $params .= 'ORDER BY dateTimeAdded ASC ';
-                    break;
-                default:
-                    break;
-            }
-
             if (empty($this->options['queryParams'])) {
+
+                switch ($this->options['useSort']) {
+                    case 'newest':
+                        $params .= ' ORDER BY dateTimeAdded DESC ';
+                        break;
+                    case 'oldest':
+                        $params .= ' ORDER BY dateTimeAdded ASC ';
+                        break;
+                    default:
+                        break;
+                }
+
                 $params .= "LIMIT ".$firstLimit.", ".$this->options['maxRows'];
             } else {
-                $params .= $this->options['queryParams']." LIMIT ".$firstLimit.", ".$this->options['maxRows'];
+                $params .= $this->options['queryParams'];
+
+                switch ($this->options['useSort']) {
+                    case 'newest':
+                        $params .= ' ORDER BY dateTimeAdded DESC ';
+                        break;
+                    case 'oldest':
+                        $params .= ' ORDER BY dateTimeAdded ASC ';
+                        break;
+                    default:
+                        break;
+                }
+                
+                $params .= "LIMIT ".$firstLimit.", ".$this->options['maxRows'];
             }
 
             $this->currentBusiness->pullInvoices($params);
@@ -306,9 +320,9 @@
                     $percentPaid = round(($amountPaid / $total) * 100, 0);
                 }
                 if ($percentPaid == 0) {
-                    $paymentStatusColor = '#a6a6a6';
-                } else if ($percentPaid < 50) {
                     $paymentStatusColor = 'red';
+                } else if ($percentPaid < 50) {
+                    $paymentStatusColor = '#ff6600';
                 } else if ($percentPaid < 80) {
                     $paymentStatusColor = 'orange';
                 } else if ($percentPaid < 100) {

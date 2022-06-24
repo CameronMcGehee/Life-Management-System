@@ -53,7 +53,7 @@
 		}
 	</style>
 
-	<!-- <link rel="stylesheet" type="text/css" href="../../css/app/admin/adminLoginPage.css"> -->
+	<!-- <link rel="stylesheet" type="text/css" href="../../css/app/adminLoginPage.css"> -->
 
 	<script src="../../js/etc/animation/shake.js"></script>
 
@@ -182,7 +182,7 @@
 
 <body>
 	<span style="display: none;" id="scriptLoader"></span>
-	<div class="cmsBodyWrapper">
+	<div class="adminBodyWrapper">
 
 		<?php 
 			echo $adminUIRender->renderAdminTopBar('../../', true, true, true);

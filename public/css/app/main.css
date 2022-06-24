@@ -1,0 +1,1781 @@
+/* ALL MAIN CSS CLASSES DESIGNED FOR MOBILE VIEW FIRST, WITH BREAKPOINTS ADDED FOR WIDER SCREENS AT THE END
+
+ _    _ _ _   _  _____                        
+ | |  | | | | (_)/ ____|                       
+ | |  | | | |_ _| (___   ___ __ _ _ __   ___ 
+ | |  | | | __| |\___ \ / __/ _` | '_ \ / _ \
+ | |__| | | |_| |____) | (_| (_| | |_) |  __/
+  \____/|_|\__|_|_____/ \___\__,_| .__/ \___|
+                                 | |                                 
+                                 |_|                                      
+   Copyright McGehee Enterprises 2022 */
+
+   @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap');
+
+*, *::before, *::after {
+	font-family: 'Source Sans Pro', sans-serif;
+	margin: 0;
+	padding: 0;
+
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-rendering: optimizeLegibility;
+}
+
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/* Vars */
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+
+:root {
+	--utliscapeColorTheme: #65B200;
+	--customersColorTheme: #199D00;
+	--communicationsColorTheme: #b14646;
+	--jobsColorTheme: #008BC9;
+	--documentsColorTheme: #C98D00;
+	--inventoryColorTheme: #549D00;
+
+	--grayTextColorTheme: #444444;
+}
+
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/* Default <a> Styles */
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+
+a {
+	transition: color 300ms;
+	transition: font-weight 300ms;
+	text-decoration: none;
+	border: none;
+}
+
+/* unvisited link */
+a:link {
+	color: #126d00;
+	border-bottom: 1px dotted gray;
+}
+
+/* visited link */
+a:visited {
+	color: #126d00;
+	border-bottom: 1px dotted gray;
+}
+
+/* mouse over link */
+a:hover {
+	color: #199D00;
+	border-bottom: none;
+}
+
+a.aniBold:hover {
+	font-weight: bold;
+}
+
+/* selected link */
+a:active {
+	color: #147700;
+	border-bottom: none;
+}
+
+a.noUnderline {
+	border-bottom: none;
+}
+
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/* Alignments */
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+
+.marginCentered {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.textCentered {
+	text-align: center;
+}
+
+.centered {
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+}
+
+.xCenteredFlex {
+	display: flex;
+	/* align-items: center; */
+	justify-content: center;
+}
+
+.yCenteredFlex {
+	display: flex;
+	align-items: center;
+	/* justify-content: center; */
+}
+
+.xyCenteredFlex {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.flexDirectionColumn {
+	flex-direction: column;
+}
+
+.flexDirectionRow {
+	flex-direction: row;
+}
+
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/* Margins */
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+
+.margin90 {
+	margin-left: 5%;
+	margin-right: 5%;
+	margin-top: 5%;
+	margin-bottom: 5%;
+}
+
+.margin80 {
+	margin-left: 10%;
+	margin-right: 10%;
+	margin-top: 10%;
+	margin-bottom: 10%;
+}
+
+.margin70 {
+	margin-left: 15%;
+	margin-right: 15%;
+	margin-top: 15%;
+	margin-bottom: 15%;
+}
+
+.margin60 {
+	margin-left: 20%;
+	margin-right: 20%;
+	margin-top: 20%;
+	margin-bottom: 20%;
+}
+
+.marginLeftRight90 {
+	margin-left: 5%;
+	margin-right: 5%;
+}
+
+.marginLeftRight80 {
+	margin-left: 10%;
+	margin-right: 10%;
+}
+
+.marginLeftRight70 {
+	margin-left: 15%;
+	margin-right: 15%;
+}
+
+.marginLeftRight60 {
+	margin-left: 20%;
+	margin-right: 20%;
+}
+
+.marginTopBottom90 {
+	margin-top: 5%;
+	margin-bottom: 5%;
+}
+
+.marginTopBottom80 {
+	margin-top: 10%;
+	margin-bottom: 10%;
+}
+
+.marginTopBottom70 {
+	margin-top: 15%;
+	margin-bottom: 15%;
+}
+
+.marginTopBottom60 {
+	margin-top: 20%;
+	margin-bottom: 20%;
+}
+
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/* Paddings */
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+
+.padding90 {
+	padding-left: 5%;
+	padding-right: 5%;
+}
+
+.padding80 {
+	padding-left: 10%;
+	padding-right: 10%;
+}
+
+.padding70 {
+	padding-left: 15%;
+	padding-right: 15%;
+}
+
+.padding60 {
+	padding-left: 20%;
+	padding-right: 20%;
+}
+
+.paddingLeftRight90 {
+	padding-left: 5%;
+	padding-right: 5%;
+}
+
+.paddingLeftRight80 {
+	padding-left: 10%;
+	padding-right: 10%;
+}
+
+.paddingLeftRight70 {
+	padding-left: 15%;
+	padding-right: 15%;
+}
+
+.paddingLeftRight60 {
+	padding-left: 20%;
+	padding-right: 20%;
+}
+
+.paddingTopBottom90 {
+	padding-top: 5%;
+	padding-bottom: 5%;
+}
+
+.paddingTopBottom80 {
+	padding-top: 10%;
+	padding-bottom: 10%;
+}
+
+.paddingTopBottom70 {
+	padding-top: 15%;
+	padding-bottom: 15%;
+}
+
+.paddingTopBottom60 {
+	padding-top: 20%;
+	padding-bottom: 20%;
+}
+
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/* Columns */
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+
+.twoColPage-Info-Content {
+	display: grid;
+	grid-template-columns: 100%;
+	grid-template-rows: min-content min-content;
+	grid-template-areas:
+	"info"
+	"content";
+}
+.twoColPage-Content-Info {
+	display: grid;
+	grid-template-columns: 100%;
+	grid-template-rows: min-content min-content;
+	grid-template-areas:
+	"content"
+	"info";
+}
+
+.twoColPage-Info-Content #twoColInfoWrapper, .twoColPage-Content-Info #twoColInfoWrapper {
+	grid-area: info;
+}
+.twoColPage-Info-Content #twoColContentWrapper, .twoColPage-Content-Info #twoColContentWrapper {
+	grid-area: content;
+}
+
+/* Smaller info two col pages*/
+.twoColPage-InfoSmall-Content {
+	display: grid;
+	grid-template-columns: 100%;
+	grid-template-rows: min-content min-content;
+	grid-template-areas:
+	"info"
+	"content";
+}
+.twoColPage-Content-InfoSmall {
+	display: grid;
+	grid-template-columns: 100%;
+	grid-template-rows: min-content min-content;
+	grid-template-areas:
+	"content"
+	"info";
+}
+
+.twoColPage-InfoSmall-Content #twoColInfoWrapper, .twoColPage-Content-InfoSmall #twoColInfoWrapper {
+	grid-area: info;
+}
+.twoColPage-InfoSmall-Content #twoColContentWrapper, .twoColPage-Content-InfoSmall #twoColContentWrapper {
+	grid-area: content;
+}
+
+.twoCol {
+	display: grid;
+	grid-template-columns: 50% 50%;
+	grid-template-rows: min-content;
+	grid-template-areas: "1 2";
+}
+.twoColCompact {
+	display: grid;
+	grid-template-columns: min-content min-content;
+	grid-template-rows: min-content;
+	grid-template-areas: "1 2";
+	column-gap: 1em;
+}
+
+.threeCol {
+	display: grid;
+	grid-template-columns: 33% 33% 33%;
+	grid-template-rows: min-content;
+	grid-template-areas: "1 2 3";
+}
+.threeColCompact {
+	display: grid;
+	grid-template-columns: min-content min-content min-content;
+	grid-template-rows: min-content;
+	grid-template-areas: "1 2 3";
+	column-gap: 1em;
+}
+
+.fourCol {
+	display: grid;
+	grid-template-columns: 25% 25% 25%;
+	grid-template-rows: min-content;
+	grid-template-areas: "1 2 3 4";
+}
+.fourColCompact {
+	display: grid;
+	grid-template-columns: min-content min-content min-content min-content;
+	grid-template-rows: min-content;
+	grid-template-areas: "1 2 3 4";
+	column-gap: 1em;
+}
+
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/* Scaling */
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+
+.maxHeight {
+	height: 100%;
+}
+
+.maxWidth {
+	width: 100%;
+}
+
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/* Responsive Visibility */
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+
+.desktopOnlyBlock {
+	display: none;
+}
+.desktopOnlyInline {
+	display: none;
+}
+.desktopOnlyInlineBlock {
+	display: none;
+}
+.desktopOnlyFlex {
+	display: none;
+}
+.desktopOnlyTable-cell {
+	display: none;
+}
+
+
+.desktopTabletOnlyTable-cell {
+	display: none;
+}
+
+
+.mobileOnlyTable-cell {
+	display: table-cell;
+}
+
+
+.mobileOnlyBlock {
+	display: block;
+}
+.mobileOnlyInline {
+	display: inline;
+}
+.mobileOnlyInlineBlock {
+	display: inline-block;
+}
+.mobileOnlyFlex {
+	display: flex;
+}
+.mobileOnlyTable-cell {
+	display: table-cell;
+}
+
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/* Shadows */
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+
+.defaultMainShadows {
+	box-shadow: inset 0px 8px 8px -10px rgb(58, 58, 58), inset 5px 0px 8px -10px rgb(58, 58, 58);
+	
+	box-shadow: -1px 2px 6px 0px rgba(0,0,0,0.15);
+	-webkit-box-shadow: -1px 2px 6px 0px rgba(0,0,0,0.15);
+	-moz-box-shadow: -1px 2px 6px 0px rgba(0,0,0,0.15);
+}
+
+.defaultInsetShadow {
+	box-shadow: inset 0px 8px 8px -10px rgb(58, 58, 58), inset 5px 0px 8px -10px rgb(58, 58, 58);
+}
+
+.defaultAll4InsetShadow {
+	box-shadow: 0px 0px 8px -2px rgba(58,58,58,0.75) inset;
+}
+
+.defaultBoxShadow {
+	box-shadow: -1px 2px 6px 0px rgba(0,0,0,0.15);
+	-webkit-box-shadow: -1px 2px 6px 0px rgba(0,0,0,0.15);
+	-moz-box-shadow: -1px 2px 6px 0px rgba(0,0,0,0.15);
+}
+
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/* Styled Text */
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+
+.styledText h1, .styledText h2, .styledText h3, .styledText h4, .styledText h5, .styledText h6 {
+    font-weight: 400;
+	text-shadow: 2px 2px 3px #BABABA;
+	/* text-shadow: 0 1px 0px #378ab4, 1px 0 0px #5dabcd, 1px 2px 1px #378ab4, 2px 1px 1px #5dabcd, 2px 3px 2px #378ab4, 3px 2px 2px #5dabcd, 3px 4px 2px #378ab4, 4px 3px 3px #5dabcd, 4px 5px 3px #378ab4, 5px 4px 2px #5dabcd, 5px 6px 2px #378ab4, 6px 5px 2px #5dabcd, 6px 7px 1px #378ab4, 7px 6px 1px #5dabcd, 7px 8px 0px #378ab4, 8px 7px 0px #5dabcd, 2px 2px 3px rgba(47,186,13,0); */
+}
+
+.styledText h1 {
+	font-size: 2.5em;
+}
+
+.styledText h2 {
+	font-size: 2em;
+}
+
+.styledText h3 {
+	font-size: 1.75em;
+}
+
+.styledText h4 {
+	font-size: 1.5em;
+}
+
+.styledText p {
+	font-size: 1.1em;
+}
+
+.spacedText h1, .spacedText h2, .spacedText h3, .spacedText h4, .spacedText h5, .spacedText h6 {
+	margin-top: .5em;
+	/* text-shadow: 0 1px 0px #378ab4, 1px 0 0px #5dabcd, 1px 2px 1px #378ab4, 2px 1px 1px #5dabcd, 2px 3px 2px #378ab4, 3px 2px 2px #5dabcd, 3px 4px 2px #378ab4, 4px 3px 3px #5dabcd, 4px 5px 3px #378ab4, 5px 4px 2px #5dabcd, 5px 6px 2px #378ab4, 6px 5px 2px #5dabcd, 6px 7px 1px #378ab4, 7px 6px 1px #5dabcd, 7px 8px 0px #378ab4, 8px 7px 0px #5dabcd, 2px 2px 3px rgba(47,186,13,0); */
+}
+
+.spacedText p {
+	margin-top: .5em;
+	line-height: 1.5em;
+}
+
+/*Styled Text Colors*/
+
+.textColorThemeGray p, .textColorThemeCustomers p, .textColorThemeEstimates p, .textColorThemeJobs p, .textColorThemeInvoices p, .textColorThemeInventory p {
+	color: #606060;
+}
+
+.textColorThemeGray h1, .textColorThemeGray h2, .textColorThemeGray h3, .textColorThemeGray h4, .textColorThemeGray h5, .textColorThemeGray h6 {
+	color: var(--grayTextColorTheme);
+}
+
+.textColorThemeCustomers h1, .textColorThemeCustomers h2, .textColorThemeCustomers h3, .textColorThemeCustomers h4, .textColorThemeCustomers h5, .textColorThemeCustomers h6 {
+	color: var(--customersColorTheme);
+}
+
+.textColorThemeEstimates h1, .textColorThemeEstimates h2, .textColorThemeEstimates h3, .textColorThemeEstimates h4, .textColorThemeEstimates h5, .textColorThemeEstimates h6  {
+	color: var(--communicationsColorTheme);
+}
+
+.textColorThemeJobs h1, .textColorThemeJobs h2, .textColorThemeJobs h3, .textColorThemeJobs h4, .textColorThemeJobs h5, .textColorThemeJobs h6 {
+	color: var(--jobsColorTheme);
+}
+
+.textColorThemeInvoices h1, .textColorThemeInvoices h2, .textColorThemeInvoices h3, .textColorThemeInvoices h4, .textColorThemeInvoices h5, .textColorThemeInvoices h6 {
+	color: var(--documentsColorTheme);
+}
+
+.textColorThemeInventory h1, .textColorThemeInventory h2, .textColorThemeInventory h3, .textColorThemeInventory h4, .textColorThemeInventory h5, .textColorThemeInventory h6 {
+	color: var(--inventoryColorTheme);
+}
+
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/* Hover Tips */
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+
+.hoverTip {
+	border-bottom: 1px dotted var(--utliscapeColorTheme);
+	position: relative;
+	cursor: help;
+	text-decoration: none;
+	color: inherit;
+  }
+
+  .hoverTip span {
+	display: none;
+	z-index: 999;
+	position: absolute;
+	padding: .3em;
+	padding-left: .5em;
+	top: 1.5em;
+	left: 2.4em;
+	width: 10em;
+	background-color: white;
+	border: 1px solid gray;
+	border-radius: 0.5em;
+  }
+
+  .hoverTip:hover span {
+	display: inline-block;
+  }
+
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/* Gradients */
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+
+.gradientRadialLeftGreen1 {
+	background-image: radial-gradient( circle farthest-corner at 10% 20%,  rgba(1,150,21,1) 0%, rgba(198,239,146,1) 90% );
+}
+
+.gradientRadialLeftPeople {
+	background-image: radial-gradient( circle farthest-corner at 10% 20%,  var(--customersColorTheme) 0%, rgb(168, 239, 146) 90% );
+}
+.gradientRadialLeftCommunications {
+	background-image: radial-gradient( circle farthest-corner at 10% 20%,  var(--communicationsColorTheme) 0%, rgb(168, 239, 146) 90% );
+}
+.gradientRadialLeftJobs {
+	background-image: radial-gradient( circle farthest-corner at 10% 20%,  var(--jobsColorTheme) 0%, rgb(168, 239, 146) 90% );
+}
+.gradientRadialLeftDocuments {
+	background-image: radial-gradient( circle farthest-corner at 10% 20%,  var(--documentsColorTheme) 0%, rgb(168, 239, 146) 90% );
+}
+.gradientRadialLeftInventory {
+	background-image: radial-gradient( circle farthest-corner at 10% 20%,  var(--inventoryColorTheme) 0%, rgb(168, 239, 146) 90% );
+}
+
+.gradientRadialLeftUltiscape {
+	background-image: radial-gradient( circle farthest-corner at 10% 20%,  var(--utliscapeColorTheme) 0%, rgb(168, 239, 146) 90% );
+}
+
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/* Scrollbar */
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+
+::-webkit-scrollbar {
+	width: .5em;
+}
+
+::-webkit-scrollbar-track {
+	background-color: transparent;
+	margin-block: .1em;
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: rgba(128, 128, 128, 0.548);
+	border: none;
+	border-radius: 100vw;
+	transition: background-color 300ms;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background-color: rgba(128, 128, 128, 0.932);
+}
+
+/*For firefox and other browsers that do not support the webkit-scrollbar*/
+
+@supports(scrollbar-color: red blue) {
+	* {
+		scrollbar-color: rgba(128, 128, 128, 0.932) transparent;
+		scrollbar-width: thin;
+	}
+}
+
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/* Buttons */
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+
+.extraSmallButtonWrapper {
+	font-size: .8em;
+	font-weight: bold;
+
+	padding-top: .1em;
+	padding-bottom: .1em;
+	padding-left: .5em;
+	padding-right: .5em;
+
+	/* border: 1px solid #707070 !important; */
+	border: none;
+	border-radius: .2em;
+
+	cursor: pointer;
+
+	transition: filter .2s ease-in;
+}
+.smallButtonWrapper:hover {
+	filter: brightness(.9);
+}
+
+.smallButtonWrapper {
+	font-size: 1em;
+	font-weight: bold;
+
+	padding-top: .4em;
+	padding-bottom: .4em;
+	padding-left: 1em;
+	padding-right: 1em;
+
+
+	/* border: 1px solid #707070 !important; */
+	border: none;
+	border-radius: .2em;
+
+	cursor: pointer;
+
+	transition: filter .2s ease-in;
+}
+.smallButtonWrapper:hover {
+	filter: brightness(.9);
+}
+
+.mediumButtonWrapper {
+	font-size: 1.25em;
+	font-weight: bold;
+
+	padding: .5em;
+	padding-left: 1.25em;
+	padding-right: 1.25em;
+
+	/* border: 1px solid #707070; */
+	border: none;
+	border-radius: .1em;
+
+	cursor: pointer;
+
+	transition: filter .2s ease-in;
+}
+.mediumButtonWrapper:hover {
+	filter: brightness(.9);
+}
+
+.largeButtonWrapper {
+	font-size: 1.5em;
+	font-weight: bold;
+
+	padding: 1em;
+	padding-left: 1.5em;
+	padding-right: 1.5em;
+
+	/* border: 1px solid #707070; */
+	border: none;
+	border-radius: .1em;
+
+	cursor: pointer;
+
+	transition: filter .2s ease-in;
+}
+.largeButtonWrapper:hover {
+	filter: brightness(.9);
+}
+
+.greenButton {
+	background-color: #65B200;
+	color: white !important;
+}
+
+.orangeButton {
+	background-color: #D47100;
+	color: white !important;
+}
+
+.redButton {
+	background-color: #d40000;
+	color: white !important;
+}
+
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/* Overlays */
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+
+.overlay {
+	position: absolute;
+	left: 0em;
+	top: 0em;
+	width: 100%;
+	height: 100%;
+	background: rgba(0,0,0,0);
+	z-index: 9999999999999;
+}
+
+.dimOverlay {
+	position: absolute;
+	left: 0em;
+	top: 0em;
+	width: 100%;
+	height: 100%;
+	background: rgba(0,0,0,0.5);
+	z-index: 9999999999999;
+}
+
+/* Popups */
+
+.popupMessageDialog {
+	background-color: white;
+	border-radius: .7em;
+	display: inline-block;
+	padding: 1.5em;
+	max-width: 85%;
+	max-height: 85vh;
+	overflow: auto;
+}
+
+.popupMessageDialog .closeButton {
+	border-radius: 50%;
+	border: 1px solid gray;
+	background-color: rgb(153, 0, 0);
+
+	width: 2em;
+	height: 2em;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	float: right;
+
+	cursor: pointer;
+}
+
+.popupMessageDialog .closeButton img {
+	filter: brightness(100);
+}
+
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/* Forms */
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+
+.defaultForm label p {
+	color: rgb(100, 100, 100);
+	margin-bottom: .2em;
+	font-size: .9em;
+}
+
+.defaultForm input.defaultInput {
+	height: 1.5em;
+	background-color: rgb(235, 235, 235);
+}
+
+.defaultForm select.defaultInput {
+	height: 2em;
+	background-color: rgb(235, 235, 235);
+}
+
+.defaultForm input.defaultInput[type="checkbox"] {
+	width: .8em;
+	height: .8em;
+	outline: none;
+}
+
+.defaultInput {
+	outline: none;
+	border: 1px solid gray;
+	border-radius: .1em;
+
+	font-size: 1.1em;
+	color: rgb(68, 68, 68);
+
+	padding: .2em;
+
+	transition: all 300ms;
+
+	background-color: rgb(235, 235, 235);
+}
+.defaultInput:focus {
+	outline: 1px solid var(--utliscapeColorTheme);
+}
+
+.bigInput {
+	outline: none;
+	border: none;
+	border-bottom: 3px solid gray;
+
+	height: 1em;
+
+	font-size: 1.5em;
+	color: rgb(68, 68, 68);
+
+	padding-top: .3em;
+	padding-left: .1em;
+	padding-right: .3em;
+
+	transition: all 300ms;
+	background-color: rgb(235, 235, 235);
+}
+.bigInput:focus {
+	border-bottom: 3px solid var(--utliscapeColorTheme);
+}
+
+.invisibleInput, .invisibleInputNoHover {
+	outline: none;
+	border: none;
+	transition: all 300ms;
+	background-color: rgb(235, 235, 235);
+}
+
+.invisibleInput:hover {
+	outline: 1px solid rgb(175, 175, 175);
+}
+
+.almostInvisibleInput, .almostInvisibleInputNoHover {
+	outline: none;
+	border: none;
+	border-bottom: 1px solid rgb(196, 196, 196);
+	background-color: rgb(235, 235, 235);
+}
+
+.almostInvisibleInput:hover {
+	outline: 1px solid rgb(175, 175, 175);
+	border: none;
+	margin-bottom: 1px; /* To compensate for the border: none; */
+}
+
+.underInputError {
+	font-style: italic;
+	color: red;
+}
+
+/* Input Wrappers */
+
+.defaultInputGroup {
+	/* border: 1px solid green; */
+	padding: 1em;
+	width: 93%;
+	/* border: 1px solid #ccc; */
+	border-radius: .3em;
+	/* box-shadow: -1px 2px 16px 0px rgba(0,0,0,0.15); */
+	box-shadow: 0px 2px 6px 0px rgba(0,0,0,0.15);
+	background-color: rgb(243, 243, 243);
+}
+
+.importantInputGroup {
+	/* border: 1px solid green; */
+	padding: 1em;
+	width: 93%;
+	border-radius: .3em;
+	/* box-shadow: -1px 2px 16px 0px rgba(0, 0, 0, 0.15); */
+	box-shadow: 0px 2px 6px 0px rgba(0,0,0,0.15);
+	background-color: #ffcccc;
+}
+
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/* Tables */
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+
+.defaultTable {
+	border-collapse:collapse;
+	/* border-spacing:0; */
+	border-color:#ccc;
+	border-style: solid;
+	border-width: 1px;
+	border-radius: .4em;
+	overflow: hidden;
+	box-shadow: 0px 2px 6px 0px rgba(0,0,0,0.15);
+	width: 100%;
+	max-width: 100%;
+}
+
+.defaultTable td {
+	font-size:14px;
+	padding:10px 5px;
+	border-style:solid;
+	border-width:1px;
+	overflow: visible;
+	word-break:normal;
+	border-color:#ccc;
+	color:#333;
+	background-color:#fff;
+}
+
+.defaultTable th {
+	font-size:14px;
+	font-weight: bold;
+	text-decoration: none;
+	padding:10px 5px;
+	border-style:solid;
+	border-width:1px;
+	overflow:hidden;
+	word-break:normal;
+	border-color:#ccc;
+	color:#333;
+	background-color:#d0d0d0;
+	text-align: center;
+}
+
+.defaultTable.noBorder {
+	border-width: 0px;
+}
+
+.defaultTable.highlightOdd tr:nth-child(odd) td {
+	background-color: #f5f5f5;
+}
+
+.defaultTable.highlightEven tr:nth-child(even) td {
+	background-color: #f5f5f5;
+}
+.defaultTable.hoverHighlight tr td {
+	transition: background-color 100ms;
+}
+.defaultTable.hoverHighlight tr:hover td {
+	background-color: #ebebeb !important;
+}
+
+.defaultTable .la {
+	text-align: left;
+}
+.defaultTable .ca {
+	text-align: center;
+}
+.defaultTable .ra {
+	text-align: right;
+}
+
+.defaultTable .val {
+	vertical-align: left;
+}
+.defaultTable .var {
+	vertical-align: right;
+}
+.defaultTable .vat {
+	vertical-align: top;
+}
+.defaultTable .vab {
+	vertical-align: bottom;
+}
+.defaultTable .vam {
+	vertical-align: middle;
+}
+
+.defaultTable .nrb {
+	border-right-width: 0px;
+}
+.defaultTable .nlb {
+	border-left-width: 0px;
+}
+.defaultTable .ntb {
+	border-top-width: 0px;
+}
+.defaultTable .nbb {
+	border-bottom-width: 0px;
+}
+
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/* Page Navigators */
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+
+.pageNavigator .currentPageButton {
+    padding: .15em;
+    background-color: #84e184;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: .15em;
+    border-color: #cccccc;
+    text-decoration: none;
+    color: black;
+	cursor: pointer;
+}
+
+.pageNavigator .pageButton {
+    padding: .15em;
+    background-color: #f2f2f2;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: .15em;
+    border-color: #cccccc;
+    text-decoration: none;
+    color: black;
+	cursor: pointer;
+}
+
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/* Tag Editor */
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+
+.tagBox {
+	display: inline-flex;
+	align-items: center;
+	border-radius: 0em 1em 1em 0em ;
+	padding-left: .3em;
+	padding-right: .3em;
+	padding-top: .1em;
+	padding-bottom: .1em;
+	color: white;
+	margin-right: .5em;
+	margin-left: .1em;
+}
+
+.addTagDialog {
+	display: none;
+	z-index: 999;
+	position: absolute;
+	padding: .3em;
+	padding-left: .5em;
+	top: 1em;
+	left: 2em;
+	width: 10em;
+	background-color: white;
+	border: 1px solid gray;
+	border-radius: 0.5em;
+}
+
+
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/* Website Init */
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+
+html, body {
+	height: 100%;
+	margin: 0px;
+}
+
+.adminBodyWrapper { /*Changes in desktop view - see breakpoint!*/
+	height: 100%;
+	width: 100%;
+
+	display: grid;
+	overflow: auto;
+	grid-template-columns: 0em auto;
+	grid-template-rows: 4em auto 5em;
+	grid-template-areas: 
+	"topBar topBar"
+	"sideBar mainContent"
+	"sideBar mobileNavBar";
+}
+
+.staffBodyWrapper { /*Changes in desktop view - see breakpoint!*/
+	height: 100%;
+	width: 100%;
+
+	display: grid;
+	overflow: auto;
+	grid-template-columns: 0em auto;
+	grid-template-rows: 4em auto 5em;
+	grid-template-areas: 
+	"topBar topBar"
+	"sideBar mainContent"
+	"sideBar mobileNavBar";
+}
+
+.customerBodyWrapper { /*Changes in desktop view - see breakpoint!*/
+	height: 100%;
+	width: 100%;
+
+	display: grid;
+	overflow: auto;
+	grid-template-columns: 0em auto;
+	grid-template-rows: 4em auto 5em;
+	grid-template-areas: 
+	"topBar topBar"
+	"sideBar mainContent"
+	"sideBar mobileNavBar";
+}
+
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/* Admin Top Bar */
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+
+.adminTopBarWrapper {
+	background-color: var(--utliscapeColorTheme);
+	grid-area: topBar;
+
+	display: grid;
+
+	grid-template-columns: 40% auto min-content min-content;
+	grid-template-rows: 3.9em;
+	grid-template-areas: "ultiscapeLogo blank businessSelector profileButton";
+
+	padding: .1em;
+}
+
+.adminTopBarWrapper #ultiscapeLogoWrapper {
+	grid-area: ultiscapeLogo;
+	
+	display: flex;
+	justify-content: left;
+
+	margin-left: 2vw;
+}
+
+.adminTopBarWrapper #ultiscapeLogoImageWrapper {
+	max-width: 10em;
+}
+
+.adminTopBarWrapper #ultiscapeLogoWrapper img{
+	width: 100%;
+}
+
+.adminTopBarWrapper #businessSelectorButtonWrapper {
+	grid-area: businessSelector;
+	cursor: pointer;
+    min-width: 8em;
+    
+}
+
+.adminTopBarWrapper #businessSelectorButton {
+	width: 80%;
+	height: 85%;
+
+	display: flex;
+	align-content: center;
+	justify-content: center;
+
+	background-color: white;
+	border: .08em solid gray;
+	border-radius: .3em;
+    padding-left: .4em;
+}
+
+.adminTopBarWrapper #businessSelectorSelectedImg {
+	min-width: 5em;
+    max-height: 85%;
+
+	border: .08em solid gray;
+	border-radius: .1em;
+}
+
+.adminTopBarWrapper #profileButtonWrapper {
+	grid-area: profileButton;
+	min-width: 5em;
+
+	display: flex;
+	justify-content: right;
+
+	margin-right: 2vw;
+
+	cursor: pointer;
+}
+
+.adminTopBarWrapper #profilePictureButton {
+	
+	border: .15em solid #429A00;
+	border-radius: 50%;
+
+	background-color: white;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+
+	width: 100%;
+	max-width: 3.2em;
+	max-height: 80%;
+}
+
+.adminTopBarWrapper .whiteChevron {
+	filter: brightness(100);
+}
+
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/* Customer Top Bar */
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+
+.customerTopBarWrapper {
+	background-color: var(--utliscapeColorTheme);
+	grid-area: topBar;
+
+	display: grid;
+
+	grid-template-columns: 40% auto min-content min-content;
+	grid-template-rows: 3.9em;
+	grid-template-areas: "ultiscapeLogo blank businessSelector profileButton";
+
+	padding: .1em;
+}
+
+.customerTopBarWrapper #ultiscapeLogoWrapper {
+	grid-area: ultiscapeLogo;
+	
+	display: flex;
+	justify-content: left;
+
+	margin-left: 2vw;
+}
+
+.customerTopBarWrapper #ultiscapeLogoImageWrapper {
+	max-width: 10em;
+}
+
+.customerTopBarWrapper #ultiscapeLogoWrapper img{
+	width: 100%;
+}
+
+.customerTopBarWrapper #businessSelectorButtonWrapper {
+	grid-area: businessSelector;
+	cursor: pointer;
+    min-width: 8em;
+    
+}
+
+.customerTopBarWrapper #businessSelectorButton {
+	width: 80%;
+	height: 85%;
+
+	display: flex;
+	align-content: center;
+	justify-content: center;
+
+	background-color: white;
+	border: .08em solid gray;
+	border-radius: .3em;
+    padding-left: .4em;
+}
+
+.customerTopBarWrapper #businessSelectorSelectedImg {
+	min-width: 5em;
+    max-height: 85%;
+
+	border: .08em solid gray;
+	border-radius: .1em;
+}
+
+.customerTopBarWrapper #profileButtonWrapper {
+	grid-area: profileButton;
+	min-width: 5em;
+
+	display: flex;
+	justify-content: right;
+
+	margin-right: 2vw;
+
+	cursor: pointer;
+}
+
+.customerTopBarWrapper #profilePictureButton {
+	
+	border: .15em solid #429A00;
+	border-radius: 50%;
+
+	background-color: white;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+
+	width: 100%;
+	max-width: 3.2em;
+	max-height: 80%;
+}
+
+.customerTopBarWrapper .whiteChevron {
+	filter: brightness(100);
+}
+
+/*Dropdown Menus*/
+
+.profilePictureButtonDropdownHider {
+	display: none;
+}
+
+.profilePictureButtonDropdownWrapper {
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+
+	position: absolute;
+	right: 0em;
+	top: 4em;
+	
+	width: 9em;
+	height: 6em;
+	padding: .5em;
+
+	background-color: white;
+
+	border-left: .12em solid gray;
+	border-bottom: .12em solid gray;
+	border-radius: 0 0 0 .5em;
+}
+
+.businessSelectorButtonDropdownHider {
+	display: none;
+}
+
+.businessSelectorButtonDropdownWrapper {
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+
+	position: absolute;
+	right: 8em;
+	top: 4em;
+	
+	width: 9em;
+	max-height: 80vh;
+	padding: .5em;
+
+	background-color: white;
+
+	border-left: .12em solid gray;
+	border-right: .12em solid gray;
+	border-bottom: .12em solid gray;
+	border-radius: 0 0 .5em .5em;
+}
+
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/* Side Bar */
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+
+.cmsSideBarWrapper {
+	display: none;
+	background-color: #E2E2E2;
+	grid-area: sideBar;
+	flex-direction: column;
+	align-items: center;
+}
+
+.cmsSideBarWrapper .sideBarButton {
+	height: 3.5em;
+	width: 100%;
+	color: white;
+	
+	display: flex;
+	align-items: center;
+	transition: all 300ms;
+}
+
+.cmsSideBarWrapper .sideBarButton:hover {
+	filter: brightness(.9);
+}
+
+.cmsSideBarWrapper a {
+	text-decoration: none;
+}
+
+.cmsSideBarWrapper p {
+	margin-left: .6em;
+}
+
+.cmsSideBarWrapper img {
+	height: 3em;
+	width: 3em;
+	margin-left: 1.2em;
+
+	filter: brightness(100);
+}
+
+.cmsSideBarWrapper .sideBarButton#button1 {
+	background-color: var(--customersColorTheme);
+}
+
+.cmsSideBarWrapper .sideBarButton#button2 {
+	background-color: var(--communicationsColorTheme);
+}
+
+.cmsSideBarWrapper .sideBarButton#button3 {
+	background-color: var(--jobsColorTheme);
+}
+
+.cmsSideBarWrapper .sideBarButton#button4 {
+	background-color: var(--documentsColorTheme);
+}
+
+.cmsSideBarWrapper .sideBarButton#button5 {
+	background-color: rgb(157, 159, 255);
+	cursor: pointer;
+}
+
+.cmsSideBarWrapper .sideBarButton#button6 {
+	background-color: var(--inventoryColorTheme);
+}
+
+.cmsSideBarWrapper #sideBarMoreMenu {
+	z-index: 9999;
+	display: none;
+	position: fixed;
+	top: 19.6em;
+	left: 15em;
+	width: 12em;
+}
+
+.cmsSideBarWrapper #smallBottomLinks {
+	margin-top: .7em;
+}
+
+.cmsSideBarWrapper #smallBottomLinks, .cmsSideBarWrapper #smallBottomLinks a {
+	color: var(--grayTextColorTheme);
+}
+
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/* Footer */
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+
+.cmsFooterWrapper {
+	display: none;
+	background-color: #FFFBE8;
+	grid-area: footer;
+	align-items: center;
+	justify-content: right;
+}
+
+.cmsFooterWrapper p {
+	color: var(--grayTextColorTheme);
+	margin-right: 2em;
+}
+
+.cmsFooterWrapper a {
+	text-decoration: none;
+	color: var(--grayTextColorTheme);
+}
+
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/* Mobile Nav Bar */
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+
+.cmsMobileNavBarWrapper {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	text-align: center;
+
+	background-color: gray;
+	grid-area: mobileNavBar;
+
+	box-shadow: inset 0px 8px 8px -10px rgb(58, 58, 58), inset 0px -8px 8px -10px rgb(58, 58, 58), inset 8px 0px 8px -10px rgb(58, 58, 58), inset -8px 0px 8px -10px rgb(58, 58, 58);
+}
+
+.cmsMobileNavBarWrapper .mobileNavBarButtonArray {
+	height: 100%;
+	width: 100%;
+
+	/* display: grid;
+	grid-template-columns: 20% 20% 20% 20% 20%;
+	grid-template-rows: auto;
+	grid-template-areas: "button1 button2 button3 button4 button5"; */
+
+	display: flex;
+	flex-direction: row;
+}
+
+.cmsMobileNavBarWrapper .mobileNavBarButtonArray .button {
+	flex-grow: 1;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	
+	color: white;
+	text-decoration: none;
+
+	box-shadow: inset 0px 8px 8px -10px rgb(58, 58, 58), inset 0px -8px 8px -10px rgb(58, 58, 58), inset 8px 0px 8px -10px rgb(58, 58, 58), inset -8px 0px 8px -10px rgb(58, 58, 58);
+
+	padding: .4em;
+}
+
+.cmsMobileNavBarWrapper .mobileNavBarButtonArray .button img {
+	height: 100%;
+	filter: brightness(100);
+	max-width: 100%;
+}
+
+.cmsMobileNavBarWrapper .mobileNavBarButtonArray #button1 { /*Currently Customers Button*/
+	background-color: var(--customersColorTheme);
+}
+
+.cmsMobileNavBarWrapper .mobileNavBarButtonArray #button2 { /*Currently Comunications Button*/
+	background-color: var(--communicationsColorTheme);
+}
+
+.cmsMobileNavBarWrapper .mobileNavBarButtonArray #button3 { /*Currently Jobs Button*/
+	background-color: var(--jobsColorTheme);
+}
+
+.cmsMobileNavBarWrapper .mobileNavBarButtonArray #button4 { /*Currently Docs Button*/
+	background-color: var(--documentsColorTheme);
+}
+
+.cmsMobileNavBarWrapper .mobileNavBarButtonArray #button5 { /*Currently More Button*/
+	background-color: rgb(157, 159, 255);
+	cursor: pointer;
+}
+
+.cmsMobileNavBarWrapper #mobileNavBarMoreMenuHider {
+	display: none;
+}
+
+.cmsMobileNavBarWrapper #mobileNavBarMoreMenuWrapper {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	align-items: center;
+
+	position: fixed;
+	bottom: 5em;
+	right: 0em;
+
+	width: 12em;
+	height: 10em;
+
+	background-color: white;
+
+	border-left: .12em solid gray;
+	border-top: .12em solid gray;
+	border-radius: .5em 0 0 0;
+}
+
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/* Main Content Area */
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+
+.cmsMainContentWrapper {
+	background-color: white;
+	grid-area: mainContent;
+	overflow: auto;
+}
+
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/* Boxes and such */
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+
+.grayInfoBox {
+	border: 1px solid gray;
+	padding: 1em;
+	background-color: #f0f0f0;
+}
+
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/* Job Calendar */
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+
+.jobCalendar tr td {
+	width: 14.285714285%;
+}
+
+.jobCalendar tr td .job {
+	color: white;
+    border-radius: .2em;
+    width: 95%;
+	cursor: pointer;
+
+	margin-bottom: .2em;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.jobCalendar tr td .job.activeJob {
+    background-color: rgb(187, 187, 187);
+}
+
+.jobCalendar tr td .job.completedJob {
+    background-color: var(--utliscapeColorTheme);
+	text-decoration: line-through;
+}
+
+.jobCalendar tr td .job.cancelledJob {
+    background-color: rgba(196, 54, 54, 0.344);
+	text-decoration: line-through;
+}
+
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/* Media Queries */
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+
+/*Mobile Only*/
+@media only screen and (min-width: 0px) and (max-device-width: 60em) {
+	
+}
+
+/*Mobile and Desktop*/
+@media only screen and (min-width: 0px) {
+	
+}
+
+/*Desktop Only*/
+@media only screen and (min-width: 60em) {
+	.adminBodyWrapper {
+		grid-template-columns: 15em auto;
+		grid-template-rows: 4em auto 3em;
+		grid-template-areas: 
+		"topBar topBar"
+		"sideBar mainContent"
+		"sideBar footer";
+	}
+	.staffBodyWrapper {
+		grid-template-columns: 15em auto;
+		grid-template-rows: 4em auto 3em;
+		grid-template-areas: 
+		"topBar topBar"
+		"sideBar mainContent"
+		"sideBar footer";
+	}
+	.customerBodyWrapper {
+		grid-template-columns: 15em auto;
+		grid-template-rows: 4em auto 3em;
+		grid-template-areas: 
+		"topBar topBar"
+		"sideBar mainContent"
+		"sideBar footer";
+	}
+	.cmsMobileNavBarWrapper {
+		display: none;
+	}
+	.cmsSideBarWrapper {
+		display: flex;
+	}
+	.cmsFooterWrapper {
+		display: flex;
+	}
+
+	.twoColPage-Info-Content {
+		grid-template-columns: 35% 65%;
+		grid-template-rows: 100%;
+		grid-template-areas: "info content";
+	}
+	.twoColPage-Content-Info {
+		grid-template-columns: 65% 35%;
+		grid-template-rows: 100%;
+		grid-template-areas: "content info";
+	}
+	.twoColPage-Info-Content #twoColInfoWrapper {
+		text-align: right;
+	}
+	.twoColPage-Content-Info #twoColInfoWrapper {
+		text-align: left;
+	}
+	.twoColPage-Info-Content #twoColContentWrapper, .twoColPage-Content-Info #twoColInfoWrapper {
+		overflow: auto;
+	}
+
+	/* Smaller info two col pages*/
+	.twoColPage-InfoSmall-Content {
+		grid-template-columns: 20% 80%;
+		grid-template-rows: 100%;
+		grid-template-areas: "info content";
+	}
+	.twoColPage-Content-InfoSmall {
+		grid-template-columns: 80% 20%;
+		grid-template-rows: 100%;
+		grid-template-areas: "content info";
+	}
+	.twoColPage-InfoSmall-Content #twoColInfoWrapper {
+		text-align: right;
+	}
+	.twoColPage-Content-InfoSmall #twoColInfoWrapper {
+		text-align: left;
+	}
+	.twoColPage-InfoSmall-Content #twoColInfoWrapper, .twoColPage-Content-InfoSmall #twoColInfoWrapper {
+		grid-area: info;
+	}
+	.twoColPage-InfoSmall-Content #twoColContentWrapper, .twoColPage-Content-InfoSmall #twoColContentWrapper {
+		overflow: auto;
+	}
+
+	/* Overlays */
+	.popupMessageDialog {
+		max-width: 50em;
+	}
+
+	/* Responsive Visibility */
+	.desktopOnlyBlock {
+		display: block;
+	}
+	.desktopOnlyInline {
+		display: inline;
+	}
+	.desktopOnlyInlineBlock {
+		display: inline-block;
+	}
+	.desktopOnlyFlex {
+		display: flex;
+	}
+	.desktopOnlyTable-cell {
+		display: table-cell;
+	}
+
+	.mobileOnlyBlock {
+		display: none;
+	}
+	.mobileOnlyInline {
+		display: none;
+	}
+	.mobileOnlyInlineBlock {
+		display: none;
+	}
+	.mobileOnlyFlex {
+		display: none;
+	}
+	.mobileOnlyTable-cell {
+		display: none;
+	}
+}

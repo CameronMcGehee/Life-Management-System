@@ -16,7 +16,7 @@
 
 ?>
 
-	<link rel="stylesheet" type="text/css" href="../../css/app/admin/adminRegisterPage.css">
+	<link rel="stylesheet" type="text/css" href="../../css/app/adminRegisterPage.css">
 
 	<style>
 		#loadingGif {
