@@ -144,7 +144,7 @@
 			else return Q;
 		}
 
-		function updatePreviewNotice(freqInt, freq = null, weekday = null, weekNumber = null, dayOfMonth = null) {
+		function updateRecurrencePreview(freqInt, freq = null, weekday = null, weekNumber = null, dayOfMonth = null) {
 			
 			var recurrencePreview = '';
 			
@@ -253,12 +253,52 @@
 				}
 			}
 
-			$("#instancePreviewNotice").html("This is a completed occurrence of the recurring job \"<b><?php echo htmlspecialchars($currentJob->name) ?></b>\", which recurs <b>" + recurrencePreview + "</b>. You cannot change the recurrence of an edited instance of a recurring job. ");
+			$("#recurrencePreview").html("Recurence is/was <b>" + recurrencePreview + "</b>.");
 		}
 
 		// ON LOAD
 		$(function() {
+			<?php
 
+				require_once '../../../../lib/etc/time/getWeekNumbers.php';
+
+				if ($currentJob->frequencyInterval == NULL) {
+					$frequencyIntervalOutput = 'null';
+				} else {
+					$frequencyIntervalOutput = "'".$currentJob->frequencyInterval."'";
+				}
+
+				if ($currentJob->frequency == NULL) {
+					$frequencyOutput = 'null';
+				} else {
+					$frequencyOutput = "".$currentJob->frequency."";
+				}
+
+				if (strrpos($currentJob->weekday, '-')) {
+					$weekdayOutput = explode('-', $currentJob->weekday)[1];
+					$weekNumberOutput = explode('-', $currentJob->weekday)[0];
+					$dayOfMonthOutput = 'null';
+				} else {
+					if ($currentJob->weekday == NULL) {
+						$weekdayOutput = 'null';
+					} else {
+						$weekdayOutput = $currentJob->weekday;
+					}
+					$weekNumberOutput = 'null';
+
+					if ($currentJob->frequencyInterval == 'month') {
+						$dayOfMonthOutput = new DateTime($currentJob->startDateTime);
+						$dayOfMonthOutput = $dayOfMonthOutput->format('d');
+					} else {
+						$dayOfMonthOutput = 'null';
+					}
+				}
+
+
+
+				?>
+
+				updateRecurrencePreview(<?php echo $frequencyIntervalOutput ?>, <?php echo $frequencyOutput; ?>, <?php echo $weekdayOutput; ?>, <?php echo $weekNumberOutput; ?>, <?php echo $dayOfMonthOutput; ?>);
 		});
 	</script>
 </head>
@@ -359,9 +399,9 @@
 								<div>
 									<?php 
 										if ((bool)$currentJob->isPrepaid) {
-											echo '<p id="isPrepaid" style="font-size: 1.2em;"><b>Was</b> prepaid.</p>';
+											echo '<p id="isPrepaid" style="font-size: 1.2em;">This service was billed upon scheduling (prepaid).</p>';
 										} else {
-											echo '<p id="isPrepaid" style="font-size: 1.2em;"><b>Was not</b> prepaid.</p>';
+											echo '<p id="isPrepaid" style="font-size: 1.2em;">This service was billion upon completion.</p>';
 										}
 									?>
 								</div>
@@ -434,7 +474,7 @@
 						
 						<div class="defaultInputGroup" id="recurringSettingsBox">
 
-						<h3>Recurrence ⚠</h3>
+						<h3>Recurrence</h3>
 
 							<div>
 								<p id="recurrencePreview"></p>

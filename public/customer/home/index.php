@@ -60,7 +60,7 @@
                             </div>
                         </a>
 
-                        <a href="../services" style="border-bottom: none;">
+                        <a href="../jobs" style="border-bottom: none;">
                             <div class="xyCenteredFlex flexDirectionColumn" style="width: 10em; border: 1px solid gray; border-radius: 1em;">
                                 <img src="../../images/ultiscape/icons/calendar_month.svg" style="width: 80%;">
                                 <p>My Services</p>
@@ -76,7 +76,7 @@
 
                         <a href="../estimates" style="border-bottom: none;">
                             <div class="xyCenteredFlex flexDirectionColumn" style="width: 10em; border: 1px solid gray; border-radius: 1em;">
-                                <img src="../../images/ultiscape/icons/user.svg" style="width: 80%;">
+                                <img src="../../images/ultiscape/icons/document.svg" style="width: 80%;">
                                 <p>My Estimates</p>
                             </div>
                         </a>

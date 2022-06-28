@@ -446,9 +446,9 @@
 								<div>
 									<?php 
 										if ((bool)$currentJob->isPrepaid) {
-											echo '<p id="isPrepaid" style="font-size: 1.2em;"><b>Was</b> prepaid.</p>';
+											echo '<p id="isPrepaid" style="font-size: 1.2em;">This service <b>has been</b> prepaid for.</p>';
 										} else {
-											echo '<p id="isPrepaid" style="font-size: 1.2em;"><b>Was not</b> prepaid.</p>';
+											echo '<p id="isPrepaid" style="font-size: 1.2em;">This service <b>has not been</b> prepaid. You will be billed upon completion.</p>';
 										}
 									?>
 								</div>

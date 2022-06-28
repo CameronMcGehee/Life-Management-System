@@ -201,7 +201,7 @@
 			waitingForError = false;
 		}
 
-		function updateinstancePreviewNotice(freqInt, freq = null, weekday = null, weekNumber = null, dayOfMonth = null) {
+		function updaterecurrencePreview(freqInt, freq = null, weekday = null, weekNumber = null, dayOfMonth = null) {
 			
 			var recurrencePreview = '';
 			
@@ -310,7 +310,7 @@
 				}
 			}
 
-			$("#instancePreviewNotice").html("This is a single edited occurrence of the recurring service \"<b><?php echo htmlspecialchars($currentJob->name) ?></b>\", which recurs <b>" + recurrencePreview + "</b>.");
+			$("#recurrencePreview").html("This is a single edited occurrence of the recurring service \"<b><?php echo htmlspecialchars($currentJob->name) ?></b>\", which recurs <b>" + recurrencePreview + "</b>.");
 		}
 
 		// Per hour calculator
@@ -533,7 +533,7 @@
 
 			?>
 
-			updateinstancePreviewNotice(<?php echo $frequencyIntervalOutput ?>, <?php echo $frequencyOutput; ?>, <?php echo $weekdayOutput; ?>, <?php echo $weekNumberOutput; ?>, <?php echo $dayOfMonthOutput; ?>);
+			updaterecurrencePreview(<?php echo $frequencyIntervalOutput ?>, <?php echo $frequencyOutput; ?>, <?php echo $weekdayOutput; ?>, <?php echo $weekNumberOutput; ?>, <?php echo $dayOfMonthOutput; ?>);
 
 			// Load the property selector on startup
 			if ($("#customerSelector").val() != 'none') {
@@ -668,9 +668,9 @@
 								<div>
 									<?php 
 										if ((bool)$currentInstance->isPrepaid) {
-											echo '<p id="isPrepaid" style="font-size: 1.2em;"><b>Was</b> prepaid.</p>';
+											echo '<p id="isPrepaid" style="font-size: 1.2em;">This service <b>has been</b> prepaid for.</p>';
 										} else {
-											echo '<p id="isPrepaid" style="font-size: 1.2em;"><b>Was not</b> prepaid.</p>';
+											echo '<p id="isPrepaid" style="font-size: 1.2em;">This service <b>has not been</b> prepaid. You will be billed upon completion.</p>';
 										}
 									?>
 								</div>
@@ -746,7 +746,7 @@
 						<h3>Recurrence ⚠</h3>
 
 							<div>
-								<p id="instancePreviewNotice"></p>
+								<p id="recurrencePreview"></p>
 							</div>
 						
 						</div>

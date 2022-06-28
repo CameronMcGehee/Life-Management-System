@@ -37,8 +37,8 @@
                 }
 			}
 
-			if (empty($options['showAdd'])) {
-				$options['showAdd'] = true;
+			if (empty($options['showRequest'])) {
+				$options['showRequest'] = true;
 			}
 
 			if (empty($options['showMonthSelector'])) {
@@ -96,15 +96,15 @@
 
 			$this->output = '';
 
-			// Start div for table header (create customer button and nav)
-            if ($this->options['showAdd'] || $this->options['showMonthSelector']) {
+			// Start div for table header (reqest a quote button and nav)
+            if ($this->options['showRequest'] || $this->options['showMonthSelector']) {
                 $this->output .= '<div style="display: grid; grid-template-columns: 20% 80%; grid-template-rows: 3em; grid-template-areas: \'1 2\'; margin-left: 2em; margin-right: 2em;">';
 
-                // Render the add customer button
-                $this->output .= '<div class="yCenteredFlex" style="width: 10em;">';
-                if ($this->options['showAdd']) {
-                    $this->output .= '<a class="smallButtonWrapper greenButton noUnderline yCenteredFlex" href="'.$this->options['rootPathPrefix'].'customer/jobs/job">➕ Schedule Job</a>';
-                }
+                // Render the reqest a quote button (not yet because we have not done the request a quote page)
+                $this->output .= '<div class="yCenteredFlex" style="width: 11em;">';
+                // if ($this->options['showRequest']) {
+                //     $this->output .= '<a class="smallButtonWrapper greenButton noUnderline yCenteredFlex" href="'.$this->options['rootPathPrefix'].'customer/requestquote">➕ Request a Quote</a>';
+                // }
                 $this->output .= '</div>';
 
 				if ($this->options['showMonthSelector']) {
@@ -124,8 +124,6 @@
 						
 						</script>';
 				}
-
-				
 
                 $this->output .= '<div><span style="height: 100%; float:right; margin-right: .3em;" class="yCenteredFlex">'.$monthSelectorOutput.'</span></div></div>';
 
