@@ -4,15 +4,15 @@
 	require_once '../../php/startSession.php';
 
 	// If not signed in, just redirect to the login page
-	require_once '../../../lib/etc/adminHeaderRedirect.php';
-	adminHeaderRedirect('../', '../');
+	require_once '../../../lib/etc/customerHeaderRedirect.php';
+	customerHeaderRedirect('../', '../');
 
-	require_once '../../../lib/adminUIRender.php';
-	$adminUIRender = new adminUIRender();
+	require_once '../../../lib/customerUIRender.php';
+	$customerUIRender = new customerUIRender();
 
-	echo $adminUIRender->renderAdminHtmlTop('../../', 'Estimates', 'Create, edit, and view estimates.');
+	echo $customerUIRender->rendercustomerHtmlTop('../../', 'Estimates', 'Create, edit, and view estimates.');
 
-	echo $adminUIRender->renderAdminUIMenuToggleScripts('../../');
+	echo $customerUIRender->rendercustomerUIMenuToggleScripts('../../');
 
 ?>
 
@@ -20,14 +20,14 @@
 
 <body>
 	<div style="display: none;" id="scriptLoader"></div>
-	<div class="adminBodyWrapper">
+	<div class="customerBodyWrapper">
 
 		<?php
-			echo $adminUIRender->renderAdminTopBar('../../');
+			echo $customerUIRender->rendercustomerTopBar('../../');
 		?>
 
 		<?php
-			echo $adminUIRender->renderAdminSideBar('../../');
+			echo $customerUIRender->rendercustomerSideBar('../../');
 		?>
 
 		<?php
@@ -48,13 +48,13 @@
 				<div id="twoColContentWrapper" class="paddingLeftRight90">
 					<?php
 
-						require_once '../../../lib/render/estimate/estimateTable.php';
-						$estimateTable = new estimateTable('main', [
+						require_once '../../../lib/render/estimate/customerEstimateTable.php';
+						$estimateTable = new customerEstimateTable('main', [
 							'rootPathPrefix' => '../../',
 							'maxRows' => 15,
 							'showAdd' => true,
 							'showSort' => true,
-							'showBatch' => true,
+							'showBatch' => false,
 						]);
 						$estimateTable->render();
 						echo $estimateTable->output;
@@ -86,20 +86,20 @@
 		</div>
 		
 		<?php 
-			echo $adminUIRender->renderAdminFooter('../../');
+			echo $customerUIRender->rendercustomerFooter('../../');
 		?>
 
 		<?php 
-			echo $adminUIRender->renderAdminMobileNavBar('../../');
+			echo $customerUIRender->rendercustomerMobileNavBar('../../');
 		?>
 
 	</div>
 
 	<?php
-		echo $adminUIRender->renderAdminTopBarDropdowns('../../');
+		echo $customerUIRender->rendercustomerTopBarDropdowns('../../');
 	?>
 </body>
 
 <?php 
-	echo $adminUIRender->renderAdminHtmlBottom('../../');
+	echo $customerUIRender->rendercustomerHtmlBottom('../../');
 ?>
