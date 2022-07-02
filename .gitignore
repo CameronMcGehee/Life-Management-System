@@ -1,3 +1,5 @@
 /config/*
 
 /lib/emailManager/config/*
+
+/nodejsport/config/*
