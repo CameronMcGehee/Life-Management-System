@@ -38,13 +38,13 @@ db.connect((err) => {
 		
                 var query = db.query(sql, (err) => {
                     if (err) {
-                        console.log(err);
+                        // console.log(err);
                         exit();
                     } else {
                         var db = mysql.createConnection(sqlConfig);
-                        db.connect((err) => {
+                        db.connect({multipleStatements: true}, (err) => {
                             if (err) {
-                                console.log(err);
+                                // console.log(err);
                                 exit();
                             } else {
                                 console.log("Created database successfully. Adding tables.");
@@ -53,7 +53,7 @@ db.connect((err) => {
 		
                                 var query = db.query(sql, (err) => {
                                     if (err) {
-                                        console.log(err);
+                                        // console.log(err);
                                         exit();
                                     } else {
                                         console.log("Added tables successfully. Starting.");

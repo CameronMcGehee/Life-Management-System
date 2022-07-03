@@ -1,0 +1,26 @@
+.sitemapList p.mainPageTitle,.sitemapList p.subPage {
+    line-height: 1.2em;
+    font-size: 1.3em;
+    transition: all 300ms;
+    margin-left: 1em;
+}
+
+.sitemapList p.mainPageTitle:hover,.sitemapList p.subPage:hover {
+    text-shadow: 2px 2px 3px #BABABA;
+}
+.sitemapList .mainPageTitle {
+    font-weight: 600;
+}
+
+.sitemapList p.subPage {
+    margin-left: 3em;
+}
+
+.sitemapList a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.sitemapList #overviewButtonBusinessName {
+    font-size: .8em;
+}

@@ -1,0 +1,10 @@
+{
+    "allowAccess": true,
+    "denyAccessTitle": "UltiScape - Down for Maintenance",
+    "denyAccessMessage": "<h1>UltiScape is currently down for maintenance and will be back up in a few moments. Reload the page in a few minutes to try again.</h1>",
+
+    "databaseErrTitle": "UltiScape - No Database Connection",
+    "databaseErrMessage": "<h1>Ultiscape currently cannot connect to the database. Reload the page in a few minutes to try again.</h1>",
+
+    "encryptionSecret": "changeThis"
+}
