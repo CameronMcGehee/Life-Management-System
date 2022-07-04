@@ -1,0 +1,36 @@
+<script>
+    $(function () {
+        $("#profileButtonWrapper").click(function() {
+            $("#pfpMenu").toggle();
+
+            if($("#bsMenu").is(":visible")) {
+                $("#bsMenu").toggle();
+            }
+        });
+
+        $("#businessSelectorButtonWrapper").click(function() {
+            $("#bsMenu").toggle();
+
+            if($("#pfpMenu").is(":visible")) {
+                $("#pfpMenu").toggle();
+            }
+        });
+
+        $(".sideBarButton#button5").click(function() {
+            $("#sideBarMoreMenu").toggle();
+        });
+
+        $(".mobileNavBarButtonArray #button5").click(function() {
+            $("#mobileNavBarMoreMenuHider").toggle();
+        });
+
+        $("html").click(function(e) {                    
+            if(!$(e.target).is("#mobileNavBarMoreMenuWrapper") && !$(e.target).parents("#mobileNavBarMoreMenuWrapper").length && !$(e.target).parents("#button5").length){
+                $("#mobileNavBarMoreMenuHider").hide();
+            }
+            if(!$(e.target).is("#sideBarMoreMenu") && !$(e.target).parents("#sideBarMoreMenu").length && !$(e.target).parents(".cmsSideBarWrapper").length){
+                $("#sideBarMoreMenu").hide();
+            }
+        });
+    });
+</script>

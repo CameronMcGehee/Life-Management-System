@@ -42,7 +42,7 @@ db.connect((err) => {
                         exit();
                     } else {
                         var db = mysql.createConnection(sqlConfig);
-                        db.connect({multipleStatements: true}, (err) => {
+                        db.connect((err) => {
                             if (err) {
                                 // console.log(err);
                                 exit();
@@ -78,14 +78,14 @@ db.connect((err) => {
 const app = express();
 
 // Handlebars
-app.engine('.hbs', exphbs.engine({defaultLayout: 'main', extname: '.hbs'}));
+app.engine('.hbs', exphbs.engine({defaultLayout: 'main', extname: '.hbs', partialsDir: __dirname + '/views/partials/'}));
 app.set('view engine', '.hbs');
 
 // Static folder
 app.use(express.static(path.join(__dirname, 'public')))
 
 // Routes
-app.use('/', require('./routes/login'));
+app.use('/', require('./routes/global'));
 app.use('/admin', require('./routes/admin'));
 app.use('/customer', require('./routes/customer'));
 app.use('/staff', require('./routes/staff'));

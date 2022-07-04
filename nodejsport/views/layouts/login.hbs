@@ -1,26 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{{title}}}</title>
+    <title>{{{ title }}} - Ultiscape (Admin)</title>
+    <meta name="description" content="{{{description}}}">
+    <link rel="stylesheet" type="text/css" href="{{{rootPath}}}css/app/main.css">
+    <script type="text/javascript" src="{{{rootPath}}}js/jquery-3.6.0.min.js"></script>
 
-    <link rel="stylesheet" href="./css/main.css">
-    <link rel="stylesheet" href="./css/font-awesome/all.min.css">
-    <link type="text/css" rel="stylesheet" href="./css/materialize.min.css"  media="screen,projection"/>
+    {{> adminUIScripts}}
 </head>
-<body>
 
-    <div class="container">
-        <div class="card login-container">
-            <div class="card-content">
-                {{{body}}}
-            </div>
-        </div>
-    </div>
-    
+{{> adminTopBar}}
 
-    <script type="text/javascript" src="./js/materialize.min.js"></script>
-</body>
 </html>

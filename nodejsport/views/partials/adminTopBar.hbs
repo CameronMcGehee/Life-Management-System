@@ -1,0 +1,29 @@
+<div class="adminTopBarWrapper defaultInsetShadow">
+    <div class="xyCenteredFlex" id="ultiscapeLogoWrapper">
+        {{#if showLogo}}
+            <a class="noUnderline" id="ultiscapeLogoImageWrapper" href="{{{rootPath}}}"><img src="{{{rootPath}}}images/ultiscape/logos/mainLogoTopBarWhiteTrans.png"></a>
+        {{/if}}
+    </div>
+
+    <div>
+        <!--Blank Space -->
+    </div>
+
+    <div class="yCenteredFlex flexDirectionRow" id="businessSelectorButtonWrapper">
+        {{#if showBusinessSelector}}
+            <div class="yCenteredFlex flexDirectionRow" id="businessSelectorButton">
+                <img id="businessSelectorSelectedImg" src="{{{bsImagePath}}}"><img src="{{rootPath}}images/ultiscape/icons/chevron_down.svg">
+            </div>
+        {{/if}}
+    </div>
+
+    <div class="yCenteredFlex flexDirectionRow" id="profileButtonWrapper">
+        {{#if showProfileButton}}
+            <img id="profilePictureButton" src="{{{pfpImagePath}}}"><img src="{{{rootPath}}}images/ultiscape/icons/chevron_down.svg" class="whiteChevron">
+        {{/if}}
+    </div>
+
+    {{> adminTopBarDropdowns}}
+
+    
+</div>
