@@ -1,4 +1,6 @@
 {
+    "version": "0.5.0",
+    
     "allowAccess": true,
     "denyAccessTitle": "UltiScape - Down for Maintenance",
     "denyAccessMessage": "<h1>UltiScape is currently down for maintenance and will be back up in a few moments. Reload the page in a few minutes to try again.</h1>",
