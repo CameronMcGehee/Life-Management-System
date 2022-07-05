@@ -90,6 +90,11 @@ app.use('/admin', require('./routes/admin'));
 app.use('/customer', require('./routes/customer'));
 app.use('/staff', require('./routes/staff'));
 
+app.use('/api/admin', require('./routes/endpoints/admin'));
+app.use('/api/customer', require('./routes/endpoints/customer'));
+app.use('/api/staff', require('./routes/endpoints/staff'));
+app.use('/api/global', require('./routes/endpoints/global'));
+
 const PORT = process.env.PORT || 80;
 
-app.listen(PORT, console.log('lifePanel is running!'));
+app.listen(PORT, console.log('UltiScape is running!'));
