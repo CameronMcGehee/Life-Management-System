@@ -3,3 +3,4 @@
 /lib/emailManager/config/*
 
 /nodejsport/config/*
+/nodejsport/node_modules/*
