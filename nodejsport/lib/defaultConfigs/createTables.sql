@@ -5,7 +5,7 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `admin` (
-	`adminId` varchar(17) NOT NULL,
+	`adminId` varchar(37) NOT NULL,
 	`username` varchar(200) NOT NULL,
 	`password` varchar(64) NOT NULL,
 	`email` varchar(200) NOT NULL,
@@ -25,8 +25,8 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `adminLoginAttempt` (
-	`adminLoginAttemptId` varchar(17) NOT NULL,
-	`adminId` varchar(17) NULL DEFAULT NULL,
+	`adminLoginAttemptId` varchar(37) NOT NULL,
+	`adminId` varchar(37) NULL DEFAULT NULL,
 	`clientIp` text NOT NULL,
 	`result` varchar(20) NOT NULL,
 	`dateTimeAdded` datetime NOT NULL,
@@ -40,8 +40,8 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `adminSavedLogin` (
-	`adminSavedLoginId` varchar(17) NOT NULL,
-	`adminId` varchar(17) NOT NULL,
+	`adminSavedLoginId` varchar(37) NOT NULL,
+	`adminId` varchar(37) NOT NULL,
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`adminSavedLoginId`),
 	KEY `adminSavedLoginAdminId` (`adminId`),
@@ -53,7 +53,7 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `business` (
-	`businessId` varchar(17) NOT NULL,
+	`businessId` varchar(37) NOT NULL,
 	`displayName` text NOT NULL,
 	`adminDisplayName` text NOT NULL,
 	`fullLogoFile` varchar(17) DEFAULT NULL,
@@ -176,9 +176,9 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `businessPlanPayment` (
-	`businessPlanPaymentId` varchar(17) NOT NULL,
-	`businessId` varchar(17) NOT NULL,
-	`adminId` varchar(17) NOT NULL,
+	`businessPlanPaymentId` varchar(37) NOT NULL,
+	`businessId` varchar(37) NOT NULL,
+	`adminId` varchar(37) NOT NULL,
 	`method` varchar(20) NOT NULL,
 	`amount` float NOT NULL,
 	`notes` varchar(50) NULL,
@@ -196,8 +196,8 @@
 
 	CREATE TABLE IF NOT EXISTS `adminBusinessBridge` (
 	`adminBusinessId` int(11) NOT NULL AUTO_INCREMENT,
-	`adminId` varchar(17) NOT NULL,
-	`businessId` varchar(17) NOT NULL,
+	`adminId` varchar(37) NOT NULL,
+	`businessId` varchar(37) NOT NULL,
 	`adminIsOwner` tinyint(1) NOT NULL DEFAULT 0,
 	`adminCanManageTag` tinyint(1) NOT NULL DEFAULT 1,
 	`adminCanUploadDocument` tinyint(1) NOT NULL DEFAULT 1,
@@ -233,8 +233,8 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `authToken` (
-	`authTokenId` varchar(17) NOT NULL,
-	`businessId` varchar(17) NULL,
+	`authTokenId` varchar(37) NOT NULL,
+	`businessId` varchar(37) NULL,
 	`authName` varchar(50) NULL,
 	`clientIp` text NOT NULL,
 	`dateTimeAdded` datetime NOT NULL,
@@ -247,8 +247,8 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `crew` (
-	`crewId` varchar(17) NOT NULL,
-	`businessId` varchar(17) NOT NULL,
+	`crewId` varchar(37) NOT NULL,
+	`businessId` varchar(37) NOT NULL,
 	`name` text NOT NULL,
 	`description` text NULL,
 	`dateTimeAdded` datetime NOT NULL,
@@ -262,8 +262,8 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `crewTag` (
-	`crewTagId` varchar(17) NOT NULL,
-	`businessId` varchar(17) NOT NULL,
+	`crewTagId` varchar(37) NOT NULL,
+	`businessId` varchar(37) NOT NULL,
 	`name` text NOT NULL,
 	`description` text NULL DEFAULT NULL,
 	`color` varchar(15) NOT NULL DEFAULT 'gray',
@@ -280,9 +280,9 @@
 
 	CREATE TABLE IF NOT EXISTS `crewCrewTag` (
 	`crewCrewTagId` int(11) NOT NULL AUTO_INCREMENT,
-	`businessId` varchar(17) NOT NULL,
-	`crewId` varchar(17) NOT NULL,
-	`crewTagId` varchar(17) NOT NULL,
+	`businessId` varchar(37) NOT NULL,
+	`crewId` varchar(37) NOT NULL,
+	`crewTagId` varchar(37) NOT NULL,
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`crewCrewTagId`),
 	KEY `crewCrewTagBusinessId` (`businessId`),
@@ -298,8 +298,8 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `customer` (
-	`customerId` varchar(17) NOT NULL,
-	`businessId` varchar(17) NOT NULL,
+	`customerId` varchar(37) NOT NULL,
+	`businessId` varchar(37) NOT NULL,
 	`firstName` text NOT NULL,
 	`lastName` text NULL,
 	`nameIndex` varchar(3) NOT NULL,
@@ -331,9 +331,9 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `customerPhoneNumber` (
-	`customerPhoneNumberId` varchar(17) NOT NULL,
-	`businessId` varchar(17) NOT NULL,
-	`customerId` varchar(17) NOT NULL,
+	`customerPhoneNumberId` varchar(37) NOT NULL,
+	`businessId` varchar(37) NOT NULL,
+	`customerId` varchar(37) NOT NULL,
 	`phonePrefix` text NULL DEFAULT NULL,
 	`phone1` text NOT NULL,
 	`phone2` text NULL,
@@ -352,9 +352,9 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `customerEmailAddress` (
-	`customerEmailAddressId` varchar(17) NOT NULL,
-	`businessId` varchar(17) NOT NULL,
-	`customerId` varchar(17) NOT NULL,
+	`customerEmailAddressId` varchar(37) NOT NULL,
+	`businessId` varchar(37) NOT NULL,
+	`customerId` varchar(37) NOT NULL,
 	`email` text NOT NULL,
 	`description` text NULL,
 	`dateTimeAdded` datetime NOT NULL,
@@ -370,9 +370,9 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `customerLoginAttempt` (
-	`customerLoginAttemptId` varchar(17) NOT NULL,
-	`businessId` varchar(17) NOT NULL,
-	`customerId` varchar(17) NULL DEFAULT NULL,
+	`customerLoginAttemptId` varchar(37) NOT NULL,
+	`businessId` varchar(37) NOT NULL,
+	`customerId` varchar(37) NULL DEFAULT NULL,
 	`clientIp` text NOT NULL,
 	`result` varchar(5) NOT NULL,
 	`dateTimeAdded` datetime NOT NULL,
@@ -388,9 +388,9 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `customerSavedLogin` (
-	`customerSavedLoginId` varchar(17) NOT NULL,
-	`businessId` varchar(17) NOT NULL,
-	`customerId` varchar(17) NOT NULL,
+	`customerSavedLoginId` varchar(37) NOT NULL,
+	`businessId` varchar(37) NOT NULL,
+	`customerId` varchar(37) NOT NULL,
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`customerSavedLoginId`),
 	KEY `customerSavedLoginBusinessId` (`businessId`),
@@ -404,8 +404,8 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `customerTag` (
-	`customerTagId` varchar(17) NOT NULL,
-	`businessId` varchar(17) NOT NULL,
+	`customerTagId` varchar(37) NOT NULL,
+	`businessId` varchar(37) NOT NULL,
 	`name` text NOT NULL,
 	`description` text NULL DEFAULT NULL,
 	`color` varchar(15) NOT NULL DEFAULT 'gray',
@@ -422,9 +422,9 @@
 
 	CREATE TABLE IF NOT EXISTS `customerCustomerTagBridge` (
 	`customerCustomerTagId` int(11) NOT NULL AUTO_INCREMENT,
-	`businessId` varchar(17) NOT NULL,
-	`customerId` varchar(17) NOT NULL,
-	`customerTagId` varchar(17) NOT NULL,
+	`businessId` varchar(37) NOT NULL,
+	`customerId` varchar(37) NOT NULL,
+	`customerTagId` varchar(37) NOT NULL,
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`customerCustomerTagId`),
 	KEY `customerCustomerTagBusinessId` (`businessId`),
@@ -440,9 +440,9 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `quoteRequest` (
-	`quoteRequestId` varchar(17) NOT NULL,
-	`businessId` varchar(17) NOT NULL,
-	`linkedToCustomerId` varchar(17) NULL COMMENT 'Optional FK',
+	`quoteRequestId` varchar(37) NOT NULL,
+	`businessId` varchar(37) NOT NULL,
+	`linkedToCustomerId` varchar(37) NULL COMMENT 'Optional FK',
 	`name` text NULL,
 	`email` text NULL,
 	`address1` text NULL,
@@ -462,10 +462,10 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `quoteRequestService` (
-	`quoteRequestServiceId` varchar(17) NOT NULL,
-	`businessId` varchar(17) NOT NULL,
-	`quoteRequestId` varchar(17) NOT NULL,
-	`linkedToServiceListingId` varchar(17) NULL COMMENT 'Optional FK',
+	`quoteRequestServiceId` varchar(37) NOT NULL,
+	`businessId` varchar(37) NOT NULL,
+	`quoteRequestId` varchar(37) NOT NULL,
+	`linkedToServiceListingId` varchar(37) NULL COMMENT 'Optional FK',
 	`currentName` text NOT NULL,
 	`currentDescription` text NULL,
 	`currentImgFile` varchar(17) NULL,
@@ -486,8 +486,8 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `serviceListing` (
-	`serviceListingId` varchar(17) NOT NULL,
-	`businessId` varchar(17) NOT NULL,
+	`serviceListingId` varchar(37) NOT NULL,
+	`businessId` varchar(37) NOT NULL,
 	`name` text NOT NULL,
 	`description` text NULL,
 	`imgFile` varchar(17) NULL,
@@ -506,10 +506,10 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `chemical` (
-	`chemicalId` varchar(17) NOT NULL,
-	`businessId` varchar(17) NOT NULL,
-	`linkedToCrewId` varchar(17) NULL COMMENT 'Optional FK',
-	`linkedToStaffId` varchar(17) NULL COMMENT 'Optional FK',
+	`chemicalId` varchar(37) NOT NULL,
+	`businessId` varchar(37) NOT NULL,
+	`linkedToCrewId` varchar(37) NULL COMMENT 'Optional FK',
+	`linkedToStaffId` varchar(37) NULL COMMENT 'Optional FK',
 	`name` text NOT NULL,
 	`epa` text NULL,
 	`ingeredients` text NULL,
@@ -542,9 +542,9 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `chemicalImage` (
-	`chemicalImageId` varchar(17) NOT NULL,
-	`businessId` varchar(17) NOT NULL,
-	`chemicalId` varchar(17) NOT NULL,
+	`chemicalImageId` varchar(37) NOT NULL,
+	`businessId` varchar(37) NOT NULL,
+	`chemicalId` varchar(37) NOT NULL,
 	`imageFile` varchar(17) NOT NULL,
 	`caption` text NULL DEFAULT NULL,
 	`dateTimeAdded` datetime NOT NULL,
@@ -560,8 +560,8 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `chemicalTag` (
-	`chemicalTagId` varchar(17) NOT NULL,
-	`businessId` varchar(17) NOT NULL,
+	`chemicalTagId` varchar(37) NOT NULL,
+	`businessId` varchar(37) NOT NULL,
 	`name` text NOT NULL,
 	`description` text NULL DEFAULT NULL,
 	`color` varchar(15) NOT NULL DEFAULT 'gray',
@@ -578,9 +578,9 @@
 
 	CREATE TABLE IF NOT EXISTS `chemicalChemicalTagBridge` (
 	`chemicalChemicalTagId` int(11) NOT NULL AUTO_INCREMENT,
-	`businessId` varchar(17) NOT NULL,
-	`chemicalId` varchar(17) NOT NULL,
-	`chemicalTagId` varchar(17) NOT NULL,
+	`businessId` varchar(37) NOT NULL,
+	`chemicalId` varchar(37) NOT NULL,
+	`chemicalTagId` varchar(37) NOT NULL,
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`chemicalChemicalTagId`),
 	KEY `chemicalChemicalTagBusinessId` (`businessId`),
@@ -596,10 +596,10 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `equipment` (
-	`equipmentId` varchar(17) NOT NULL,
-	`businessId` varchar(17) NOT NULL,
-	`linkedToCrewId` varchar(17) NULL COMMENT 'Optional FK',
-	`linkedToStaffId` varchar(17) NULL COMMENT 'Optional FK',
+	`equipmentId` varchar(37) NOT NULL,
+	`businessId` varchar(37) NOT NULL,
+	`linkedToCrewId` varchar(37) NULL COMMENT 'Optional FK',
+	`linkedToStaffId` varchar(37) NULL COMMENT 'Optional FK',
 	`name` text NOT NULL,
 	`description` text NULL,
 	`condition` text NULL,
@@ -622,9 +622,9 @@
 
 	CREATE TABLE IF NOT EXISTS `equipmentChemicalBridge` (
 	`equipmentChemicalId` int(11) NOT NULL AUTO_INCREMENT,
-	`businessId` varchar(17) NOT NULL,
-	`equipmentId` varchar(17) NOT NULL,
-	`chemicalId` varchar(17) NOT NULL,
+	`businessId` varchar(37) NOT NULL,
+	`equipmentId` varchar(37) NOT NULL,
+	`chemicalId` varchar(37) NOT NULL,
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`equipmentChemicalId`),
 	KEY `equipmentChemicalBridgeBusinessId` (`businessId`),
@@ -640,9 +640,9 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `equipmentImage` (
-	`equipmentImageId` varchar(17) NOT NULL,
-	`businessId` varchar(17) NOT NULL,
-	`equipmentId` varchar(17) NOT NULL,
+	`equipmentImageId` varchar(37) NOT NULL,
+	`businessId` varchar(37) NOT NULL,
+	`equipmentId` varchar(37) NOT NULL,
 	`imageFile` varchar(17) NOT NULL,
 	`caption` text NOT NULL,
 	`dateTimeAdded` datetime NOT NULL,
@@ -658,9 +658,9 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `equipmentMaintenanceLog` (
-	`equipmentMaintenanceLogId` varchar(17) NOT NULL,
-	`businessId` varchar(17) NOT NULL,
-	`equipmentId` varchar(17) NOT NULL,
+	`equipmentMaintenanceLogId` varchar(37) NOT NULL,
+	`businessId` varchar(37) NOT NULL,
+	`equipmentId` varchar(37) NOT NULL,
 	`title` text NOT NULL,
 	`details` text NULL,
 	`dateTimeAdded` datetime NOT NULL,
@@ -676,8 +676,8 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `equipmentTag` (
-	`equipmentTagId` varchar(17) NOT NULL,
-	`businessId` varchar(17) NOT NULL,
+	`equipmentTagId` varchar(37) NOT NULL,
+	`businessId` varchar(37) NOT NULL,
 	`name` text NOT NULL,
 	`description` text NULL DEFAULT NULL,
 	`color` varchar(15) NOT NULL DEFAULT 'gray',
@@ -694,9 +694,9 @@
 
 	CREATE TABLE IF NOT EXISTS `equipmentEquipmentTagBridge` (
 	`equipmentEquipmentTagId` int(11) NOT NULL AUTO_INCREMENT,
-	`businessId` varchar(17) NOT NULL,
-	`equipmentId` varchar(17) NOT NULL,
-	`equipmentTagId` varchar(17) NOT NULL,
+	`businessId` varchar(37) NOT NULL,
+	`equipmentId` varchar(37) NOT NULL,
+	`equipmentTagId` varchar(37) NOT NULL,
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`equipmentEquipmentTagId`),
 	KEY `equipmentEquipmentTagBusinessId` (`businessId`),
@@ -712,8 +712,8 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `docId` (
-	`docIdId` varchar(17) NOT NULL,
-	`businessId` varchar(17) NOT NULL,
+	`docIdId` varchar(37) NOT NULL,
+	`businessId` varchar(37) NOT NULL,
 	`incrementalId` int(11) NOT NULL,
 	`randomId` int(11) NOT NULL,
 	`dateTimeAdded` datetime NOT NULL,
@@ -727,13 +727,13 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `customerServiceTicket` (
-	`customerServiceTicketId` varchar(17) NOT NULL,
-	`businessId` varchar(17) NOT NULL,
-	`docIdId` varchar(17) NOT NULL,
-	`linkedToCustomerId` varchar(17) NULL COMMENT 'Optional FK',
-	`linkedToInvoiceId` varchar(17) NULL COMMENT 'Optional FK',
-	`linkedToEstimateId` varchar(17) NULL COMMENT 'Optional FK',
-	`linkedToQuoteRequestId` varchar(17) NULL COMMENT 'Optional FK',
+	`customerServiceTicketId` varchar(37) NOT NULL,
+	`businessId` varchar(37) NOT NULL,
+	`docIdId` varchar(37) NOT NULL,
+	`linkedToCustomerId` varchar(37) NULL COMMENT 'Optional FK',
+	`linkedToInvoiceId` varchar(37) NULL COMMENT 'Optional FK',
+	`linkedToEstimateId` varchar(37) NULL COMMENT 'Optional FK',
+	`linkedToQuoteRequestId` varchar(37) NULL COMMENT 'Optional FK',
 	`customerName` text NULL COMMENT 'NULL if linkedToCustomerId',
 	`customerEmail` text NULL COMMENT 'NULL if linkedToCustomerId',
 	`subject` text NOT NULL,
@@ -756,10 +756,10 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `adminCustomerServiceMessage` (
-	`adminCustomerServiceMessageId` varchar(17) NOT NULL,
-	`businessId` varchar(17) NOT NULL,
-	`adminId` varchar(17) NOT NULL,
-	`customerServiceTicketId` varchar(17) NOT NULL,
+	`adminCustomerServiceMessageId` varchar(37) NOT NULL,
+	`businessId` varchar(37) NOT NULL,
+	`adminId` varchar(37) NOT NULL,
+	`customerServiceTicketId` varchar(37) NOT NULL,
 	`message` text NOT NULL,
 	`isReadByCustomer` tinyint(1) NOT NULL DEFAULT 0,
 	`dateTimeAdded` datetime NOT NULL,
@@ -777,9 +777,9 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `customerCustomerServiceMessage` (
-	`customerCustomerServiceMessageId` varchar(17) NOT NULL,
-	`businessId` varchar(17) NOT NULL,
-	`customerServiceTicketId` varchar(17) NOT NULL,
+	`customerCustomerServiceMessageId` varchar(37) NOT NULL,
+	`businessId` varchar(37) NOT NULL,
+	`customerServiceTicketId` varchar(37) NOT NULL,
 	`message` text NOT NULL,
 	`isReadByAdmin` tinyint(1) NOT NULL DEFAULT 0,
 	`dateTimeAdded` datetime NOT NULL,
@@ -795,11 +795,11 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `fileUpload` (
-	`fileUploadId` varchar(17) NOT NULL,
-	`businessId` varchar(17) NOT NULL,
-	`docIdId` varchar(17) NOT NULL,
-	`linkedToStaffId` varchar(17) NULL DEFAULT NULL COMMENT 'Optional FK',
-	`linkedToCustomerId` varchar(17) NULL DEFAULT NULL COMMENT 'Optional FK',
+	`fileUploadId` varchar(37) NOT NULL,
+	`businessId` varchar(37) NOT NULL,
+	`docIdId` varchar(37) NOT NULL,
+	`linkedToStaffId` varchar(37) NULL DEFAULT NULL COMMENT 'Optional FK',
+	`linkedToCustomerId` varchar(37) NULL DEFAULT NULL COMMENT 'Optional FK',
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`fileUploadId`),
 	KEY `fileUploadBusinessId` (`businessId`),
@@ -815,10 +815,10 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `estimate` (
-	`estimateId` varchar(17) NOT NULL,
-	`businessId` varchar(17) NOT NULL,
-	`docIdId` varchar(17) NOT NULL,
-	`customerId` varchar(17) NOT NULL,
+	`estimateId` varchar(37) NOT NULL,
+	`businessId` varchar(37) NOT NULL,
+	`docIdId` varchar(37) NOT NULL,
+	`customerId` varchar(37) NOT NULL,
 	`discountIsPercent` tinyint(1) NOT NULL DEFAULT 0,
 	`discount` float NOT NULL DEFAULT 0,
 	`customJobDetails` text NULL,
@@ -826,7 +826,7 @@
 	`privateNotes` text NULL,
 	`isViewed` tinyint(1) NOT NULL DEFAULT 0,
 	`isEmailed` tinyint(1) NOT NULL DEFAULT 0,
-	`approvedByAdminId` varchar(17) NULL COMMENT 'Optional FK',
+	`approvedByAdminId` varchar(37) NULL COMMENT 'Optional FK',
 	`adminReason` text NULL,
 	`dateTimeApproved` datetime NULL,
 	`dateTimeAdded` datetime NOT NULL,
@@ -844,9 +844,9 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `estimateItem` (
-	`estimateItemId` varchar(17) NOT NULL,
-	`businessId` varchar(17) NOT NULL,
-	`estimateId` varchar(17) NOT NULL,
+	`estimateItemId` varchar(37) NOT NULL,
+	`businessId` varchar(37) NOT NULL,
+	`estimateId` varchar(37) NOT NULL,
 	`name` text NOT NULL,
 	`price` float NOT NULL DEFAULT 0,
 	`taxIsPercent` tinyint(1) NOT NULL DEFAULT 0,
@@ -865,10 +865,10 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `invoice` (
-	`invoiceId` varchar(17) NOT NULL,
-	`businessId` varchar(17) NOT NULL,
-	`docIdId` varchar(17) NOT NULL,
-	`customerId` varchar(17) NOT NULL,
+	`invoiceId` varchar(37) NOT NULL,
+	`businessId` varchar(37) NOT NULL,
+	`docIdId` varchar(37) NOT NULL,
+	`customerId` varchar(37) NOT NULL,
 	`discountIsPercent` tinyint(1) NOT NULL DEFAULT 0,
 	`discount` float NOT NULL DEFAULT 0,
 	`customJobDetails` text NULL,
@@ -893,9 +893,9 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `invoiceItem` (
-	`invoiceItemId` varchar(17) NOT NULL,
-	`businessId` varchar(17) NOT NULL,
-	`invoiceId` varchar(17) NOT NULL,
+	`invoiceItemId` varchar(37) NOT NULL,
+	`businessId` varchar(37) NOT NULL,
+	`invoiceId` varchar(37) NOT NULL,
 	`name` text NOT NULL,
 	`price` float NOT NULL DEFAULT 0,
 	`taxIsPercent` tinyint(1) NOT NULL DEFAULT 0,
@@ -914,8 +914,8 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `paymentMethod` (
-	`paymentMethodId` varchar(17) NOT NULL,
-	`businessId` varchar(17) NOT NULL,
+	`paymentMethodId` varchar(37) NOT NULL,
+	`businessId` varchar(37) NOT NULL,
 	`name` varchar(20) NOT NULL,
 	`percentCut` float NOT NULL DEFAULT 0,
 	`amountCut` float NOT NULL DEFAULT 0,
@@ -931,11 +931,11 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `payment` (
-	`paymentId` varchar(17) NOT NULL,
-	`businessId` varchar(17) NOT NULL,
-	`customerId` varchar(17) NOT NULL,
-	`linkedToInvoiceId` varchar(17) NULL,
-	`linkedToPaymentMethodId` varchar(17) NULL,
+	`paymentId` varchar(37) NOT NULL,
+	`businessId` varchar(37) NOT NULL,
+	`customerId` varchar(37) NOT NULL,
+	`linkedToInvoiceId` varchar(37) NULL,
+	`linkedToPaymentMethodId` varchar(37) NULL,
 	`methodName` varchar(20) NOT NULL,
 	`methodPercentCut` float NOT NULL DEFAULT 0,
 	`methodAmountCut` float NOT NULL DEFAULT 0,
@@ -956,9 +956,9 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `property` (
-	`propertyId` varchar(17) NOT NULL,
-	`businessId` varchar(17) NOT NULL,
-	`customerId` varchar(17) NOT NULL,
+	`propertyId` varchar(37) NOT NULL,
+	`businessId` varchar(37) NOT NULL,
+	`customerId` varchar(37) NOT NULL,
 	`address1` text NOT NULL,
 	`address2` text NULL,
 	`city` text NULL,
@@ -980,13 +980,13 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `chemicalApplication` (
-	`chemicalApplicationId` varchar(17) NOT NULL,
-	`businessId` varchar(17) NOT NULL,
-	`chemicalId` varchar(17) NOT NULL,
-	`propertyId` varchar(17) NOT NULL,
-	`linkedToCrewId` varchar(17) NULL COMMENT 'Optional FK',
-	`linkedToStaffId` varchar(17) NULL COMMENT 'Optional FK',
-	`linkedToJobCompletedId` varchar(17) NULL COMMENT 'Optional FK',
+	`chemicalApplicationId` varchar(37) NOT NULL,
+	`businessId` varchar(37) NOT NULL,
+	`chemicalId` varchar(37) NOT NULL,
+	`propertyId` varchar(37) NOT NULL,
+	`linkedToCrewId` varchar(37) NULL COMMENT 'Optional FK',
+	`linkedToStaffId` varchar(37) NULL COMMENT 'Optional FK',
+	`linkedToJobCompletedId` varchar(37) NULL COMMENT 'Optional FK',
 	`weatherDescription` text NULL,
 	`amountApplied` float NULL,
 	`wasSubtractedFromStock` tinyint(1) NOT NULL DEFAULT 0,
@@ -1008,11 +1008,11 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `job` (
-	`jobId` varchar(17) NOT NULL,
-	`businessId` varchar(17) NOT NULL,
-	`linkedToJobId` varchar(17) NULL COMMENT 'Optional FK',
-	`linkedToCustomerId` varchar(17) NULL COMMENT 'Optional FK',
-	`linkedToPropertyId` varchar(17) NULL COMMENT 'Optional FK',
+	`jobId` varchar(37) NOT NULL,
+	`businessId` varchar(37) NOT NULL,
+	`linkedToJobId` varchar(37) NULL COMMENT 'Optional FK',
+	`linkedToCustomerId` varchar(37) NULL COMMENT 'Optional FK',
+	`linkedToPropertyId` varchar(37) NULL COMMENT 'Optional FK',
 	`name` text NOT NULL,
 	`description` text NULL,
 	`privateNotes` text NULL,
@@ -1039,16 +1039,16 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `jobInstanceException` (
-	`jobInstanceExceptionId` varchar(17) NOT NULL,
-	`businessId` varchar(17) NOT NULL,
-	`jobId` varchar(17) NOT NULL,
+	`jobInstanceExceptionId` varchar(37) NOT NULL,
+	`businessId` varchar(37) NOT NULL,
+	`jobId` varchar(37) NOT NULL,
 	`instanceDate` date NOT NULL,
 	`isRescheduled` tinyint(1) NOT NULL DEFAULT 0,
 	`isCancelled` tinyint(1) NOT NULL DEFAULT 0,
 	`isCompleted` tinyint(1) NOT NULL DEFAULT 0,
-	`linkedToCompletedJobId` varchar(17) NULL COMMENT 'Optional FK',
-	`linkedToCustomerId` varchar(17) NULL COMMENT 'Optional FK',
-	`linkedToPropertyId` varchar(17) NULL COMMENT 'Optional FK',
+	`linkedToCompletedJobId` varchar(37) NULL COMMENT 'Optional FK',
+	`linkedToCustomerId` varchar(37) NULL COMMENT 'Optional FK',
+	`linkedToPropertyId` varchar(37) NULL COMMENT 'Optional FK',
 	`name` text NOT NULL,
 	`description` text NULL,
 	`privateNotes` text NULL,
@@ -1072,11 +1072,11 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `completedJob` (
-	`completedJobId` varchar(17) NOT NULL,
-	`businessId` varchar(17) NOT NULL,
-	`linkedToJobId` varchar(17) NULL COMMENT 'Optional FK',
-	`linkedToCustomerId` varchar(17) NULL COMMENT 'Optional FK',
-	`linkedToPropertyId` varchar(17) NULL COMMENT 'Optional FK',
+	`completedJobId` varchar(37) NOT NULL,
+	`businessId` varchar(37) NOT NULL,
+	`linkedToJobId` varchar(37) NULL COMMENT 'Optional FK',
+	`linkedToCustomerId` varchar(37) NULL COMMENT 'Optional FK',
+	`linkedToPropertyId` varchar(37) NULL COMMENT 'Optional FK',
 	`customerFirstName` text NULL,
 	`customerLastName` text NULL,
 	`propertyAddress1` text NULL,
@@ -1111,9 +1111,9 @@
 
 	CREATE TABLE IF NOT EXISTS `jobCrewBridge` (
 	`jobCrewId` int(11) NOT NULL AUTO_INCREMENT,
-	`businessId` varchar(17) NOT NULL,
-	`jobId` varchar(17) NOT NULL,
-	`crewId` varchar(17) NOT NULL,
+	`businessId` varchar(37) NOT NULL,
+	`jobId` varchar(37) NOT NULL,
+	`crewId` varchar(37) NOT NULL,
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`jobCrewId`),
 	KEY `jobCrewBridgeBusinessId` (`businessId`),
@@ -1129,8 +1129,8 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `staff` (
-	`staffId` varchar(17) NOT NULL,
-	`businessId` varchar(17) NOT NULL,
+	`staffId` varchar(37) NOT NULL,
+	`businessId` varchar(37) NOT NULL,
 	`firstName` text NOT NULL,
 	`lastName` text NULL,
 	`profilePicture` varchar(17) NULL,
@@ -1160,9 +1160,9 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `staffPhoneNumber` (
-	`staffPhoneNumberId` varchar(17) NOT NULL,
-	`businessId` varchar(17) NOT NULL,
-	`staffId` varchar(17) NOT NULL,
+	`staffPhoneNumberId` varchar(37) NOT NULL,
+	`businessId` varchar(37) NOT NULL,
+	`staffId` varchar(37) NOT NULL,
 	`phonePrefix` text NULL DEFAULT NULL,
 	`phone1` text NOT NULL,
 	`phone2` text NOT NULL,
@@ -1181,9 +1181,9 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `staffEmailAddress` (
-	`staffEmailAddressId` varchar(17) NOT NULL,
-	`businessId` varchar(17) NOT NULL,
-	`staffId` varchar(17) NOT NULL,
+	`staffEmailAddressId` varchar(37) NOT NULL,
+	`businessId` varchar(37) NOT NULL,
+	`staffId` varchar(37) NOT NULL,
 	`email` text NOT NULL,
 	`description` text NULL,
 	`dateTimeAdded` datetime NOT NULL,
@@ -1200,9 +1200,9 @@
 
 	CREATE TABLE IF NOT EXISTS `crewLeaderBridge` (
 	`crewLeaderId` int(11) NOT NULL AUTO_INCREMENT,
-	`businessId` varchar(17) NOT NULL,
-	`crewId` varchar(17) NOT NULL,
-	`staffId` varchar(17) NOT NULL,
+	`businessId` varchar(37) NOT NULL,
+	`crewId` varchar(37) NOT NULL,
+	`staffId` varchar(37) NOT NULL,
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`crewLeaderId`),
 	KEY `crewLeaderBridgeBusinessId` (`businessId`),
@@ -1219,9 +1219,9 @@
 
 	CREATE TABLE IF NOT EXISTS `crewStaffBridge` (
 	`crewStaffId` int(11) NOT NULL AUTO_INCREMENT,
-	`businessId` varchar(17) NOT NULL,
-	`crewId` varchar(17) NOT NULL,
-	`staffId` varchar(17) NOT NULL,
+	`businessId` varchar(37) NOT NULL,
+	`crewId` varchar(37) NOT NULL,
+	`staffId` varchar(37) NOT NULL,
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`crewStaffId`),
 	KEY `crewStaffBridgeBusinessId` (`businessId`),
@@ -1237,9 +1237,9 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `staffLoginAttempt` (
-	`staffLoginAttemptId` varchar(17) NOT NULL,
-	`businessId` varchar(17) NOT NULL,
-	`staffId` varchar(17) DEFAULT NULL,
+	`staffLoginAttemptId` varchar(37) NOT NULL,
+	`businessId` varchar(37) NOT NULL,
+	`staffId` varchar(37) DEFAULT NULL,
 	`clientIp` text NOT NULL,
 	`result` varchar(5) NOT NULL,
 	`dateTimeAdded` datetime NOT NULL,
@@ -1255,9 +1255,9 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `staffSavedLogin` (
-	`staffSavedLoginId` varchar(17) NOT NULL,
-	`businessId` varchar(17) NOT NULL,
-	`staffId` varchar(17) NOT NULL,
+	`staffSavedLoginId` varchar(37) NOT NULL,
+	`businessId` varchar(37) NOT NULL,
+	`staffId` varchar(37) NOT NULL,
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`staffSavedLoginId`),
 	KEY `staffSavedLoginBusinessId` (`businessId`),
@@ -1271,8 +1271,8 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `staffTag` (
-	`staffTagId` varchar(17) NOT NULL,
-	`businessId` varchar(17) NOT NULL,
+	`staffTagId` varchar(37) NOT NULL,
+	`businessId` varchar(37) NOT NULL,
 	`name` text NOT NULL,
 	`description` text NULL DEFAULT NULL,
 	`color` varchar(15) NOT NULL DEFAULT 'gray',
@@ -1289,9 +1289,9 @@
 
 	CREATE TABLE IF NOT EXISTS `staffStaffTagBridge` (
 	`staffStaffTagId` int(11) NOT NULL AUTO_INCREMENT,
-	`businessId` varchar(17) NOT NULL,
-	`staffId` varchar(17) NOT NULL,
-	`staffTagId` varchar(17) NOT NULL,
+	`businessId` varchar(37) NOT NULL,
+	`staffId` varchar(37) NOT NULL,
+	`staffTagId` varchar(37) NOT NULL,
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`staffStaffTagId`),
 	KEY `staffStaffTagBusinessId` (`businessId`),
@@ -1308,9 +1308,9 @@
 
 	CREATE TABLE IF NOT EXISTS `jobStaffBridge` (
 	`jobStaffId` int(11) NOT NULL AUTO_INCREMENT,
-	`businessId` varchar(17) NOT NULL,
-	`jobId` varchar(17) NOT NULL,
-	`staffId` varchar(17) NOT NULL,
+	`businessId` varchar(37) NOT NULL,
+	`jobId` varchar(37) NOT NULL,
+	`staffId` varchar(37) NOT NULL,
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`jobStaffId`),
 	KEY `jobStaffBridgeBusinessId` (`businessId`),
@@ -1326,9 +1326,9 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `timeLog` (
-	`timeLogId` varchar(17) NOT NULL,
-	`businessId` varchar(17) NOT NULL,
-	`staffId` varchar(17) NOT NULL,
+	`timeLogId` varchar(37) NOT NULL,
+	`businessId` varchar(37) NOT NULL,
+	`staffId` varchar(37) NOT NULL,
 	`dateTimeStart` datetime NOT NULL,
 	`dateTimeEnd` datetime NULL,
 	`notes` text NULL,
@@ -1345,11 +1345,11 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `payrollDue` (
-	`payrollDueId` varchar(17) NOT NULL,
-	`businessId` varchar(17) NOT NULL,
-	`staffId` varchar(17) NOT NULL,
-	`linkedToTimeLogId` varchar(17) NULL COMMENT 'Optional FK',
-	`linkedToJobCompletedId` varchar(17) NULL COMMENT 'Optional FK',
+	`payrollDueId` varchar(37) NOT NULL,
+	`businessId` varchar(37) NOT NULL,
+	`staffId` varchar(37) NOT NULL,
+	`linkedToTimeLogId` varchar(37) NULL COMMENT 'Optional FK',
+	`linkedToJobCompletedId` varchar(37) NULL COMMENT 'Optional FK',
 	`amount` float NOT NULL,
 	`notes` text NULL,
 	`isManualPaid` tinyint(1) NOT NULL DEFAULT 0,
@@ -1368,10 +1368,10 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `payrollSatisfaction` (
-	`payrollSatisfactionId` varchar(17) NOT NULL,
-	`businessId` varchar(17) NOT NULL,
-	`staffId` varchar(17) NOT NULL,
-	`linkedToPayrollDueId` varchar(17) NULL COMMENT 'Optional FK',
+	`payrollSatisfactionId` varchar(37) NOT NULL,
+	`businessId` varchar(37) NOT NULL,
+	`staffId` varchar(37) NOT NULL,
+	`linkedToPayrollDueId` varchar(37) NULL COMMENT 'Optional FK',
 	`method` varchar(10) NOT NULL,
 	`amount` float NOT NULL,
 	`notes` text NULL,
@@ -1390,8 +1390,8 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `emailTemplate` (
-	`emailTemplateId` varchar(17) NOT NULL,
-	`businessId` varchar(17) NOT NULL,
+	`emailTemplateId` varchar(37) NOT NULL,
+	`businessId` varchar(37) NOT NULL,
 	`templateName` text NOT NULL,
 	`subject` text NOT NULL,
 	`contentHtml` text NOT NULL,
@@ -1408,9 +1408,9 @@
 
 	CREATE TABLE IF NOT EXISTS `emailSubscriptionBridge` (
 	`emailSubscriptionId` int(11) NOT NULL AUTO_INCREMENT,
-	`businessId` varchar(17) NOT NULL,
-	`customerEmailAddressId` varchar(17) NOT NULL,
-	`emailTemplateId` varchar(17) NOT NULL,
+	`businessId` varchar(37) NOT NULL,
+	`customerEmailAddressId` varchar(37) NOT NULL,
+	`emailTemplateId` varchar(37) NOT NULL,
 	`frequencyInterval` varchar(10) NOT NULL DEFAULT 'none',
 	`frequency` int(11) NOT NULL DEFAULT 0,
 	`dateTimeAdded` datetime NOT NULL,
@@ -1428,10 +1428,10 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `emailSend` (
-	`emailSendId` varchar(17) NOT NULL,
-	`businessId` varchar(17) NOT NULL,
-	`linkedToEmailSubscriptionId` varchar(17) NULL COMMENT 'Optional FK',
-	`linkedToEmailTemplateId` varchar(17) NULL COMMENT 'Optional FK',
+	`emailSendId` varchar(37) NOT NULL,
+	`businessId` varchar(37) NOT NULL,
+	`linkedToEmailSubscriptionId` varchar(37) NULL COMMENT 'Optional FK',
+	`linkedToEmailTemplateId` varchar(37) NULL COMMENT 'Optional FK',
 	`toEmail` text NOT NULL,
 	`subject` text NOT NULL,
 	`contentHtmlFile` varchar(17) NOT NULL,
@@ -1449,9 +1449,9 @@
 
 	CREATE TABLE IF NOT EXISTS `customerEmailAddressEmailSendBridge` (
 	`customerEmailAddressEmailSendId` int(11) NOT NULL AUTO_INCREMENT,
-	`businessId` varchar(17) NOT NULL,
-	`customerEmailAddressId` varchar(17) NOT NULL,
-	`emailSendId` varchar(17) NOT NULL,
+	`businessId` varchar(37) NOT NULL,
+	`customerEmailAddressId` varchar(37) NOT NULL,
+	`emailSendId` varchar(37) NOT NULL,
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`customerEmailAddressEmailSendId`),
 	KEY `customerEmailAddressEmailSendBridgeBusinessId` (`businessId`),
@@ -1467,9 +1467,9 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `emailPixel` (
-	`emailPixelId` varchar(17) NOT NULL,
-	`businessId` varchar(17) NOT NULL,
-	`emailSendId` varchar(17) NOT NULL,
+	`emailPixelId` varchar(37) NOT NULL,
+	`businessId` varchar(37) NOT NULL,
+	`emailSendId` varchar(37) NOT NULL,
 	`pixelFile` varchar(17) NOT NULL,
 	`dateTimeRead` datetime NULL,
 	`clientIpRead` text NULL,
@@ -1486,8 +1486,8 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `smsTemplate` (
-	`smsTemplateId` varchar(17) NOT NULL,
-	`businessId` varchar(17) NOT NULL,
+	`smsTemplateId` varchar(37) NOT NULL,
+	`businessId` varchar(37) NOT NULL,
 	`templateName` text NOT NULL,
 	`message` text NOT NULL,
 	`isSystemTemplate` tinyint(1) NOT NULL DEFAULT 0,
@@ -1503,9 +1503,9 @@
 
 	CREATE TABLE IF NOT EXISTS `smsSubscriptionBridge` (
 	`smsSubscriptionId` int(11) NOT NULL AUTO_INCREMENT,
-	`businessId` varchar(17) NOT NULL,
-	`customerPhoneNumberId` varchar(17) NOT NULL,
-	`smsTemplateId` varchar(17) NOT NULL,
+	`businessId` varchar(37) NOT NULL,
+	`customerPhoneNumberId` varchar(37) NOT NULL,
+	`smsTemplateId` varchar(37) NOT NULL,
 	`frequencyInterval` varchar(10) NOT NULL DEFAULT 'none',
 	`frequency` int(11) NOT NULL DEFAULT 0,
 	`dateTimeAdded` datetime NOT NULL,
@@ -1523,10 +1523,10 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `smsSend` (
-	`smsSendId` varchar(17) NOT NULL,
-	`businessId` varchar(17) NOT NULL,
-	`linkedToSmsSubscriptionId` varchar(17) NULL COMMENT 'Optional FK',
-	`linkedToSmsCampaignTemplateId` varchar(17) NULL COMMENT 'Optional FK',
+	`smsSendId` varchar(37) NOT NULL,
+	`businessId` varchar(37) NOT NULL,
+	`linkedToSmsSubscriptionId` varchar(37) NULL COMMENT 'Optional FK',
+	`linkedToSmsCampaignTemplateId` varchar(37) NULL COMMENT 'Optional FK',
 	`message` text NOT NULL,
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`smsSendId`),
@@ -1542,9 +1542,9 @@
 
 	CREATE TABLE IF NOT EXISTS `customerPhoneNumberSmsSendBridge` (
 	`customerPhoneNumberSmsSendId` int(11) NOT NULL AUTO_INCREMENT,
-	`businessId` varchar(17) NOT NULL,
-	`customerPhoneNumberId` varchar(17) NOT NULL,
-	`smsSendId` varchar(17) NOT NULL,
+	`businessId` varchar(37) NOT NULL,
+	`customerPhoneNumberId` varchar(37) NOT NULL,
+	`smsSendId` varchar(37) NOT NULL,
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`customerPhoneNumberSmsSendId`),
 	KEY `customerPhoneNumberSmsSendBridgeBusinessId` (`businessId`),
@@ -1560,8 +1560,8 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `blogPost` (
-	`blogPostId` varchar(17) NOT NULL,
-	`businessId` varchar(17) NOT NULL,
+	`blogPostId` varchar(37) NOT NULL,
+	`businessId` varchar(37) NOT NULL,
 	`author` text DEFAULT NULL,
 	`title` text NOT NULL,
 	`description` text DEFAULT NULL,
@@ -1581,8 +1581,8 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `blogTag` (
-	`blogTagId` varchar(17) NOT NULL,
-	`businessId` varchar(17) NOT NULL,
+	`blogTagId` varchar(37) NOT NULL,
+	`businessId` varchar(37) NOT NULL,
 	`name` text NOT NULL,
 	`description` text NULL DEFAULT NULL,
 	`color` varchar(15) NOT NULL DEFAULT 'gray',
@@ -1599,9 +1599,9 @@
 
 	CREATE TABLE IF NOT EXISTS `blogPostBlogTagBridge` (
 	`blogPostBlogTagId` int(11) NOT NULL AUTO_INCREMENT,
-	`businessId` varchar(17) NOT NULL,
-	`blogPostId` varchar(17) NOT NULL,
-	`blogTagId` varchar(17) NOT NULL,
+	`businessId` varchar(37) NOT NULL,
+	`blogPostId` varchar(37) NOT NULL,
+	`blogTagId` varchar(37) NOT NULL,
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`blogPostBlogTagId`),
 	KEY `blogPostBlogTagBridgeBusinessId` (`businessId`),
@@ -1617,9 +1617,9 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `blogPostReadToken` (
-	`blogPostReadTokenId` varchar(17) NOT NULL,
-	`businessId` varchar(17) NOT NULL,
-	`blogPostId` varchar(17) NOT NULL,
+	`blogPostReadTokenId` varchar(37) NOT NULL,
+	`businessId` varchar(37) NOT NULL,
+	`blogPostId` varchar(37) NOT NULL,
 	`clientIP` text NOT NULL,
 	`dateTimeAdded` datetime NOT NULL,
 	PRIMARY KEY (`blogPostReadTokenId`),
@@ -1634,10 +1634,10 @@
 	--
 
 	CREATE TABLE IF NOT EXISTS `emailQueueMessage` (
-	`emailQueueMessageId` varchar(17) NOT NULL,
-	`linkedToBusinessId` varchar(17) NULL COMMENT 'Optional FK',
-	`linkedToEmailSubscriptionId` varchar(17) NULL COMMENT 'Optional FK',
-	`linkedToEmailTemplateId` varchar(17) NULL COMMENT 'Optional FK',
+	`emailQueueMessageId` varchar(37) NOT NULL,
+	`linkedToBusinessId` varchar(37) NULL COMMENT 'Optional FK',
+	`linkedToEmailSubscriptionId` varchar(37) NULL COMMENT 'Optional FK',
+	`linkedToEmailTemplateId` varchar(37) NULL COMMENT 'Optional FK',
 	`messageType` text NOT NULL,
 	`templateVarInputs` text NULL,
 	`toEmails` text NOT NULL,
