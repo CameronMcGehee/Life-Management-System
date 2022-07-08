@@ -1,87 +1,19 @@
 const express = require('express');
 const exphbs = require('express-handlebars');
 const dotenv = require('dotenv');
-const mysql = require('mysql');
+
 const fs = require("fs");
 const path = require("path");
 const waitUntil = require('wait-until');
-const Sequelize = require('sequelize');
-var sequelize;
+
 const { exit } = require('process');
 
 // Load config
 dotenv.config({path: './config/config.env'});
 
-const sqlConfig = JSON.parse(fs.readFileSync("./config/sql.json", "utf8"));
-var sqlConfigNoDb = JSON.parse(fs.readFileSync("./config/sql.json", "utf8"));
-
-delete sqlConfigNoDb["database"];
-
-var db = mysql.createConnection(sqlConfig);
-
-// Connect to db
-db.connect((err) => {
-	if (err) {
-        console.log(err);
-        // try creating the database
-        console.log("There was an error, attempting to create database.");
-        var db = mysql.createConnection(sqlConfigNoDb);
-
-        db.connect((err) => {
-            if (err) {
-                console.log(err);
-                exit();
-            } else {
-                var sql = "CREATE DATABASE IF NOT EXISTS `" + sqlConfig['database'] + "`";
-		
-                var query = db.query(sql, (err) => {
-                    if (err) {
-                        // console.log(err);
-                        exit();
-                    } else {
-                        var db = mysql.createConnection(sqlConfig);
-                        db.connect((err) => {
-                            if (err) {
-                                // console.log(err);
-                                exit();
-                            } else {
-                                console.log("Created database successfully. Adding tables.");
-
-                                var sql = fs.readFileSync("./lib/defaultConfigs/createTables.sql", "utf8");
-		
-                                var query = db.query(sql, (err) => {
-                                    if (err) {
-                                        // console.log(err);
-                                        exit();
-                                    } else {
-                                        console.log("Added tables successfully. Starting.");
-                                    }
-                                });
-                            }
-                        })
-
-                    }
-                });
-
-                
-            }
-        });
-
-        
-	} else {
-        sequelize = new Sequelize(sqlConfig.database, sqlConfig.user, sqlConfig.password, {
-            host: sqlConfig.host,
-            dialect: 'mysql',
-          
-            pool: {
-              max: 5,
-              min: 0,
-              idle: 10000
-            }
-          });
-        console.log('MySql Connected successfully');
-    }
-});
+// Connect to the db
+const db = require('./lib/db.js');
+const sequelize = require('./lib/sequelize.js');
 
 const app = express();
 
@@ -140,7 +72,9 @@ setInterval(() => {
 				console.log(err);
 			}
 
-			console.log(result.length + " Email(s) grabbed!");
+            if (result.length > 0) {
+                console.log(result.length + " Email(s) grabbed!");
+            }
 
 			result.forEach (async (message) => {
 				
