@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-module.exports = function(sequelize, DataTypes) {
+module.exports = function(sequelize, DataTypes = Sequelize.DataTypes) {
   return sequelize.define('admincustomerservicemessage', {
     adminCustomerServiceMessageId: {
       type: DataTypes.STRING(17),

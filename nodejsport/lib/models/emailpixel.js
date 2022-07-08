@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-module.exports = function(sequelize, DataTypes) {
+module.exports = function(sequelize, DataTypes = Sequelize.DataTypes) {
   return sequelize.define('emailpixel', {
     emailPixelId: {
       type: DataTypes.STRING(17),

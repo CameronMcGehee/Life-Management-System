@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-module.exports = function(sequelize, DataTypes) {
+module.exports = function(sequelize, DataTypes = Sequelize.DataTypes) {
   return sequelize.define('staffsavedlogin', {
     staffSavedLoginId: {
       type: DataTypes.STRING(17),
