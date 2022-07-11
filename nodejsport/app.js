@@ -39,5 +39,4 @@ const PORT = process.env.PORT || 80;
 app.listen(PORT, console.log('UltiScape is running!'));
 
 // Email Sender
-
 const emailSender = require('./lib/emailSender.js');

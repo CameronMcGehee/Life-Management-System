@@ -21,7 +21,7 @@ var sending = false; // Used to keep from trying to send more than 1 email at a 
 var details;
 
 // Loop
-
+console.log("Starting emailSender...");
 module.exports = setInterval(() => {
 
 	if (grabWorking == false) {
