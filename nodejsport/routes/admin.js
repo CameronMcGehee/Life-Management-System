@@ -1,30 +1,44 @@
+// Express and routing
 const express = require('express');
 const router = express.Router();
-const db = require(__dirname + "../../lib/db.js");
-const sequelize = require(__dirname + "../../lib/sequelize.js");
+
+// DB/Sequelize
+const db = require(__dirname + "/../lib/db.js");
+const sequelize = require(__dirname + "/../lib/sequelize.js");
+
+// Misc libraries
 const uuid = require("uuid");
 const moment = require("moment");
 
-const authToken = require(__dirname + '../../lib/models/authToken.js')(sequelize);
+// Import sequelize models used for these routes
+const authToken = require(__dirname + '/../lib/models/authToken.js')(sequelize);
 
+//Body Parser to parse the JSON requests
+const bodyParser = require('body-parser');
+var jsonParser = bodyParser.json();
+// var urlencodedParser = bodyParser.urlencoded({ extended: false });
+
+// If someone goes to the base page of /admin, check if they are logged in. 
+// If they are not, check for a saved login. If there is a saved login then sign it back in and redirect to overview
+// Otherwise, just redirect to the login page
 router.get('/', (req, res) => {
     if (true) { // not logged in
-        res.redirect('admin/login');
+        res.redirect('/admin/login');
     } else {
         res.render('overview', {
             layout: 'overview',
             title: "UltiScape Login"
         });
     }
-    
 });
 
+// Admin login page
 router.get('/login', (req, res) => {
 
-    // Generate adminLoginAuthToken
-    var adminLoginAuthToken = '';
+    // Get the IP of the request for checking the authToken
+    var reqIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
 
-    var reqIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress
+    // Generate adminLoginAuthToken
     authToken.create({
         "authTokenId": uuid.v4(),
         "businessId": "testBusiness",
@@ -34,7 +48,7 @@ router.get('/login', (req, res) => {
     })
     .then(authToken => {
         console.log("authToken " + authToken.authTokenId + " Generated");
-        adminLoginAuthToken = authToken.authTokenId;
+        var adminLoginAuthToken = authToken.authTokenId;
 
         res.render('login', {
             layout: 'login',
@@ -50,9 +64,6 @@ router.get('/login', (req, res) => {
 
     })
     .catch(err => console.log(err));
-
-
-
     
 });
 
