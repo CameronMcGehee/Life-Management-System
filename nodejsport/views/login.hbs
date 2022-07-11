@@ -1,48 +1,9 @@
+<script src="../../js/admin/loginPage.js"></script>
+
 <div class="cmsLoginFormArea defaultMainShadows">
 
     <h1 class="centered">Admin Login</h1>
-    
-    <script>
 
-		var formData;
-		var formOutput;
-		var url = new URL(window.location.href);
-
-		$(document).ready(function() {
-			$("#loginForm").submit(function(event) {
-				event.preventDefault();
-				$('.loadingGif').fadeIn(100);
-				formData = $("#loginForm").serialize();
-				
-				$("#scriptLoader").load("./scripts/async/login.script.php", {
-					formData: formData
-				}, function () {
-					formOutput = $("#scriptLoader").html();
-					clearFormErrors();
-
-					switch (formOutput) {
-						case 'success':
-							window.location.replace('../');
-							break;
-                        case 'noUsernameEmail':
-                            showFormError("#noUsernameEmailError", '#usernameEmail');
-							$("#usernameEmail").shake(50);
-							break;
-						case 'noMatch':
-							showFormError("#noMatchError", '#password');
-							$("#password").shake(50);
-							break;
-						default:
-							showFormError("#"+formOutput+"Error", "#"+formOutput);
-							$("#"+formOutput).shake(50);
-							break;
-					}
-
-					$('.loadingGif').fadeOut(100);
-				});
-			});
-		});
-	</script>
     <form class="defaultForm" id="loginForm" style="margin-left: 2em; margin-right: 2em;" method="POST" action="./">
         
         <label for="usernameEmail"><p>Username/Email</p></label>
