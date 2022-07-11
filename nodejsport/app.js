@@ -25,7 +25,6 @@ app.set('view engine', '.hbs');
 app.use(express.static(path.join(__dirname, 'public')))
 
 // Routes
-app.use('/', require('./routes/global'));
 app.use('/admin', require('./routes/admin'));
 app.use('/customer', require('./routes/customer'));
 app.use('/staff', require('./routes/staff'));
@@ -34,6 +33,8 @@ app.use('/api/admin', require('./routes/endpoints/admin'));
 app.use('/api/customer', require('./routes/endpoints/customer'));
 app.use('/api/staff', require('./routes/endpoints/staff'));
 app.use('/api/global', require('./routes/endpoints/global'));
+
+app.use('/', require('./routes/global'));
 
 const PORT = process.env.PORT || 80;
 

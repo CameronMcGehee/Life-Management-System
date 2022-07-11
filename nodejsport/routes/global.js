@@ -8,4 +8,12 @@ router.get('/', (req, res) => {
     });
 });
 
+// Catch all unknown routes and redirect to an error page
+router.get('*', function(req, res) {
+	res.render('unknownpage', {
+        layout: 'global',
+        title: "Unknown Page"
+    });
+});
+
 module.exports = router;
