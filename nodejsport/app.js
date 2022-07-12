@@ -20,7 +20,7 @@ app.engine('.hbs', exphbs.engine({defaultLayout: 'main', extname: '.hbs', partia
 app.set('view engine', '.hbs');
 
 // Static folder
-app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes
 app.use('/admin', require('./routes/admin'));
