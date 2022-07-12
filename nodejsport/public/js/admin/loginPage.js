@@ -25,33 +25,26 @@ $(document).ready(function() {
             console.log(res);
 
             var status = res.status;
-            var errorType = res.errorType;
-            var errorMessage = res.errorMessage;
-
-            var formOutput = res.errorMessage;
+            var errors = res.errors;
 
             clearFormErrors();
 
-                if (status = 'success') {
-                    window.location.replace('./overview');
-                } else {
-                    switch (errorType) {
-                        case 'noUsernameEmail':
-                            showFormError("#noUsernameEmailError", '#usernameEmail');
-                            $("#usernameEmail").shake(50);
-                            break;
-                        case 'noMatch':
-                            showFormError("#noMatchError", '#password');
-                            $("#password").shake(50);
-                            break;
-                        default:
-                            showFormError("#"+formOutput+"Error", "#"+formOutput);
-                            $("#"+formOutput).shake(50);
-                            break;
-                    }
-                }
+            if (status == 'success') {
+                window.location.assign('./overview');
+            } else {
 
-                
+                // Use reverse in order to focus the first input with an error rather than the last
+                errors.reverse().forEach((error) => {
+                    if (error.type == 'general') {
+                        // Display the general error
+                    } else {
+                        // Show the form error type
+                        $("#" + error.type + "Error").html(error.msg);
+                        showFormError("#" + error.type + "Error", "#" + error.type);
+                        $("#" + error.type).shake(50);
+                    }
+                });
+            }
 
                 $('.loadingGif').fadeOut(100);
         });
