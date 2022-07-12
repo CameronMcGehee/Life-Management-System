@@ -1,0 +1,57 @@
+<script src="../../js/admin/createAccountPage.js"></script>
+
+<div class="cmsRegisterFormArea defaultMainShadows" style="margin-left: 2em; margin-right: 2em;">
+					
+    <h1 class="centered">Create an Account</h1>
+
+    <br><br><br>
+    
+    <form class="defaultForm" method="POST" action="./" id="createAccountForm">
+
+        <div class="twoCol">
+            <div style="padding-right: .5em;">
+                <label for="firstName"><p>First Name</p></label>
+                <input class="defaultInput" type="text" name="firstName" id="firstName" placeholder="First Name..." style="width: 100%;">
+                <span id="firstNameError" class="underInputError" style="display: none;">Your first name is too short.</span>
+            </div>
+
+            <div style="padding-left: .5em;">
+                <label for="lastName"><p>Last Name</p></label>
+                <input class="defaultInput" type="text" name="lastName" id="lastName" placeholder="Last Name..." style="width: 100%;">
+                <span id="lastNameError" class="underInputError" style="display: none;">Your last name is too short.</span>
+            </div>
+        </div>
+
+        <br>
+        
+        <label for="email"><p>Email</p></label>
+        <input class="defaultInput" type="text" name="email" id="email" placeholder="Email..." style="width: 100%;">
+        <span id="emailError" class="underInputError" style="display: none;">Input a valid email address.</span>
+        <span id="emailExistsError" class="underInputError" style="display: none;">This email is already in use.</span>
+
+        <br><br>
+    
+        <label for="username"><p>Username</p></label>
+        <input class="defaultInput" type="text" name="username" id="username" placeholder="Username..." style="width: 100%;">
+        <span id="usernameError" class="underInputError" style="display: none;">Your username is too short.</span>
+        <span id="usernameExistsError" class="underInputError" style="display: none;">This username is already in use.</span>
+        
+        <br><br>
+        
+        <label for="password"><p>Password</p></label>
+        <input class="defaultInput" type="password" name="password" id="password" placeholder="Password..." style="width: 100%;">
+        <span id="passwordError" class="underInputError" style="display: none;">Your password is too short.</span>
+        
+        <br><br>
+
+        <input type="hidden" name="authToken" id="authToken" value="{{{createAccountAuthToken}}}">
+        
+        <button class="smallButtonWrapper greenButton xyCenteredFlex centered defaultMainShadows" type="submit">Start using UltiScape!</button>
+    
+    </for>
+
+    <br>
+
+    <p class="centered">Already have an account? <a href="./login">Login here!</a></p>
+
+</div>

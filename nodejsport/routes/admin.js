@@ -32,6 +32,43 @@ router.get('/', (req, res) => {
     }
 });
 
+// Admin createaccount page
+router.get('/createaccount', (req, res) => {
+
+    // Get the IP of the request for checking the authToken
+    var reqIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+
+    // Generate createAccountAuthToken
+    authToken.create({
+        "authTokenId": uuid.v4(),
+        "authName": "createAccount",
+        "clientIp": reqIp,
+        "dateTimeAdded": moment().format('YYYY-MM-DD HH:mm:ss')
+    })
+    .then(authToken => {
+        console.log("authToken " + authToken.authTokenId + " Generated");
+        var createAccountAuthToken = authToken.authTokenId;
+
+        res.render('createaccount', {
+            layout: 'createaccount',
+            rootPath: '../',
+            title: "Create an UltiScape Account",
+            showLogo: true,
+            showProfileButton: false,
+            pfpImagePath: '../images/ultiscape/icons/user_male.svg',
+            bsImagePath: '../images/ultiscape/etc/noLogo.png',
+            showBusinessSelector: false,
+            createAccountAuthToken: createAccountAuthToken
+        });
+
+    })
+    .catch(err => {
+        console.log(err);
+        res.redirect('../');
+    });
+    
+});
+
 // Admin login page
 router.get('/login', (req, res) => {
 
@@ -41,7 +78,6 @@ router.get('/login', (req, res) => {
     // Generate adminLoginAuthToken
     authToken.create({
         "authTokenId": uuid.v4(),
-        "businessId": "testBusiness",
         "authName": "adminLogin",
         "clientIp": reqIp,
         "dateTimeAdded": moment().format('YYYY-MM-DD HH:mm:ss')
@@ -63,7 +99,10 @@ router.get('/login', (req, res) => {
         });
 
     })
-    .catch(err => console.log(err));
+    .catch(err => {
+        console.log(err);
+        res.redirect('../');
+    });
     
 });
 

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{{ title }}} - Ultiscape (Admin)</title>
+    <meta name="description" content="{{{description}}}">
+
+    <link rel="stylesheet" type="text/css" href="{{{rootPath}}}css/app/main.css">
+    <link rel="stylesheet" type="text/css" href="{{{rootPath}}}css/app/adminRegisterPage.css">
+
+    <script type="text/javascript" src="{{{rootPath}}}js/jquery-3.6.0.min.js"></script>
+
+    <script src="{{{rootPath}}}js/etc/animation/shake.js"></script>
+	<script src="{{{rootPath}}}js/etc/form/showFormError.js"></script>
+	<script src="{{{rootPath}}}js/etc/form/clearFormErrors.js"></script>
+
+    {{> adminUIScripts}}
+</head>
+
+
+<body>
+    <div class="appNoSidebarBodyWrapper">
+        {{> adminTopBar }}
+        
+        <div class="cmsMainContentWrapper">
+            <div class="maxHeight xyCenteredFlex flexDirectionColumn marginLeftRight90 styledText textColorThemeGray">
+                {{{body}}}
+            </div>
+        </div>
+
+        {{> adminFooter isLogin=true}}
+        
+    </div>
+</body>
+
+
+
+
+</html>
