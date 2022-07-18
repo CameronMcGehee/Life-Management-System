@@ -2,21 +2,19 @@
 const express = require('express');
 const router = express.Router();
 
-// DB/Sequelize
-const db = require(__dirname + "/../lib/db.js");
+// Sequelize
 const sequelize = require(__dirname + "/../lib/sequelize.js");
 
 // Misc libraries
-const uuid = require("uuid");
 const moment = require("moment");
+const authTokenManager = require(__dirname + "/../lib/etc/authToken/manager.js");
 
 // Import sequelize models used for these routes
-const authToken = require(__dirname + '/../lib/models/authToken.js')(sequelize);
+// None yet
 
 //Body Parser to parse the JSON requests
 const bodyParser = require('body-parser');
 var jsonParser = bodyParser.json();
-// var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 // If someone goes to the base page of /admin, check if they are logged in. 
 // If they are not, check for a saved login. If there is a saved login then sign it back in and redirect to overview
@@ -38,16 +36,8 @@ router.get('/createaccount', (req, res) => {
     // Get the IP of the request for checking the authToken
     var reqIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
 
-    // Generate createAccountAuthToken
-    authToken.create({
-        "authTokenId": uuid.v4(),
-        "authName": "createAccount",
-        "clientIp": reqIp,
-        "dateTimeAdded": moment().format('YYYY-MM-DD HH:mm:ss')
-    })
-    .then(authToken => {
-        console.log("authToken " + authToken.authTokenId + " Generated");
-        var createAccountAuthToken = authToken.authTokenId;
+    var authToken = authTokenManager.generateAuthToken("adminLogin", reqIp, (authToken) => {
+        console.log(authToken);
 
         res.render('createaccount', {
             layout: 'createaccount',
@@ -58,13 +48,9 @@ router.get('/createaccount', (req, res) => {
             pfpImagePath: '../images/ultiscape/icons/user_male.svg',
             bsImagePath: '../images/ultiscape/etc/noLogo.png',
             showBusinessSelector: false,
-            createAccountAuthToken: createAccountAuthToken
+            createAccountAuthToken: authToken
         });
 
-    })
-    .catch(err => {
-        console.log(err);
-        res.redirect('../');
     });
     
 });
@@ -75,16 +61,8 @@ router.get('/login', (req, res) => {
     // Get the IP of the request for checking the authToken
     var reqIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
 
-    // Generate adminLoginAuthToken
-    authToken.create({
-        "authTokenId": uuid.v4(),
-        "authName": "adminLogin",
-        "clientIp": reqIp,
-        "dateTimeAdded": moment().format('YYYY-MM-DD HH:mm:ss')
-    })
-    .then(authToken => {
-        console.log("authToken " + authToken.authTokenId + " Generated");
-        var adminLoginAuthToken = authToken.authTokenId;
+    var authToken = authTokenManager.generateAuthToken("adminLogin", reqIp, (authToken) => {
+        console.log(authToken);
 
         res.render('login', {
             layout: 'login',
@@ -95,13 +73,9 @@ router.get('/login', (req, res) => {
             pfpImagePath: '../images/ultiscape/icons/user_male.svg',
             bsImagePath: '../images/ultiscape/etc/noLogo.png',
             showBusinessSelector: false,
-            adminLoginAuthToken: adminLoginAuthToken
+            adminLoginAuthToken: authToken
         });
 
-    })
-    .catch(err => {
-        console.log(err);
-        res.redirect('../');
     });
     
 });

@@ -15,21 +15,44 @@ const sequelize = require(__dirname + "/../../lib/sequelize.js");
 // Misc libraries
 const uuid = require("uuid");
 const moment = require("moment");
+const uuidManager = require(__dirname + '/../../lib/etc/uuid/manager.js');
 
 // Import sequelize models used for these routes
-const authToken = require(__dirname + '/../../lib/models/authToken.js')(sequelize);
+const authToken = require(__dirname + '/../../lib/models/authtoken.js')(sequelize);
 const admin = require(__dirname + '/../../lib/models/admin.js')(sequelize);
 
 //Body Parser to parse the JSON requests
 const bodyParser = require('body-parser');
 var jsonParser = bodyParser.json();
-// var urlencodedParser = bodyParser.urlencoded({ extended: false });
+
+function checkUsernameExists(username) {
+    // Check if username or email exists
+    admin.findAll({
+        attributes: ['adminId'],
+        where: sequelize.where(sequelize.fn('lower', sequelize.col('username')), username.toLowerCase())
+    })
+    .then(result => {
+        if (result.length == 1) {
+            errors.push({
+                type: 'username',
+                msg: 'This username is already taken.'
+            });
+            return true;
+        }
+    })
+    .catch(err => {
+        console.log(err);
+        throw new Error(err);
+    });
+    return false;
+}
 
 
 function sendStandardRes(res, errors) {
     var status;
     if (errors.length > 0) {
-        status = 'error'
+        status = 'error';
+        // console.log(errors);
     } else {
         status = 'success';
     }
@@ -38,10 +61,7 @@ function sendStandardRes(res, errors) {
         "status": status,
         "errors": errors
     });
-
-    console.log(errors);
 }
-
 
 router.get('/', (req, res) => {
     console.log("GET Request recieved - Admin: " + req.body);
@@ -50,6 +70,14 @@ router.get('/', (req, res) => {
         "errorMessage":"This is not an endpoint."
     });
 });
+
+// router.get('/test', (req, res) => {
+//     console.log("GET Request recieved (TEST PAGE) - Admin: " + req.body);
+
+//     res.send({
+//         "status": "testing"
+//     });
+// });
 
 router.post('/', jsonParser, (req, res) => {
     console.log("POST Request recieved - Admin: " + req.body);
@@ -67,7 +95,7 @@ router.get('/testfunction', (req, res) => {
     });
 });
 
-router.post('/createaccount', jsonParser, (req, res) => {
+router.post('/createaccount', jsonParser, async (req, res) => {
     console.log("POST Request recieved - Create Account: " + req.body);
 
     var status = '';
@@ -114,76 +142,104 @@ router.post('/createaccount', jsonParser, (req, res) => {
             msg: 'Must be at least 10 characters long.'
         });
     }
-    
+
+    var goOn = true;
+
     // Check if the authToken exists
-    var authTokenSelect = authToken.findAll({
-        attributes: ['authTokenId'],
+    console.log(req.body.authToken);
+    authToken.findOne({
+        attributes: ['authName'],
         where: {
             authTokenId: req.body.authToken,
             clientIp: reqIp
         }
     })
     .then(result => {
-        var goOn = true;
+        console.log("length: " + Object.keys(result).length);
+        console.log(result.dataValues);
         // If there is no authToken with the given ID then send an authToken error
-        if (result.length !== 1) {
+        if (result === null) {
             errors.push({
                 type: 'authToken',
-                msg: 'You are not authorized to execute this action.'
+                msg: 'You\'re not authorized to sign up.'
             });
-            var goOn = false;
+            sendStandardRes(res, errors);
+            goOn = false;
         }
-    })
-    .then(goOn => {
+    }).then(() => {
+        // Check if username is taken
         if (goOn) {
-            // Check if username or email exists
-            var adminUsernameSelect = admin.findOne({
-                attributes: ['adminId'],
-                where: sequelize.where(sequelize.fn('lower', sequelize.col('username')), req.body.username.toLowerCase())
-            })
-            .then(result => {
-                if (result.length == 1) {
-                    errors.push({
-                        type: 'username',
-                        msg: 'This username is already taken.'
-                    });
-                }
-            })
-            .then(goOn => {
-                sendStandardRes(res, errors);
-            })
-            .catch(err => {
+            try {
+                var usernameExistsCheck = checkUsernameExists(req.body.username);
+            } catch (err) {
                 console.log(err);
-
                 errors.push({
-                    type: 'general',
-                    msg: 'An error occurred while checking username availability.'
+                    type: 'username',
+                    msg: 'Something\'s wrong with this username. Try another.'
                 });
-
                 sendStandardRes(res, errors);
-
-            });
+                goOn = false;
+            }
+            if (usernameExistsCheck) {
+                errors.push({
+                    type: 'username',
+                    msg: 'This username is already taken.'
+                });
+                sendStandardRes(res, errors);
+                goOn = false;
+            }
         } else {
             sendStandardRes(res, errors);
+            goOn = false;
+        }
+    }).then(() => {
+        if (errors.length == 0 && goOn) {
+            // Create user
+            try {
+                uuidManager.getNewUuid('admin', (result) => {
+                    var newAdminId = result;
+                    admin.create({
+                        adminId: newAdminId,
+                        username: req.body.username,
+                        password: hashedPassword, // Need to get hashed password from somewhere
+                        email: req.body.email,
+                        profilePicture: null,
+                        allowSignIn: 1,
+                        dateTimeJoined: moment().format('YYYY-MM-DD HH:mm:ss'),
+                        dateTimeLeft: null,
+                        firstName: req.body.firstName,
+                        lastName: req.body.lastName
+                    })
+                    .then((err) => {
+                        sendStandardRes(res, errors);
+                        goOn = false;
+                    })
+                    .catch(err => {
+                        errors.push({
+                            type: 'general',
+                            msg: 'An unknown error occurred (here).'
+                        });
+                        sendStandardRes(res, errors);
+                        goOn = false;
+                    });
+                });
+            } catch (err) {
+                console.log(err);
+            }
+        } else {
+            sendStandardRes(res, errors);
+            goOn = false;
         }
     })
-    .catch(err => {
-        // If there is an error executing the query then send an unknown error
-        console.log(err);
-
+    .catch(msg => {
+        console.log("authToken db error: " + msg);
         errors.push({
             type: 'general',
-            msg: 'An error occurred while checking username availability.'
+            msg: 'An unknown error occurred.'
         });
-
         sendStandardRes(res, errors);
-
-        console.log(errors);
-
+        goOn = false;
     });
-
-    // Check if userName or email exists
-    
     
 });
 

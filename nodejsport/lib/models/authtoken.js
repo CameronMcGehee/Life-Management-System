@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes = Sequelize.DataTypes) {
   return sequelize.define('authtoken', {
     authTokenId: {
-      type: DataTypes.STRING(17),
+      type: DataTypes.STRING(37),
       allowNull: false,
       primaryKey: true
     },

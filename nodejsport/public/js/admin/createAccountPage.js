@@ -8,6 +8,8 @@ $(document).ready(function() {
         
         $('.loadingGif').fadeIn(100);
 
+        console.log("Fetching...");
+
         fetch("../../api/admin/createaccount", {
             method: 'POST',
             headers: {
