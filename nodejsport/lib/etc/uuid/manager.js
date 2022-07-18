@@ -8,7 +8,7 @@ const moment = require("moment");
 // Import sequelize models used for these functions
 var table = require(__dirname + '/../../models/authToken.js')(sequelize);
 
-async function getNewUuid(type, callback) {
+async function getNewUuid(type) {
     var obj = require(__dirname + '/../../models/' + type + '.js')(sequelize);
 
     var matchFound = false;
@@ -28,7 +28,6 @@ async function getNewUuid(type, callback) {
         })
         .then(result => {
             if (result === null) {
-                callback(currentId);
                 matchFound = true;
             }
         })
@@ -36,6 +35,10 @@ async function getNewUuid(type, callback) {
             console.log(err);
             throw new Error(err);
         });
+    }
+
+    while (matchFound) {
+        return currentId;
     }
 }
 

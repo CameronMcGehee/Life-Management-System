@@ -16,6 +16,7 @@ const sequelize = require(__dirname + "/../../lib/sequelize.js");
 const uuid = require("uuid");
 const moment = require("moment");
 const uuidManager = require(__dirname + '/../../lib/etc/uuid/manager.js');
+const passwordManager = require(__dirname + '/../../lib/etc/password/manager.js');
 
 // Import sequelize models used for these routes
 const authToken = require(__dirname + '/../../lib/models/authtoken.js')(sequelize);
@@ -77,6 +78,16 @@ router.get('/', (req, res) => {
 //     res.send({
 //         "status": "testing"
 //     });
+
+//     authToken.findOne({
+//         attributes: ['authTokenId'],
+//         where: {
+            
+//         }
+//     })
+//     .then(result => {
+//         console.log(result);
+//     })
 // });
 
 router.post('/', jsonParser, (req, res) => {
@@ -95,7 +106,7 @@ router.get('/testfunction', (req, res) => {
     });
 });
 
-router.post('/createaccount', jsonParser, async (req, res) => {
+router.post('/createaccount', jsonParser, (req, res) => {
     console.log("POST Request recieved - Create Account: " + req.body);
 
     var status = '';
@@ -147,16 +158,17 @@ router.post('/createaccount', jsonParser, async (req, res) => {
 
     // Check if the authToken exists
     console.log(req.body.authToken);
-    authToken.findOne({
-        attributes: ['authName'],
+    authToken.findAll({
+        attributes: ['authTokenId'],
         where: {
             authTokenId: req.body.authToken,
-            clientIp: reqIp
+            clientIp: reqIp,
+            authName: 'adminLogin'
         }
     })
     .then(result => {
-        console.log("length: " + Object.keys(result).length);
-        console.log(result.dataValues);
+        // console.log("length: " + Object.keys(result).length);
+        console.log("RESULT: " + result);
         // If there is no authToken with the given ID then send an authToken error
         if (result === null) {
             errors.push({
@@ -195,50 +207,51 @@ router.post('/createaccount', jsonParser, async (req, res) => {
     }).then(() => {
         if (errors.length == 0 && goOn) {
             // Create user
-            try {
-                uuidManager.getNewUuid('admin', (result) => {
-                    var newAdminId = result;
-                    admin.create({
-                        adminId: newAdminId,
-                        username: req.body.username,
-                        password: hashedPassword, // Need to get hashed password from somewhere
-                        email: req.body.email,
-                        profilePicture: null,
-                        allowSignIn: 1,
-                        dateTimeJoined: moment().format('YYYY-MM-DD HH:mm:ss'),
-                        dateTimeLeft: null,
-                        firstName: req.body.firstName,
-                        lastName: req.body.lastName
-                    })
-                    .then((err) => {
-                        sendStandardRes(res, errors);
-                        goOn = false;
-                    })
-                    .catch(err => {
-                        errors.push({
-                            type: 'general',
-                            msg: 'An unknown error occurred (here).'
-                        });
-                        sendStandardRes(res, errors);
-                        goOn = false;
+            (async () => {
+                var newAdminId = await uuidManager.getNewUuid('admin');
+                var hashedPassword = await passwordManager.encrypt(req.body.password);
+
+                admin.create({
+                    adminId: newAdminId,
+                    username: req.body.username,
+                    password: hashedPassword,
+                    email: req.body.email,
+                    profilePicture: null,
+                    allowSignIn: 1,
+                    dateTimeJoined: moment().format('YYYY-MM-DD HH:mm:ss'),
+                    dateTimeLeft: null,
+                    firstName: req.body.firstName,
+                    lastName: req.body.lastName
+                })
+                .then((err) => {
+                    sendStandardRes(res, errors);
+                    goOn = false;
+                })
+                .catch(err => {
+                    console.log(err);
+                    errors.push({
+                        type: 'general',
+                        msg: 'An unknown error occurred (here).'
                     });
+                    sendStandardRes(res, errors);
+                    goOn = false;
                 });
-            } catch (err) {
-                console.log(err);
-            }
+            })();
         } else {
             sendStandardRes(res, errors);
             goOn = false;
         }
     })
     .catch(msg => {
-        console.log("authToken db error: " + msg);
-        errors.push({
-            type: 'general',
-            msg: 'An unknown error occurred.'
-        });
-        sendStandardRes(res, errors);
-        goOn = false;
+        if (goOn) {
+            console.log("authToken db error: " + msg);
+            errors.push({
+                type: 'general',
+                msg: 'An unknown error occurred.'
+            });
+            sendStandardRes(res, errors);
+            goOn = false;
+        }
     });
     
 });
