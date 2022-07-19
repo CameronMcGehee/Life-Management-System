@@ -36,22 +36,24 @@ router.get('/createaccount', (req, res) => {
     // Get the IP of the request for checking the authToken
     var reqIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
 
-    var authToken = authTokenManager.generateAuthToken("adminLogin", reqIp, (authToken) => {
-        console.log(authToken);
-
-        res.render('createaccount', {
-            layout: 'createaccount',
-            rootPath: '../',
-            title: "Create an UltiScape Account",
-            showLogo: true,
-            showProfileButton: false,
-            pfpImagePath: '../images/ultiscape/icons/user_male.svg',
-            bsImagePath: '../images/ultiscape/etc/noLogo.png',
-            showBusinessSelector: false,
-            createAccountAuthToken: authToken
-        });
-
-    });
+    (async () => {
+        try {
+            var authToken = await authTokenManager.generate("createAccount", reqIp);
+            res.render('createaccount', {
+                layout: 'createaccount',
+                rootPath: '../',
+                title: "Create an UltiScape Account",
+                showLogo: true,
+                showProfileButton: false,
+                pfpImagePath: '../images/ultiscape/icons/user_male.svg',
+                bsImagePath: '../images/ultiscape/etc/noLogo.png',
+                showBusinessSelector: false,
+                createAccountAuthToken: authToken
+            });
+        } catch (err) {
+            res.send("This page could not be rendered due to an error.");
+        }
+    })();
     
 });
 
@@ -61,22 +63,24 @@ router.get('/login', (req, res) => {
     // Get the IP of the request for checking the authToken
     var reqIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
 
-    var authToken = authTokenManager.generateAuthToken("adminLogin", reqIp, (authToken) => {
-        console.log(authToken);
-
-        res.render('login', {
-            layout: 'login',
-            rootPath: '../',
-            title: "UltiScape Login",
-            showLogo: true,
-            showProfileButton: false,
-            pfpImagePath: '../images/ultiscape/icons/user_male.svg',
-            bsImagePath: '../images/ultiscape/etc/noLogo.png',
-            showBusinessSelector: false,
-            adminLoginAuthToken: authToken
-        });
-
-    });
+    (async () => {
+        try {
+            var authToken = await authTokenManager.generate("adminLogin", reqIp);
+            res.render('login', {
+                layout: 'login',
+                rootPath: '../',
+                title: "UltiScape Login",
+                showLogo: true,
+                showProfileButton: false,
+                pfpImagePath: '../images/ultiscape/icons/user_male.svg',
+                bsImagePath: '../images/ultiscape/etc/noLogo.png',
+                showBusinessSelector: false,
+                adminLoginAuthToken: authToken
+            });
+        } catch (err) {
+            res.send("This page could not be rendered due to an error.");
+        }
+    })();
     
 });
 

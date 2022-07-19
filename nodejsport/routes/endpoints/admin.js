@@ -15,6 +15,7 @@ const sequelize = require(__dirname + "/../../lib/sequelize.js");
 // Misc libraries
 const uuid = require("uuid");
 const moment = require("moment");
+const authTokenManager = require(__dirname + '/../../lib/etc/authToken/manager.js');
 const uuidManager = require(__dirname + '/../../lib/etc/uuid/manager.js');
 const passwordManager = require(__dirname + '/../../lib/etc/password/manager.js');
 
@@ -26,28 +27,25 @@ const admin = require(__dirname + '/../../lib/models/admin.js')(sequelize);
 const bodyParser = require('body-parser');
 var jsonParser = bodyParser.json();
 
-function checkUsernameExists(username) {
+async function checkUsernameExists(username) {
+    var usernameFound = false;
     // Check if username or email exists
-    admin.findAll({
+    await admin.findOne({
         attributes: ['adminId'],
         where: sequelize.where(sequelize.fn('lower', sequelize.col('username')), username.toLowerCase())
     })
     .then(result => {
-        if (result.length == 1) {
-            errors.push({
-                type: 'username',
-                msg: 'This username is already taken.'
-            });
-            return true;
+        console.log(result);
+        if (result !== null) {
+            usernameFound = true;
         }
     })
     .catch(err => {
         console.log(err);
         throw new Error(err);
     });
-    return false;
+    return usernameFound;
 }
-
 
 function sendStandardRes(res, errors) {
     var status;
@@ -157,57 +155,34 @@ router.post('/createaccount', jsonParser, (req, res) => {
     var goOn = true;
 
     // Check if the authToken exists
-    console.log(req.body.authToken);
-    authToken.findAll({
-        attributes: ['authTokenId'],
-        where: {
-            authTokenId: req.body.authToken,
-            clientIp: reqIp,
-            authName: 'adminLogin'
-        }
-    })
-    .then(result => {
-        // console.log("length: " + Object.keys(result).length);
-        console.log("RESULT: " + result);
-        // If there is no authToken with the given ID then send an authToken error
-        if (result === null) {
-            errors.push({
-                type: 'authToken',
-                msg: 'You\'re not authorized to sign up.'
-            });
-            sendStandardRes(res, errors);
-            goOn = false;
-        }
-    }).then(() => {
-        // Check if username is taken
-        if (goOn) {
-            try {
-                var usernameExistsCheck = checkUsernameExists(req.body.username);
-            } catch (err) {
-                console.log(err);
+
+    (async () => {
+        try {
+            if (!await authTokenManager.verify(req.body.authToken, "createAccount", reqIp)) {
                 errors.push({
-                    type: 'username',
-                    msg: 'Something\'s wrong with this username. Try another.'
+                    type: 'authToken',
+                    msg: 'You\'re not authorized to sign up.'
                 });
                 sendStandardRes(res, errors);
                 goOn = false;
             }
-            if (usernameExistsCheck) {
-                errors.push({
-                    type: 'username',
-                    msg: 'This username is already taken.'
-                });
-                sendStandardRes(res, errors);
-                goOn = false;
+
+            if (goOn) {
+                // Check if username exists
+                var usernameExists = await checkUsernameExists(req.body.username);
+                console.log(usernameExists);
+                if (usernameExists) {
+                    errors.push({
+                        type: 'username',
+                        msg: 'This username is already taken.'
+                    });
+                    sendStandardRes(res, errors);
+                    goOn = false;
+                }
             }
-        } else {
-            sendStandardRes(res, errors);
-            goOn = false;
-        }
-    }).then(() => {
-        if (errors.length == 0 && goOn) {
-            // Create user
-            (async () => {
+
+            if (errors.length == 0 && goOn) {
+                // Create user
                 var newAdminId = await uuidManager.getNewUuid('admin');
                 var hashedPassword = await passwordManager.encrypt(req.body.password);
 
@@ -231,28 +206,23 @@ router.post('/createaccount', jsonParser, (req, res) => {
                     console.log(err);
                     errors.push({
                         type: 'general',
-                        msg: 'An unknown error occurred (here).'
+                        msg: 'An unknown error occurred.'
                     });
                     sendStandardRes(res, errors);
                     goOn = false;
                 });
-            })();
-        } else {
-            sendStandardRes(res, errors);
-            goOn = false;
-        }
-    })
-    .catch(msg => {
-        if (goOn) {
-            console.log("authToken db error: " + msg);
+            } else {
+                sendStandardRes(res, errors);
+            }
+        } catch (err) {
+            console.log(err);
             errors.push({
                 type: 'general',
-                msg: 'An unknown error occurred.'
+                msg: 'An unknown error occurred and this request could not be fulfilled.'
             });
             sendStandardRes(res, errors);
-            goOn = false;
         }
-    });
+    })();
     
 });
 
