@@ -1,6 +1,9 @@
 const express = require('express');
+const app = express();
+
 const exphbs = require('express-handlebars');
 const dotenv = require('dotenv');
+const fs = require("fs");
 
 const path = require("path");
 
@@ -13,7 +16,9 @@ dotenv.config({path: './config/config.env'});
 const db = require('./lib/db.js');
 const sequelize = require('./lib/sequelize.js');
 
-const app = express();
+// Session
+const session = require('express-session');
+app.use(session( JSON.parse(fs.readFileSync(__dirname + "/config/session.json", "utf8")) ));
 
 // Handlebars
 app.engine('.hbs', exphbs.engine({defaultLayout: 'main', extname: '.hbs', partialsDir: __dirname + '/views/partials/'}));

@@ -5,17 +5,16 @@ const router = express.Router();
 // Passport
 const passport = require('passport');
 
-// Session
-const session = require('express-session');
-
 // DB/Sequelize
 const db = require(__dirname + "/../../lib/db.js");
 const sequelize = require(__dirname + "/../../lib/sequelize.js");
+const { Op } = require("sequelize");
 
 // Misc libraries
 const uuid = require("uuid");
 const moment = require("moment");
 const authTokenManager = require(__dirname + '/../../lib/etc/authToken/manager.js');
+const adminManager = require(__dirname + '/../../lib/etc/admin/manager.js');
 const uuidManager = require(__dirname + '/../../lib/etc/uuid/manager.js');
 const passwordManager = require(__dirname + '/../../lib/etc/password/manager.js');
 
@@ -227,36 +226,105 @@ router.post('/createaccount', jsonParser, (req, res) => {
 });
 
 router.post('/login', jsonParser, (req, res) => {
-    console.log("POST Request recieved - Admin Login: " + req.body);
-    
-    var status = '';
     var errors = [];
+    var goOn = true;
+    var adminsFound = [];
+    var matchedAdminIn;
+    console.log("POST Request recieved - Admin Login: " + req.body);
+
+    // username/email check
+    if (!req.body.usernameEmail || typeof req.body.usernameEmail == 'undefined' || req.body.usernameEmail.length < 5) {
+        errors.push({
+            type: 'username',
+            msg: 'An admin with this information does not exist.'
+        });
+    }
+
+    // password check
+    if (!req.body.password || typeof req.body.password == 'undefined' || req.body.password.length < 10) {
+        errors.push({
+            type: 'password',
+            msg: 'No match could be found.'
+        });
+    }
 
     var reqIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
-    
-    // Check if the authToken exists
-    var authTokenSelect = authToken.findAll({
-        attributes: ['authTokenId'],
-        where: {
-            authTokenId: req.body.authToken,
-            clientIp: reqIp
-        }
-    })
-    .then(result => {
-        if (result.length !== 1) {
-            errors.push({
-                type: 'authToken',
-                msg: 'You are not authorized to execute this action.'
-            });
-        }
 
+    try {
+        (async () => {
+            // Check if the authToken exists
+            if (!await authTokenManager.verify(req.body.authToken, "adminLogin", reqIp)) {
+                errors.push({
+                    type: 'authToken',
+                    msg: 'You\'re not authorized to log in.'
+                });
+                sendStandardRes(res, errors);
+                goOn = false;
+            }
+
+            // Get all users that have the username or email and
+            if (goOn && errors.length < 1) {
+                adminsFound = await adminManager.getWhere(
+                    ['adminId', 'password'], 
+                    {
+                    [Op.or]: [
+                        {username: req.body.usernameEmail},
+                        {email: req.body.usernameEmail}
+                    ]
+                });
+
+                if (adminsFound === null || adminsFound.length !== 1) {
+                    errors.push({
+                        type: 'usernameEmail',
+                        msg: 'An admin with this information does not exist.'
+                    });
+                    sendStandardRes(res, errors);
+                    goOn = false;
+                }
+
+                // Check if the hashed password of the admin that was found matches the given password
+                if (goOn) {
+                    if (!await passwordManager.verify(adminsFound[0].password, req.body.password)) {
+                        errors.push({
+                            type: 'password',
+                            msg: 'Password does not match.'
+                        });
+                        sendStandardRes(res, errors);
+                        goOn = false;
+                    }
+                }
+
+                // Log in the user
+                if (goOn) {
+                    // Init the admin session object
+                    req.session.admin = {
+                        adminId: adminsFound[0].adminId,
+                        logInTime: 'now'
+                    }
+                    // Redirect to overview
+                    sendStandardRes(res, errors);
+                    console.log(req.body.usernameEmail + " logged in.");
+                }
+            } else {
+                sendStandardRes(res, errors);
+                goOn = false;
+            }
+
+            // Check if the password matches the found user
+            if (goOn) {
+
+            }
+
+            // Check if password matches the selected user in db
+        })();
+    } catch (err) {
+        console.log(err);
+        errors.push({
+            type: 'general',
+            msg: 'An unknown error occurred and this request could not be fulfilled.'
+        });
         sendStandardRes(res, errors);
-    });
-
-    // Check if userName or email exists
-
-    // Check if password matches the selected user in db
-    
+    }
     
 });
 

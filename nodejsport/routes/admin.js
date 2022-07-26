@@ -1,13 +1,16 @@
 // Express and routing
 const express = require('express');
+const app = express();
 const router = express.Router();
 
 // Sequelize
 const sequelize = require(__dirname + "/../lib/sequelize.js");
 
 // Misc libraries
+const fs = require("fs");
 const moment = require("moment");
 const authTokenManager = require(__dirname + "/../lib/etc/authToken/manager.js");
+const adminManager = require(__dirname + "/../lib/etc/admin/manager.js");
 
 // Import sequelize models used for these routes
 // None yet
@@ -63,7 +66,7 @@ router.get('/login', (req, res) => {
     // Get the IP of the request for checking the authToken
     var reqIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
 
-    (async () => {
+    const renderPage = async () => {
         try {
             var authToken = await authTokenManager.generate("adminLogin", reqIp);
             res.render('login', {
@@ -80,8 +83,23 @@ router.get('/login', (req, res) => {
         } catch (err) {
             res.send("This page could not be rendered due to an error.");
         }
+    };
+
+    // If an admin is already logged in and it's a valid account, redirect to the overview page
+    // Otherwise clear any existing admin details in the session and render the login page
+
+    (async () => {
+        // Check if session contains valid adminId
+        if (req.session.admin) {
+            if (await adminManager.exists(req.session.admin.adminId)) {
+                // Redirect to overview page
+                res.redirect('/admin/overview');
+            }
+        } else {
+            renderPage();
+        }
     })();
-    
+
 });
 
 router.get('/overview', (req, res) => {
