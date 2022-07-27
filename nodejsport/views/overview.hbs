@@ -1,1 +1,32 @@
-<h1>This is the overview view.</h1>
+<div class="maxHeight styledText textColorThemeGray">
+    <div style="margin-left: 2em; margin-right: 2em;">
+
+        <h2>Overview of <span style="font-size: .8em;">{{{businessName}}}</span></h2>
+        <p>A quick glance at your business.</p>
+    </div>
+
+    <br><hr>
+
+        <div class="twoColPage-Content-Info">
+            <div id="twoColContentWrapper" class="paddingLeftRight90">
+                <p>Content...</p>
+            </div>
+
+            <div id="twoColInfoWrapper" class="paddingLeftRight90">
+            
+                <h2>Newest Customers</h2>
+                {{> adminCustomerTable}}
+
+                <br><hr><br>
+
+                <h3 style="color: var(--grayTextColorTheme);">Other Links</h3>
+
+                <br>
+
+                <a style="color: var(--grayTextColorTheme); display: inline-block;" href="#">Export (coming soon)</a>
+
+            </div>
+        </div>
+        
+    <br>
+</div>

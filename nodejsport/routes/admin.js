@@ -109,17 +109,15 @@ router.get('/overview', (req, res) => {
 
     const renderPage = async () => {
         try {
-            var authToken = await authTokenManager.generate("adminLogin", reqIp);
             res.render('overview', {
-                layout: 'overview',
+                layout: 'adminAppMain',
                 rootPath: '../',
-                title: "UltiScape Login",
+                title: "Overview",
                 showLogo: true,
-                showProfileButton: false,
+                showProfileButton: true,
                 pfpImagePath: '../images/ultiscape/icons/user_male.svg',
                 bsImagePath: '../images/ultiscape/etc/noLogo.png',
-                showBusinessSelector: false,
-                adminLoginAuthToken: authToken
+                showBusinessSelector: true
             });
         } catch (err) {
             res.send("This page could not be rendered due to an error.");
@@ -132,17 +130,13 @@ router.get('/overview', (req, res) => {
     (async () => {
         // Check if session contains valid adminId
         if (req.session.admin) {
-            if (await adminManager.exists(req.session.admin.adminId)) {
-                // Redirect to overview page
-                res.redirect('/admin/overview');
-            }
+            renderPage();            
         } else {
-            renderPage();
+            // Redirect to login page
+            res.redirect('/admin/login');
         }
     })();
 
-
-    res.render('overview');
 });
 
 module.exports = router;
