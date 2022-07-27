@@ -43,7 +43,7 @@ router.get('/createaccount', (req, res) => {
         try {
             var authToken = await authTokenManager.generate("createAccount", reqIp);
             res.render('createaccount', {
-                layout: 'createaccount',
+                layout: 'adminAccountInit',
                 rootPath: '../',
                 title: "Create an UltiScape Account",
                 showLogo: true,
@@ -70,7 +70,7 @@ router.get('/login', (req, res) => {
         try {
             var authToken = await authTokenManager.generate("adminLogin", reqIp);
             res.render('login', {
-                layout: 'login',
+                layout: 'adminAccountInit',
                 rootPath: '../',
                 title: "UltiScape Login",
                 showLogo: true,
@@ -103,6 +103,45 @@ router.get('/login', (req, res) => {
 });
 
 router.get('/overview', (req, res) => {
+
+    // Get the IP of the request for checking the authToken
+    var reqIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+
+    const renderPage = async () => {
+        try {
+            var authToken = await authTokenManager.generate("adminLogin", reqIp);
+            res.render('overview', {
+                layout: 'overview',
+                rootPath: '../',
+                title: "UltiScape Login",
+                showLogo: true,
+                showProfileButton: false,
+                pfpImagePath: '../images/ultiscape/icons/user_male.svg',
+                bsImagePath: '../images/ultiscape/etc/noLogo.png',
+                showBusinessSelector: false,
+                adminLoginAuthToken: authToken
+            });
+        } catch (err) {
+            res.send("This page could not be rendered due to an error.");
+        }
+    };
+
+    // If an admin is already logged in and it's a valid account, redirect to the overview page
+    // Otherwise clear any existing admin details in the session and render the login page
+
+    (async () => {
+        // Check if session contains valid adminId
+        if (req.session.admin) {
+            if (await adminManager.exists(req.session.admin.adminId)) {
+                // Redirect to overview page
+                res.redirect('/admin/overview');
+            }
+        } else {
+            renderPage();
+        }
+    })();
+
+
     res.render('overview');
 });
 
