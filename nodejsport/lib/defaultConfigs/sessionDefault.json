@@ -1,0 +1,8 @@
+{
+    "secret": "changeThis",
+    "cookie": {
+        "maxAge": 2629800000
+    },
+    "saveUninitialized": false,
+    "resave": false
+}
