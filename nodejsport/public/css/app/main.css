@@ -30,6 +30,7 @@
 
 :root {
 	--utliscapeColorTheme: #65B200;
+	--utliscapeColorThemeTrans: rgba(101, 178, 0, .8);
 	--customersColorTheme: #199D00;
 	--communicationsColorTheme: #b14646;
 	--jobsColorTheme: #008BC9;
@@ -734,6 +735,48 @@ a.noUnderline {
 
 /*-----------------------------------------------------------------------------------------------------------------------------*/
 /*-----------------------------------------------------------------------------------------------------------------------------*/
+/* Menus/Menu Nav */
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+
+.menuTabSelector {
+	display: flex;
+	flex-direction: row;
+
+	width: max-content;
+	max-width: 90%;
+}
+
+.menuTabSelector div {
+	cursor: pointer;
+
+	background-color:rgb(217, 217, 217);
+
+	align-items: center;
+	justify-content: center;
+	padding: 1em;
+
+	/* border-top: 1px solid gray;
+	border-bottom: 1px solid gray;
+	border-right: 1px solid gray; */
+}
+
+.menuTabSelector div:first-child {
+	/* border-left: 1px solid gray; */
+
+	border-radius: .5em 0em 0em .5em;
+}
+
+.menuTabSelector div:last-child {
+	border-radius: 0em .5em .5em 0em;
+}
+
+.menuTabSelector div.selected {
+	background-color:rgb(125, 227, 94);
+}
+
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
 /* Overlays */
 /*-----------------------------------------------------------------------------------------------------------------------------*/
 /*-----------------------------------------------------------------------------------------------------------------------------*/
@@ -892,7 +935,6 @@ a.noUnderline {
 .defaultInputGroup {
 	/* border: 1px solid green; */
 	padding: 1em;
-	width: 93%;
 	/* border: 1px solid #ccc; */
 	border-radius: .3em;
 	/* box-shadow: -1px 2px 16px 0px rgba(0,0,0,0.15); */
@@ -1137,7 +1179,8 @@ html, body {
 /*-----------------------------------------------------------------------------------------------------------------------------*/
 
 .adminTopBarWrapper {
-	background-color: var(--utliscapeColorTheme);
+	background-color: var(--utliscapeColorThemeTrans);
+
 	grid-area: topBar;
 
 	display: grid;
@@ -1147,6 +1190,9 @@ html, body {
 	grid-template-areas: "ultiscapeLogo blank businessSelector profileButton";
 
 	padding: .1em;
+	z-index: 99999;
+
+	backdrop-filter: blur(10px);
 }
 
 .adminTopBarWrapper #ultiscapeLogoWrapper {
@@ -1596,6 +1642,12 @@ html, body {
 	background-color: white;
 	grid-area: mainContent;
 	overflow: auto;
+
+	/* Make the content show through the top bar for the transparent blury effect thing*/
+	position: relative;
+	top: -4em;
+	height: 100%;
+	padding-top: 4em;
 }
 
 /*-----------------------------------------------------------------------------------------------------------------------------*/
