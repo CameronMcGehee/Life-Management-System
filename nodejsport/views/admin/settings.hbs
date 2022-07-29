@@ -1,0 +1,324 @@
+<!-- Will turn this into a partial eventually -->
+
+<div class="marginLeftRight90">
+    <h1 style="margin-top: .5em;">Settings <img id="loadingGif" style="display: none; height: .8em;" src="../../images/ultiscape/etc/loading.gif" class="loadingGif"></h1>
+
+    <div class="menuTabSelector centered" id="settingsTabs" style="">
+        <div id="businessTab" class="selected">Business</div>
+        <div id="yourProfileTab">Your Profile</div>
+    </div>
+</div>
+
+
+<div id="businessSettings">
+
+    <form class="defaultForm maxHeight" action="./" method="POST" id="editBusinessForm">
+
+        <div class="marginLeftRight90">
+            <h3>General Info</h3>
+            <div class="defaultInputGroup">
+
+                <label for="displayName"><p>Business Name <span style="color: rgb(167, 0, 0);">*</span></p></label>
+                <input class="bigInput" type="text" name="displayName" id="displayName" placeholder="Business name..." style="width: 70%;" required value="{{{displayName}}}">
+                <span id="displayNameError" class="underInputError" style="display: none;"><br>Business name bust be between <?php echo $ULTISCAPECONFIG['businessNameMinLength']; ?> and <?php echo $ULTISCAPECONFIG['businessNameMaxLength']; ?> characters.</span>
+                <br><br>
+
+                <label for="adminDisplayName"><p>Internal Display Name (What you see in Ultiscape)</p></label>
+                <input class="defaultInput" type="text" name="adminDisplayName" id="adminDisplayName" placeholder="Internal display name..." value="{{{adminDisplayName}}}">
+                <span id="adminDisplayNameError" class="underInputError" style="display: none;"><br>Business name bust be between <?php echo $ULTISCAPECONFIG['businessNameMinLength']; ?> and <?php echo $ULTISCAPECONFIG['businessNameMaxLength']; ?> characters.</span>
+                <!-- <br><br><br> -->
+
+                <!-- <div style="border: 1px solid gray; padding: 1em; width: 90%; max-width: 25em; height: 5em;">
+                    <img src="<?php // if ($currentBusiness->fullLogoFile === NULL) {echo "../../images/ultiscape/etc/noLogo.png";} else echo "../../images/ultiscape/uploads/businessFullLogoFile/".htmlspecialchars($currentBusiness->fullLogoFile}}}" style="height: 100%; float: left;">
+                    
+                    <input class="defaultInput" type="checkbox" name="useNewLogo" id="useNewLogo"><label for="useNewLogo"> <p style="display: inline; clear: both;">Upload a new logo</p></label>
+                    <br><br>
+
+                    <label for="fullLogoFile" style="clear: both;"><p>Logo File</p></label>
+                    <input type="file" name="fullLogoFile" id="fullLogoFile" style="clear: both;">
+                    <span id="fullLogoFileError" class="underInputError" style="display: none;"><br>There was an error uploading this logo file.</span>
+                </div> -->
+
+                <br><br>
+
+                <div class="twoCol">
+
+                    <div>
+                        <label for="address1"><p>Address Line 1</p></label>
+                        <input class="defaultInput" type="text" name="address1" id="address1" placeholder="Address Line 1..." style="width: 90%" value="{{{address1}}}">
+                        <span id="address1Error" class="underInputError" style="display: none;"><br>Input a valid address.</span>
+                        <br><br>
+
+                        <label for="address2"><p>Address Line 2</p></label>
+                        <input class="defaultInput" type="text" name="address2" id="address2" placeholder="" style="width: 90%" value="{{{address2}}}">
+                        <span id="address2Error" class="underInputError" style="display: none;"><br>Input a valid address.</span>
+                        <br><br>
+                    </div>
+
+                    <div>
+                        <label for="city"><p>City</p></label>
+                        <input class="defaultInput" type="text" name="city" id="city" placeholder="City..." style="width: 90%" value="{{{city}}}">
+                        <span id="cityError" class="underInputError" style="display: none;"><br>Input a valid city.</span>
+                        <br><br>
+
+                        <div class="twoCol">
+                            <div>
+                                <label for="state"><p>State</p></label>
+                                <input class="defaultInput" type="text" name="state" id="state" placeholder="State..." style="width: 90%" value="{{{state}}}">
+                                <span id="stateError" class="underInputError" style="display: none;"><br>Input a valid state.</span>
+                            </div>
+
+                            <div>
+                                <label for="zipCode"><p>Zip Code</p></label>
+                                <input class="defaultInput" type="number" name="zipCode" id="zipCode" placeholder="Zip code..." style="width: 90%" value="{{{zipCode}}}">
+                                <span id="zipCodeError" class="underInputError" style="display: none;"><br>Input a number.</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+
+                <br>
+
+                <label for="phone1"><p>Phone Number</p></label>
+                <div class="fourColCompact">
+                    <div>
+                        <input class="defaultInput" type="text" name="phonePrefix" id="phonePrefix" placeholder="+1" value="{{{phonePrefix}}}" style="width: 1.5em;">
+                        <span id="phonePrefixError" class="underInputError" style="display: none;"><br>Input a number.</span>
+                    </div>
+
+                    <div>
+                        <input class="defaultInput" type="text" name="phone1" id="phone1" placeholder="555" value="{{{phone1}}}" style="width: 3em;">
+                        <span id="phone1Error" class="underInputError" style="display: none;"><br>Input a number.</span>
+                    </div>
+
+                    <div>
+                        <input class="defaultInput" type="text" name="phone2" id="phone2" placeholder="555" value="{{{phone2}}}" style="width: 3em;">
+                        <span id="phone2Error" class="underInputError" style="display: none;"><br>Input a number.</span>
+                    </div>
+
+                    <div>
+                        <input class="defaultInput" type="text" name="phone3" id="phone3" placeholder="5555" value="{{{phone3}}}" style="width: 3em;">
+                        <span id="phone3Error" class="underInputError" style="display: none;"><br>Input a number.</span>
+                    </div>
+                </div>
+
+                <br><br>
+
+                <label for="timeZone"><p>Time Zone</p></label>
+
+                <!--Timezone selector-->
+
+                {{> timezoneSelect}}
+
+            </div>
+            
+            <br><br>
+
+            <h3>Units</h3>
+            <div class="defaultInputGroup">
+                <div class="threeCol">
+                    <div>
+                        <label for="currencySymbol"><p>Currency Symbol</p></label>
+                        <input class="defaultInput" type="text" name="currencySymbol" id="currencySymbol" placeholder="$" value="{{{currencySymbol}}}" style="width: 1em;">
+                        <span id="currencySymbolError" class="underInputError" style="display: none;"><br>Must be 1 character.</span>
+                    </div>
+
+                    <div>
+                        <label for="areaSymbol"><p>Area Unit (²)</p></label>
+                        <input class="defaultInput" type="text" name="areaSymbol" id="areaSymbol" placeholder="ft" value="{{{areaSymbol}}}" style="width: 2em;">
+                        <span id="areaSymbolError" class="underInputError" style="display: none;"><br>Must be 1-4 characters.</span>
+                    </div>
+
+                    <div>
+                        <label for="distanceSymbol"><p>Travel Distance Unit</p></label>
+                        <input class="defaultInput" type="text" name="distanceSymbol" id="distanceSymbol" placeholder="mi" value="{{{distanceSymbol}}}" style="width: 2em;">
+                        <span id="distanceSymbolError" class="underInputError" style="display: none;"><br>Must be 1-4 characters.</span>
+                    </div>
+                </div>
+            </div>
+
+            <br><br>
+
+            <h3>Customers</h3>
+            <div class="defaultInputGroup">
+                <div class="twoCol">
+                    <div>
+                        <input class="defaultInput" type="checkbox" name="creditAlertIsEnabled" id="creditAlertIsEnabled" {{#if creditAlertIsEnabled}} checked="checked" {{/if}}><label for="creditAlertIsEnabled"> <p style="display: inline; clear: both;">Alert Customer when credit is less than or equal to</p></label>
+                        <br>
+                        <input class="defaultInput" type="number" name="creditAlertAmount" id="creditAlertAmount" placeholder="$100" min="0.00" step="0.01" value="{{{creditAlertAmount}}}" style="width: 5em;">
+                        <span id="creditAlertAmountError" class="underInputError" style="display: none;"><br>Input a number.</span>
+                    </div>
+                    <div>
+                        <input class="defaultInput" type="checkbox" name="balanceAlertIsEnabled" id="balanceAlertIsEnabled" {{#if balanceAlertIsEnabled}}checked="checked"{{/if}}><label for="balanceAlertIsEnabled"> <p style="display: inline; clear: both;">Alert Customer when balance is greater than or equal to</p></label>
+                        <br>
+                        <input class="defaultInput" type="number" name="balanceAlertAmount" id="balanceAlertAmount" placeholder="$100" min="0.00" step="0.01" value="{{{balanceAlertAmount}}}" style="width: 5em;">
+                        <span id="balanceAlertAmountError" class="underInputError" style="display: none;"><br>Input a number.</span>
+                    </div>
+                </div>
+            </div>
+            
+            <br><br>
+
+            <h3>Payroll</h3>
+            <div class="defaultInputGroup">
+                <label for="modPayrSalDefaultType"><p>Default Salary Type</p></label>
+
+                <select class="defaultInput" name="modPayrSalDefaultType" id="modPayrSalDefaultType">
+                    <option value="none" {{#ifeq modPayrSalDefaultType 'none'}}selected="selected"{{/ifeq}}>None</option>
+                    <option value="hourly" {{#ifeq modPayrSalDefaultType 'hourly'}}selected="selected"{{/ifeq}}>Hourly (Based on Time Logs)</option>
+                    <option value="aPerJob" {{#ifeq modPayrSalDefaultType 'aPerJob'}}selected="selected"{{/ifeq}}>Fixed amount per job completed</option>
+                    <option value="pPerJob" {{#ifeq modPayrSalDefaultType 'pPerJob'}}selected="selected"{{/ifeq}}>% of job price per job completed</option>
+                </select>
+                <span id="modPayrSalDefaultTypeError" class="underInputError" style="display: none;"><br>Select an option from the menu.</span>
+
+                <br><br>
+
+                <div class="threeCol">
+                    <div>
+                        <label for="modPayrSalBaseHourlyRate"><p>Default Hourly Rate ({{{currencySymbol}}}) ?>)</p></label>
+                        <input class="defaultInput" type="number" min="0" max="99999" step="0.01" name="modPayrSalBaseHourlyRate" id="modPayrSalBaseHourlyRate" placeholder="$0.00" value="{{{modPayrSalBaseHourlyRate}}}" style="width: 4em;">
+                        <span id="modPayrSalBaseHourlyRateError" class="underInputError" style="display: none;"><br>Input a number.</span>
+                    </div>
+
+                    <div>
+                        <label for="modPayrSalBasePerJob"><p>Default Per Job Amount ({{{currencySymbol}}}) ?>)</p></label>
+                        <input class="defaultInput" type="number" min="0" max="99999" step="0.01" name="modPayrSalBasePerJob" id="modPayrSalBasePerJob" placeholder="$0.00" value="{{{modPayrSalBasePerJob}}}" style="width: 4em;">
+                        <span id="modPayrSalBasePerJobError" class="underInputError" style="display: none;"><br>Input a number.</span>
+                    </div>
+
+                    <div>
+                    <label for="modPayrSalBaseJobPercent"><p>Default Job Percent (%)</p></label>
+                        <input class="defaultInput" type="number" min="0" max="100" step="1" name="modPayrSalBaseJobPercent" id="modPayrSalBaseJobPercent" placeholder="0%" value="{{{modPayrSalBaseJobPercent}}}" style="width: 3em;">
+                        <span id="modPayrSalBaseJobPercentError" class="underInputError" style="display: none;"><br>Input a number.</span>
+                    </div>
+                </div>
+
+                <!-- <input class="defaultInput" type="checkbox" name="modPayrSatLinkedToDue" id="modPayrSatLinkedToDue" <?php // if ($currentBusiness->modPayrSatLinkedToDue == '1') {echo 'checked="checked"';} ?>><label for="modPayrSatLinkedToDue"> <p style="display: inline; clear: both;">Check to ensure that <i>Payroll Satisfactions</i> (Payments to your staff to satisfy <i>Payment Dues</i>) MUST be linked to a <i>Payment Due</i>.</p></label> -->
+            </div>
+            
+            <br><br>
+
+            <h3>Documents</h3>
+            <div class="defaultInputGroup">
+                <div class="twoCol" style="grid-template-columns: 25% 75%;">
+                    <div>
+                        <label for="docIdMin"><p>Minimum Document ID</p></label>
+                        <input class="defaultInput" type="number" min="0" step="1" name="docIdMin" id="docIdMin" placeholder="1" value="{{{docIdMin}}}" style="width: 4em;">
+                        <span id="docIdMinError" class="underInputError" style="display: none;"><br>Input a number.</span>
+                    </div>
+                    <div>
+                        <p>Specifies the minimum number that the incremental IDs (for Invoices, Estimates, etc.) are <i>allowed</i> to start at.</p>
+                    </div>
+                </div>
+
+                <br><br>
+
+                <input class="defaultInput" type="checkbox" name="docIdIsRandom" id="docIdIsRandom" {{#if docIdIsRandom}}checked="checked"{{/if}}><label for="docIdIsRandom"> <p style="display: inline; clear: both;">Use random (not incremental) document IDs</p></label>
+            </div>
+            
+            <br><br>
+
+            <h3>Invoices</h3>
+            <div class="defaultInputGroup">
+                <div class="twoCol" style="grid-template-columns: 25% 75%;">
+                    <div>
+                        <label for="invoiceTerm"><p>Default Invoice Term (Days)</p></label>
+                        <input class="defaultInput" type="number" min="0" step="1" name="invoiceTerm" id="invoiceTerm" placeholder="None" value="{{{invoiceTerm}}}" style="width: 4em;">
+                        <span id="invoiceTermError" class="underInputError" style="display: none;"><br>Input a number.</span>
+                    </div>
+                    <div>
+                        <p>How long a customer has to pay an invoice. Set to nothing for no invoice term enforcement.</p>
+                    </div>
+                </div>
+
+                <br><br>
+
+                <input class="defaultInput" type="checkbox" name="autoApplyCredit" id="autoApplyCredit" {{#if autoApplyCredit}}checked="checked"{{/if}}><label for="autoApplyCredit"> <p style="display: inline; clear: both;">By default, automatically apply available customer credit to new invoices</p></label>
+                <br><br>
+                
+                <a name="paymentmethods"></a>
+                <p>Available Payment Methods</p>
+                
+                <table class="defaultTable" style="width: 100%;" id="itemsTable">
+                    <tr id="tableHeader">
+                        <th class="la" style="text-decoration: underline; width: 25%;">Name</th>
+                        <th class="la" style="text-decoration: underline;">Settings</th>
+                    </tr>
+                    <tbody id="paymentMethods">
+
+                        <?php
+
+                            $currentBusiness->pullPaymentMethods("ORDER BY dateTimeAdded ASC");
+                            foreach ($currentBusiness->paymentMethods as $paymentMethodId) {
+                                $currentPaymentMethod = new paymentMethod($paymentMethodId);
+                                if ($currentPaymentMethod->existed) {
+                                    echo '<tr>
+                                    <td><input type="hidden" name="paymentMethodId[]" value="'.htmlspecialchars($paymentMethodId).'">
+                                    <input class="invisibleInput" style="height: 1.3em; width: 5em; max-width: 30vw; font-size: 1.3em;" type="text" name="paymentMethodName[]" value="'.htmlspecialchars($currentPaymentMethod->name).'"> 
+                                    <br><br>
+                                    <span id="deletePaymentMethod:::'.htmlspecialchars($paymentMethodId).'" class="smallButtonWrapper orangeButton xyCenteredFlex" style="width: 1em; display: inline;"><img style="height: 1em;" src="../../images/ultiscape/icons/trash.svg"></span>
+                                    </td>
+                                    <td class="tg-0lax">
+                                    <div class="twoCol" style="grid-template-columns: 30% 70%">
+                                        <div>
+                                            <p>Amount Cut</p>
+                                                <input class="invisibleInput" style="height: 1.3em; width: 3em; font-size: 1.3em;" type="number" step="0.01" name="paymentMethodAmountCut[]" value="'.htmlspecialchars($currentPaymentMethod->amountCut).'" min="0" style="width: 5em;" value="25">
+                                            <p>Percent Cut</p>
+                                                <input class="invisibleInput" style="height: 1.3em; width: 3em; font-size: 1.3em;" type="number" step=".001" name="paymentMethodPercentCut[]" value="'.htmlspecialchars($currentPaymentMethod->percentCut).'" min="0" max="100" style="width: 5em;" value="1"><label for="paymentMethodTax">%</label>
+                                        </div>
+
+                                        <div>
+                                            <p>Notes to Customer (included on payment screen)</p>
+                                                <textarea class="invisibleInput" style="height: 1.3em; width: 15em; max-width: 20vw; font-size: 1.3em; resize: none; height: 4em;" type="text" name="paymentMethodNotes[]">'.htmlspecialchars($currentPaymentMethod->notes).'</textarea>
+                                        </div>
+                                    </div>
+                                    </td>
+                                    </tr>';
+                                }
+                            }
+
+                        ?>
+
+                    </tbody>
+
+                    <tr id="subTotalRow">
+                        <td colspan="2"><a href="#" id="addPaymentMethod">Add Method</a><img style="display: none; width: 2em;" src="../../images/ultiscape/etc/loading.gif" class="addPaymentMethodLoadingGif"></td>
+                    </tr>
+
+                </table>
+
+                <br>
+
+                <p>Methods that can be chosen from when recording a payment for an invoice. If PayPal is enabled and connected, a PayPal payment method will be automatically created.</p>
+            </div>
+            
+            <br><br>
+
+            <h3>Estimates</h3>
+            <div class="defaultInputGroup">
+                <div class="twoCol" style="grid-template-columns: 25% 75%;">
+                    <div>
+                        <label for="estimateValidity"><p>Default Estimate Validity (Days)</p></label>
+                        <input class="defaultInput" type="number" min="0" step="1" name="estimateValidity" id="estimateValidity" placeholder="None" value="{{{estimateValidity}}}" style="width: 4em;">
+                        <span id="estimateValidityError" class="underInputError" style="display: none;"><br>Input a number.</span>
+                    </div>
+                    <div>
+                        <p>How long an estimate can be redeemed for a service. Set to nothing for no estimate validity enforcement.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <br><br>
+
+            <input type="hidden" name="authToken" id="authToken" value="{{{mainAuthToken}}}">
+
+            <input type="hidden" name="deletePaymentMethodAuthToken" id="authToken" value="{{{deletePaymentMethodAuthToken}}}">
+            <input type="hidden" name="addPaymentMethodAuthToken" id="authToken" value="{{{addPaymentMethodAuthTokenId}}}">
+        </div>
+    </form>
+</div>
+
+<div id="profileSettings">
+
+</div>

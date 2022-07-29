@@ -87,7 +87,6 @@ router.get('/login', (req, res) => {
 
     // If an admin is already logged in and it's a valid account, redirect to the overview page
     // Otherwise clear any existing admin details in the session and render the login page
-
     (async () => {
         // Check if session contains valid adminId
         if (req.session.admin) {
@@ -124,13 +123,52 @@ router.get('/overview', (req, res) => {
         }
     };
 
-    // If an admin is already logged in and it's a valid account, redirect to the overview page
+    // If an admin is already logged in and it's a valid account, load the page
     // Otherwise clear any existing admin details in the session and render the login page
-
     (async () => {
         // Check if session contains valid adminId
         if (req.session.admin) {
-            renderPage();            
+            if (await adminManager.exists(req.session.admin.adminId)) {
+                renderPage();
+            }             
+        } else {
+            // Redirect to login page
+            res.redirect('/admin/login');
+        }
+    })();
+
+});
+
+router.get('/settings', (req, res) => {
+
+    // Get the IP of the request for checking the authToken
+    var reqIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+
+    const renderPage = async () => {
+        try {
+            res.render('admin/settings', {
+                layout: 'adminAppMain',
+                rootPath: '../',
+                title: "Settings",
+                showLogo: true,
+                showProfileButton: true,
+                pfpImagePath: '../images/ultiscape/icons/user_male.svg',
+                bsImagePath: '../images/ultiscape/etc/noLogo.png',
+                showBusinessSelector: true
+            });
+        } catch (err) {
+            res.send("This page could not be rendered due to an error.");
+        }
+    };
+
+    // If an admin is already logged in and it's a valid account, load the page
+    // Otherwise clear any existing admin details in the session and render the login page
+    (async () => {
+        // Check if session contains valid adminId
+        if (req.session.admin) {
+            if (await adminManager.exists(req.session.admin.adminId)) {
+                renderPage();
+            }
         } else {
             // Redirect to login page
             res.redirect('/admin/login');
