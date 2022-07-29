@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 
 const exphbs = require('express-handlebars');
+
 const dotenv = require('dotenv');
 const fs = require("fs");
 
@@ -21,7 +22,11 @@ const session = require('express-session');
 app.use(session( JSON.parse(fs.readFileSync(__dirname + "/config/session.json", "utf8")) ));
 
 // Handlebars
-app.engine('.hbs', exphbs.engine({defaultLayout: 'main', extname: '.hbs', partialsDir: __dirname + '/views/partials/'}));
+app.engine('.hbs', exphbs.engine({
+    defaultLayout: 'main',
+    extname: '.hbs', partialsDir: __dirname + '/views/partials/',
+    helpers: require(__dirname + "/config/handlebarsHelpers.js")
+}));
 app.set('view engine', '.hbs');
 
 // Static folder
