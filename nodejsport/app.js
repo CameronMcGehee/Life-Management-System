@@ -42,6 +42,12 @@ app.use('/api/customer', require('./routes/endpoints/customer'));
 app.use('/api/staff', require('./routes/endpoints/staff'));
 app.use('/api/global', require('./routes/endpoints/global'));
 
+// New API
+app.use('/api/v1/admins', require('./api/v1/admins'));
+app.use('/api/v1/customers', require('./api/v1/customers'));
+app.use('/api/v1/staff', require('./api/v1/staff'));
+app.use('/api/v1/general', require('./api/v1/general'));
+
 app.use('/', require('./routes/global'));
 
 const PORT = process.env.PORT || 3000;
