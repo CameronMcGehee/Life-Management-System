@@ -8,7 +8,8 @@ const sequelize = require(__dirname + "/../lib/sequelize.js");
 
 // Misc libraries
 const fs = require("fs");
-const moment = require("moment");
+const moment = require("moment-timezone");
+
 const authTokenManager = require(__dirname + "/../lib/etc/authToken/manager.js");
 const adminManager = require(__dirname + "/../lib/etc/admin/manager.js");
 
@@ -154,7 +155,8 @@ router.get('/settings', (req, res) => {
                 showProfileButton: true,
                 pfpImagePath: '../images/ultiscape/icons/user_male.svg',
                 bsImagePath: '../images/ultiscape/etc/noLogo.png',
-                showBusinessSelector: true
+                showBusinessSelector: true,
+                currentTime: moment().tz("America/New_York").format('YYYY-MM-DD HH:mm:ss')
             });
         } catch (err) {
             res.send("This page could not be rendered due to an error.");

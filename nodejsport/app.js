@@ -25,7 +25,7 @@ app.use(session( JSON.parse(fs.readFileSync(__dirname + "/config/session.json", 
 app.engine('.hbs', exphbs.engine({
     defaultLayout: 'main',
     extname: '.hbs', partialsDir: __dirname + '/views/partials/',
-    helpers: require(__dirname + "/lib/etc/handlebarsHelpers.js")
+    helpers: require(__dirname + "/lib/hbs/helpers.js")
 }));
 app.set('view engine', '.hbs');
 

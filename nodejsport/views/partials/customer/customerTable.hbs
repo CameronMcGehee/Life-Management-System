@@ -1,0 +1,9 @@
+{{#if customers.[1]}}
+    {{!-- Table header --}}
+{{else}}
+    <table class="defaultTable" style="margin-top: .5em;"><tr><td class="la">No customers...</td></tr></table>
+{{/if}}
+
+{{#each customers}}
+    {{!-- Render out the rows like normal, depending on the options --}}
+{{/each}}
