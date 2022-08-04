@@ -8,7 +8,8 @@ const passport = require('passport');
 // DB/Sequelize
 const db = require(__dirname + "/../../lib/db.js");
 const sequelize = require(__dirname + "/../../lib/sequelize.js");
-const { Op } = require("sequelize");
+const { Op, where } = require("sequelize");
+const { QueryTypes } = require('sequelize');
 
 // Misc libraries
 const uuid = require("uuid");
@@ -25,6 +26,7 @@ const admin = require(__dirname + '/../../lib/models/admin.js')(sequelize);
 //Body Parser to parse the JSON requests
 const bodyParser = require('body-parser');
 var jsonParser = bodyParser.json();
+var urlParser = bodyParser.urlencoded({extended: false});
 
 async function checkUsernameExists(username) {
     var usernameFound = false;
@@ -46,27 +48,170 @@ async function checkUsernameExists(username) {
     return usernameFound;
 }
 
-function sendStandardRes(res, errors) {
+function sendStandardRes(res, errors, data) {
     var status;
+
+    var errors;
+    var data;
+
     if (errors.length > 0) {
         status = 'error';
-        // console.log(errors);
     } else {
         status = 'success';
+        errors = [];
+    }
+
+    if (!data) {
+        data = null;
     }
 
     res.json({
-        "status": status,
-        "errors": errors
+        status,
+        errors,
+        data
     });
 }
 
+// Get list of admins with criteria
+/*
+    Optional Parameters:
+        fields,
+        limit, total rows returned, 0 for no limit
+        perPage, 0 for no limit
+        page
+        like, comma seperated as such: "attribute,query"
+
+        and of course, filter by all attributes
+*/
 router.get('/', (req, res) => {
-    console.log("GET Request recieved - Admin: " + req.body);
-    res.send({
-        "status": "error",
-        "errorMessage":"This is not an endpoint."
-    });
+
+    // Used when checking for filters
+    var operatorOptions = [
+        'fields',
+        'limit',
+        'perPage',
+        'page',
+        'like'
+    ];
+
+    var errors = [];
+    var data = {};
+
+    console.log("GET Request recieved - Admins");
+
+    var fields = []; // Empty array for all
+    var limit = 100;
+    var perPage = 0;
+    var page = 1;
+    var filters = []; // Empty array for no filters (WHERE clause)
+
+    // Clean fields input if given
+    if (req.query.fields && typeof req.query.fields === 'string' && req.query.fields.length > 0) {
+        fields = req.query.fields.split(',').map(element => element.trim());
+    }
+    data.fields = fields;
+
+    // Clean limit input if given
+    if (req.query.limit && typeof req.query.limit === 'string' && /\d/.test(req.query.limit)) {
+        limit = req.query.limit;
+    }
+    data.limit = limit;
+
+    // Clean perPage input if given
+    if (req.query.perPage && typeof req.query.perPage === 'integer' && req.query.perPage > 0) {
+        perPage = req.query.perPage;
+    }
+    data.perPage = perPage;
+
+    // Clean page input if given
+    if (req.query.page && typeof req.query.page === 'integer' && req.query.page > 0) {
+        page = req.query.page;
+    }
+    data.page = page;
+
+    var goOn = true;
+
+    (async () => {
+        try {
+            // Check to make sure that each given field actually exists
+            var adminAttributes = await admin.getAttributes();
+            adminAttributes = Object.getOwnPropertyNames(adminAttributes);
+            fields.forEach(field => {
+                if (!adminAttributes.includes(field)) {
+                    errors.push({
+                        "type": "input",
+                        "msg": "The field '" + field + "' doesn't exist."
+                    });
+                    goOn = false;
+                }
+            });
+
+            // Do the same to check any given filters
+            // - Find all given req.query keys that are not the same as the opertor options
+            Object.getOwnPropertyNames(req.query).forEach(key => {
+                if (!operatorOptions.includes(key)) {
+                    filters.push({
+                        "attribute": key,
+                        "value": req.query[key]
+                    });
+                }
+            });
+            // - Check the attributes in the filters for being in the model
+            filters.forEach(filter => {
+                if (!adminAttributes.includes(filter.attribute)) {
+                    errors.push({
+                        "type": "input",
+                        "msg": "The filter attribute '" + filter.attribute + "' doesn't exist."
+                    });
+                    goOn = false;
+                }
+            });
+            data.filters = filters;
+
+            // Grab data from the database using the provided details
+            if (goOn) {
+
+                // Generate WHERE statement
+                var whereStatement = '';
+                var replacements = [];
+                var isFirst = true;
+                filters.forEach(filter => {
+                    if (isFirst) {
+                        whereStatement += " WHERE " + filter.attribute + " = ?";
+                        isFirst = false;
+                    } else {
+                        whereStatement += " AND " + filter.attribute + " = ?";
+                    }
+                    replacements.push(filter.value);
+                });
+
+                // Generate LIMIT statement
+                var limitStatement;
+                if (limit > 0) {
+                    limitStatement = ' LIMIT ' + limit.toString();
+                } else {
+                    limitStatement = '';
+                }
+
+                // Using a raw query since this is so dynamic
+                var fetch = await sequelize.query("SELECT * from admin" + whereStatement + limitStatement, { 
+                    type: QueryTypes.SELECT,
+                    replacements: replacements
+                });
+                data.rows = fetch;
+            }
+
+            sendStandardRes(res, errors, data);
+        } catch (err) {
+            errors.push({
+                type: 'general',
+                msg: 'An unknown error occurred and this request could not be fulfilled.'
+            });
+            goOn = false;
+            sendStandardRes(res, errors, data);
+        }
+    })();
+
 });
 router.post('/', jsonParser, (req, res) => {
     console.log("POST Request recieved - Admin: " + req.body);
