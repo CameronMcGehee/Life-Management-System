@@ -28,6 +28,28 @@ const bodyParser = require('body-parser');
 var jsonParser = bodyParser.json();
 var urlParser = bodyParser.urlencoded({extended: false});
 
+async function checkIdExists(adminId) {
+    var adminIdFound = false;
+    // Check if adminId or email exists
+    await admin.findOne({
+        attributes: ['adminId'],
+        where: {
+            'adminId': adminId
+        }
+    })
+    .then(result => {
+        console.log(result);
+        if (result !== null) {
+            adminIdFound = true;
+        }
+    })
+    .catch(err => {
+        console.log(err);
+        throw new Error(err);
+    });
+    return adminIdFound;
+}
+
 async function checkUsernameExists(username) {
     var usernameFound = false;
     // Check if username or email exists
@@ -82,7 +104,14 @@ function sendStandardRes(res, errors, data) {
         page,
         and of course, filter by all attributes
 */
-router.get('/', (req, res) => {
+router.get('/*', (req, res) => {
+
+    // Check if there is an adminId set after last /
+    var mainSearch = null;
+    var urlObj = new URL(req.protocol + '://' + req.get('host') + req.originalUrl);
+    if (urlObj.pathname.split('/').pop() !== '') {
+        mainSearch = urlObj.pathname.split('/').pop();
+    }
 
     // Used when checking for filters
     var operatorOptions = [
@@ -188,6 +217,15 @@ router.get('/', (req, res) => {
                     goOn = false;
                 }
             });
+
+            // If a singular ID search has been given, add that as a filter
+            if (mainSearch) {
+                filters.push({
+                    "attribute": 'adminId',
+                    "value": mainSearch
+                });
+            }
+
             data.filters = filters;
 
             // Grab data from the database using the provided details
@@ -202,6 +240,7 @@ router.get('/', (req, res) => {
                     fields.forEach(field => {
                         if (isFirst) {
                             attributesList += field;
+                            isFirst = false;
                         } else {
                             attributesList += ', ' + field;
                         }
