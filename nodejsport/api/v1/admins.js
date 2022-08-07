@@ -76,11 +76,10 @@ function sendStandardRes(res, errors, data) {
 /*
     Optional Parameters:
         fields,
-        limit, total rows returned, 0 for no limit
-        perPage, 0 for no limit
-        page
-        like, comma seperated as such: "attribute,query"
-
+        orderBy,
+        orderDirection,
+        limit, total rows returned, 0 or undefined for no limit
+        page,
         and of course, filter by all attributes
 */
 router.get('/', (req, res) => {
@@ -89,20 +88,24 @@ router.get('/', (req, res) => {
     var operatorOptions = [
         'fields',
         'limit',
-        'perPage',
-        'page',
-        'like'
+        'orderBy',
+        'orderDirection',
+        'page'
     ];
 
     var errors = [];
     var data = {};
 
+    var isFirst; // Utility variable used for loops
+
     console.log("GET Request recieved - Admins");
 
     var fields = []; // Empty array for all
-    var limit = 100;
-    var perPage = 0;
+    var limit = 15;
+    var orderBy = null;
+    var orderDirection = 'DESC';
     var page = 1;
+
     var filters = []; // Empty array for no filters (WHERE clause)
 
     // Clean fields input if given
@@ -111,21 +114,29 @@ router.get('/', (req, res) => {
     }
     data.fields = fields;
 
+    // Clean orderBy input if given
+    if (req.query.orderBy && typeof req.query.orderBy === 'string' && req.query.orderBy.length > 0) {
+        orderBy = req.query.orderBy;
+    }
+    data.orderBy = orderBy;
+
+    // Clean orderDirection input if given
+    if (req.query.orderDirection && typeof req.query.orderDirection === 'string' && req.query.orderDirection.length > 0) {
+        if (req.query.orderDirection == 'ASC' || req.query.orderDirection == 'DESC') {
+            orderDirection = req.query.orderDirection;
+        }
+    }
+    data.orderDirection = orderDirection;
+
     // Clean limit input if given
     if (req.query.limit && typeof req.query.limit === 'string' && /\d/.test(req.query.limit)) {
-        limit = req.query.limit;
+        limit = parseInt(req.query.limit);
     }
     data.limit = limit;
 
-    // Clean perPage input if given
-    if (req.query.perPage && typeof req.query.perPage === 'integer' && req.query.perPage > 0) {
-        perPage = req.query.perPage;
-    }
-    data.perPage = perPage;
-
     // Clean page input if given
-    if (req.query.page && typeof req.query.page === 'integer' && req.query.page > 0) {
-        page = req.query.page;
+    if (req.query.page && typeof req.query.page === 'string' && /\d/.test(req.query.page)) {
+        page = parseInt(req.query.page);
     }
     data.page = page;
 
@@ -145,6 +156,17 @@ router.get('/', (req, res) => {
                     goOn = false;
                 }
             });
+
+            // Check if the orderBy string is an actual column
+            if (orderBy) {
+                if (!adminAttributes.includes(orderBy)) {
+                    errors.push({
+                        "type": "input",
+                        "msg": "The orderBy column '" + orderBy + "' doesn't exist."
+                    });
+                    goOn = false;
+                }
+            }
 
             // Do the same to check any given filters
             // - Find all given req.query keys that are not the same as the opertor options
@@ -171,10 +193,25 @@ router.get('/', (req, res) => {
             // Grab data from the database using the provided details
             if (goOn) {
 
+                // Generate attributes list
+                var attributesList = '';
+                if (fields.length < 1) {
+                    attributesList = '*';
+                } else {
+                    isFirst = true;
+                    fields.forEach(field => {
+                        if (isFirst) {
+                            attributesList += field;
+                        } else {
+                            attributesList += ', ' + field;
+                        }
+                    });
+                }
+
                 // Generate WHERE statement
                 var whereStatement = '';
                 var replacements = [];
-                var isFirst = true;
+                isFirst = true;
                 filters.forEach(filter => {
                     if (isFirst) {
                         whereStatement += " WHERE " + filter.attribute + " = ?";
@@ -185,16 +222,29 @@ router.get('/', (req, res) => {
                     replacements.push(filter.value);
                 });
 
+                // Generate order by statement
+                var orderByStatement = '';
+                if (orderBy) {
+                    orderByStatement = ' ORDER BY ' + orderBy + ' ' + orderDirection;
+                }
+
                 // Generate LIMIT statement
                 var limitStatement;
+                var offsetStatement = '';
+                data.offset = null;
                 if (limit > 0) {
+                    if (page != 1) {
+                        offsetStatement = ' OFFSET ' + ((limit * page) - limit);
+                        // Add into data just so user can see what the offset was
+                        data.offset = (limit * page) - limit;
+                    }
                     limitStatement = ' LIMIT ' + limit.toString();
                 } else {
                     limitStatement = '';
                 }
 
                 // Using a raw query since this is so dynamic
-                var fetch = await sequelize.query("SELECT * from admin" + whereStatement + limitStatement, { 
+                var fetch = await sequelize.query("SELECT " + attributesList + " FROM admin" + whereStatement + orderByStatement + limitStatement + offsetStatement, { 
                     type: QueryTypes.SELECT,
                     replacements: replacements
                 });
@@ -203,6 +253,7 @@ router.get('/', (req, res) => {
 
             sendStandardRes(res, errors, data);
         } catch (err) {
+            console.log(err);
             errors.push({
                 type: 'general',
                 msg: 'An unknown error occurred and this request could not be fulfilled.'
