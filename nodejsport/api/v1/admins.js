@@ -106,6 +106,8 @@ function sendStandardRes(res, errors, data) {
 */
 router.get('/*', (req, res) => {
 
+    var reqIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+
     // Check if there is an adminId set after last /
     var mainSearch = null;
     var urlObj = new URL(req.protocol + '://' + req.get('host') + req.originalUrl);
@@ -128,6 +130,8 @@ router.get('/*', (req, res) => {
     var isFirst; // Utility variable used for loops
 
     console.log("GET Request recieved - Admins");
+
+    var authToken = null;
 
     var fields = []; // Empty array for all
     var limit = 15;
@@ -172,61 +176,84 @@ router.get('/*', (req, res) => {
     var goOn = true;
 
     (async () => {
+
+        // Clean authToken input. If not given, don't continue
+        if (req.query.authToken && typeof req.query.authToken === 'string' && req.query.authToken.length > 0) {
+            authToken = req.query.authToken;
+        } else {
+            errors.push({
+                "type": "auth",
+                "msg": "No authToken has been supplied."
+            });
+            goOn = false;
+        }
+
         try {
-            // Check to make sure that each given field actually exists
-            var adminAttributes = await admin.getAttributes();
-            adminAttributes = Object.getOwnPropertyNames(adminAttributes);
-            fields.forEach(field => {
-                if (!adminAttributes.includes(field)) {
-                    errors.push({
-                        "type": "input",
-                        "msg": "The field '" + field + "' doesn't exist."
-                    });
-                    goOn = false;
-                }
-            });
 
-            // Check if the orderBy string is an actual column
-            if (orderBy) {
-                if (!adminAttributes.includes(orderBy)) {
-                    errors.push({
-                        "type": "input",
-                        "msg": "The orderBy column '" + orderBy + "' doesn't exist."
-                    });
-                    goOn = false;
-                }
-            }
-
-            // Do the same to check any given filters
-            // - Find all given req.query keys that are not the same as the opertor options
-            Object.getOwnPropertyNames(req.query).forEach(key => {
-                if (!operatorOptions.includes(key)) {
-                    filters.push({
-                        "attribute": key,
-                        "value": req.query[key]
-                    });
-                }
-            });
-            // - Check the attributes in the filters for being in the model
-            filters.forEach(filter => {
-                if (!adminAttributes.includes(filter.attribute)) {
-                    errors.push({
-                        "type": "input",
-                        "msg": "The filter attribute '" + filter.attribute + "' doesn't exist."
-                    });
-                    goOn = false;
-                }
-            });
-
-            // If a singular ID search has been given, add that as a filter
-            if (mainSearch) {
-                filters.push({
-                    "attribute": 'adminId',
-                    "value": mainSearch
+            if (goOn && !await authTokenManager.verify(authToken, 'getAdmins', reqIp)) {
+                errors.push({
+                    "type": "auth",
+                    "msg": "You are not authorized by this authToken to execute the given request."
                 });
+                goOn = false;
             }
 
-            data.filters = filters;
+            if (goOn) {
+                // Check to make sure that each given field actually exists
+                var adminAttributes = await admin.getAttributes();
+                adminAttributes = Object.getOwnPropertyNames(adminAttributes);
+                fields.forEach(field => {
+                    if (!adminAttributes.includes(field)) {
+                        errors.push({
+                            "type": "input",
+                            "msg": "The field '" + field + "' doesn't exist."
+                        });
+                        goOn = false;
+                    }
+                });
+
+                // Check if the orderBy string is an actual column
+                if (orderBy) {
+                    if (!adminAttributes.includes(orderBy)) {
+                        errors.push({
+                            "type": "input",
+                            "msg": "The orderBy column '" + orderBy + "' doesn't exist."
+                        });
+                        goOn = false;
+                    }
+                }
+
+                // Do the same to check any given filters
+                // - Find all given req.query keys that are not the same as the opertor options
+                Object.getOwnPropertyNames(req.query).forEach(key => {
+                    if (!operatorOptions.includes(key)) {
+                        filters.push({
+                            "attribute": key,
+                            "value": req.query[key]
+                        });
+                    }
+                });
+                // - Check the attributes in the filters for being in the model
+                filters.forEach(filter => {
+                    if (!adminAttributes.includes(filter.attribute)) {
+                        errors.push({
+                            "type": "input",
+                            "msg": "The filter attribute '" + filter.attribute + "' doesn't exist."
+                        });
+                        goOn = false;
+                    }
+                });
+
+                // If a singular ID search has been given, add that as a filter
+                if (mainSearch) {
+                    filters.push({
+                        "attribute": 'adminId',
+                        "value": mainSearch
+                    });
+                }
+
+                data.filters = filters;
+            }
 
             // Grab data from the database using the provided details
             if (goOn) {
@@ -303,21 +330,14 @@ router.get('/*', (req, res) => {
     })();
 
 });
-router.post('/', jsonParser, (req, res) => {
+router.post('/', jsonParser, (req, res) => { // Not an endpoint
     console.log("POST Request recieved - Admin: " + req.body);
     res.send({
         "status": "error",
         "errorMessage":"This is not an endpoint."
     });
 });
-router.put('/', jsonParser, (req, res) => {
-    console.log("POST Request recieved - Admin: " + req.body);
-    res.send({
-        "status": "error",
-        "errorMessage":"This is not an endpoint."
-    });
-});
-router.delete('/', jsonParser, (req, res) => {
+router.delete('/', jsonParser, (req, res) => { // Not finished
     console.log("POST Request recieved - Admin: " + req.body);
     res.send({
         "status": "error",
