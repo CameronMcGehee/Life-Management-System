@@ -190,7 +190,7 @@ router.get('/*', (req, res) => {
 
         try {
 
-            if (goOn && !await authTokenManager.verify(authToken, 'getAdmins', reqIp)) {
+            if (goOn && !await authTokenManager.verify(authToken, 'api_key', reqIp)) {
                 errors.push({
                     "type": "auth",
                     "msg": "You are not authorized by this authToken to execute the given request."
@@ -330,18 +330,165 @@ router.get('/*', (req, res) => {
     })();
 
 });
-router.post('/', jsonParser, (req, res) => { // Not an endpoint
-    console.log("POST Request recieved - Admin: " + req.body);
-    res.send({
-        "status": "error",
-        "errorMessage":"This is not an endpoint."
-    });
+router.post('/', jsonParser, (req, res) => {
+
+    var goOn = true;
+
+    (async () => {
+        try {
+            var reqIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+
+            // Check if there is an adminId set after last /
+            var mainSearch = null;
+            var urlObj = new URL(req.protocol + '://' + req.get('host') + req.originalUrl);
+            if (urlObj.pathname.split('/').pop() !== '') {
+                mainSearch = urlObj.pathname.split('/').pop();
+            }
+
+            var errors = [];
+            var data = {}; // Will be sent in the response containing the row that was inserted
+
+            console.log("POST Request recieved - Admins");
+
+            var authToken = null;
+            
+            if (!req.body || req.body.length < 1) {
+                errors.push({
+                    type: 'input',
+                    msg: 'No data was given and this request could not be fulfilled.'
+                });
+                goOn = false;
+            }
+
+            // Clean data
+            if (goOn) {
+
+                // api_key
+                if (!(req.body.api_key && typeof req.body.api_key === 'string' && req.body.api_key.length > 15)) {
+                    errors.push({
+                        "type": "auth",
+                        "msg": "No valid api_key has been supplied."
+                    });
+                    goOn = false;
+                }
+
+                // username
+                if (!(req.body.username && typeof req.body.username === 'string' && req.body.username.length > 0)) {
+                    errors.push({
+                        type: "username",
+                        msg: "You must provide a valid username."
+                    });
+                    goOn = false;
+                } else {
+                    // Check if username exists
+                    if (await checkUsernameExists(req.body.username)) {
+                        errors.push({
+                            type: "username",
+                            msg: "This username already exists."
+                        });
+                        goOn = false;
+                    }
+                }
+
+                // password
+                if (!(req.body.password && typeof req.body.password === 'string' && req.body.password.length > 5)) { // Eventually use a config value for min length
+                    errors.push({
+                        type: "password",
+                        msg: "You must provide a valid password."
+                    });
+                    goOn = false;
+                }
+
+                // email
+                if (!req.body.email || typeof req.body.email !== 'string' || req.body.email.length < 2 || /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(req.body.email) !== true) {
+                    errors.push({
+                        type: 'email',
+                        msg: 'Enter a valid email address.'
+                    });
+                    goOn = false;
+                }
+
+                // firstName
+                if (!req.body.firstName || typeof req.body.firstName !== 'string' || req.body.firstName.length < 2) {
+                    errors.push({
+                        type: 'firstName',
+                        msg: 'Must be at least 2 characters long.'
+                    });
+                    goOn = false;
+                }
+                
+                // lastName
+                if (!req.body.lastName || typeof req.body.lastName !== 'string' || req.body.lastName.length < 2) {
+                    errors.push({
+                        type: 'lastName',
+                        msg: 'Must be at least 2 characters long.'
+                    });
+                    goOn = false;
+                }
+
+                // allowSignIn should not be anything but 1 upon initial creation
+            }
+
+            // Authorize
+            if (goOn && !await authTokenManager.verify(req.body.api_key, 'api_key', reqIp)) {
+                errors.push({
+                    "type": "auth",
+                    "msg": "You are not authorized by this api_key to execute the given request."
+                });
+                goOn = false;
+            }
+
+            // Insert
+            if (goOn) {
+
+                var newAdminId = await uuidManager.getNewUuid('admin');
+                var hashedPassword = await passwordManager.encrypt(req.body.password);
+
+                await admin.create({
+                    adminId: newAdminId,
+                    username: req.body.username,
+                    password: hashedPassword,
+                    email: req.body.email,
+                    profilePicture: null,
+                    allowSignIn: 1,
+                    dateTimeJoined: moment().format('YYYY-MM-DD HH:mm:ss'),
+                    dateTimeLeft: null,
+                    firstName: req.body.firstName,
+                    lastName: req.body.lastName
+                })
+                .then(result => {
+                    data = result;
+                })
+                .catch(err => {
+                    console.log("err: ", err);
+                    errors.push({
+                        type: 'general',
+                        msg: 'An unknown error occurred and this request could not be fulfilled.'
+                    });
+                    goOn = false;
+                });
+            }
+
+            sendStandardRes(res, errors, data);
+            goOn = false;
+
+        } catch (err) {
+            console.log(err);
+            errors.push({
+                type: 'general',
+                msg: 'An unknown error occurred and this request could not be fulfilled.'
+            });
+            goOn = false;
+            data.data = req.body;
+            sendStandardRes(res, errors, data);
+        }
+    })();
 });
 router.delete('/', jsonParser, (req, res) => { // Not finished
     console.log("POST Request recieved - Admin: " + req.body);
     res.send({
         "status": "error",
-        "errorMessage":"This is not an endpoint."
+        "errorMessage":"This endpoint is not available yet."
     });
 });
 
