@@ -243,6 +243,34 @@
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	--
+	-- Table structure for table `apiKey`
+	--
+
+	CREATE TABLE IF NOT EXISTS `apiKey` (
+	`apiKeyId` varchar(37) NOT NULL,
+	`businessId` varchar(37) NULL,
+	`clientIp` text NOT NULL,
+	`dateTimeAdded` datetime NOT NULL,
+	PRIMARY KEY (`apiKeyId`),
+	KEY `apiKeyBusinessId` (`businessId`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
+	-- Table structure for table `permission`
+	--
+
+	CREATE TABLE IF NOT EXISTS `permission` (
+	`permissionId` varchar(37) NOT NULL,
+	`apiKeyId` varchar(37) NOT NULL,
+	`permissionName` varchar(50) NOT NULL,
+	`expiration` int NULL DEFAULT NULL,
+	`dateTimeAdded` datetime NOT NULL,
+	PRIMARY KEY (`permissionId`),
+	KEY `permissionApiKeyId` (`apiKeyId`),
+	CONSTRAINT `permissionApiKeyId` FOREIGN KEY (`apiKeyId`) REFERENCES `apiKey` (`apiKeyId`) ON DELETE CASCADE
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	--
 	-- Table structure for table `crew`
 	--
 
