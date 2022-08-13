@@ -117,6 +117,7 @@ router.get('/*', (req, res) => {
 
     // Used when checking for filters
     var operatorOptions = [
+        'api_key',
         'fields',
         'limit',
         'orderBy',
@@ -313,7 +314,11 @@ router.get('/*', (req, res) => {
                 var fetch = await sequelize.query("SELECT " + attributesList + " FROM admin" + whereStatement + orderByStatement + limitStatement + offsetStatement, { 
                     type: QueryTypes.SELECT,
                     replacements: replacements
+                })
+                .then(result => {
+                    console.log(result);
                 });
+                console.log("fetch - ", fetch);
                 data.rows = fetch;
             }
 
@@ -484,12 +489,196 @@ router.post('/', jsonParser, (req, res) => {
         }
     })();
 });
-router.delete('/', jsonParser, (req, res) => { // Not finished
-    console.log("POST Request recieved - Admin: " + req.body);
-    res.send({
-        "status": "error",
-        "errorMessage":"This endpoint is not available yet."
-    });
+router.delete('/*', jsonParser, (req, res) => {
+    var reqIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+
+    // Check if there is an adminId set after last /
+    var mainSearch = null;
+    var urlObj = new URL(req.protocol + '://' + req.get('host') + req.originalUrl);
+    if (urlObj.pathname.split('/').pop() !== '') {
+        mainSearch = urlObj.pathname.split('/').pop();
+    }
+
+    // Used when checking for filters
+    var operatorOptions = [
+        'api_key',
+        'limit',
+        'orderBy',
+        'orderDirection'
+    ];
+
+    var errors = [];
+    var data = {};
+
+    var isFirst; // Utility variable used for loops
+
+    console.log("DELETE Request recieved - Admins");
+
+    var authToken = null;
+
+    var limit = 1; // For safety, make the limit 1 by default
+    var orderBy = null;
+    var orderDirection = 'DESC';
+
+    var filters = []; // Empty array for no filters (WHERE clause)
+
+    // Clean orderBy input if given
+    if (req.body.orderBy && typeof req.body.orderBy === 'string' && req.body.orderBy.length > 0) {
+        orderBy = req.body.orderBy;
+    }
+    data.orderBy = orderBy;
+
+    // Clean orderDirection input if given
+    if (req.body.orderDirection && typeof req.body.orderDirection === 'string' && req.body.orderDirection.length > 0) {
+        if (req.body.orderDirection == 'ASC' || req.body.orderDirection == 'DESC') {
+            orderDirection = req.body.orderDirection;
+        }
+    }
+    data.orderDirection = orderDirection;
+
+    // Clean limit input if given
+    if (req.body.limit && typeof req.body.limit === 'string' && /\d/.test(req.body.limit)) {
+        limit = parseInt(req.body.limit);
+    }
+    data.limit = limit;
+
+    var goOn = true;
+
+    (async () => {
+
+        // Clean authToken input. If not given, don't continue
+        if (req.body.api_key && typeof req.body.api_key === 'string') {
+            api_key = req.body.api_key;
+        } else {
+            errors.push({
+                "type": "auth",
+                "msg": "No api_key has been supplied."
+            });
+            goOn = false;
+        }
+
+        try {
+
+            // if (goOn && !await authTokenManager.verify(authToken, 'api_key', reqIp)) {
+            //     errors.push({
+            //         "type": "auth",
+            //         "msg": "You are not authorized by this authToken to execute the given request."
+            //     });
+            //     goOn = false;
+            // }
+
+            if (goOn) {
+
+                var adminAttributes = await admin.getAttributes();
+                adminAttributes = Object.getOwnPropertyNames(adminAttributes);
+
+                // Check if the orderBy string is an actual column
+                if (orderBy) {
+                    if (!adminAttributes.includes(orderBy)) {
+                        errors.push({
+                            "type": "input",
+                            "msg": "The orderBy column '" + orderBy + "' doesn't exist."
+                        });
+                        goOn = false;
+                    }
+                }
+
+                // Do the same to check any given filters
+                // - Find all given req.body keys that are not the same as the opertor options
+                Object.getOwnPropertyNames(req.body).forEach(key => {
+                    if (!operatorOptions.includes(key)) {
+                        filters.push({
+                            "attribute": key,
+                            "value": req.body[key]
+                        });
+                    }
+                });
+                // - Check the attributes in the filters for being in the model
+                filters.forEach(filter => {
+                    if (!adminAttributes.includes(filter.attribute)) {
+                        errors.push({
+                            "type": "input",
+                            "msg": "The filter attribute '" + filter.attribute + "' doesn't exist."
+                        });
+                        goOn = false;
+                    }
+                });
+
+                // If a singular ID search has been given, add that as a filter
+                if (mainSearch) {
+                    filters.push({
+                        "attribute": 'adminId',
+                        "value": mainSearch
+                    });
+                }
+
+                data.filters = filters;
+            }
+
+            // Grab data from the database using the provided details
+            if (goOn) {
+
+                // Generate WHERE statement
+                var whereStatement = '';
+                var replacements = [];
+                isFirst = true;
+                filters.forEach(filter => {
+                    if (isFirst) {
+                        whereStatement += " WHERE " + filter.attribute + " = ?";
+                        isFirst = false;
+                    } else {
+                        whereStatement += " AND " + filter.attribute + " = ?";
+                    }
+                    replacements.push(filter.value);
+                });
+
+                // Since this is DELETE and is very dangerous, make sure the WHERE statement contains something
+                if (whereStatement.length < 1) {
+                    errors.push({
+                        "type": "input",
+                        "msg": "You must provide at least one filter."
+                    });
+                    goOn = false;
+                }
+
+                // Generate order by statement
+                var orderByStatement = '';
+                if (orderBy) {
+                    orderByStatement = ' ORDER BY ' + orderBy + ' ' + orderDirection;
+                }
+
+                // Generate LIMIT statement
+                var limitStatement;
+                data.offset = null;
+                if (limit > 0) {
+                    limitStatement = ' LIMIT ' + limit.toString();
+                } else {
+                    limitStatement = ' LIMIT 1';
+                }
+            }
+
+            // Run the query
+            if (goOn) {
+                // Using a raw query since this is so dynamic
+                var fetch = await sequelize.query("DELETE FROM admin" + whereStatement + orderByStatement + limitStatement, { 
+                    type: QueryTypes.DELETE,
+                    replacements: replacements
+                });
+                data.rows = fetch;
+            }
+
+            sendStandardRes(res, errors, data);
+        } catch (err) {
+            console.log(err);
+            errors.push({
+                type: 'general',
+                msg: 'An unknown error occurred and this request could not be fulfilled.'
+            });
+            goOn = false;
+            sendStandardRes(res, errors, data);
+        }
+    })();
+
 });
 
 router.post('/createaccount', jsonParser, (req, res) => {
