@@ -559,13 +559,13 @@ router.delete('/*', jsonParser, (req, res) => {
 
         try {
 
-            // if (goOn && !await authTokenManager.verify(authToken, 'api_key', reqIp)) {
-            //     errors.push({
-            //         "type": "auth",
-            //         "msg": "You are not authorized by this authToken to execute the given request."
-            //     });
-            //     goOn = false;
-            // }
+            if (goOn && !await authTokenManager.verify(authToken, 'api_key', reqIp)) {
+                errors.push({
+                    "type": "auth",
+                    "msg": "You are not authorized by this authToken to execute the given request."
+                });
+                goOn = false;
+            }
 
             if (goOn) {
 
