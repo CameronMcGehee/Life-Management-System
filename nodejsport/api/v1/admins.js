@@ -2,8 +2,8 @@
 const express = require('express');
 const router = express.Router();
 
-// Passport
-const passport = require('passport');
+// JWT
+const jwt = require('jsonwebtoken');
 
 // DB/Sequelize
 const db = require(__dirname + "/../../lib/db.js");
@@ -14,41 +14,19 @@ const { QueryTypes } = require('sequelize');
 // Misc libraries
 const uuid = require("uuid");
 const moment = require("moment");
-const authTokenManager = require(__dirname + '/../../lib/etc/authToken/manager.js');
+const apiKeyManager = require(__dirname + '/../../lib/etc/apiKey/manager.js');
+const jwtManager = require(__dirname + '/../../lib/etc/jwt/manager.js');
 const adminManager = require(__dirname + '/../../lib/etc/admin/manager.js');
 const uuidManager = require(__dirname + '/../../lib/etc/uuid/manager.js');
 const passwordManager = require(__dirname + '/../../lib/etc/password/manager.js');
 
 // Import sequelize models used for these routes
-const authToken = require(__dirname + '/../../lib/models/authtoken.js')(sequelize);
 const admin = require(__dirname + '/../../lib/models/admin.js')(sequelize);
 
 //Body Parser to parse the JSON requests
 const bodyParser = require('body-parser');
 var jsonParser = bodyParser.json();
 var urlParser = bodyParser.urlencoded({extended: false});
-
-async function checkIdExists(adminId) {
-    var adminIdFound = false;
-    // Check if adminId or email exists
-    await admin.findOne({
-        attributes: ['adminId'],
-        where: {
-            'adminId': adminId
-        }
-    })
-    .then(result => {
-        console.log(result);
-        if (result !== null) {
-            adminIdFound = true;
-        }
-    })
-    .catch(err => {
-        console.log(err);
-        throw new Error(err);
-    });
-    return adminIdFound;
-}
 
 async function checkUsernameExists(username) {
     var usernameFound = false;
@@ -191,7 +169,7 @@ router.get('/*', (req, res) => {
 
         try {
 
-            if (goOn && !await authTokenManager.verify(authToken, 'api_key', reqIp)) {
+            if (goOn && !await apiKeyManager.verify(authToken, reqIp)) {
                 errors.push({
                     "type": "auth",
                     "msg": "You are not authorized by this authToken to execute the given request."
@@ -435,7 +413,7 @@ router.post('/', jsonParser, (req, res) => {
             }
 
             // Authorize
-            if (goOn && !await authTokenManager.verify(req.body.api_key, 'api_key', reqIp)) {
+            if (goOn && !await apiKeyManager.verify(req.body.api_key, reqIp)) {
                 errors.push({
                     "type": "auth",
                     "msg": "You are not authorized by this api_key to execute the given request."
@@ -559,7 +537,7 @@ router.delete('/*', jsonParser, (req, res) => {
 
         try {
 
-            if (goOn && !await authTokenManager.verify(authToken, 'api_key', reqIp)) {
+            if (goOn && !await apiKeyManager.verify(authToken, reqIp)) {
                 errors.push({
                     "type": "auth",
                     "msg": "You are not authorized by this authToken to execute the given request."
@@ -681,7 +659,7 @@ router.delete('/*', jsonParser, (req, res) => {
 
 });
 
-router.post('/createaccount', jsonParser, (req, res) => {
+router.post('/createaccount', jsonParser, async (req, res) => {
     console.log("POST Request recieved - Create Account: " + req.body);
 
     var status = '';
@@ -733,82 +711,82 @@ router.post('/createaccount', jsonParser, (req, res) => {
 
     // Check if the authToken exists
 
-    (async () => {
-        try {
-            if (!await authTokenManager.verify(req.body.authToken, "createAccount", reqIp)) {
+    try { // do something that people find to be a useful thing
+        if (!await apiKeyManager.checkPermission(req.body.authToken, "createAccount")) {
+            errors.push({
+                type: 'authToken',
+                msg: 'You\'re not authorized to sign up.'
+            });
+            sendStandardRes(res, errors);
+            goOn = false;
+        }
+
+        if (goOn) {
+            // Check if username exists
+            var usernameExists = await checkUsernameExists(req.body.username);
+            console.log(usernameExists);
+            if (usernameExists) {
                 errors.push({
-                    type: 'authToken',
-                    msg: 'You\'re not authorized to sign up.'
+                    type: 'username',
+                    msg: 'This username is already taken.'
                 });
                 sendStandardRes(res, errors);
                 goOn = false;
             }
+        }
 
-            if (goOn) {
-                // Check if username exists
-                var usernameExists = await checkUsernameExists(req.body.username);
-                console.log(usernameExists);
-                if (usernameExists) {
-                    errors.push({
-                        type: 'username',
-                        msg: 'This username is already taken.'
-                    });
-                    sendStandardRes(res, errors);
-                    goOn = false;
-                }
-            }
+        if (errors.length == 0 && goOn) {
+            // Create user
+            var newAdminId = await uuidManager.getNewUuid('admin');
+            var hashedPassword = await passwordManager.encrypt(req.body.password);
 
-            if (errors.length == 0 && goOn) {
-                // Create user
-                var newAdminId = await uuidManager.getNewUuid('admin');
-                var hashedPassword = await passwordManager.encrypt(req.body.password);
-
-                admin.create({
-                    adminId: newAdminId,
-                    username: req.body.username,
-                    password: hashedPassword,
-                    email: req.body.email,
-                    profilePicture: null,
-                    allowSignIn: 1,
-                    dateTimeJoined: moment().format('YYYY-MM-DD HH:mm:ss'),
-                    dateTimeLeft: null,
-                    firstName: req.body.firstName,
-                    lastName: req.body.lastName
-                })
-                .then((err) => {
-                    sendStandardRes(res, errors);
-                    goOn = false;
-                })
-                .catch(err => {
-                    console.log(err);
-                    errors.push({
-                        type: 'general',
-                        msg: 'An unknown error occurred.'
-                    });
-                    sendStandardRes(res, errors);
-                    goOn = false;
-                });
-            } else {
+            admin.create({
+                adminId: newAdminId,
+                username: req.body.username,
+                password: hashedPassword,
+                email: req.body.email,
+                profilePicture: null,
+                allowSignIn: 1,
+                dateTimeJoined: moment().format('YYYY-MM-DD HH:mm:ss'),
+                dateTimeLeft: null,
+                firstName: req.body.firstName,
+                lastName: req.body.lastName
+            })
+            .then((err) => {
                 sendStandardRes(res, errors);
-            }
-        } catch (err) {
-            console.log(err);
-            errors.push({
-                type: 'general',
-                msg: 'An unknown error occurred and this request could not be fulfilled.'
+                goOn = false;
+            })
+            .catch(err => {
+                console.log(err);
+                errors.push({
+                    type: 'general',
+                    msg: 'An unknown error occurred.'
+                });
+                sendStandardRes(res, errors);
+                goOn = false;
             });
+        } else {
             sendStandardRes(res, errors);
         }
-    })();
+    } catch (err) {
+        console.log(err);
+        errors.push({
+            type: 'general',
+            msg: 'An unknown error occurred and this request could not be fulfilled.'
+        });
+        sendStandardRes(res, errors);
+    }
     
 });
 
-router.post('/login', jsonParser, (req, res) => {
+router.post('/login', jsonParser, async (req, res) => {
     var errors = [];
     var goOn = true;
     var adminsFound = [];
     var matchedAdminIn;
     console.log("POST Request recieved - Admin Login: " + req.body);
+
+    var data;
 
     // username/email check
     if (!req.body.usernameEmail || typeof req.body.usernameEmail == 'undefined' || req.body.usernameEmail.length < 5) {
@@ -816,6 +794,7 @@ router.post('/login', jsonParser, (req, res) => {
             type: 'username',
             msg: 'An admin with this information does not exist.'
         });
+        goOn = false;
     }
 
     // password check
@@ -824,21 +803,13 @@ router.post('/login', jsonParser, (req, res) => {
             type: 'password',
             msg: 'No match could be found.'
         });
+        goOn = false;
     }
 
     var reqIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
 
-    try {
-        (async () => {
-            // Check if the authToken exists
-            if (!await authTokenManager.verify(req.body.authToken, "adminLogin", reqIp)) {
-                errors.push({
-                    type: 'authToken',
-                    msg: 'You\'re not authorized to log in.'
-                });
-                sendStandardRes(res, errors);
-                goOn = false;
-            }
+    if (goOn) {
+        try {
 
             // Get all users that have the username or email and
             if (goOn && errors.length < 1) {
@@ -874,33 +845,49 @@ router.post('/login', jsonParser, (req, res) => {
 
                 // Log in the user
                 if (goOn) {
-                    // Init the admin session object
-                    req.session.admin = {
+
+                    // JWT payload
+                    var tokenData = {
                         adminId: adminsFound[0].adminId,
-                        logInTime: 'now'
+                        dateTimeLoggedIn: moment().format('YYYY-MM-DD HH:mm:ss')
                     }
-                    // Redirect to overview
-                    sendStandardRes(res, errors);
-                    console.log(req.body.usernameEmail + " logged in.");
+
+                    jwtManager.create(tokenData)
+                    .then(token => {
+                        if (!token) {
+                            goOn = false;
+                        } else {
+                            data = {token};
+                            console.log(req.body.usernameEmail + " logged in.");
+                        }
+
+                        sendStandardRes(res, errors, data);
+                    })
+                    .catch(err => {
+                        errors.push({
+                            type: 'auth',
+                            msg: 'Could not generate an auth token for this request: '+ err + '.'
+                        });
+                        sendStandardRes(res, errors, data);
+                    }
+                        
+                    );
+                    
                 }
+                
             } else {
                 sendStandardRes(res, errors);
                 goOn = false;
             }
-
-            // Check if the password matches the found user
-            if (goOn) {
-
-            }
-
-            // Check if password matches the selected user in db
-        })();
-    } catch (err) {
-        console.log(err);
-        errors.push({
-            type: 'general',
-            msg: 'An unknown error occurred and this request could not be fulfilled.'
-        });
+        } catch (err) {
+            console.log(err);
+            errors.push({
+                type: 'general',
+                msg: 'An unknown error occurred and this request could not be fulfilled.'
+            });
+            sendStandardRes(res, errors);
+        }
+    } else {
         sendStandardRes(res, errors);
     }
     

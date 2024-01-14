@@ -8,6 +8,7 @@ const moment = require("moment");
 
 // Import sequelize models used for these functions
 const apiKey = require(__dirname + '/../../models/apiKey.js')(sequelize);
+const permission = require(__dirname + '/../../models/permission.js')(sequelize);
 
 /**
  * Generates a new apiKey and returns it. If it cannot generate an apiKey, an error is thrown.
@@ -74,25 +75,23 @@ async function verify(key, ip) {
 
     var permissionsFound = [];
 
-    var apiKeyFound = await this.exists();
-    await apiKey.findOne({
-        attributes: ['apiKeyId'],
-        where: {
-            [Op.and]: [
-                {apiKeyId: key}
+    await permission.findAll({
+        attributes: ['permissionName'],
+        where: [
+                {
+                    apiKeyId: key
+                }
             ]
-        }
     })
     .then(result => {
         // If there is no apiKey with the given ID then send an apiKey error
-        if (result === null) {
-            apiKeyFound = false;
+        if (result === null || result === []) {
+            permissionsFound = null;
         } else {
-            apiKey = true;
             let rows = JSON.parse(JSON.stringify(result));
 
-            rows.forEach(admin => {
-                permissionsFound.push(admin);
+            rows.forEach(permission => {
+                permissionsFound.push(permission.permissionName);
             });
         }
     })
@@ -104,4 +103,36 @@ async function verify(key, ip) {
     return permissionsFound;
 }
 
-module.exports = {generate, verify, getPermissions};
+/**
+ * Gets an array of the permissions given to an API key.
+ * @param {string} key - The ID of the apiKey
+ */
+ async function checkPermission(key, name) {
+
+    var permissionValid = false;
+
+    await permission.findAll({
+        attributes: ['permissionName'],
+        where: {
+            [Op.and]: [
+                {apiKeyId: key},
+                {permissionName: name}
+            ]
+        }
+    })
+    .then(result => {
+        if (result === null || result === []) {
+            permissionValid = false;
+        } else {
+            permissionValid = true;
+        }
+    })
+    .catch(err => {
+        console.log(err);
+        throw new Error(err);
+    });
+
+    return permissionValid;
+}
+
+module.exports = {generate, verify, getPermissions, checkPermission};
