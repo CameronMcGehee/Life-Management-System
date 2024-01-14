@@ -2,5 +2,9 @@
 
 /lib/emailManager/config/*
 
+<<<<<<< Updated upstream
 /nodejsport/config/*
 /nodejsport/node_modules/*
+=======
+*.DS_Store*
+>>>>>>> Stashed changes
