@@ -640,19 +640,19 @@
 							<br>
 							<div style="text-align: right;">
 								<label for="discount"><p>Discount</p></label>
-								<input class="defaultInput" id="discount" type="number" step="0.01" name="discount" min="0" style="width: 5em;" value="<?php echo htmlspecialchars($currentInvoice->discount); ?>">
+								<input class="defaultInput" id="discount" type="number" step="0.01" name="discount" min="0" style="width: 5em;" value="<?php echo htmlspecialchars(strval($currentInvoice->discount)); ?>">
 							</div>
 							<br><br>
 
 							<h3>Notes</h3>
 							<div class="defaultInputGroup">
 								<label for="notes"><p>Comments (included on invoice)</p></label>
-								<textarea class="defaultInput" style="font-size: 1.2em; width: 95%;" name="comments" id="comments"><?php echo htmlspecialchars($currentInvoice->comments); ?></textarea>
+								<textarea class="defaultInput" style="font-size: 1.2em; width: 95%;" name="comments" id="comments"><?php echo htmlspecialchars(strval($currentInvoice->comments)); ?></textarea>
 
 								<br><br>
 								
 								<label for="notes"><p>Private (to Admins)</p></label>
-								<textarea class="defaultInput" style="font-size: 1.2em; width: 95%;" name="privateNotes" id="privateNotes"><?php echo htmlspecialchars($currentInvoice->privateNotes); ?></textarea>
+								<textarea class="defaultInput" style="font-size: 1.2em; width: 95%;" name="privateNotes" id="privateNotes"><?php echo htmlspecialchars(strval($currentInvoice->privateNotes)); ?></textarea>
 							</div>
 							<br><br>
 

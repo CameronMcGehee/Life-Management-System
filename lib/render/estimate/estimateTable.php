@@ -313,9 +313,9 @@
                 // Render the row
 				$this->output .= '<tr>';
                 if ($this->options['showBatch']) {
-                    $this->output .= '<td class="ca nrb" style="width: 2em;"><input class="defaultInput" type="checkbox" name="'.$this->renderId.'-checkbox" value="'.htmlspecialchars($estimate->estimateId).'"></td>';
+                    $this->output .= '<td class="ca nrb" style="width: 2em;"><input class="defaultInput" type="checkbox" name="'.$this->renderId.'-checkbox" value="'.htmlspecialchars(strval($estimate->estimateId)).'"></td>';
                 }
-                $this->output .= '<td class="la nrb vam" style="max-width: 10em;"><a href="'.$this->options['rootPathPrefix'].'admin/estimates/estimate?id='.htmlspecialchars(htmlspecialchars($estimate->estimateId)).'" style="font-size: 1.1em; margin-right: .5em;"><b>'.$docIdOutput.'</b></a></td>
+                $this->output .= '<td class="la nrb vam" style="max-width: 10em;"><a href="'.$this->options['rootPathPrefix'].'admin/estimates/estimate?id='.htmlspecialchars(strval($estimate->estimateId)).'" style="font-size: 1.1em; margin-right: .5em;"><b>'.$docIdOutput.'</b></a></td>
                 ';
                                     
                 if ($this->options['showCustomer']) {

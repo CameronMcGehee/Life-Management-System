@@ -559,12 +559,12 @@
 										if ($currentEstimate->approvedByAdminId == $_SESSION['ultiscape_adminId']) {
 											$approvalNameOutput = '<a href="../../myprofile">You</a>';
 										} elseif ($currentAdmin->existed) {
-											$approvalNameOutput = '<a href="../../profile?id='.htmlspecialchars($currentEstimate->approvedByAdminId).'">'.htmlspecialchars($currentAdmin->firstName).' '.htmlspecialchars($currentAdmin->lastName).'</a>';
+											$approvalNameOutput = '<a href="../../profile?id='.htmlspecialchars(strval($currentEstimate->approvedByAdminId)).'">'.htmlspecialchars($currentAdmin->firstName).' '.htmlspecialchars($currentAdmin->lastName).'</a>';
 										} else {
 											$approvalNameOutput = 'an admin';
 										}
 									} else {
-										$approvalNameOutput = '<a href="../../customers/customer?id='.htmlspecialchars($currentEstimate->customerId).'">the customer</a>';
+										$approvalNameOutput = '<a href="../../customers/customer?id='.htmlspecialchars(strval($currentEstimate->customerId)).'">the customer</a>';
 									}
 
 									$approvalDateOutput = new DateTime($currentEstimate->dateTimeApproved);
@@ -575,7 +575,7 @@
 											<p style="display: inline;">This estimate was approved on <b>'.$approvalDateOutput.'</b> by <b>'.$approvalNameOutput.'</b>.</p>';
 
 											if ($currentEstimate->adminReason != NULL) {
-												echo '<p>Reason for admin approval: <b>'.htmlspecialchars($currentEstimate->adminReason).'</b></p>';
+												echo '<p>Reason for admin approval: <b>'.htmlspecialchars(strval($currentEstimate->adminReason)).'</b></p>';
 											}
 									echo '</div></div>
 									<br>';
@@ -728,19 +728,19 @@
 							<br>
 							<div style="text-align: right;">
 								<label for="discount"><p>Discount</p></label>
-								<input <?php if ($currentEstimate->dateTimeApproved != NULL) { echo 'readonly ';} ?>class="defaultInput" id="discount" type="number" step="0.01" name="discount" min="0" style="width: 5em;" value="<?php echo htmlspecialchars($currentEstimate->discount); ?>">
+								<input <?php if ($currentEstimate->dateTimeApproved != NULL) { echo 'readonly ';} ?>class="defaultInput" id="discount" type="number" step="0.01" name="discount" min="0" style="width: 5em;" value="<?php echo htmlspecialchars(strval($currentEstimate->discount)); ?>">
 							</div>
 							<br><br>
 
 							<h3>Notes</h3>
 							<div class="defaultInputGroup">
 								<label for="notes"><p>Comments (included on estimate)</p></label>
-								<textarea <?php if ($currentEstimate->dateTimeApproved != NULL) { echo 'readonly ';} ?>class="defaultInput" style="font-size: 1.2em; width: 95%;" name="comments" id="comments"><?php echo htmlspecialchars($currentEstimate->comments); ?></textarea>
+								<textarea <?php if ($currentEstimate->dateTimeApproved != NULL) { echo 'readonly ';} ?>class="defaultInput" style="font-size: 1.2em; width: 95%;" name="comments" id="comments"><?php echo htmlspecialchars(strval($currentEstimate->comments)); ?></textarea>
 
 								<br><br>
 								
 								<label for="notes"><p>Private (to Admins)</p></label>
-								<textarea <?php if ($currentEstimate->dateTimeApproved != NULL) { echo 'readonly ';} ?>class="defaultInput" style="font-size: 1.2em; width: 95%;" name="privateNotes" id="privateNotes"><?php echo htmlspecialchars($currentEstimate->privateNotes); ?></textarea>
+								<textarea <?php if ($currentEstimate->dateTimeApproved != NULL) { echo 'readonly ';} ?>class="defaultInput" style="font-size: 1.2em; width: 95%;" name="privateNotes" id="privateNotes"><?php echo htmlspecialchars(strval($currentEstimate->privateNotes)); ?></textarea>
 							</div>
 							<br><br>
 

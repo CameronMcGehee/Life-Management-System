@@ -160,6 +160,7 @@
 					$jobsOutput = '';
 
 					foreach ($completedJobs as $currentJob) {
+						$currentJob['instanceDate'] = strval($currentJob['instanceDate']);
 						$currentJobStartDateTime = new DateTime($currentJob['instanceDate']);
 						if ($currentJobStartDateTime->format('Y-m-d') == $currentDate->format('Y-m-d')) { // If it is today
 							$jobsOutput .= '<a href="'.$this->options['rootPathPrefix'].'admin/jobs/completedjob?id='.htmlspecialchars($currentJob['completedJobId']).'&instance='.$currentJob['instanceDate'].'"><p class="job completedJob">'.htmlspecialchars($currentJob['name']).'</p></a>';
@@ -167,6 +168,8 @@
                     }
 
                     foreach ($jobs as $currentJob) {
+						$currentJob['instanceDate'] = strval($currentJob['instanceDate']);
+						$currentJob['endDateTime'] = strval($currentJob['endDateTime']);
 						$currentJobStartDateTime = new DateTime($currentJob['instanceDate']);
 						$currentJobEndDateTime = new DateTime($currentJob['endDateTime']);
 						if ($currentJobStartDateTime->format('Y-m-d') == $currentDate->format('Y-m-d')) { // If it is today

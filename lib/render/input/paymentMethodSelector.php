@@ -6,6 +6,7 @@
 
 		public string $renderId;
 		public array $options;
+		public business $currentBusiness;
 
 		function __construct(string $renderId, array $options = []) {
 
@@ -75,7 +76,7 @@
 					$this->output .= 'selected="selected"';
 				}
 
-				$this->output .= 'value="'.htmlspecialchars($paymentMethodId).'">'.htmlspecialchars($currentPaymentMethod->name).'</option>';
+				$this->output .= 'value="'.htmlspecialchars($paymentMethodId).'">'.htmlspecialchars(strval($currentPaymentMethod->name)).'</option>';
 			}
 
 			$this->output .= '</select>';

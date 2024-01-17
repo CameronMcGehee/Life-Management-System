@@ -29,15 +29,15 @@
 	require_once '../../../../../lib/table/customerEmailAddress.php';
     foreach ($currentCustomer->emailAddresses as $emailAddressId) {
         $emailInfo = new customerEmailAddress($emailAddressId);
-        echo '<input type="hidden" name="emailAddressIds[]" value="'.htmlspecialchars($emailAddressId).'">
+        echo '<input type="hidden" name="emailAddressIds[]" value="'.htmlspecialchars(strval($emailAddressId)).'">
 		';
-		echo '<input placeholder="Email..." class="almostInvisibleInputNoHover" style="font-size: 1.2em; width: 65%; display: inline;" type="text" name="emailAddresses[]" id="emailAddress'.htmlspecialchars($emailAddressId).'" value="'.htmlspecialchars($emailInfo->email).'">
+		echo '<input placeholder="Email..." class="almostInvisibleInputNoHover" style="font-size: 1.2em; width: 65%; display: inline;" type="text" name="emailAddresses[]" id="emailAddress'.htmlspecialchars(strval($emailAddressId)).'" value="'.htmlspecialchars(strval($emailInfo->email)).'">
 		';
-		echo ' <input class="almostInvisibleInputNoHover" style="font-size: 1.2em; width: 22%; display: inline;" type="text" name="emailAddressDescriptions[]" id="emailAddressDescription'.htmlspecialchars($emailAddressId).'" placeholder="Note" value="'.htmlspecialchars($emailInfo->description).'">
+		echo ' <input class="almostInvisibleInputNoHover" style="font-size: 1.2em; width: 22%; display: inline;" type="text" name="emailAddressDescriptions[]" id="emailAddressDescription'.htmlspecialchars(strval($emailAddressId)).'" placeholder="Note" value="'.htmlspecialchars(strval($emailInfo->description)).'">
 		';
-		echo ' <span id="deleteEmailAddress:::'.htmlspecialchars($emailAddressId).'" class="extraSmallButtonWrapper orangeButton xyCenteredFlex" style="width: 1em; display: inline;"><img style="height: 1em;" src="../../../images/ultiscape/icons/trash.svg"></span>
+		echo ' <span id="deleteEmailAddress:::'.htmlspecialchars(strval($emailAddressId)).'" class="extraSmallButtonWrapper orangeButton xyCenteredFlex" style="width: 1em; display: inline;"><img style="height: 1em;" src="../../../images/ultiscape/icons/trash.svg"></span>
 		';
-		echo '<span id="emailAddress'.htmlspecialchars($emailAddressId).'Error" class="underInputError" style="display: none;"><br><br>Enter a valid address.</span><br><br>
+		echo '<span id="emailAddress'.htmlspecialchars(strval($emailAddressId)).'Error" class="underInputError" style="display: none;"><br><br>Enter a valid address.</span><br><br>
 		';
 	}
 

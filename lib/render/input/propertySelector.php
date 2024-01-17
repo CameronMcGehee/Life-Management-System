@@ -6,6 +6,7 @@
 
 		public string $renderId;
 		public array $options;
+		public business $currentBusiness;
 
 		function __construct(string $renderId, array $options = []) {
 

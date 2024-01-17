@@ -325,7 +325,7 @@
                 } else {
                     $paymentStatusColor = '#006600';
                 }
-                $paymentStatusOutput = '<div style="display: inline-block; width: .9em; height: .9em; border-radius: 50%; background-color: '.$paymentStatusColor.'"></div> <b>'.htmlspecialchars($this->currentBusiness->currencySymbol).$amountPaid.'</b> ('.$percentPaid.'%)';
+                $paymentStatusOutput = '<div style="display: inline-block; width: .9em; height: .9em; border-radius: 50%; background-color: '.$paymentStatusColor.'"></div> <b>'.htmlspecialchars(strval($this->currentBusiness->currencySymbol)).$amountPaid.'</b> ('.$percentPaid.'%)';
 
                 // Render the row
 				$this->output .= '<tr>';

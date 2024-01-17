@@ -109,11 +109,11 @@
 
 			// Find what item has this docIdId
 			// docIds can be linked to either a customerServiceMessage, a fileUpload, an invoice or an estimate
-			$fetch = $this->db->select('customerServiceMessage', 'customerServiceMessageId', "WHERE docIdId = '$this->dbDocIdId'");
-			if ($fetch) {
-				array_push($this->linkedItem, array('customerServiceMessage', $fetch[0]['customerServiceMessageId']));
-				return;
-			}
+			// $fetch = $this->db->select('customerServiceMessage', 'customerServiceMessageId', "WHERE docIdId = '$this->dbDocIdId'");
+			// if ($fetch) {
+			// 	array_push($this->linkedItem, array('customerServiceMessage', $fetch[0]['customerServiceMessageId']));
+			// 	return;
+			// }
 			$fetch = $this->db->select('fileUpload', 'fileUploadId', "WHERE docIdId = '$this->dbDocIdId'");
 			if ($fetch) {
 				array_push($this->linkedItem, array('fileUpload', $fetch[0]['fileUploadId']));

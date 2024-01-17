@@ -18,7 +18,7 @@
 	require_once '../../../lib/table/paymentMethod.php';
 	require_once '../../../lib/timezones/Timezones.php';
 
-	echo $adminUIRender->renderAdminHtmlTop('../../', 'Settings for'.htmlspecialchars($currentBusiness->adminDisplayName), 'Edit your UltiScape business.');
+	echo $adminUIRender->renderAdminHtmlTop('../../', 'Settings for'.htmlspecialchars(strval($currentBusiness->adminDisplayName)), 'Edit your UltiScape business.');
 	echo $adminUIRender->renderAdminUIMenuToggleScripts('../../');
 
 		// Generate the auth tokens for the form
@@ -211,7 +211,7 @@
 				<div class="twoColPage-Info-Content maxHeight">
 					<div id="twoColInfoWrapper" class="paddingLeftRight90 paddingTopBottom90">
 					
-						<h2>Settings: <i><?php echo htmlspecialchars($currentBusiness->adminDisplayName); ?></i></h2>
+						<h2>Settings: <i><?php echo htmlspecialchars(strval($currentBusiness->adminDisplayName)); ?></i></h2>
 
 						<!-- <br> -->
 
@@ -231,17 +231,17 @@
 							<div class="defaultInputGroup">
 
 								<label for="displayName"><p>Business Name <span style="color: rgb(167, 0, 0);">*</span></p></label>
-								<input class="bigInput" type="text" name="displayName" id="displayName" placeholder="Business name..." style="width: 70%;" required value="<?php echo htmlspecialchars($currentBusiness->displayName); ?>">
+								<input class="bigInput" type="text" name="displayName" id="displayName" placeholder="Business name..." style="width: 70%;" required value="<?php echo htmlspecialchars(strval($currentBusiness->displayName)); ?>">
 								<span id="displayNameError" class="underInputError" style="display: none;"><br>Business name bust be between <?php echo $ULTISCAPECONFIG['businessNameMinLength']; ?> and <?php echo $ULTISCAPECONFIG['businessNameMaxLength']; ?> characters.</span>
 								<br><br>
 
 								<label for="adminDisplayName"><p>Internal Display Name (What you see in Ultiscape)</p></label>
-								<input class="defaultInput" type="text" name="adminDisplayName" id="adminDisplayName" placeholder="Internal display name..." value="<?php echo htmlspecialchars($currentBusiness->adminDisplayName); ?>">
+								<input class="defaultInput" type="text" name="adminDisplayName" id="adminDisplayName" placeholder="Internal display name..." value="<?php echo htmlspecialchars(strval($currentBusiness->adminDisplayName)); ?>">
 								<span id="adminDisplayNameError" class="underInputError" style="display: none;"><br>Business name bust be between <?php echo $ULTISCAPECONFIG['businessNameMinLength']; ?> and <?php echo $ULTISCAPECONFIG['businessNameMaxLength']; ?> characters.</span>
 								<!-- <br><br><br> -->
 
 								<!-- <div style="border: 1px solid gray; padding: 1em; width: 90%; max-width: 25em; height: 5em;">
-									<img src="<?php // if ($currentBusiness->fullLogoFile === NULL) {echo "../../images/ultiscape/etc/noLogo.png";} else echo "../../images/ultiscape/uploads/businessFullLogoFile/".htmlspecialchars($currentBusiness->fullLogoFile); ?>" style="height: 100%; float: left;">
+									<img src="<?php // if ($currentBusiness->fullLogoFile === NULL) {echo "../../images/ultiscape/etc/noLogo.png";} else echo "../../images/ultiscape/uploads/businessFullLogoFile/".htmlspecialchars(strval($currentBusiness->fullLogoFile)); ?>" style="height: 100%; float: left;">
 									
 									<input class="defaultInput" type="checkbox" name="useNewLogo" id="useNewLogo"><label for="useNewLogo"> <p style="display: inline; clear: both;">Upload a new logo</p></label>
 									<br><br>
@@ -257,32 +257,32 @@
 
 									<div>
 										<label for="address1"><p>Address Line 1</p></label>
-										<input class="defaultInput" type="text" name="address1" id="address1" placeholder="Address Line 1..." style="width: 90%" value="<?php echo htmlspecialchars($currentBusiness->address1); ?>">
+										<input class="defaultInput" type="text" name="address1" id="address1" placeholder="Address Line 1..." style="width: 90%" value="<?php echo htmlspecialchars(strval($currentBusiness->address1)); ?>">
 										<span id="address1Error" class="underInputError" style="display: none;"><br>Input a valid address.</span>
 										<br><br>
 
 										<label for="address2"><p>Address Line 2</p></label>
-										<input class="defaultInput" type="text" name="address2" id="address2" placeholder="" style="width: 90%" value="<?php echo htmlspecialchars($currentBusiness->address2); ?>">
+										<input class="defaultInput" type="text" name="address2" id="address2" placeholder="" style="width: 90%" value="<?php echo htmlspecialchars(strval($currentBusiness->address2)); ?>">
 										<span id="address2Error" class="underInputError" style="display: none;"><br>Input a valid address.</span>
 										<br><br>
 									</div>
 
 									<div>
 										<label for="city"><p>City</p></label>
-										<input class="defaultInput" type="text" name="city" id="city" placeholder="City..." style="width: 90%" value="<?php echo htmlspecialchars($currentBusiness->city); ?>">
+										<input class="defaultInput" type="text" name="city" id="city" placeholder="City..." style="width: 90%" value="<?php echo htmlspecialchars(strval($currentBusiness->city)); ?>">
 										<span id="cityError" class="underInputError" style="display: none;"><br>Input a valid city.</span>
 										<br><br>
 
 										<div class="twoCol">
 											<div>
 												<label for="state"><p>State</p></label>
-												<input class="defaultInput" type="text" name="state" id="state" placeholder="State..." style="width: 90%" value="<?php echo htmlspecialchars($currentBusiness->state); ?>">
+												<input class="defaultInput" type="text" name="state" id="state" placeholder="State..." style="width: 90%" value="<?php echo htmlspecialchars(strval($currentBusiness->state)); ?>">
 												<span id="stateError" class="underInputError" style="display: none;"><br>Input a valid state.</span>
 											</div>
 
 											<div>
 												<label for="zipCode"><p>Zip Code</p></label>
-												<input class="defaultInput" type="number" name="zipCode" id="zipCode" placeholder="Zip code..." style="width: 90%" value="<?php echo htmlspecialchars($currentBusiness->zipCode); ?>">
+												<input class="defaultInput" type="number" name="zipCode" id="zipCode" placeholder="Zip code..." style="width: 90%" value="<?php echo htmlspecialchars(strval($currentBusiness->zipCode)); ?>">
 												<span id="zipCodeError" class="underInputError" style="display: none;"><br>Input a number.</span>
 											</div>
 										</div>
@@ -295,22 +295,22 @@
 								<label for="phone1"><p>Phone Number</p></label>
 								<div class="fourColCompact">
 									<div>
-										<input class="defaultInput" type="text" name="phonePrefix" id="phonePrefix" placeholder="+1" value="<?php echo htmlspecialchars($currentBusiness->phonePrefix); ?>" style="width: 1.5em;">
+										<input class="defaultInput" type="text" name="phonePrefix" id="phonePrefix" placeholder="+1" value="<?php echo htmlspecialchars(strval($currentBusiness->phonePrefix)); ?>" style="width: 1.5em;">
 										<span id="phonePrefixError" class="underInputError" style="display: none;"><br>Input a number.</span>
 									</div>
 
 									<div>
-										<input class="defaultInput" type="text" name="phone1" id="phone1" placeholder="555" value="<?php echo htmlspecialchars($currentBusiness->phone1); ?>" style="width: 3em;">
+										<input class="defaultInput" type="text" name="phone1" id="phone1" placeholder="555" value="<?php echo htmlspecialchars(strval($currentBusiness->phone1)); ?>" style="width: 3em;">
 										<span id="phone1Error" class="underInputError" style="display: none;"><br>Input a number.</span>
 									</div>
 
 									<div>
-										<input class="defaultInput" type="text" name="phone2" id="phone2" placeholder="555" value="<?php echo htmlspecialchars($currentBusiness->phone2); ?>" style="width: 3em;">
+										<input class="defaultInput" type="text" name="phone2" id="phone2" placeholder="555" value="<?php echo htmlspecialchars(strval($currentBusiness->phone2)); ?>" style="width: 3em;">
 										<span id="phone2Error" class="underInputError" style="display: none;"><br>Input a number.</span>
 									</div>
 
 									<div>
-										<input class="defaultInput" type="text" name="phone3" id="phone3" placeholder="5555" value="<?php echo htmlspecialchars($currentBusiness->phone3); ?>" style="width: 3em;">
+										<input class="defaultInput" type="text" name="phone3" id="phone3" placeholder="5555" value="<?php echo htmlspecialchars(strval($currentBusiness->phone3)); ?>" style="width: 3em;">
 										<span id="phone3Error" class="underInputError" style="display: none;"><br>Input a number.</span>
 									</div>
 								</div>
@@ -321,7 +321,7 @@
 								<?php
 
 									$optionsList = new jessedp\Timezones\Timezones();
-									echo $optionsList->create('timeZone', htmlspecialchars($currentBusiness->timeZone), array('attr' => array('id' => 'timeZone', 'class' => 'defaultInput', 'style' => 'max-width: 100%'), 'with_regions' => false));
+									echo $optionsList->create('timeZone', htmlspecialchars(strval($currentBusiness->timeZone)), array('attr' => array('id' => 'timeZone', 'class' => 'defaultInput', 'style' => 'max-width: 100%'), 'with_regions' => false));
 
 								?>
 
@@ -334,19 +334,19 @@
 								<div class="threeCol">
 									<div>
 										<label for="currencySymbol"><p>Currency Symbol</p></label>
-										<input class="defaultInput" type="text" name="currencySymbol" id="currencySymbol" placeholder="$" value="<?php echo htmlspecialchars($currentBusiness->currencySymbol); ?>" style="width: 1em;">
+										<input class="defaultInput" type="text" name="currencySymbol" id="currencySymbol" placeholder="$" value="<?php echo htmlspecialchars(strval($currentBusiness->currencySymbol)); ?>" style="width: 1em;">
 										<span id="currencySymbolError" class="underInputError" style="display: none;"><br>Must be 1 character.</span>
 									</div>
 
 									<div>
 										<label for="areaSymbol"><p>Area Unit (²)</p></label>
-										<input class="defaultInput" type="text" name="areaSymbol" id="areaSymbol" placeholder="ft" value="<?php echo htmlspecialchars($currentBusiness->areaSymbol); ?>" style="width: 2em;">
+										<input class="defaultInput" type="text" name="areaSymbol" id="areaSymbol" placeholder="ft" value="<?php echo htmlspecialchars(strval($currentBusiness->areaSymbol)); ?>" style="width: 2em;">
 										<span id="areaSymbolError" class="underInputError" style="display: none;"><br>Must be 1-4 characters.</span>
 									</div>
 
 									<div>
 										<label for="distanceSymbol"><p>Travel Distance Unit</p></label>
-										<input class="defaultInput" type="text" name="distanceSymbol" id="distanceSymbol" placeholder="mi" value="<?php echo htmlspecialchars($currentBusiness->distanceSymbol); ?>" style="width: 2em;">
+										<input class="defaultInput" type="text" name="distanceSymbol" id="distanceSymbol" placeholder="mi" value="<?php echo htmlspecialchars(strval($currentBusiness->distanceSymbol)); ?>" style="width: 2em;">
 										<span id="distanceSymbolError" class="underInputError" style="display: none;"><br>Must be 1-4 characters.</span>
 									</div>
 								</div>
@@ -390,20 +390,20 @@
 
 								<div class="threeCol">
 									<div>
-										<label for="modPayrSalBaseHourlyRate"><p>Default Hourly Rate (<?php echo htmlspecialchars($currentBusiness->currencySymbol) ?>)</p></label>
-										<input class="defaultInput" type="number" min="0" max="99999" step="0.01" name="modPayrSalBaseHourlyRate" id="modPayrSalBaseHourlyRate" placeholder="$0.00" value="<?php echo htmlspecialchars($currentBusiness->modPayrSalBaseHourlyRate); ?>" style="width: 4em;">
+										<label for="modPayrSalBaseHourlyRate"><p>Default Hourly Rate (<?php echo htmlspecialchars(strval($currentBusiness->currencySymbol)) ?>)</p></label>
+										<input class="defaultInput" type="number" min="0" max="99999" step="0.01" name="modPayrSalBaseHourlyRate" id="modPayrSalBaseHourlyRate" placeholder="$0.00" value="<?php echo htmlspecialchars(strval($currentBusiness->modPayrSalBaseHourlyRate)); ?>" style="width: 4em;">
 										<span id="modPayrSalBaseHourlyRateError" class="underInputError" style="display: none;"><br>Input a number.</span>
 									</div>
 
 									<div>
-										<label for="modPayrSalBasePerJob"><p>Default Per Job Amount (<?php echo htmlspecialchars($currentBusiness->currencySymbol) ?>)</p></label>
-										<input class="defaultInput" type="number" min="0" max="99999" step="0.01" name="modPayrSalBasePerJob" id="modPayrSalBasePerJob" placeholder="$0.00" value="<?php echo htmlspecialchars($currentBusiness->modPayrSalBasePerJob); ?>" style="width: 4em;">
+										<label for="modPayrSalBasePerJob"><p>Default Per Job Amount (<?php echo htmlspecialchars(strval($currentBusiness->currencySymbol)) ?>)</p></label>
+										<input class="defaultInput" type="number" min="0" max="99999" step="0.01" name="modPayrSalBasePerJob" id="modPayrSalBasePerJob" placeholder="$0.00" value="<?php echo htmlspecialchars(strval($currentBusiness->modPayrSalBasePerJob)); ?>" style="width: 4em;">
 										<span id="modPayrSalBasePerJobError" class="underInputError" style="display: none;"><br>Input a number.</span>
 									</div>
 
 									<div>
 									<label for="modPayrSalBaseJobPercent"><p>Default Job Percent (%)</p></label>
-										<input class="defaultInput" type="number" min="0" max="100" step="1" name="modPayrSalBaseJobPercent" id="modPayrSalBaseJobPercent" placeholder="0%" value="<?php echo htmlspecialchars($currentBusiness->modPayrSalBaseJobPercent); ?>" style="width: 3em;">
+										<input class="defaultInput" type="number" min="0" max="100" step="1" name="modPayrSalBaseJobPercent" id="modPayrSalBaseJobPercent" placeholder="0%" value="<?php echo htmlspecialchars(strval($currentBusiness->modPayrSalBaseJobPercent)); ?>" style="width: 3em;">
 										<span id="modPayrSalBaseJobPercentError" class="underInputError" style="display: none;"><br>Input a number.</span>
 									</div>
 								</div>
@@ -418,7 +418,7 @@
 								<div class="twoCol" style="grid-template-columns: 25% 75%;">
 									<div>
 										<label for="docIdMin"><p>Minimum Document ID</p></label>
-										<input class="defaultInput" type="number" min="0" step="1" name="docIdMin" id="docIdMin" placeholder="1" value="<?php echo htmlspecialchars($currentBusiness->docIdMin); ?>" style="width: 4em;">
+										<input class="defaultInput" type="number" min="0" step="1" name="docIdMin" id="docIdMin" placeholder="1" value="<?php echo htmlspecialchars(strval($currentBusiness->docIdMin)); ?>" style="width: 4em;">
 										<span id="docIdMinError" class="underInputError" style="display: none;"><br>Input a number.</span>
 									</div>
 									<div>
@@ -438,7 +438,7 @@
 								<div class="twoCol" style="grid-template-columns: 25% 75%;">
 									<div>
 										<label for="invoiceTerm"><p>Default Invoice Term (Days)</p></label>
-										<input class="defaultInput" type="number" min="0" step="1" name="invoiceTerm" id="invoiceTerm" placeholder="None" value="<?php echo htmlspecialchars($currentBusiness->invoiceTerm); ?>" style="width: 4em;">
+										<input class="defaultInput" type="number" min="0" step="1" name="invoiceTerm" id="invoiceTerm" placeholder="None" value="<?php echo htmlspecialchars(strval($currentBusiness->invoiceTerm)); ?>" style="width: 4em;">
 										<span id="invoiceTermError" class="underInputError" style="display: none;"><br>Input a number.</span>
 									</div>
 									<div>
@@ -468,23 +468,23 @@
 												$currentPaymentMethod = new paymentMethod($paymentMethodId);
 												if ($currentPaymentMethod->existed) {
 													echo '<tr>
-													<td><input type="hidden" name="paymentMethodId[]" value="'.htmlspecialchars($paymentMethodId).'">
-													<input class="invisibleInput" style="height: 1.3em; width: 5em; max-width: 30vw; font-size: 1.3em;" type="text" name="paymentMethodName[]" value="'.htmlspecialchars($currentPaymentMethod->name).'"> 
+													<td><input type="hidden" name="paymentMethodId[]" value="'.htmlspecialchars(strval($paymentMethodId)).'">
+													<input class="invisibleInput" style="height: 1.3em; width: 5em; max-width: 30vw; font-size: 1.3em;" type="text" name="paymentMethodName[]" value="'.htmlspecialchars(strval($currentPaymentMethod->name)).'"> 
 													<br><br>
-													<span id="deletePaymentMethod:::'.htmlspecialchars($paymentMethodId).'" class="smallButtonWrapper orangeButton xyCenteredFlex" style="width: 1em; display: inline;"><img style="height: 1em;" src="../../images/ultiscape/icons/trash.svg"></span>
+													<span id="deletePaymentMethod:::'.htmlspecialchars(strval($paymentMethodId)).'" class="smallButtonWrapper orangeButton xyCenteredFlex" style="width: 1em; display: inline;"><img style="height: 1em;" src="../../images/ultiscape/icons/trash.svg"></span>
 													</td>
 													<td class="tg-0lax">
 													<div class="twoCol" style="grid-template-columns: 30% 70%">
 														<div>
 															<p>Amount Cut</p>
-																<input class="invisibleInput" style="height: 1.3em; width: 3em; font-size: 1.3em;" type="number" step="0.01" name="paymentMethodAmountCut[]" value="'.htmlspecialchars($currentPaymentMethod->amountCut).'" min="0" style="width: 5em;" value="25">
+																<input class="invisibleInput" style="height: 1.3em; width: 3em; font-size: 1.3em;" type="number" step="0.01" name="paymentMethodAmountCut[]" value="'.htmlspecialchars(strval($currentPaymentMethod->amountCut)).'" min="0" style="width: 5em;" value="25">
 															<p>Percent Cut</p>
-																<input class="invisibleInput" style="height: 1.3em; width: 3em; font-size: 1.3em;" type="number" step=".001" name="paymentMethodPercentCut[]" value="'.htmlspecialchars($currentPaymentMethod->percentCut).'" min="0" max="100" style="width: 5em;" value="1"><label for="paymentMethodTax">%</label>
+																<input class="invisibleInput" style="height: 1.3em; width: 3em; font-size: 1.3em;" type="number" step=".001" name="paymentMethodPercentCut[]" value="'.htmlspecialchars(strval($currentPaymentMethod->percentCut)).'" min="0" max="100" style="width: 5em;" value="1"><label for="paymentMethodTax">%</label>
 														</div>
 
 														<div>
 															<p>Notes to Customer (included on payment screen)</p>
-																<textarea class="invisibleInput" style="height: 1.3em; width: 15em; max-width: 20vw; font-size: 1.3em; resize: none; height: 4em;" type="text" name="paymentMethodNotes[]">'.htmlspecialchars($currentPaymentMethod->notes).'</textarea>
+																<textarea class="invisibleInput" style="height: 1.3em; width: 15em; max-width: 20vw; font-size: 1.3em; resize: none; height: 4em;" type="text" name="paymentMethodNotes[]">'.htmlspecialchars(strval($currentPaymentMethod->notes)).'</textarea>
 														</div>
 													</div>
 													</td>
@@ -514,7 +514,7 @@
 								<div class="twoCol" style="grid-template-columns: 25% 75%;">
 									<div>
 										<label for="estimateValidity"><p>Default Estimate Validity (Days)</p></label>
-										<input class="defaultInput" type="number" min="0" step="1" name="estimateValidity" id="estimateValidity" placeholder="None" value="<?php echo htmlspecialchars($currentBusiness->estimateValidity); ?>" style="width: 4em;">
+										<input class="defaultInput" type="number" min="0" step="1" name="estimateValidity" id="estimateValidity" placeholder="None" value="<?php echo htmlspecialchars(strval($currentBusiness->estimateValidity)); ?>" style="width: 4em;">
 										<span id="estimateValidityError" class="underInputError" style="display: none;"><br>Input a number.</span>
 									</div>
 									<div>
@@ -525,10 +525,10 @@
 							
 							<br><br>
 
-							<input type="hidden" name="authToken" id="authToken" value="<?php echo htmlspecialchars($mainAuthToken->authTokenId); ?>">
+							<input type="hidden" name="authToken" id="authToken" value="<?php echo htmlspecialchars(strval($mainAuthToken->authTokenId)); ?>">
 
-							<input type="hidden" name="deletePaymentMethodAuthToken" id="authToken" value="<?php echo htmlspecialchars($deletePaymentMethodAuthToken->authTokenId); ?>">
-							<input type="hidden" name="addPaymentMethodAuthToken" id="authToken" value="<?php echo htmlspecialchars($addPaymentMethodAuthToken->authTokenId); ?>">
+							<input type="hidden" name="deletePaymentMethodAuthToken" id="authToken" value="<?php echo htmlspecialchars(strval($deletePaymentMethodAuthToken->authTokenId)); ?>">
+							<input type="hidden" name="addPaymentMethodAuthToken" id="authToken" value="<?php echo htmlspecialchars(strval($addPaymentMethodAuthToken->authTokenId)); ?>">
 						</div>
 					</div>
 				</div>

@@ -29,17 +29,17 @@
 	require_once '../../../../../lib/table/customerPhoneNumber.php';
     foreach ($currentCustomer->phoneNumbers as $phoneNumberId) {
         $phoneInfo = new customerPhoneNumber($phoneNumberId);
-        echo '<input type="hidden" name="phoneNumberIds[]" value="'.htmlspecialchars($phoneNumberId).'">
+        echo '<input type="hidden" name="phoneNumberIds[]" value="'.htmlspecialchars(strval($phoneNumberId)).'">
 		';
-		echo '<input placeholder="+1" class="almostInvisibleInputNoHover" style="font-size: 1.2em; width: 2em; max-width: 10%; display: inline;" type="text" name="phoneNumberPrefixes[]" id="phoneNumberPrefix'.htmlspecialchars($phoneNumberId).'" value="'.htmlspecialchars($phoneInfo->phonePrefix).'">
+		echo '<input placeholder="+1" class="almostInvisibleInputNoHover" style="font-size: 1.2em; width: 2em; max-width: 10%; display: inline;" type="text" name="phoneNumberPrefixes[]" id="phoneNumberPrefix'.htmlspecialchars(strval($phoneNumberId)).'" value="'.htmlspecialchars(strval($phoneInfo->phonePrefix)).'">
 		';
-		echo '<input placeholder="Phone 1..." class="almostInvisibleInputNoHover" style="font-size: 1.2em; width: 13em; display: inline;" type="text" name="phoneNumbers[]" id="phoneNumber'.htmlspecialchars($phoneNumberId).'" value="'.htmlspecialchars($phoneInfo->phone1).'">
+		echo '<input placeholder="Phone 1..." class="almostInvisibleInputNoHover" style="font-size: 1.2em; width: 13em; display: inline;" type="text" name="phoneNumbers[]" id="phoneNumber'.htmlspecialchars(strval($phoneNumberId)).'" value="'.htmlspecialchars(strval($phoneInfo->phone1)).'">
 		';
-		echo ' <input class="almostInvisibleInputNoHover" style="font-size: 1.2em; width: 22%; display: inline;" type="text" name="phoneNumberDescriptions[]" id="phoneNumberDescription'.htmlspecialchars($phoneNumberId).'" placeholder="Note" value="'.htmlspecialchars($phoneInfo->description).'">
+		echo ' <input class="almostInvisibleInputNoHover" style="font-size: 1.2em; width: 22%; display: inline;" type="text" name="phoneNumberDescriptions[]" id="phoneNumberDescription'.htmlspecialchars(strval($phoneNumberId)).'" placeholder="Note" value="'.htmlspecialchars(strval($phoneInfo->description)).'">
 		';
-		echo ' <span id="deletePhoneNumber:::'.htmlspecialchars($phoneNumberId).'" class="extraSmallButtonWrapper orangeButton xyCenteredFlex" style="width: 1em; display: inline;"><img style="height: 1em;" src="../../../images/ultiscape/icons/trash.svg"></span>
+		echo ' <span id="deletePhoneNumber:::'.htmlspecialchars(strval($phoneNumberId)).'" class="extraSmallButtonWrapper orangeButton xyCenteredFlex" style="width: 1em; display: inline;"><img style="height: 1em;" src="../../../images/ultiscape/icons/trash.svg"></span>
 		';
-		echo '<span id="phoneNumber'.htmlspecialchars($phoneNumberId).'Error" class="underInputError" style="display: none;"><br><br>Enter a valid phone number (digits only).</span><br><br>
+		echo '<span id="phoneNumber'.htmlspecialchars(strval($phoneNumberId)).'Error" class="underInputError" style="display: none;"><br><br>Enter a valid phone number (digits only).</span><br><br>
 		';
 	}
 

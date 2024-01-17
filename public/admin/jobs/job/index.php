@@ -471,9 +471,9 @@
 			var estHours = parseFloat($("#estHours").val());
 
 			if (isNaN(price / estHours)) {
-				$("#perHourCalc").html("<?php echo htmlspecialchars($currentBusiness->currencySymbol); ?>--/hour");
+				$("#perHourCalc").html("<?php echo htmlspecialchars(strval($currentBusiness->currencySymbol)); ?>--/hour");
 			} else {
-				$("#perHourCalc").html("<?php echo htmlspecialchars($currentBusiness->currencySymbol); ?>" + (price / estHours).toFixed(2) + "/hour");
+				$("#perHourCalc").html("<?php echo htmlspecialchars(strval($currentBusiness->currencySymbol)); ?>" + (price / estHours).toFixed(2) + "/hour");
 			}
 		}
 
@@ -778,7 +778,7 @@
 				inputChange();
 			});
 
-			// Update the last job recurring details so that it shows the right recurrance update prompt options
+			// Update the last job recurring details so that it shows the right recurrence update prompt options
 			lastFreq = $("input[name='frequency']").val();
 			lastFreqInt = $("#frequencyInterval option:selected").val();
 			lastStartDate = $("input[name='startDate']").val();
@@ -866,7 +866,7 @@
 					$frequencyOutput = "".$currentJob->frequency."";
 				}
 
-				if (strrpos($currentJob->weekday, '-')) {
+				if (strrpos(strval($currentJob->weekday), '-')) {
 					$weekdayOutput = explode('-', $currentJob->weekday)[1];
 					$weekNumberOutput = explode('-', $currentJob->weekday)[0];
 					$dayOfMonthOutput = 'null';
@@ -938,15 +938,15 @@
 			</div>
 			<form class="defaultForm maxHeight" id="jobForm">
 
-				<input type="hidden" name="mainAuthToken" id="mainAuthToken" value="<?php echo htmlspecialchars($mainAuthToken->authTokenId); ?>">
-				<input type="hidden" name="updateJobStaffAuthToken" id="updateJobStaffAuthToken" value="<?php echo htmlspecialchars($updateJobStaffAuthToken->authTokenId); ?>">
-				<input type="hidden" name="updateJobCrewsAuthToken" id="updateJobCrewsAuthToken" value="<?php echo htmlspecialchars($updateJobCrewsAuthToken->authTokenId); ?>">
+				<input type="hidden" name="mainAuthToken" id="mainAuthToken" value="<?php echo htmlspecialchars(strval($mainAuthToken->authTokenId)); ?>">
+				<input type="hidden" name="updateJobStaffAuthToken" id="updateJobStaffAuthToken" value="<?php echo htmlspecialchars(strval($updateJobStaffAuthToken->authTokenId)); ?>">
+				<input type="hidden" name="updateJobCrewsAuthToken" id="updateJobCrewsAuthToken" value="<?php echo htmlspecialchars(strval($updateJobCrewsAuthToken->authTokenId)); ?>">
 
-				<input type="hidden" name="deleteJobAuthToken" id="deleteJobAuthToken" value="<?php echo htmlspecialchars($deleteJobAuthToken->authTokenId); ?>">
-				<input type="hidden" name="cancelJobAuthToken" id="cancelJobAuthToken" value="<?php echo htmlspecialchars($deleteJobAuthToken->authTokenId); ?>">
-				<input type="hidden" name="completeJobAuthToken" id="completeJobAuthToken" value="<?php echo htmlspecialchars($completeJobAuthToken->authTokenId); ?>">
+				<input type="hidden" name="deleteJobAuthToken" id="deleteJobAuthToken" value="<?php echo htmlspecialchars(strval($deleteJobAuthToken->authTokenId)); ?>">
+				<input type="hidden" name="cancelJobAuthToken" id="cancelJobAuthToken" value="<?php echo htmlspecialchars(strval($deleteJobAuthToken->authTokenId)); ?>">
+				<input type="hidden" name="completeJobAuthToken" id="completeJobAuthToken" value="<?php echo htmlspecialchars(strval($completeJobAuthToken->authTokenId)); ?>">
 
-				<input type="hidden" name="instanceDate" id="instanceDate" value="<?php if (isset($_GET['instance'])) {echo htmlspecialchars($_GET['instance']);} else {echo htmlspecialchars($startDate);} ?>">
+				<input type="hidden" name="instanceDate" id="instanceDate" value="<?php if (isset($_GET['instance'])) {echo htmlspecialchars(strval($_GET['instance']));} else {echo htmlspecialchars(strval($startDate));} ?>">
 
 				<div class="twoColPage-Content-Info maxHeight">
 					<div id="twoColContentWrapper" class="paddingLeftRight90 maxHeight" style="overflow: auto;">
@@ -958,7 +958,7 @@
 							if ($currentJob->existed) {
 								echo '<div class="threeCol" style="width: 25em;">';
 									echo '<span class="smallButtonWrapper greenButton centered defaultMainShadows" onclick="completeButton()"><span id="completeButtonText">✔ Complete</span><span style="display: none;" id="completeLoading"><img style="display: none; width: 2em;" src="../../../images/ultiscape/etc/loading.gif" class="loadingGif"></span></span>';
-									echo '<span class="smallButtonWrapper orangeButton centered defaultMainShadows" onclick="cancelButton()">❌Cancel</span>';
+									echo '<span class="smallButtonWrapper orangeButton centered defaultMainShadows" onclick="cancelButton()">❌ Cancel</span>';
 									echo '<span class="smallButtonWrapper redButton centered defaultMainShadows" onclick="deleteButton()"><img style="height: 1.2em;" src="../../../images/ultiscape/icons/trash.svg"> Delete</span>';
 								echo '</div>';
 
@@ -973,7 +973,7 @@
 						<h3>Job Info</h3>
 						<div class="defaultInputGroup">
 							<label for="name"><p>Name</p></label>
-							<input class="bigInput" style="width: 93%;" type="text" name="name" id="name" placeholder="Name..." value="<?php echo htmlspecialchars($currentJob->name); ?>">
+							<input class="bigInput" style="width: 93%;" type="text" name="name" id="name" placeholder="Name..." value="<?php echo htmlspecialchars(strval($currentJob->name)); ?>">
 							<span id="nameError" class="underInputError" style="display: none;"><br>Enter a name for the job.</span>
 
 							<br><br>
@@ -1002,21 +1002,21 @@
 							<br>
 
 							<label for="description"><p>Description (Visible to Customer)</p></label>
-							<textarea class="defaultInput" style="font-size: 1.2em; width: 80%;" name="description" id="description"><?php echo htmlspecialchars($currentJob->description); ?></textarea>
+							<textarea class="defaultInput" style="font-size: 1.2em; width: 80%;" name="description" id="description"><?php echo htmlspecialchars(strval($currentJob->description)); ?></textarea>
 							<span id="descriptionError" class="underInputError" style="display: none;"><br>Enter a valid description.</span>
 
 							<br><br>
 
 							<div class="threeCol">
 								<div>
-									<label for="name"><p>Price (<?php echo htmlspecialchars($currentBusiness->currencySymbol); ?>)</p></label>
-									<input onchange="updatePerHourCalc()" class="defaultInput" style="width: 5em;" type="number" min="0.00" max="999999999999" step="0.01" name="price" id="price" placeholder="Free" value="<?php echo htmlspecialchars($currentJob->price); ?>">
+									<label for="name"><p>Price (<?php echo htmlspecialchars(strval($currentBusiness->currencySymbol)); ?>)</p></label>
+									<input onchange="updatePerHourCalc()" class="defaultInput" style="width: 5em;" type="number" min="0.00" max="999999999999" step="0.01" name="price" id="price" placeholder="Free" value="<?php echo htmlspecialchars(strval($currentJob->price)); ?>">
 									<span id="priceError" class="underInputError" style="display: none;"><br>Enter a number.</span>
 								</div>
 
 								<div>
 									<label for="name"><p>Estimated Hours</p></label>
-									<input onchange="updatePerHourCalc()" class="defaultInput" style="width: 5em;" type="number" min="0" max="999999999999" step="0.01" name="estHours" id="estHours" placeholder="Est. Hours..." value="<?php echo htmlspecialchars($currentJob->estHours); ?>">
+									<input onchange="updatePerHourCalc()" class="defaultInput" style="width: 5em;" type="number" min="0" max="999999999999" step="0.01" name="estHours" id="estHours" placeholder="Est. Hours..." value="<?php echo htmlspecialchars(strval($currentJob->estHours)); ?>">
 									<span id="estHoursError" class="underInputError" style="display: none;"><br>Enter a number.</span>
 
 									<p id="perHourCalc" style="color: gray;">$--/hour</p>
@@ -1041,7 +1041,7 @@
 									<div class="twoCol" style="max-width: 25em;">
 										<div>
 											<label for="startDate"><p>Start Date</p></label>
-											<input onchange="updateRecurringInputs()" class="defaultInput" style="width: 100%; max-width: 9em;" type="date" name="startDate" id="startDate" value="<?php if (isset($_GET['instance'])) {echo htmlspecialchars($_GET['instance']);} else {echo htmlspecialchars($startDate);} ?>">
+											<input onchange="updateRecurringInputs()" class="defaultInput" style="width: 100%; max-width: 9em;" type="date" name="startDate" id="startDate" value="<?php if (isset($_GET['instance'])) {echo htmlspecialchars(strval($_GET['instance']));} else {echo htmlspecialchars(strval($startDate));} ?>">
 											<span id="startDateError" class="underInputError" style="display: none;"><br>Select a valid date.</span>
 										</div>
 
@@ -1115,7 +1115,7 @@
 										<br>
 
 										<span>Every </span>
-										<input class="defaultInput" style="width: 5em;" type="number" min="0" max="999999999999" name="frequency" id="frequency" placeholder="Est. Hours..." value="<?php echo htmlspecialchars($currentJob->frequency); ?>">
+										<input class="defaultInput" style="width: 5em;" type="number" min="0" max="999999999999" name="frequency" id="frequency" placeholder="Est. Hours..." value="<?php echo htmlspecialchars(strval($currentJob->frequency)); ?>">
 
 										<select class="defaultInput" name="frequencyInterval" id="frequencyInterval" onchange="updateRecurringInputs()">
 											<option value="day"<?php if ($currentJob->frequencyInterval == 'day') {echo ' selected="selected"';} ?>>day(s)</option>
@@ -1214,7 +1214,7 @@
 						<!-- <br> -->
 
 						<label for="privateNotes"><p>Notes (Private to Admins)</p></label>
-						<textarea class="defaultInput" style="font-size: 1.2em; width: 80%;" name="privateNotes" id="privateNotes"><?php echo htmlspecialchars($currentJob->privateNotes); ?></textarea>
+						<textarea class="defaultInput" style="font-size: 1.2em; width: 80%;" name="privateNotes" id="privateNotes"><?php echo htmlspecialchars(strval($currentJob->privateNotes)); ?></textarea>
 						<br><br>
 					
 					</div>

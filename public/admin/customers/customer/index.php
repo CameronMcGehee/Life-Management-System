@@ -377,9 +377,9 @@
 
 						<form class="defaultForm" id="customerForm">
 
-							<input type="hidden" name="mainAuthToken" id="mainAuthToken" value="<?php echo htmlspecialchars($mainAuthToken->authTokenId); ?>">
-							<input type="hidden" name="updateEmailAddressesAuthToken" id="updateEmailAddressesAuthToken" value="<?php echo htmlspecialchars($updateEmailAddressesAuthToken->authTokenId); ?>">
-							<input type="hidden" name="updatePhoneNumbersAuthToken" id="updatePhoneNumbersAuthToken" value="<?php echo htmlspecialchars($updatePhoneNumbersAuthToken->authTokenId); ?>">
+							<input type="hidden" name="mainAuthToken" id="mainAuthToken" value="<?php echo htmlspecialchars(strval($mainAuthToken->authTokenId)); ?>">
+							<input type="hidden" name="updateEmailAddressesAuthToken" id="updateEmailAddressesAuthToken" value="<?php echo htmlspecialchars(strval($updateEmailAddressesAuthToken->authTokenId)); ?>">
+							<input type="hidden" name="updatePhoneNumbersAuthToken" id="updatePhoneNumbersAuthToken" value="<?php echo htmlspecialchars(strval($updatePhoneNumbersAuthToken->authTokenId)); ?>">
 
 
 							<?php
@@ -400,7 +400,7 @@
 							<div class="defaultInputGroup">
 								
 								<label for="firstLastName"><p>Name</p></label>
-								<input class="bigInput" style="width: 95%;" type="text" name="firstLastName" id="firstLastName" placeholder="Name..." value="<?php echo htmlspecialchars($nameOutput); ?>">
+								<input class="bigInput" style="width: 95%;" type="text" name="firstLastName" id="firstLastName" placeholder="Name..." value="<?php echo htmlspecialchars(strval($nameOutput)); ?>">
 								<span id="firstLastNameError" class="underInputError" style="display: none;"><br>Please enter a name, preferrably first and last.</span>
 
 								<?php
@@ -427,28 +427,28 @@
 								<label for="billAddress1"><p>Billing Address</p></label>
 								<div>
 									<!-- <label for="billAddress1"><p>Address</p></label> -->
-									<input placeholder="Line 1..." class="defaultInput" style="font-size: 1.2em; width: 80%;" type="text" name="billAddress1" id="billAddress1" value="<?php echo htmlspecialchars($currentCustomer->billAddress1); ?>">
+									<input placeholder="Line 1..." class="defaultInput" style="font-size: 1.2em; width: 80%;" type="text" name="billAddress1" id="billAddress1" value="<?php echo htmlspecialchars(strval($currentCustomer->billAddress1)); ?>">
 									<br><br>
 
-									<input placeholder="Line 2..." class="defaultInput" style="font-size: 1.2em; width: 80%;" type="text" name="billAddress2" id="billAddress2" value="<?php echo htmlspecialchars($currentCustomer->billAddress2); ?>">
+									<input placeholder="Line 2..." class="defaultInput" style="font-size: 1.2em; width: 80%;" type="text" name="billAddress2" id="billAddress2" value="<?php echo htmlspecialchars(strval($currentCustomer->billAddress2)); ?>">
 									<br><br>
 
 									<div class="twoCol">
 										<div>
 											<label for="billCity"><p>City</p></label>
-											<input placeholder="City..." class="defaultInput" style="font-size: 1.2em; width: 80%;" type="text" name="billCity" id="billCity" value="<?php echo htmlspecialchars($currentCustomer->billCity); ?>">
+											<input placeholder="City..." class="defaultInput" style="font-size: 1.2em; width: 80%;" type="text" name="billCity" id="billCity" value="<?php echo htmlspecialchars(strval($currentCustomer->billCity)); ?>">
 											,
 										</div>
 										<div>
 											<label for="billState"><p>State</p></label>
-											<input placeholder="State..." class="defaultInput" style="font-size: 1.2em; width: 80%;" type="text" name="billState" id="billState" value="<?php echo htmlspecialchars($currentCustomer->billState); ?>">
+											<input placeholder="State..." class="defaultInput" style="font-size: 1.2em; width: 80%;" type="text" name="billState" id="billState" value="<?php echo htmlspecialchars(strval($currentCustomer->billState)); ?>">
 										</div>
 									</div>
 
 									<br>
 
 									<label for="billZipCode"><p>Zip Code</p></label>
-									<input placeholder="Zip Code..." class="defaultInput" style="font-size: 1.2em; width: 6em;" type="text" name="billZipCode" id="billZipCode" value="<?php echo htmlspecialchars($currentCustomer->billZipCode); ?>">
+									<input placeholder="Zip Code..." class="defaultInput" style="font-size: 1.2em; width: 6em;" type="text" name="billZipCode" id="billZipCode" value="<?php echo htmlspecialchars(strval($currentCustomer->billZipCode)); ?>">
 
 									<span id="billAddressError" class="underInputError" style="display: none;"><br><br>Please enter a valid address.</span>
 								</div>
@@ -499,7 +499,7 @@
 								</div>
 								<div>
 									<label for="password"><p>Customer Portal Password</p></label>
-									<input class="defaultInput" style="font-size: 1.2em; width: 10em; display: none;" type="text" name="password" id="password" value="<?php if (!$currentCustomer->existed) { $newPassword = new tableUuid('customer', 'password'); echo $newPassword->generatedId; } else {echo htmlspecialchars($currentCustomer->password);} ?>">
+									<input class="defaultInput" style="font-size: 1.2em; width: 10em; display: none;" type="text" name="password" id="password" value="<?php if (!$currentCustomer->existed) { $newPassword = new tableUuid('customer', 'password'); echo $newPassword->generatedId; } else {echo htmlspecialchars(strval($currentCustomer->password));} ?>">
 									<span class="smallButtonWrapper greenButton" id="showPasswordButton" style="display: inline-block;">Show</span>
 									<span id="passwordError" class="underInputError" style="display: none;"><br>You must enter a customer-unique password for security purposes.</span>
 									<span id="passwordInUseError" class="underInputError" style="display: none;"><br>That password is already assigned to another customer.</span>
@@ -508,7 +508,7 @@
 							<br><br>
 
 							<label for="notes"><p>Notes (Private to Admins)</p></label>
-							<textarea class="defaultInput" style="font-size: 1.2em; width: 95%;" name="notes" id="notes"><?php echo htmlspecialchars($currentCustomer->notes); ?></textarea>
+							<textarea class="defaultInput" style="font-size: 1.2em; width: 95%;" name="notes" id="notes"><?php echo htmlspecialchars(strval($currentCustomer->notes)); ?></textarea>
 
 						</form>
 

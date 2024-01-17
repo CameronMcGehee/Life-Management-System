@@ -390,8 +390,7 @@
                 if ($this->options['showBatch']) {
                     $this->output .= '<td class="ca nrb" style="width: 2em;"><input class="defaultInput" type="checkbox" name="'.$this->renderId.'-checkbox" value="'.htmlspecialchars($customer->customerId).'"></td>';
                 }
-                $this->output .= '<td class="la nrb vam" style="max-width: 10em;"><a href="'.$this->options['rootPathPrefix'].'admin/customers/customer?id='.htmlspecialchars(htmlspecialchars($customer->customerId)).'" style="font-size: 1.1em; margin-right: .5em;"><b>'.htmlspecialchars($customer->firstName).' '.htmlspecialchars($customer->lastName).'</b></a>'.$tagEditor->output.'</td>
-                                    '; 
+                $this->output .= '<td class="la nrb vam" style="max-width: 10em;"><a href="'.$this->options['rootPathPrefix'].'admin/customers/customer?id='.htmlspecialchars($customer->customerId).'" style="font-size: 1.1em; margin-right: .5em;"><b>'.htmlspecialchars($customer->firstName).' '.htmlspecialchars(strval($customer->lastName)).'</b></a>'.$tagEditor->output.'</td>';
                                     
                 if ($this->options['showEmails']) {
                     $this->output .= '<td class="la desktopOnlyTable-cell nlb nrb">'.$email.'</td>

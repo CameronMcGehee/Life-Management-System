@@ -612,7 +612,7 @@
 						<h3>Job Info</h3>
 						<div class="defaultInputGroup">
 							<label for="name"><p>Name</p></label>
-							<input class="bigInput" style="width: 93%;" type="text" name="name" id="name" placeholder="Name..." value="<?php echo htmlspecialchars($currentInstance->name); ?>">
+							<input class="bigInput" style="width: 93%;" type="text" name="name" id="name" placeholder="Name..." value="<?php echo htmlspecialchars(strval($currentInstance->name)); ?>">
 							<span id="nameError" class="underInputError" style="display: none;"><br>Enter a name for the job.</span>
 
 							<br><br>
@@ -641,7 +641,7 @@
 							<br>
 
 							<label for="description"><p>Description (Visible to Customer)</p></label>
-							<textarea class="defaultInput" style="font-size: 1.2em; width: 80%;" name="description" id="description"><?php echo htmlspecialchars($currentInstance->description); ?></textarea>
+							<textarea class="defaultInput" style="font-size: 1.2em; width: 80%;" name="description" id="description"><?php echo htmlspecialchars(strval($currentInstance->description)); ?></textarea>
 							<span id="descriptionError" class="underInputError" style="display: none;"><br>Enter a valid description.</span>
 
 							<br><br>
@@ -649,13 +649,13 @@
 							<div class="threeCol">
 								<div>
 									<label for="name"><p>Price (<?php echo htmlspecialchars($currentBusiness->currencySymbol); ?>)</p></label>
-									<input onchange="updatePerHourCalc()" class="defaultInput" style="width: 5em;" type="number" min="0.00" max="999999999999" step="0.01" name="price" id="price" placeholder="Free" value="<?php echo htmlspecialchars($currentInstance->price); ?>">
+									<input onchange="updatePerHourCalc()" class="defaultInput" style="width: 5em;" type="number" min="0.00" max="999999999999" step="0.01" name="price" id="price" placeholder="Free" value="<?php echo htmlspecialchars(strval($currentInstance->price)); ?>">
 									<span id="priceError" class="underInputError" style="display: none;"><br>Enter a number.</span>
 								</div>
 
 								<div>
 									<label for="name"><p>Estimated Hours</p></label>
-									<input onchange="updatePerHourCalc()" class="defaultInput" style="width: 5em;" type="number" min="0" max="999999999999" step =".01" name="estHours" id="estHours" placeholder="Est. Hours..." value="<?php echo htmlspecialchars($currentInstance->estHours); ?>">
+									<input onchange="updatePerHourCalc()" class="defaultInput" style="width: 5em;" type="number" min="0" max="999999999999" step =".01" name="estHours" id="estHours" placeholder="Est. Hours..." value="<?php echo htmlspecialchars(strval($currentInstance->estHours)); ?>">
 									<span id="estHoursError" class="underInputError" style="display: none;"><br>Enter a number.</span>
 
 									<p id="perHourCalc" style="color: gray;">$--/hour</p>
@@ -769,7 +769,7 @@
 						<br>
 
 						<label for="privateNotes"><p>Notes (Private to Admins)</p></label>
-						<textarea class="defaultInput" style="font-size: 1.2em; width: 80%;" name="privateNotes" id="privateNotes"><?php echo htmlspecialchars($currentInstance->privateNotes); ?></textarea>
+						<textarea class="defaultInput" style="font-size: 1.2em; width: 80%;" name="privateNotes" id="privateNotes"><?php echo htmlspecialchars(strval($currentInstance->privateNotes)); ?></textarea>
 						<br><br>
 					
 					</div>

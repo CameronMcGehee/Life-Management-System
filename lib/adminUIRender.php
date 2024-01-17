@@ -5,6 +5,7 @@
 	class adminUIRender {
 
 		private $config;
+		private $database;
 		
 		function __construct() {
 			require_once dirname(__FILE__)."/database.php";

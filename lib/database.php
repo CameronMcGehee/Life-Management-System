@@ -6,6 +6,8 @@
 	   code elsewhere, as well as to provide more flexibility to what is actually done for each query. This also removes the need to provide a connection object into every function. */
 	   
 	class database {
+
+		public $conn;
 		
 		static function getConn() {
 			$config = $GLOBALS['ULTISCAPECONFIG'];
