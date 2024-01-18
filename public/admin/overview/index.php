@@ -10,7 +10,7 @@
     require_once '../../../lib/adminUIRender.php';
     $adminUIRender = new adminUIRender();
 
-    echo $adminUIRender->renderAdminHtmlTop('../../', 'Overview', 'Overview of your UltiScape Business.');
+    echo $adminUIRender->renderAdminHtmlTop('../../', 'Overview', 'Overview of your LMS Business.');
 
     echo $adminUIRender->renderAdminUIMenuToggleScripts('../../');
 

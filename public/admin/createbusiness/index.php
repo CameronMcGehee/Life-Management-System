@@ -16,7 +16,7 @@
 	require_once '../../../lib/table/admin.php';
 	require_once '../../../lib/table/business.php';
 
-	echo $adminUIRender->renderAdminHtmlTop('../../', 'Create Business', 'Create a new business to manage in UltiScape.');
+	echo $adminUIRender->renderAdminHtmlTop('../../', 'Create Business', 'Create a new business to manage in LMS.');
 	echo $adminUIRender->renderAdminUIMenuToggleScripts('../../');
 
 ?>

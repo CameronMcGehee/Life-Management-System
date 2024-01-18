@@ -19,7 +19,7 @@
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 
-		function renderCustomerHtmlTop (string $rootPathPrefix = './', string $pageTitle = '', string $pageDescription = 'UltiScape') {
+		function renderCustomerHtmlTop (string $rootPathPrefix = './', string $pageTitle = '', string $pageDescription = 'LMS') {
 			$output = '';
 
 			$output .= '<!DOCTYPE html>
@@ -40,7 +40,7 @@
 					$output .= '<title>'.$pageTitle.' - '.htmlspecialchars($currentBusiness->displayName).' (Customer)</title>
 					';
 				} else {
-					$output .= '<title>'.$pageTitle.' - Ultiscape (Customer)</title>
+					$output .= '<title>'.$pageTitle.' - LMS (Customer)</title>
 					';
 				}
 				

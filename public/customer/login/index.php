@@ -26,7 +26,7 @@
     require_once '../../../lib/customerUIRender.php';
     $customerUIRender = new customerUIRender();
 
-    echo $customerUIRender->renderCustomerHtmlTop('../../', 'Login', 'Login to your UltiScape account.');
+    echo $customerUIRender->renderCustomerHtmlTop('../../', 'Login', 'Login to your LMS account.');
 
 ?>
 

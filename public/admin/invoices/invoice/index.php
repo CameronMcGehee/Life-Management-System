@@ -271,7 +271,7 @@
 							setSaved();
 							if (isNewInvoice) {
 								isNewInvoice = false;
-								window.history.pushState("string", 'UltiScape (Admin) - New Invoice', "./?id="+invoiceId);
+								window.history.pushState("string", 'LMS (Admin) - New Invoice', "./?id="+invoiceId);
 								window.location.reload();
 							}
 							break;

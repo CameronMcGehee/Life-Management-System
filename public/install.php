@@ -27,7 +27,7 @@
         exit;
     }
 
-    // Check if UltiScape config has been installed
+    // Check if LMS config has been installed
     if (!file_exists('../config/mainConfig.php')) {
         // Create the file
         copy('../lib/config/defaultMainConfig.php', '../config/mainConfig.php');
@@ -98,6 +98,6 @@
     
     echo 'admin/createaccount';
     
-    echo '">Click here to begin using UltiScape!</a></p></html>';
+    echo '">Click here to begin using LMS!</a></p></html>';
 
 ?>

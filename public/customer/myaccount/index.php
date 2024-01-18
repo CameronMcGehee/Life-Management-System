@@ -16,7 +16,7 @@
 	require_once '../../../lib/table/paymentMethod.php';
 	require_once '../../../lib/timezones/Timezones.php';
 
-	echo $adminUIRender->renderAdminHtmlTop('../../', 'Settings for'.htmlspecialchars($currentBusiness->adminDisplayName), 'Edit your UltiScape business.');
+	echo $adminUIRender->renderAdminHtmlTop('../../', 'Settings for'.htmlspecialchars($currentBusiness->adminDisplayName), 'Edit your LMS business.');
 	echo $adminUIRender->renderAdminUIMenuToggleScripts('../../');
 
 		// Generate the auth tokens for the form
@@ -233,7 +233,7 @@
 								<span id="displayNameError" class="underInputError" style="display: none;"><br>Business name bust be between <?php echo $ULTISCAPECONFIG['businessNameMinLength']; ?> and <?php echo $ULTISCAPECONFIG['businessNameMaxLength']; ?> characters.</span>
 								<br><br>
 
-								<label for="adminDisplayName"><p>Internal Display Name (What you see in Ultiscape)</p></label>
+								<label for="adminDisplayName"><p>Internal Display Name (What you see in LMS)</p></label>
 								<input class="defaultInput" type="text" name="adminDisplayName" id="adminDisplayName" placeholder="Internal display name..." value="<?php echo htmlspecialchars($currentBusiness->adminDisplayName); ?>">
 								<span id="adminDisplayNameError" class="underInputError" style="display: none;"><br>Business name bust be between <?php echo $ULTISCAPECONFIG['businessNameMinLength']; ?> and <?php echo $ULTISCAPECONFIG['businessNameMaxLength']; ?> characters.</span>
 								<!-- <br><br><br> -->

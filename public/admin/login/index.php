@@ -14,7 +14,7 @@
     require_once '../../../lib/adminUIRender.php';
     $adminUIRender = new adminUIRender();
 
-    echo $adminUIRender->renderAdminHtmlTop('../../', 'Login', 'Login to your UltiScape account.');
+    echo $adminUIRender->renderAdminHtmlTop('../../', 'Login', 'Login to your LMS account.');
 
 ?>
 

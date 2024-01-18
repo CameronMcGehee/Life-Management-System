@@ -19,7 +19,7 @@
 
 	$currentAdmin = new admin($_SESSION['ultiscape_adminId']);
 
-	echo $adminUIRender->renderAdminHtmlTop('../../', 'Business Selection', 'Select the business to use in UltiScape.');
+	echo $adminUIRender->renderAdminHtmlTop('../../', 'Business Selection', 'Select the business to use in LMS.');
 	echo $adminUIRender->renderAdminUIMenuToggleScripts('../../', true, false);
 
 ?>
@@ -56,7 +56,7 @@
 							echo '<h3><a href="./scripts/standalone/setBusiness.script.php?id='.$businessId.'">'.htmlspecialchars($business->adminDisplayName).'</a></h3>';
 						}
 					} else {
-						echo "<p>You do not have any businesses managed with UltiScape. <a href=\"../createbusiness\">Create one!</a></p>";
+						echo "<p>You do not have any businesses managed with LMS. <a href=\"../createbusiness\">Create one!</a></p>";
 					}
 				
 				?>

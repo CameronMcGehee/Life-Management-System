@@ -224,7 +224,7 @@
 							setSaved();
 							if (isNewCustomer) {
 								isNewCustomer = false;
-								window.history.pushState("string", 'UltiScape (Admin) - New Customer', "./?id="+customerId);
+								window.history.pushState("string", 'LMS (Admin) - New Customer', "./?id="+customerId);
 								window.location.reload();
 							}
 							checkEmails = true;

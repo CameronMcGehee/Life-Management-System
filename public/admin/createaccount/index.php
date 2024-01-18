@@ -12,7 +12,7 @@
 	require_once '../../../lib/adminUIRender.php';
 	$adminUIRender = new adminUIRender();
 
-	echo $adminUIRender->renderAdminHtmlTop('../../', 'Login', 'Login to your UltiScape account.');
+	echo $adminUIRender->renderAdminHtmlTop('../../', 'Login', 'Login to your LMS account.');
 
 ?>
 
@@ -157,7 +157,7 @@
 						
 						<br><br>
 						
-						<button class="smallButtonWrapper greenButton xyCenteredFlex centered defaultMainShadows" type="submit">Start using UltiScape!</button>
+						<button class="smallButtonWrapper greenButton xyCenteredFlex centered defaultMainShadows" type="submit">Start using LMS!</button>
 					
 					</form>
 

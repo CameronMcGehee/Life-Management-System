@@ -1,4 +1,4 @@
-	-- Adds all tables needed for UltiScape to function. Not in any particular order, but related tables are generally put together.
+	-- Adds all tables needed for LMS to function. Not in any particular order, but related tables are generally put together.
 
 	--
 	-- Table structure for table `admin`

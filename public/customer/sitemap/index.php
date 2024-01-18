@@ -10,7 +10,7 @@
     require_once '../../../lib/adminUIRender.php';
     $adminUIRender = new adminUIRender();
 
-    echo $adminUIRender->renderAdminHtmlTop('../../', 'Sitemap', 'Listing of all pages in the UltiScape CMS.');
+    echo $adminUIRender->renderAdminHtmlTop('../../', 'Sitemap', 'Listing of all pages in the LMS CMS.');
 
     echo $adminUIRender->renderAdminUIMenuToggleScripts('../../');
 
@@ -34,7 +34,7 @@
         <div class="cmsMainContentWrapper styledText spacedText textColorThemeGray">
             <div style="margin-left: 2em; margin-right: 2em;">
                 <h1>Sitemap</h1>
-                <p>Can't find something? Here's a list of all UltiScape pages.</p>
+                <p>Can't find something? Here's a list of all LMS pages.</p>
             </div>
 
             <br>

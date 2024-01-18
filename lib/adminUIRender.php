@@ -20,7 +20,7 @@
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 
-		function renderAdminHtmlTop (string $rootPathPrefix = './', string $pageTitle = '', string $pageDescription = 'UltiScape') {
+		function renderAdminHtmlTop (string $rootPathPrefix = './', string $pageTitle = '', string $pageDescription = 'LMS') {
 			$output = '';
 
 			$output .= '<!DOCTYPE html>
@@ -33,7 +33,7 @@
 				';
 				$output .= '<meta name="viewport" content="width=device-width, initial-scale=1.0">
 				';
-				$output .= '<title>'.$pageTitle.' - Ultiscape (Admin)</title>
+				$output .= '<title>'.$pageTitle.' - LMS (Admin)</title>
 				';
 				$output .= '<meta name="description" content="'.$pageDescription.'">
 				';

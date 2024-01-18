@@ -166,7 +166,7 @@
     - Update how email templates are stored
     - Backend email sender (emailManager) that reads email queue and sends mail asynchronously (general email only, template email generation WIP)
 
-## v0.6.0 - April 2022
+## v0.6.0 - April 2022 - CODE LOST
 - Goodies
     - Customer Portal Login
     - Customer Home Page
@@ -176,3 +176,9 @@
     - Changed adminMain.css to main.css
     - Created customerUIRender class
     - Created customerInvoiceTable render
+
+---
+
+## v0.1.0b
+- Goodies
+    - Rename entire system to Life Management System (LMS) all future versions will end with "b" to indicate this change.

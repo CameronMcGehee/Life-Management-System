@@ -642,7 +642,7 @@
 						setSaved();
 						if (isNewJob) {
 							isNewJob = false;
-							window.history.pushState("string", 'UltiScape (Admin) - New Job', "./?id="+jobId);
+							window.history.pushState("string", 'LMS (Admin) - New Job', "./?id="+jobId);
 							window.location.reload();
 						}
 						checkStaff = true;

@@ -309,7 +309,7 @@
 							setSaved();
 							if (isNewEstimate) {
 								isNewEstimate = false;
-								window.history.pushState("string", 'UltiScape (Admin) - New Estimate', "./?id="+estimateId);
+								window.history.pushState("string", 'LMS (Admin) - New Estimate', "./?id="+estimateId);
 								window.location.reload();
 							}
 							break;
