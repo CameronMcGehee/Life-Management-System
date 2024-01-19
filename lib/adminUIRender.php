@@ -280,9 +280,10 @@
 
 			$date = date('Y');
 
-			require_once dirname(__FILE__)."/../currentVersion.php";
+			// Get the current version
+			$version = htmlspecialchars(strval($this->database->select("systemInfo", "*", "WHERE `var` = 'currentVersion'")[0]["val"]));
 
-			$output .= '<div class="'.$class.' defaultInsetShadow"><p>Copyright &copy <a class="noUnderline" target="_blank" href="https://cameronmcgehee.com">McGehee Enterprises</a> '.$date.' - <b>v'.$version.'</b></p></div>
+			$output .= '<div class="'.$class.' defaultInsetShadow"><p>Life Management System - &copy <a class="noUnderline" target="_blank" href="https://cameronmcgehee.com">McGehee Enterprises</a> '.$date.' - '.$version.'</p></div>
 			';
 			
 			return $output;

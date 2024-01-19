@@ -1652,3 +1652,10 @@
 	KEY `emailQueueMessageLinkedToEmailSubscriptionId` (`linkedToEmailSubscriptionId`),
 	KEY `emailQueueMessageLinkedToEmailTemplateId` (`linkedToEmailTemplateId`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	CREATE TABLE IF NOT EXISTS `systemInfo` (
+	`var` varchar(50) NOT NULL,
+	`val` text NOT NULL,
+	`lastUpdate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	PRIMARY KEY (`var`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
