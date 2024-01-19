@@ -9,10 +9,10 @@
 
 		private array $phrases = [
 			"You can add tags to each customer to sort them into relevant categories.",
-			"LMS is still in early development, so please be patient if something doesn't work as intended.",
-			'LMS is being developed entirely by one person, a senior in high school in Arlington, VA. You can learn more about him and his other projects at <a target="_blank" href="https://cameronmcgehee.com"> his website.</a>',
-			'There will eventually be a homepage for LMS, explaining why a business may want to use the site as well as it\'s features.',
-			'The idea for LMS started as a custom backend to run a 10 customer lawn service operated by a 13-year-old in 2017.',
+			"LifeMS is still in early development, so please be patient if something doesn't work as intended.",
+			'LifeMS is being developed entirely by one person, a senior in high school in Arlington, VA. You can learn more about him and his other projects at <a target="_blank" href="https://cameronmcgehee.com"> his website.</a>',
+			'There will eventually be a homepage for LifeMS, explaining why a business may want to use the site as well as it\'s features.',
+			'The idea for LifeMS started as a custom backend to run a 10 customer lawn service operated by a 13-year-old in 2017.',
 			'Many (much too long) nights of development work has gone into bringing you this software...which is why we hope you find it useful!'
 		];
 

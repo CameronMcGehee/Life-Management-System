@@ -10,7 +10,9 @@
     require_once '../../../lib/adminUIRender.php';
     $adminUIRender = new adminUIRender();
 
-    echo $adminUIRender->renderAdminHtmlTop('../../', 'DEV SPACE', 'DEVELOPMENT TESTING SPACE');
+    echo $adminUIRender->renderAdminHtmlTop('../../', [
+		"pageTitle" => 'dev',
+		"pageDescription" => 'dev test space']);
 
     echo $adminUIRender->renderAdminUIMenuToggleScripts('../../');
 

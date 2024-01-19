@@ -6,7 +6,7 @@
     // This is the login page so if we are already signed in, just redirect to the business selection page
 
     if (isset($_SESSION['ultiscape_adminId']) && isset($_SESSION['ultiscape_businessId'])) {
-        header("location: ../overview");
+        header("location: ../businessoverview");
     } elseif (isset($_SESSION['ultiscape_adminId'])) {
         header("location: ../selectbusiness");
     }
@@ -14,7 +14,9 @@
     require_once '../../../lib/adminUIRender.php';
     $adminUIRender = new adminUIRender();
 
-    echo $adminUIRender->renderAdminHtmlTop('../../', 'Login', 'Login to your LMS account.');
+    echo $adminUIRender->renderAdminHtmlTop('../../', [
+		"pageTitle" => 'Log In to LifeMS',
+		"pageDescription" => 'Log in to your LifeMS admin account.']);
 
 ?>
 

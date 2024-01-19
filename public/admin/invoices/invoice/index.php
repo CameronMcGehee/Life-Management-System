@@ -45,7 +45,9 @@
 		$titleName = 'New Invoice';
 	}
 
-	echo $adminUIRender->renderAdminHtmlTop('../../../', htmlspecialchars($titleName), 'Edit '.htmlspecialchars($titleName).'.');
+	echo $adminUIRender->renderAdminHtmlTop('../../../', [
+		"pageTitle" => htmlspecialchars($titleName),
+		"pageDescription" => 'Edit '.htmlspecialchars($titleName).'.']);
 	echo $adminUIRender->renderAdminUIMenuToggleScripts('../../../');
 
 	// Generate all the needed authTokens for the page
@@ -271,7 +273,7 @@
 							setSaved();
 							if (isNewInvoice) {
 								isNewInvoice = false;
-								window.history.pushState("string", 'LMS (Admin) - New Invoice', "./?id="+invoiceId);
+								window.history.pushState("string", 'LifeMS (Admin) - New Invoice', "./?id="+invoiceId);
 								window.location.reload();
 							}
 							break;

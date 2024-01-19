@@ -10,7 +10,9 @@
     require_once '../../../lib/adminUIRender.php';
     $adminUIRender = new adminUIRender();
 
-    echo $adminUIRender->renderAdminHtmlTop('../../', 'Overview', 'Overview of your LMS Business.');
+    echo $adminUIRender->renderAdminHtmlTop('../../', [
+		"pageTitle" => "Overview",
+		"pageDescription" => 'Overview of your LifeMS Business.']);
 
     echo $adminUIRender->renderAdminUIMenuToggleScripts('../../');
 

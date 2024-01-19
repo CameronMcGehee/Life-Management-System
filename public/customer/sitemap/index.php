@@ -10,7 +10,7 @@
     require_once '../../../lib/adminUIRender.php';
     $adminUIRender = new adminUIRender();
 
-    echo $adminUIRender->renderAdminHtmlTop('../../', 'Sitemap', 'Listing of all pages in the LMS CMS.');
+    echo $adminUIRender->renderAdminHtmlTop('../../', 'Sitemap', 'Listing of all pages in the LifeMS CMS.');
 
     echo $adminUIRender->renderAdminUIMenuToggleScripts('../../');
 
@@ -34,7 +34,7 @@
         <div class="cmsMainContentWrapper styledText spacedText textColorThemeGray">
             <div style="margin-left: 2em; margin-right: 2em;">
                 <h1>Sitemap</h1>
-                <p>Can't find something? Here's a list of all LMS pages.</p>
+                <p>Can't find something? Here's a list of all LifeMS pages.</p>
             </div>
 
             <br>
@@ -52,7 +52,7 @@
 
                     ?>
                 
-                    <p class="mainPageTitle"><a href="../overview">Overview of <span id="overviewButtonBusinessName" style="text-decoration: underline;"><i><?php echo htmlspecialchars($business->adminDisplayName); ?></i></span></p>
+                    <p class="mainPageTitle"><a href="../businessoverview">Overview of <span id="overviewButtonBusinessName" style="text-decoration: underline;"><i><?php echo htmlspecialchars($business->adminDisplayName); ?></i></span></p>
                     
                     <p class="mainPageTitle"><a href="../people">People</a></p>
                         <p class="subPage"><a href="../people/customers">Customers</a></p>

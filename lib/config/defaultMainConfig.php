@@ -18,12 +18,12 @@
             "databaseDb" => 'ultiscape',
 
         // Global Access Control
-            "allowAccess" => true, // Essentially takes down LMS. Users will not be able to access the site. The message below will be shown instead.
-            "denyAccessTitle" => 'LMS - Down for Maintenance',
-            "denyAccessMessage" => '<h1>LMS is currently down for maintenance and will be back up in a few moments. Reload the page in a few minutes to try again.</h1>',
+            "allowAccess" => true, // Essentially takes down LifeMS. Users will not be able to access the site. The message below will be shown instead.
+            "denyAccessTitle" => 'LifeMS - Down for Maintenance',
+            "denyAccessMessage" => '<h1>LifeMS is currently down for maintenance and will be back up in a few moments. Reload the page in a few minutes to try again.</h1>',
 
-            "databaseErrTitle" => 'LMS - No Database Connection',
-            "databaseErrMessage" => '<h1>LMS currently cannot connect to the database. Reload the page in a few minutes to try again.</h1>',
+            "databaseErrTitle" => 'LifeMS - No Database Connection',
+            "databaseErrMessage" => '<h1>LifeMS currently cannot connect to the database. Reload the page in a few minutes to try again.</h1>',
 
         // Business Settings
 
@@ -44,7 +44,7 @@
             "defaultBusinessModules" => array("customers", "properties", "jobs", "invoices"),
 
         // Email SMTP settings - It's recommended to use something like Amazon SES for your email sending to avoid being blacklisted for using a private server
-        // These settings are NOT REQUIRED as long as you do not intend to use the email module in LMS.
+        // These settings are NOT REQUIRED as long as you do not intend to use the email module in LifeMS.
             "SMTPUseAuth" => true, // Set to false if your SMTP server does not use SMTP authentication...although it really should
             "SMTPAuthUsername" => 'username',
             "SMTPAuthPassword" => 'password',

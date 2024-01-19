@@ -22,7 +22,7 @@
     require_once '../php/startSession.php';
 
     if (isset($_SESSION['ultiscape_adminId']) && isset($_SESSION['ultiscape_businessId'])) {
-        header("location: ./overview");
+        header("location: ./businessoverview");
     } elseif (isset($_SESSION['ultiscape_adminId'])) {
         header("location: ./selectbusiness");
     } else {

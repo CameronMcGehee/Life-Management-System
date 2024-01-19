@@ -12,7 +12,9 @@
 	require_once '../../../lib/adminUIRender.php';
 	$adminUIRender = new adminUIRender();
 
-	echo $adminUIRender->renderAdminHtmlTop('../../', 'Login', 'Login to your LMS account.');
+	echo $adminUIRender->renderAdminHtmlTop('../../', [
+		"pageTitle" => 'Login',
+		"pageDescription" => 'Login to your LifeMS account.']);
 
 ?>
 
@@ -157,7 +159,7 @@
 						
 						<br><br>
 						
-						<button class="smallButtonWrapper greenButton xyCenteredFlex centered defaultMainShadows" type="submit">Start using LMS!</button>
+						<button class="smallButtonWrapper greenButton xyCenteredFlex centered defaultMainShadows" type="submit">Start using LifeMS!</button>
 					
 					</form>
 

@@ -28,7 +28,7 @@
 
     // Set the selected business to the businessId and redirect to the overview page
     $_SESSION['ultiscape_businessId'] = $business->businessId;
-    header("location: ../../../overview");
+    header("location: ../../../businessoverview");
     exit();
 
 ?>

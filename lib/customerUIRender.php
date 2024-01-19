@@ -19,7 +19,7 @@
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 
-		function renderCustomerHtmlTop (string $rootPathPrefix = './', string $pageTitle = '', string $pageDescription = 'LMS') {
+		function renderCustomerHtmlTop (string $rootPathPrefix = './', string $pageTitle = '', string $pageDescription = 'LifeMS') {
 			$output = '';
 
 			$output .= '<!DOCTYPE html>
@@ -40,7 +40,7 @@
 					$output .= '<title>'.$pageTitle.' - '.htmlspecialchars($currentBusiness->displayName).' (Customer)</title>
 					';
 				} else {
-					$output .= '<title>'.$pageTitle.' - LMS (Customer)</title>
+					$output .= '<title>'.$pageTitle.' - LifeMS (Customer)</title>
 					';
 				}
 				
@@ -259,7 +259,7 @@
 			';
 
 			// Bottom links
-			$output .= '<div id="smallBottomLinks"><a class="noUnderline" href="'.$rootPathPrefix.'customer/overview">Overview</a> | <a class="noUnderline" href="'.$rootPathPrefix.'customer/sitemap">Sitemap</a></div>
+			$output .= '<div id="smallBottomLinks"><a class="noUnderline" href="'.$rootPathPrefix.'customer/home">Home</a> | <a class="noUnderline" href="'.$rootPathPrefix.'customer/sitemap">Sitemap</a></div>
 			';
 
 			// Start More menu

@@ -27,7 +27,7 @@
         exit;
     }
 
-    // Check if LMS config has been installed
+    // Check if LifeMS config has been installed
     if (!file_exists('../config/mainConfig.php')) {
         // Create the file
         copy('../lib/config/defaultMainConfig.php', '../config/mainConfig.php');
@@ -106,6 +106,6 @@
         ]);
     }
     
-    echo 'Successfully installed LMS '.$currentVersion.'. <a href="./admin/createaccount">Click here to begin using LMS!</a> <br>Alternatively, you can <a href="./update.php">run the update script</a>.';
+    echo 'Successfully installed LifeMS '.$currentVersion.'. <a href="./admin/createaccount">Click here to begin using LifeMS!</a> <br>Alternatively, you can <a href="./update.php">run the update script</a>.';
 
 ?>

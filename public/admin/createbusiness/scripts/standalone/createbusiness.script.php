@@ -72,7 +72,7 @@
             header("location: ../../../businesssettings?popup=businessCreated&businessCreatedbusinessName=".$newBusiness->displayName);
             exit();
         } else {
-            header("location: ../../../overview?popup=businessCreated&businessCreatedbusinessName=".$newBusiness->displayName);
+            header("location: ../../../businessoverview?popup=businessCreated&businessCreatedbusinessName=".$newBusiness->displayName);
             exit();
         }
     } else {

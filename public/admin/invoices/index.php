@@ -10,7 +10,9 @@
 	require_once '../../../lib/adminUIRender.php';
 	$adminUIRender = new adminUIRender();
 
-	echo $adminUIRender->renderAdminHtmlTop('../../', 'Invoices', 'Create, edit, and view invoices.');
+	echo $adminUIRender->renderAdminHtmlTop('../../', [
+		"pageTitle" => 'Invoices',
+		"pageDescription" => 'Create, edit, and view invoices.']);
 
 	echo $adminUIRender->renderAdminUIMenuToggleScripts('../../');
 

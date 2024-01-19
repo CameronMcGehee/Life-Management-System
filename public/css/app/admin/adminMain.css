@@ -589,7 +589,7 @@ a.noUnderline {
 	background-image: radial-gradient( circle farthest-corner at 10% 20%,  var(--inventoryColorTheme) 0%, rgb(168, 239, 146) 90% );
 }
 
-.gradientRadialLeftLMS {
+.gradientRadialLeftLifeMS {
 	background-image: radial-gradient( circle farthest-corner at 10% 20%,  var(--utliscapeColorTheme) 0%, rgb(168, 239, 146) 90% );
 }
 

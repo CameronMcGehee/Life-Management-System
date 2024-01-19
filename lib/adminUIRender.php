@@ -20,7 +20,10 @@
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 
-		function renderAdminHtmlTop (string $rootPathPrefix = './', string $pageTitle = '', string $pageDescription = 'LMS') {
+		function renderAdminHtmlTop (string $rootPathPrefix = './', array $options =[
+			"pageTitle" => "",
+			"pageDescription" => "LifeMS"
+		]) {
 			$output = '';
 
 			$output .= '<!DOCTYPE html>
@@ -33,9 +36,9 @@
 				';
 				$output .= '<meta name="viewport" content="width=device-width, initial-scale=1.0">
 				';
-				$output .= '<title>'.$pageTitle.' - LMS (Admin)</title>
+				$output .= '<title>'.$options["pageTitle"].' - LifeMS (Admin)</title>
 				';
-				$output .= '<meta name="description" content="'.$pageDescription.'">
+				$output .= '<meta name="description" content="'.$options["pageDescription"].'">
 				';
 
 				// CSS
@@ -69,7 +72,7 @@
 			$output .= '<div class="xyCenteredFlex" id="ultiscapeLogoWrapper">
 			';
 				if ($showLogo) {
-					$output .= '<a class="noUnderline" id="ultiscapeLogoImageWrapper" href="'.$rootPathPrefix.'"><img src="'.$rootPathPrefix.'images/ultiscape/logos/mainLogoTopBarWhiteTrans.png"></a>
+					$output .= '<a class="noUnderline" href="'.$rootPathPrefix.'"><h2>LifeMS</h2></a>
 					';
 				}
 			$output .= '</div>
@@ -250,7 +253,7 @@
 			';
 
 			// Bottom links
-			$output .= '<div id="smallBottomLinks"><a class="noUnderline" href="'.$rootPathPrefix.'admin/overview">Overview</a> | <a class="noUnderline" href="'.$rootPathPrefix.'admin/sitemap">Sitemap</a></div>
+			$output .= '<div id="smallBottomLinks"><a class="noUnderline" href="'.$rootPathPrefix.'admin/businessoverview">Overview</a> | <a class="noUnderline" href="'.$rootPathPrefix.'admin/sitemap">Sitemap</a></div>
 			';
 
 			// Start More menu

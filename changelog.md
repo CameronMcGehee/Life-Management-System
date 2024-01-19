@@ -181,4 +181,4 @@
 
 ## v0.1.0b
 - Goodies
-    - Rename entire system to Life Management System (LMS) all future versions will end with "b" to indicate this change.
+    - Rename entire system to Life Management System (LifeMS) all future versions will end with "b" to indicate this change.

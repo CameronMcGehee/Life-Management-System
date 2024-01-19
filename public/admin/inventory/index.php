@@ -10,8 +10,9 @@
     require_once '../../../lib/adminUIRender.php';
     $adminUIRender = new adminUIRender();
 
-    echo $adminUIRender->renderAdminHtmlTop('../../', 'Inventory', 'Manage your business\'s inventory.');
-
+    echo $adminUIRender->renderAdminHtmlTop('../../', [
+		"pageTitle" => 'Inventory',
+		"pageDescription" => 'Manage your business\'s inventory.']);
     echo $adminUIRender->renderAdminUIMenuToggleScripts('../../');
 
 ?>

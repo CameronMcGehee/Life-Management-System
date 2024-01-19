@@ -45,7 +45,9 @@
 		$titleName = 'New Estimate';
 	}
 
-	echo $adminUIRender->renderAdminHtmlTop('../../../', htmlspecialchars($titleName), 'Edit '.htmlspecialchars($titleName).'.');
+	echo $adminUIRender->renderAdminHtmlTop('../../../', [
+		"pageTitle" => htmlspecialchars($titleName),
+		"pageDescription" => 'Edit '.htmlspecialchars($titleName).'.']);
 	echo $adminUIRender->renderAdminUIMenuToggleScripts('../../../');
 
 	// Generate all the needed authTokens for the page
@@ -311,7 +313,7 @@
 							setSaved();
 							if (isNewEstimate) {
 								isNewEstimate = false;
-								window.history.pushState("string", 'LMS (Admin) - New Estimate', "./?id="+estimateId);
+								window.history.pushState("string", 'LifeMS (Admin) - New Estimate', "./?id="+estimateId);
 								window.location.reload();
 							}
 							break;

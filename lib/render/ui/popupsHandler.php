@@ -112,7 +112,7 @@
                                     // Remove the popup variable so it doesn\'t show on a reload
                                     var url = new URL(window.location.href);
                                     url.searchParams.delete("popup");
-                                    window.history.pushState("string", "LMS", url.href);
+                                    window.history.pushState("string", "LifeMS", url.href);
                                 }
                             });
                         }

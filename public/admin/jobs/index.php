@@ -10,7 +10,9 @@
 	require_once '../../../lib/adminUIRender.php';
 	$adminUIRender = new adminUIRender();
 
-	echo $adminUIRender->renderAdminHtmlTop('../../', 'Jobs', 'Create, edit, and view jobs.');
+	echo $adminUIRender->renderAdminHtmlTop('../../', [
+		"pageTitle" => 'Jobs',
+		"pageDescription" => 'Create, edit, and view jobs.']);
 
 	echo $adminUIRender->renderAdminUIMenuToggleScripts('../../');
 

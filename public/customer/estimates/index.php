@@ -10,7 +10,9 @@
 	require_once '../../../lib/adminUIRender.php';
 	$adminUIRender = new adminUIRender();
 
-	echo $adminUIRender->renderAdminHtmlTop('../../', 'Estimates', 'Create, edit, and view estimates.');
+	echo $adminUIRender->renderAdminHtmlTop('../../', array[
+		"pageTitle" => "Estimates",
+		"pageDescription" => 'Create, edit, and view estimates.']);
 
 	echo $adminUIRender->renderAdminUIMenuToggleScripts('../../');
 
