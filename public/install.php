@@ -52,7 +52,7 @@
     if (mysqli_connect_errno()) {
         
         // 1049 is database error for an unknown database, meaning the database has not been created yet
-        if (mysqli_connect_errno() == 1049) {
+        if (mysqli_connect_errno() == 1049) { // This could be updated to eventually use the database class from /lib/database.php but hey it works
             // Reconnect without a database
             $conn = mysqli_connect($ULTISCAPECONFIG['databaseServer'], $ULTISCAPECONFIG['databaseUsername'], $ULTISCAPECONFIG['databasePassword']);
             
@@ -94,10 +94,6 @@
 
     }
 
-    echo '<html><p>Successfully Installed. <a href="';
-    
-    echo 'admin/createaccount';
-    
-    echo '">Click here to begin using LMS!</a></p></html>';
+    echo 'Successfully Installed. <a href="./admin/createaccount">Click here to begin using LMS!</a> <br>Alternatively, you can <a href="./update.php">run the update script</a>.';
 
 ?>
