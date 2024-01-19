@@ -6,9 +6,9 @@
     // This is the login page so if we are already signed in, just redirect to the business selection page
 
     if (isset($_SESSION['ultiscape_adminId']) && isset($_SESSION['ultiscape_businessId'])) {
-        header("location: ./overview");
+        header("location: ../overview");
     } elseif (isset($_SESSION['ultiscape_adminId'])) {
-        header("location: ./selectbusiness");
+        header("location: ../selectbusiness");
     }
 
     require_once '../../../lib/adminUIRender.php';
