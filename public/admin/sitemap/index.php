@@ -54,6 +54,7 @@
                     ?>
 
                     <p class="mainPageTitle"><a href="../notes">Notes</a></p>
+                    <p class="mainPageTitle"><a href="../excalidraw">Excalidraw</a></p>
 
                     <br>
                     <hr>
