@@ -94,6 +94,18 @@
 
     }
 
-    echo 'Successfully Installed. <a href="./admin/createaccount">Click here to begin using LMS!</a> <br>Alternatively, you can <a href="./update.php">run the update script</a>.';
+    // Insert the version number --------------------
+    $currentVersion = '0.1.1b';
+    include '../lib/database.php';
+    $database = new database;
+    
+    if (!$database->select("systemInfo", "*", "WHERE var = 'currentVersion'")) {
+        $database->insert("systemInfo", [
+            "var" => "currentVersion",
+            "val" => $currentVersion
+        ]);
+    }
+    
+    echo 'Successfully installed LMS '.$currentVersion.'. <a href="./admin/createaccount">Click here to begin using LMS!</a> <br>Alternatively, you can <a href="./update.php">run the update script</a>.';
 
 ?>
