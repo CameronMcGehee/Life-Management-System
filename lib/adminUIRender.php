@@ -45,6 +45,8 @@
 
 				$output .= '<link rel="stylesheet" type="text/css" href="'.$rootPathPrefix.'css/app/main.css">
 				';
+				$output .= '<link rel="stylesheet" href="'.$rootPathPrefix.'css/font-awesome-4.7.0/css/font-awesome.min.css">
+				';
 
 				// Javascript
 

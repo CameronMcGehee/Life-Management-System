@@ -182,3 +182,11 @@
 ## v0.1.0b
 - Goodies
     - Rename entire system to Life Management System (LifeMS) all future versions will end with "b" to indicate this change.
+
+## v0.1.1b
+- Techies
+    - New update script and database change tracker for data migration ability
+
+## v0.1.2b
+- Goodies
+    - Notes page (functional for one browser-saved note) and Excalidraw page
