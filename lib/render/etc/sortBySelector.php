@@ -50,6 +50,18 @@
 				$this->output .= '<option value="oldest">Oldest - Newest</option>';
 			}
 
+			if ($this->selected == 'updateDesc') {
+				$this->output .= '<option value="updateDesc" selected>Update - Desc</option>';
+			} else {
+				$this->output .= '<option value="updateDesc">Update - Desc</option>';
+			}
+
+			if ($this->selected == 'updateAsc') {
+				$this->output .= '<option value="updateAsc" selected>Update - Asc</option>';
+			} else {
+				$this->output .= '<option value="updateAsc">Update - Asc</option>';
+			}
+
 			$this->output .= '</select>';
 
 			$this->output .= '

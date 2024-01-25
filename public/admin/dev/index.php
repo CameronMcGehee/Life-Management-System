@@ -40,7 +40,7 @@
             <div style="margin-left: 2em; margin-right: 2em;">
                 <?php
 
-                    require_once '../../../lib/table/job.php';
+                    // require_once '../../../lib/table/job.php';
                     // require_once '../../../lib/table/customerEmailAddress.php';
                     // require_once '../../../lib/table/customerPhoneNumber.php';
                     // $lastNames = require_once '../../../lib/arrays/lastNames.php';
@@ -124,6 +124,21 @@
                     // echo $customerTable->output;
 
                     // // echo '<p>'.htmlspecialchars($business->businessId).'</p>';
+                    // // echo '<p>'.htmlspecialchars($business->displayName).' '.htmlspecialchars($business->adminDisplayName).'</p>';
+
+                    // -----------------------------------------------------------------------------------------------------------------------------------------------
+
+                    require_once '../../../lib/table/business.php';
+                    $currentBusiness = new business($_SESSION['ultiscape_businessId']);
+                    $currentBusiness->pullNotes();
+
+                    require_once '../../../lib/table/note.php';
+
+                    $note = new note($currentBusiness->notes[0]);
+                    echo $note->convertMarkdownToHtml();
+                    // var_dump($note);
+
+                    // echo '<p>'.htmlspecialchars($business->businessId).'</p>';
                     // // echo '<p>'.htmlspecialchars($business->displayName).' '.htmlspecialchars($business->adminDisplayName).'</p>';
 
 

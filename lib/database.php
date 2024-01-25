@@ -20,8 +20,11 @@
 		}
 
 		function mysqlQuery($queryString) {
-			$result = mysqli_query($this->conn, $queryString);
-
+			try {
+				$result = mysqli_multi_query($this->conn, $queryString);
+			} catch (Exception $e) {
+				return false;
+			}
 			return $result;
 		}
 

@@ -18,7 +18,7 @@
 				$options['rootPathPrefix'] = './';
 			}
 
-			if (empty($options['type']) || !in_array($options['type'], ['crew', 'customer', 'chemical', 'equipment', 'staff'])) {
+			if (empty($options['type']) || !in_array($options['type'], ['crew', 'customer', 'note', 'chemical', 'equipment', 'staff'])) {
 				throw new Exception("Invalid or no type set (in tagEditor '".$this->renderId."')");
 			}
 
@@ -64,6 +64,14 @@
 					require_once dirname(__FILE__)."/../../table/customer.php";
 					require_once dirname(__FILE__)."/../../table/customerTag.php";
 					$currentObject = new customer($this->options['objectId']);
+					if (!$currentObject->existed) {
+						throw new Exception("ObjectId given doesn't exist (in tagEditor '".$this->renderId."')");
+					}
+					break;
+				case 'note':
+					require_once dirname(__FILE__)."/../../table/note.php";
+					require_once dirname(__FILE__)."/../../table/noteTag.php";
+					$currentObject = new note($this->options['objectId']);
 					if (!$currentObject->existed) {
 						throw new Exception("ObjectId given doesn't exist (in tagEditor '".$this->renderId."')");
 					}
@@ -169,6 +177,11 @@
 					$deleteCustomerTagLinksAuthToken = new authToken;
 					$deleteCustomerTagLinksAuthToken->authName = 'deleteCustomerTagLinks';
 					$deleteCustomerTagLinksAuthToken->set();
+					break;
+				case 'note':
+					$deleteNoteTagLinksAuthToken = new authToken;
+					$deleteNoteTagLinksAuthToken->authName = 'deleteNoteTagLinks';
+					$deleteNoteTagLinksAuthToken->set();
 					break;
 				case 'chemical':
 					$deleteChemicalTagLinksAuthToken = new authToken;

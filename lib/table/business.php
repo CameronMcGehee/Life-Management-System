@@ -130,6 +130,7 @@
 		// Arrays to store linked data
 		public $admins = array();
 		public $customers = array();
+		public $notes = array();
 		public $authTokens = array();
 		public $customerPhoneNumbers = array();
 		public $customerEmailAddresses = array();
@@ -308,6 +309,7 @@
 			// Clear arrays
 			$this->admins = array();
 			$this->customers = array();
+			$this->notes = array();
 			$this->authTokens = array();
 			$this->customerPhoneNumbers = array();
 			$this->customerEmailAddresses = array();
@@ -566,6 +568,27 @@
 			if ($fetch) {
 				foreach ($fetch as $row) {
 					array_push($this->customers, $row['customerId']);
+				}
+				return true;
+			} elseif ($this->db->getLastError() === '') {
+				return true;
+			} else {
+				return $this->db->getLastError();
+			}
+		}
+
+		// notes
+		public function pullNotes ($params = '') {
+			$this->notes = array();
+			// Add space before params
+			if ($params != '') {
+				$params = " ".$params;
+			}
+			// If there are entries, push them to the array
+			$fetch = $this->db->select('note', 'noteId', "WHERE businessId = '$this->dbBusinessId'".$params);
+			if ($fetch) {
+				foreach ($fetch as $row) {
+					array_push($this->notes, $row['noteId']);
 				}
 				return true;
 			} elseif ($this->db->getLastError() === '') {

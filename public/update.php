@@ -9,7 +9,8 @@
 
     $updatesInOrder = [
         "0.1.1b",
-        "0.1.2b"
+        "0.1.2b",
+        "0.1.3b"
     ];
 
     // Get the current version from the database
