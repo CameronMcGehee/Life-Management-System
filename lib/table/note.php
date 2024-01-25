@@ -45,7 +45,7 @@
 			$this->viewPrivacy = 'private';
 			$this->viewPass = NULL;
 			$this->editPrivacy = 'private';
-			$this->editPass = '';
+			$this->editPass = NULL;
 			// Default dateTimeAdded to now since it is likely going to be inserted at this time
 			$currentDateTime = new DateTime();
 			$this->lastUpdate = $currentDateTime->format('Y-m-d H:i:s');

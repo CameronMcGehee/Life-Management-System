@@ -95,7 +95,7 @@
     }
 
     // Insert the version number --------------------
-    $currentVersion = '0.1.2b';
+    $currentVersion = '0.1.3b';
     include '../lib/database.php';
     $database = new database;
     

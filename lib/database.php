@@ -21,7 +21,7 @@
 
 		function mysqlQuery($queryString) {
 			try {
-				$result = mysqli_multi_query($this->conn, $queryString);
+				$result = mysqli_query($this->conn, $queryString);
 			} catch (Exception $e) {
 				return false;
 			}

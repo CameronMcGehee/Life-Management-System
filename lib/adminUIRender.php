@@ -251,6 +251,8 @@
 			';
 			$output .= '<a class="noUnderline sideBarButton defaultAll4InsetShadow aniBold" id="button2" href="'.$rootPathPrefix.'admin/estimates"><img src="'.$rootPathPrefix.'images/ultiscape/icons/document.svg"><p>Estimates</p></a>
 			';
+			$output .= '<a class="noUnderline sideBarButton defaultAll4InsetShadow aniBold" id="button3" href="'.$rootPathPrefix.'admin/notes"><img src="'.$rootPathPrefix.'images/ultiscape/icons/pen.svg"><p>Notes</p></a>
+			';
 			$output .= '<a class="noUnderline sideBarButton defaultAll4InsetShadow aniBold" id="button5"><img src="'.$rootPathPrefix.'images/ultiscape/icons/drag.svg"><p>More...</p></a>
 			';
 
@@ -261,9 +263,9 @@
 			// Start More menu
 			$output .= '<div id="sideBarMoreMenu">
 			';
-			// More menu items
-			$output .= '<a class="noUnderline sideBarButton defaultAll4InsetShadow aniBold" id="button6" href="'.$rootPathPrefix.'admin/inventory"><img src="'.$rootPathPrefix.'images/ultiscape/icons/archive.svg"><p>Inventory</p></a>
-			';
+				// More menu items
+				$output .= '<a class="noUnderline sideBarButton defaultAll4InsetShadow aniBold" id="button6" href="'.$rootPathPrefix.'admin/inventory"><img src="'.$rootPathPrefix.'images/ultiscape/icons/archive.svg"><p>Inventory</p></a>
+				';
 			// End More menu
 			$output .= '</div>
 			';

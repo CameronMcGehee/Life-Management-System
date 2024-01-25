@@ -24,9 +24,12 @@
 
             <p>LifeMS is styled in mobile view as 1st priority, then desktop. Eventualy an app will be made that will load the website, but in fullscreen for professionalism. That way, mobile workers/crews will all have a good experience when out on the job accessing the site/app. A desktop app that loads the site will also be made available at some point. These will all have their own branches.</p>
         ',
-        'businessCreated' => '
-            <h3>Congrats! [[businessName]] has been created!</h3>
-        '
+        'businessCreated' => '<h3>Congrats! [[businessName]] has been created!</h3>',
+        'noteDeleted' => '<p>Successfully deleted "[[noteTitle]]".</p>',
+        'customerDeleted' => '<p>Successfully deleted "[[customerName]]".</p>',
+        'invoiceDeleted' => '<p>Successfully deleted invoice "[[invoiceId]]".</p>',
+        'jobDeleted' => '<p>Successfully deleted job "[[jobName]]".</p>',
+        'estimateDeleted' => '<p>Successfully deleted estimate "[[estimateId]]".</p>'
     );
 
 ?>
