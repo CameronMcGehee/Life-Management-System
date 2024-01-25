@@ -21,7 +21,7 @@
         $currentUpdateStatus = 'success';
     } else {
         // Get the SQL error
-        $sqlErrorMessage = htmlspecialchars(srtval($database->getLastError()));
+        $sqlErrorMessage = htmlspecialchars(strval($database->getLastError()));
         $currentUpdateStatus = 'Could not create the table. MySQL Error: '.$sqlErrorMessage;
     }
 
