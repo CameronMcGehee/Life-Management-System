@@ -2,13 +2,13 @@
 
     $currentUpdateStatus = 'run';
 
-    $updateQuery = "
+    $updateQuery1 = "
         CREATE TABLE IF NOT EXISTS `note` (
         `noteId` varchar(17) NOT NULL,
         `businessId` varchar(17) NULL DEFAULT NULL,
         `title` text NOT NULL,
-        `bodyMarkdown` LONGTEXT NOT NULL,
-        `bodyHtml` LONGTEXT NOT NULL,
+        `bodyMarkdown` LONGTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+        `bodyHtml` LONGTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
         `viewPrivacy` varchar(10) NOT NULL DEFAULT 'private',
         `viewPass` varchar(200) NULL DEFAULT NULL,
         `editPrivacy` varchar(10) NOT NULL DEFAULT 'private',
@@ -18,8 +18,9 @@
         PRIMARY KEY (`noteId`),
         KEY `noteBusinessId` (`businessId`),
         CONSTRAINT `noteBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 
+    $updateQuery2 = "
         CREATE TABLE IF NOT EXISTS `noteTag` (
         `noteTagId` varchar(17) NOT NULL,
         `businessId` varchar(17) NOT NULL,
@@ -31,8 +32,9 @@
         PRIMARY KEY (`noteTagId`),
         KEY `noteTagBusinessId` (`businessId`),
         CONSTRAINT `noteTagBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-        
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
+
+    $updateQuery3 = "
         CREATE TABLE IF NOT EXISTS `noteNoteTagBridge` (
         `noteNoteTagId` int(11) NOT NULL AUTO_INCREMENT,
         `businessId` varchar(17) NOT NULL,
@@ -46,12 +48,13 @@
         CONSTRAINT `noteNoteTagCustomerId` FOREIGN KEY (`noteId`) REFERENCES `note` (`noteId`) ON DELETE CASCADE,
         CONSTRAINT `noteNoteTagCustomerTagId` FOREIGN KEY (`noteTagId`) REFERENCES `noteTag` (`noteTagId`) ON DELETE CASCADE,
         CONSTRAINT `noteNoteTagBusinessId` FOREIGN KEY (`businessId`) REFERENCES `business` (`businessId`) ON DELETE CASCADE
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-        ";
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 
-    $updateResult = $database->mysqlQuery($updateQuery);
+    $updateResult1 = $database->mysqlQuery($updateQuery1);
+    $updateResult2 = $database->mysqlQuery($updateQuery2);
+    $updateResult3 = $database->mysqlQuery($updateQuery3);
 
-    if ($updateResult !== false) {
+    if ($updateResult1 !== false && $updateResult2 !== false && $updateResult3 !== false) {
         $database->delete("systemInfo", "WHERE var = 'currentVersion'", 1);
         $database->insert("systemInfo", [
             "var" => "currentVersion",
@@ -61,7 +64,7 @@
     } else {
         // Get the SQL error
         $sqlErrorMessage = htmlspecialchars(strval($database->getLastError()));
-        $currentUpdateStatus = 'Could not create the table. MySQL Error: '.$sqlErrorMessage;
+        $currentUpdateStatus = 'Error creating table(s). MySQL Error: '.$sqlErrorMessage;
     }
 
 ?>
