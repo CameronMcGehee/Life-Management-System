@@ -1130,6 +1130,19 @@ html, body {
 	"sideBar mobileNavBar";
 }
 
+.publicNotesBodyWrapper { /*Changes in desktop view - see breakpoint!*/
+	height: 100%;
+	width: 100%;
+
+	display: grid;
+	overflow: auto;
+	grid-template-columns: auto;
+	grid-template-rows: 4em auto;
+	grid-template-areas: 
+	"topBar"
+	"mainContent";
+}
+
 /*-----------------------------------------------------------------------------------------------------------------------------*/
 /*-----------------------------------------------------------------------------------------------------------------------------*/
 /* Admin Top Bar */
@@ -1325,6 +1338,44 @@ html, body {
 .customerTopBarWrapper .whiteChevron {
 	filter: brightness(100);
 }
+
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/* Public Notes Top Bar */
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+
+.publicNotesTopBarWrapper {
+	background-color: var(--utliscapeColorTheme);
+	grid-area: topBar;
+
+	display: grid;
+
+	grid-template-columns: 40% auto;
+	grid-template-rows: 3.9em;
+	grid-template-areas: "ultiscapeLogo blank";
+
+	padding: .1em;
+}
+
+.publicNotesTopBarWrapper #ultiscapeLogoWrapper {
+	grid-area: ultiscapeLogo;
+	
+	display: flex;
+	justify-content: left;
+
+	margin-left: 2vw;
+}
+
+.publicNotesTopBarWrapper #ultiscapeLogoImageWrapper {
+	max-width: 10em;
+}
+
+.publicNotesTopBarWrapper #ultiscapeLogoWrapper img{
+	width: 100%;
+}
+
+ /*----------------------------------------------------------------------------------*/
 
 /*Dropdown Menus*/
 
@@ -1686,6 +1737,14 @@ html, body {
 		"topBar topBar"
 		"sideBar mainContent"
 		"sideBar footer";
+	}
+	.publicNotesBodyWrapper {
+		grid-template-columns: auto;
+		grid-template-rows: 4em auto 3em;
+		grid-template-areas: 
+		"topBar"
+		"mainContent"
+		"footer";
 	}
 	.cmsMobileNavBarWrapper {
 		display: none;
