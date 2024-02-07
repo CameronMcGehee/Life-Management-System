@@ -20,25 +20,25 @@
 
 	// Check if input is set and valid
 
-	if (!isset($formData['firstName']) || strlen($formData['firstName']) < (int)$ULTISCAPECONFIG['firstNameMinLength']) {
+	if (!isset($formData['firstName']) || strlen($formData['firstName']) < (int)$lifemsConfig['firstNameMinLength']) {
 		echo 'firstName';
 		exit();
 	}
 	$admin->firstName = $formData['firstName'];
 
-	if (!isset($formData['lastName']) || strlen($formData['lastName']) < (int)$ULTISCAPECONFIG['lastNameMinLength']) {
+	if (!isset($formData['lastName']) || strlen($formData['lastName']) < (int)$lifemsConfig['lastNameMinLength']) {
 		echo 'lastName';
 		exit();
 	}
 	$admin->lastName = $formData['lastName'];
 	
-	if (!isset($formData['email']) || strlen($formData['email']) < (int)$ULTISCAPECONFIG['emailMinLength']) {
+	if (!isset($formData['email']) || strlen($formData['email']) < (int)$lifemsConfig['emailMinLength']) {
 		echo 'email';
 		exit();
 	}
 
 	// If enabled, use filter function to make sure email is an actual email
-	if ($ULTISCAPECONFIG['useEmailValidation']) {
+	if ($lifemsConfig['useEmailValidation']) {
 		if (!filter_var($formData['email'], FILTER_VALIDATE_EMAIL)) {
 			echo 'emailValidity';
 			exit();
@@ -46,13 +46,13 @@
 	}
 	$admin->email = $formData['email'];
 
-	if (!isset($formData['username']) || strlen($formData['username']) < (int)$ULTISCAPECONFIG['usernameMinLength']) {
+	if (!isset($formData['username']) || strlen($formData['username']) < (int)$lifemsConfig['usernameMinLength']) {
 		echo 'username';
 		exit();
 	}
 	$admin->username = $formData['username'];
 
-	if (!isset($formData['password']) || strlen($formData['password']) < (int)$ULTISCAPECONFIG['passwordMinLength']) {
+	if (!isset($formData['password']) || strlen($formData['password']) < (int)$lifemsConfig['passwordMinLength']) {
 		echo 'password';
 		exit();
 	}
@@ -61,7 +61,7 @@
 	// if (!isset($formData['nameTitle'])) {
 	// 	$nameTitle = '';
 	// } elseif ($formData['nameTitle'] == '') {
-	// 	if (strlen($formData['nameTitle']) < (int)$ULTISCAPECONFIG['nameTitleMinLength']) {
+	// 	if (strlen($formData['nameTitle']) < (int)$lifemsConfig['nameTitleMinLength']) {
 	// 		echo 'nameTitle';
 	// 		exit();
 	// 	}

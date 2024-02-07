@@ -42,10 +42,14 @@
         copy('../lib/config/defaultPopups.php', '../config/popups.php');
     }
 
-    $ULTISCAPECONFIG = include('../config/mainConfig.php');
-    error_reporting($ULTISCAPECONFIG['phpErrors']);
+    $lifemsConfig = include('../config/mainConfig.php');
+    error_reporting($lifemsConfig['phpErrors']);
 
-    $conn = mysqli_connect($ULTISCAPECONFIG['databaseServer'], $ULTISCAPECONFIG['databaseUsername'], $ULTISCAPECONFIG['databasePassword'], $ULTISCAPECONFIG['databaseDb']);
+    try {
+        $conn = mysqli_connect($lifemsConfig['databaseServer'], $lifemsConfig['databaseUsername'], $lifemsConfig['databasePassword'], $lifemsConfig['databaseDb']);
+    } catch (Exception $e) {
+
+    }
 
     // Check connection
 
@@ -54,13 +58,13 @@
         // 1049 is database error for an unknown database, meaning the database has not been created yet
         if (mysqli_connect_errno() == 1049) { // This could be updated to eventually use the database class from /lib/database.php but hey it works
             // Reconnect without a database
-            $conn = mysqli_connect($ULTISCAPECONFIG['databaseServer'], $ULTISCAPECONFIG['databaseUsername'], $ULTISCAPECONFIG['databasePassword']);
+            $conn = mysqli_connect($lifemsConfig['databaseServer'], $lifemsConfig['databaseUsername'], $lifemsConfig['databasePassword']);
             
             // Create the database
-            mysqli_query($conn, "CREATE DATABASE IF NOT EXISTS `".$ULTISCAPECONFIG['databaseDb']."`");
+            mysqli_query($conn, "CREATE DATABASE IF NOT EXISTS `".$lifemsConfig['databaseDb']."`");
             
             // Try connecting again with the new database
-            $conn = mysqli_connect($ULTISCAPECONFIG['databaseServer'], $ULTISCAPECONFIG['databaseUsername'], $ULTISCAPECONFIG['databasePassword'], $ULTISCAPECONFIG['databaseDb']);
+            $conn = mysqli_connect($lifemsConfig['databaseServer'], $lifemsConfig['databaseUsername'], $lifemsConfig['databasePassword'], $lifemsConfig['databaseDb']);
             
             if (!mysqli_connect_errno()) {
                 set_time_limit(0); // Make sure it runs all the way as that could cause issues

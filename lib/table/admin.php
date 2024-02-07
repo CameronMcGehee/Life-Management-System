@@ -27,10 +27,10 @@
 		// Arrays to store linked data.
 		public $loginAttempts = array();
 		public $savedLogins = array();
-		public $ownedBusinesses = array();
-		public $sharedBusinesses = array();
-		public $businesses = array();
-		public $customerServiceMessages = array();
+		public $ownedWorkspaces = array();
+		public $sharedWorkspaces = array();
+		public $workspaces = array();
+		public $contactServiceMessages = array();
 		public $estimateApprovals = array();
 
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -55,10 +55,10 @@
 			// Clear arrays
 			$this->loginAttempts = array();
 			$this->savedLogins = array();
-			$this->ownedBusinesses = array();
-			$this->sharedBusinesses = array();
-			$this->businesses = array();
-			$this->customerServiceMessages = array();
+			$this->ownedWorkspaces = array();
+			$this->sharedWorkspaces = array();
+			$this->workspaces = array();
+			$this->contactServiceMessages = array();
 			$this->estimateApprovals = array();
 		}
 
@@ -171,17 +171,17 @@
 			}
 		}
 		
-		public function pullOwnedBusinesses($params = '') {
-			$this->ownedBusinesses = array();
+		public function pullOwnedWorkspaces($params = '') {
+			$this->ownedWorkspaces = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('adminBusinessBridge', 'businessId', "WHERE adminId = '$this->dbAdminId' AND adminIsOwner = '1'".$params);
+			$fetch = $this->db->select('adminWorkspaceBridge', 'workspaceId', "WHERE adminId = '$this->dbAdminId' AND adminIsOwner = '1'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
-					array_push($this->ownedBusinesses, $row['businessId']);
+					array_push($this->ownedWorkspaces, $row['workspaceId']);
 				}
 				return true;
 			} elseif ($this->db->getLastError() === '') {
@@ -191,17 +191,17 @@
 			}
 		}
 
-		public function pullSharedBusinesses($params = '') {
-			$this->sharedBusinesses = array();
+		public function pullSharedWorkspaces($params = '') {
+			$this->sharedWorkspaces = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('adminBusinessBridge', 'businessId', "WHERE adminId = '$this->dbAdminId' AND adminIsOwner = '0'".$params);
+			$fetch = $this->db->select('adminWorkspaceBridge', 'workspaceId', "WHERE adminId = '$this->dbAdminId' AND adminIsOwner = '0'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
-					array_push($this->sharedBusinesses, $row['businessId']);
+					array_push($this->sharedWorkspaces, $row['workspaceId']);
 				}
 				return true;
 			} elseif ($this->db->getLastError() === '') {
@@ -211,17 +211,17 @@
 			}
 		}
 		
-		public function pullBusinesses($params = '') {
-			$this->businesses = array();
+		public function pullWorkspaces($params = '') {
+			$this->workspaces = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('adminBusinessBridge', 'businessId', "WHERE adminId = '$this->dbAdminId'".$params);
+			$fetch = $this->db->select('adminWorkspaceBridge', 'workspaceId', "WHERE adminId = '$this->dbAdminId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
-					array_push($this->businesses, $row['businessId']);
+					array_push($this->workspaces, $row['workspaceId']);
 				}
 				return true;
 			} elseif ($this->db->getLastError() === '') {
@@ -231,17 +231,17 @@
 			}
 		}
 
-		public function pullCustomerServiceMessages($params = '') {
-			$this->customerServiceMessages = array();
+		public function pullContactServiceMessages($params = '') {
+			$this->contactServiceMessages = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('adminCustomerServiceMessage', 'adminCustomerServiceMessageId', "WHERE adminId = '$this->dbAdminId'".$params);
+			$fetch = $this->db->select('adminContactServiceMessage', 'adminContactServiceMessageId', "WHERE adminId = '$this->dbAdminId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
-					array_push($this->customerServiceMessages, $row['adminCustomerServiceMessageId']);
+					array_push($this->contactServiceMessages, $row['adminContactServiceMessageId']);
 				}
 				return true;
 			} elseif ($this->db->getLastError() === '') {
@@ -277,9 +277,9 @@
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 
-		public function getBusinessPermissions($businessId) {
+		public function getWorkspacePermissions($workspaceId) {
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('adminBusinessBridge', '*', "WHERE adminId = '$this->dbAdminId' AND businessId = '".$this->db->sanitize($businessId)."'");
+			$fetch = $this->db->select('adminWorkspaceBridge', '*', "WHERE adminId = '$this->dbAdminId' AND workspaceId = '".$this->db->sanitize($workspaceId)."'");
 			if ($fetch) {
 				return array(
 					'isOwner' => $fetch[0]['adminIsOwner'],
@@ -290,16 +290,16 @@
 					'canManageEmail' => $fetch[0]['adminCanManageEmail'],
 					'canManageServiceListing' => $fetch[0]['adminCanManageServiceListing'],
 					'canManageQuoteRequest' => $fetch[0]['adminCanManageQuoteRequest'],
-					'canManageCustomerService' => $fetch[0]['adminCanManageCustomerService'],
+					'canManageContactService' => $fetch[0]['adminCanManageContactService'],
 					'canManageTimeLog' => $fetch[0]['adminCanManageTimeLog'],
 					'canManagePayrollDue' => $fetch[0]['adminCanManagePayrollDue'],
 					'canManagePayrollSatisfaction' => $fetch[0]['adminCanManagePayrollSatisfaction'],
-					'canManageCustomer' => $fetch[0]['adminCanManageCustomer'],
+					'canManageContact' => $fetch[0]['adminCanManageContact'],
 					'canManageStaff' => $fetch[0]['adminCanManageStaff'],
 					'canManageCrew' => $fetch[0]['adminCanManageCrew'],
 					'canManageEquipment' => $fetch[0]['adminCanManageEquipment'],
 					'canManageChemical' => $fetch[0]['adminCanManageChemical'],
-					'canManageJob' => $fetch[0]['adminCanManageJob'],
+					'canManageCalendarEvent' => $fetch[0]['adminCanManageCalendarEvent'],
 					'canManageInvoice' => $fetch[0]['adminCanManageInvoice'],
 					'canManagePayment' => $fetch[0]['adminCanManagePayment'],
 					'canManageEstimate' => $fetch[0]['adminCanManageEstimate'],

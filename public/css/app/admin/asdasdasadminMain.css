@@ -30,9 +30,9 @@
 
 :root {
 	--utliscapeColorTheme: #65B200;
-	--customersColorTheme: #199D00;
+	--contactsColorTheme: #199D00;
 	--communicationsColorTheme: #b14646;
-	--jobsColorTheme: #008BC9;
+	--calendarEventsColorTheme: #008BC9;
 	--documentsColorTheme: #C98D00;
 	--inventoryColorTheme: #549D00;
 
@@ -503,7 +503,7 @@ a.noUnderline {
 
 /*Styled Text Colors*/
 
-.textColorThemeGray p, .textColorThemeCustomers p, .textColorThemeEstimates p, .textColorThemeJobs p, .textColorThemeInvoices p, .textColorThemeInventory p {
+.textColorThemeGray p, .textColorThemeContacts p, .textColorThemeEstimates p, .textColorThemeCalendarEvents p, .textColorThemeInvoices p, .textColorThemeInventory p {
 	color: #606060;
 }
 
@@ -511,16 +511,16 @@ a.noUnderline {
 	color: var(--grayTextColorTheme);
 }
 
-.textColorThemeCustomers h1, .textColorThemeCustomers h2, .textColorThemeCustomers h3, .textColorThemeCustomers h4, .textColorThemeCustomers h5, .textColorThemeCustomers h6 {
-	color: var(--customersColorTheme);
+.textColorThemeContacts h1, .textColorThemeContacts h2, .textColorThemeContacts h3, .textColorThemeContacts h4, .textColorThemeContacts h5, .textColorThemeContacts h6 {
+	color: var(--contactsColorTheme);
 }
 
 .textColorThemeEstimates h1, .textColorThemeEstimates h2, .textColorThemeEstimates h3, .textColorThemeEstimates h4, .textColorThemeEstimates h5, .textColorThemeEstimates h6  {
 	color: var(--communicationsColorTheme);
 }
 
-.textColorThemeJobs h1, .textColorThemeJobs h2, .textColorThemeJobs h3, .textColorThemeJobs h4, .textColorThemeJobs h5, .textColorThemeJobs h6 {
-	color: var(--jobsColorTheme);
+.textColorThemeCalendarEvents h1, .textColorThemeCalendarEvents h2, .textColorThemeCalendarEvents h3, .textColorThemeCalendarEvents h4, .textColorThemeCalendarEvents h5, .textColorThemeCalendarEvents h6 {
+	color: var(--calendarEventsColorTheme);
 }
 
 .textColorThemeInvoices h1, .textColorThemeInvoices h2, .textColorThemeInvoices h3, .textColorThemeInvoices h4, .textColorThemeInvoices h5, .textColorThemeInvoices h6 {
@@ -578,13 +578,13 @@ a.noUnderline {
 }
 
 .gradientRadialLeftPeople {
-	background-image: radial-gradient( circle farthest-corner at 10% 20%,  var(--customersColorTheme) 0%, rgb(168, 239, 146) 90% );
+	background-image: radial-gradient( circle farthest-corner at 10% 20%,  var(--contactsColorTheme) 0%, rgb(168, 239, 146) 90% );
 }
 .gradientRadialLeftCommunications {
 	background-image: radial-gradient( circle farthest-corner at 10% 20%,  var(--communicationsColorTheme) 0%, rgb(168, 239, 146) 90% );
 }
-.gradientRadialLeftJobs {
-	background-image: radial-gradient( circle farthest-corner at 10% 20%,  var(--jobsColorTheme) 0%, rgb(168, 239, 146) 90% );
+.gradientRadialLeftCalendarEvents {
+	background-image: radial-gradient( circle farthest-corner at 10% 20%,  var(--calendarEventsColorTheme) 0%, rgb(168, 239, 146) 90% );
 }
 .gradientRadialLeftDocuments {
 	background-image: radial-gradient( circle farthest-corner at 10% 20%,  var(--documentsColorTheme) 0%, rgb(168, 239, 146) 90% );
@@ -1120,13 +1120,13 @@ html, body {
 
 	grid-template-columns: 40% auto min-content min-content;
 	grid-template-rows: 3.9em;
-	grid-template-areas: "ultiscapeLogo blank businessSelector profileButton";
+	grid-template-areas: "lifemsLogo blank workspaceSelector profileButton";
 
 	padding: .1em;
 }
 
-.adminTopBarWrapper #ultiscapeLogoWrapper {
-	grid-area: ultiscapeLogo;
+.adminTopBarWrapper #lifemsLogoWrapper {
+	grid-area: lifemsLogo;
 	
 	display: flex;
 	justify-content: left;
@@ -1134,22 +1134,22 @@ html, body {
 	margin-left: 2vw;
 }
 
-.adminTopBarWrapper #ultiscapeLogoImageWrapper {
+.adminTopBarWrapper #lifemsLogoImageWrapper {
 	max-width: 10em;
 }
 
-.adminTopBarWrapper #ultiscapeLogoWrapper img{
+.adminTopBarWrapper #lifemsLogoWrapper img{
 	width: 100%;
 }
 
-.adminTopBarWrapper #businessSelectorButtonWrapper {
-	grid-area: businessSelector;
+.adminTopBarWrapper #workspaceSelectorButtonWrapper {
+	grid-area: workspaceSelector;
 	cursor: pointer;
     min-width: 8em;
     
 }
 
-.adminTopBarWrapper #businessSelectorButton {
+.adminTopBarWrapper #workspaceSelectorButton {
 	width: 80%;
 	height: 85%;
 
@@ -1163,7 +1163,7 @@ html, body {
     padding-left: .4em;
 }
 
-.adminTopBarWrapper #businessSelectorSelectedImg {
+.adminTopBarWrapper #workspaceSelectorSelectedImg {
 	min-width: 5em;
     max-height: 85%;
 
@@ -1226,11 +1226,11 @@ html, body {
 	border-radius: 0 0 0 .5em;
 }
 
-.businessSelectorButtonDropdownHider {
+.workspaceSelectorButtonDropdownHider {
 	display: none;
 }
 
-.businessSelectorButtonDropdownWrapper {
+.workspaceSelectorButtonDropdownWrapper {
 	display: flex;
 	justify-content: space-around;
 	align-items: center;
@@ -1300,7 +1300,7 @@ html, body {
 }
 
 .cmsSideBarWrapper .sideBarButton#button1 {
-	background-color: var(--customersColorTheme);
+	background-color: var(--contactsColorTheme);
 }
 
 .cmsSideBarWrapper .sideBarButton#button2 {
@@ -1308,7 +1308,7 @@ html, body {
 }
 
 .cmsSideBarWrapper .sideBarButton#button3 {
-	background-color: var(--jobsColorTheme);
+	background-color: var(--calendarEventsColorTheme);
 }
 
 .cmsSideBarWrapper .sideBarButton#button4 {
@@ -1419,16 +1419,16 @@ html, body {
 	max-width: 100%;
 }
 
-.cmsMobileNavBarWrapper .mobileNavBarButtonArray #button1 { /*Currently Customers Button*/
-	background-color: var(--customersColorTheme);
+.cmsMobileNavBarWrapper .mobileNavBarButtonArray #button1 { /*Currently Contacts Button*/
+	background-color: var(--contactsColorTheme);
 }
 
 .cmsMobileNavBarWrapper .mobileNavBarButtonArray #button2 { /*Currently Comunications Button*/
 	background-color: var(--communicationsColorTheme);
 }
 
-.cmsMobileNavBarWrapper .mobileNavBarButtonArray #button3 { /*Currently Jobs Button*/
-	background-color: var(--jobsColorTheme);
+.cmsMobileNavBarWrapper .mobileNavBarButtonArray #button3 { /*Currently CalendarEvents Button*/
+	background-color: var(--calendarEventsColorTheme);
 }
 
 .cmsMobileNavBarWrapper .mobileNavBarButtonArray #button4 { /*Currently Docs Button*/
@@ -1490,15 +1490,15 @@ html, body {
 
 /*-----------------------------------------------------------------------------------------------------------------------------*/
 /*-----------------------------------------------------------------------------------------------------------------------------*/
-/* Job Calendar */
+/* CalendarEvent Calendar */
 /*-----------------------------------------------------------------------------------------------------------------------------*/
 /*-----------------------------------------------------------------------------------------------------------------------------*/
 
-.jobCalendar tr td {
+.calendarEventCalendar tr td {
 	width: 14.285714285%;
 }
 
-.jobCalendar tr td .job {
+.calendarEventCalendar tr td .calendarEvent {
 	color: white;
     border-radius: .2em;
     width: 95%;
@@ -1509,16 +1509,16 @@ html, body {
 	margin-right: auto;
 }
 
-.jobCalendar tr td .job.activeJob {
+.calendarEventCalendar tr td .calendarEvent.activeCalendarEvent {
     background-color: rgb(187, 187, 187);
 }
 
-.jobCalendar tr td .job.completedJob {
+.calendarEventCalendar tr td .calendarEvent.completedCalendarEvent {
     background-color: var(--utliscapeColorTheme);
 	text-decoration: line-through;
 }
 
-.jobCalendar tr td .job.cancelledJob {
+.calendarEventCalendar tr td .calendarEvent.cancelledCalendarEvent {
     background-color: rgba(196, 54, 54, 0.344);
 	text-decoration: line-through;
 }

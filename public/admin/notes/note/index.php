@@ -11,7 +11,7 @@
 	// Other required libraries
 	require_once '../../../../lib/table/admin.php';
 	require_once '../../../../lib/table/note.php';
-	require_once '../../../../lib/table/business.php';
+	require_once '../../../../lib/table/workspace.php';
 	require_once '../../../../lib/render/etc/tagEditor.php';
 	if (isset($_GET['id']) && !empty($_GET['id'])) {
 		$currentNote = new note($_GET['id']);
@@ -19,13 +19,13 @@
 		$currentNote = new note();
 	}
 
-	// If the requested note is not associated with the current business, redirect to blank new note page
-	if ($currentNote->businessId != $_SESSION['ultiscape_businessId']) {
+	// If the requested note is not associated with the current workspace, redirect to blank new note page
+	if ($currentNote->workspaceId != $_SESSION['lifems_workspaceId']) {
         header("location: ./");
 		exit();
     }
 
-	$currentBusiness = new business($_SESSION['ultiscape_businessId']);
+	$currentWorkspace = new workspace($_SESSION['lifems_workspaceId']);
 
 	if ($currentNote->existed) {
 		$titleName = $currentNote->title;
@@ -301,7 +301,7 @@
 		<div class="cmsMainContentWrapper textColorThemeGray styledText">
 			<div class="mobileOnlyBlock xyCenteredFlex centered" style="position: sticky; top: 0px; width: 100%; padding-top: .3em; padding-bottom: .3em; border-bottom: .1em solid gray; background-color: white; z-index: 99;">
 				<div class="changesMessage"><span style="color: green;">Up to date ✔</span></div>
-				<img style="display: none; width: 2em;" src="../../../images/ultiscape/etc/loading.gif" class="loadingGif">
+				<img style="display: none; width: 2em;" src="../../../images/lifems/etc/loading.gif" class="loadingGif">
 			</div>
 
 				<div class="twoColPage-Content-InfoSmall maxHeight">
@@ -323,8 +323,8 @@
 									}
 
 									echo '<div class="twoCol" style="width: 21em;">';
-										echo '<span style="width: 9em;" class="smallButtonWrapper greenButton centered defaultMainShadows" onclick="editPrivacyButton()"><img style="height: 1.2em;" src="../../../images/ultiscape/icons/'.$lockIcon.'.svg"> Sharing Settings</span>';
-										echo '<span style="width: 5em;" class="smallButtonWrapper redButton centered defaultMainShadows" onclick="deleteButton()"><img style="height: 1.2em;" src="../../../images/ultiscape/icons/trash.svg"> Delete</span>';
+										echo '<span style="width: 9em;" class="smallButtonWrapper greenButton centered defaultMainShadows" onclick="editPrivacyButton()"><img style="height: 1.2em;" src="../../../images/lifems/icons/'.$lockIcon.'.svg"> Sharing Settings</span>';
+										echo '<span style="width: 5em;" class="smallButtonWrapper redButton centered defaultMainShadows" onclick="deleteButton()"><img style="height: 1.2em;" src="../../../images/lifems/icons/trash.svg"> Delete</span>';
 									echo '</div>';
 
 									echo '<br>';
@@ -475,7 +475,7 @@
 
 									<div id="editPrivacyButtons" class="twoCol centered" style="width: 15em;">
 										<div>
-											<span id="editPrivacySaveButton" class="smallButtonWrapper greenButton" onclick="editPrivacySave()">Save <span style="display: none;" id="editPrivacyLoading"><img style="width: 1em;" src="../../../images/ultiscape/etc/loading.gif" class="loadingGif"></span></span>
+											<span id="editPrivacySaveButton" class="smallButtonWrapper greenButton" onclick="editPrivacySave()">Save <span style="display: none;" id="editPrivacyLoading"><img style="width: 1em;" src="../../../images/lifems/etc/loading.gif" class="loadingGif"></span></span>
 										</div>
 									</div>
 
@@ -490,7 +490,7 @@
 						<br class="desktopOnlyBlock">
 						<span class="desktopOnlyBlock">
 							<div class="changesMessage"><span style="color: green;">Up to date ✔</span></div>
-							<img style="display: none; width: 2em;" src="../../../images/ultiscape/etc/loading.gif" class="loadingGif">
+							<img style="display: none; width: 2em;" src="../../../images/lifems/etc/loading.gif" class="loadingGif">
 						</span>
 
 						<br><hr><br>
@@ -523,7 +523,7 @@
 							</div>
 						</div>
 
-						<span style="display: none;" id="deleteLoading"><img style="display: none; width: 2em;" src="../../../images/ultiscape/etc/loading.gif" class="loadingGif"></span>
+						<span style="display: none;" id="deleteLoading"><img style="display: none; width: 2em;" src="../../../images/lifems/etc/loading.gif" class="loadingGif"></span>
 					</div>
 				</div>
 		</div>

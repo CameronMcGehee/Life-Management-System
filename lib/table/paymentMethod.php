@@ -11,7 +11,7 @@
 
 		// Main database attributes
 		public $paymentMethodId;
-		public $businessId;
+		public $workspaceId;
 		public $name;
 		public $percentCut;
 		public $amountCut;
@@ -25,11 +25,11 @@
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 
 		public function setToDefaults() {
-			// Default businessId to the currently selected business
-			if (isset($_SESSION['ultiscape_businessId'])) {
-				$this->businessId = $_SESSION['ultiscape_businessId'];
+			// Default workspaceId to the currently selected workspace
+			if (isset($_SESSION['lifems_workspaceId'])) {
+				$this->workspaceId = $_SESSION['lifems_workspaceId'];
 			} else {
-				$this->businessId = '';
+				$this->workspaceId = '';
 			}
 			$this->name = '';
 			$this->percentCut = '0';
@@ -58,7 +58,7 @@
 			// If paymentMethodId already exists then set the set name type to UPDATE and fetch the values for the paymentMethod
 			if ($fetch) {
 				$this->paymentMethodId = $paymentMethodId;
-				$this->businessId = $fetch[0]['businessId'];
+				$this->workspaceId = $fetch[0]['workspaceId'];
 				$this->name = $fetch[0]['name'];
 				$this->percentCut = $fetch[0]['percentCut'];
 				$this->amountCut = $fetch[0]['amountCut'];
@@ -95,7 +95,7 @@
 
 			$attributes = array(
 				'paymentMethodId' => $this->db->sanitize($this->dbPaymentMethodId),
-				'businessId' => $this->db->sanitize($this->businessId),
+				'workspaceId' => $this->db->sanitize($this->workspaceId),
 				'name' => $this->db->sanitize($this->name),
 				'percentCut' => $this->db->sanitize($this->percentCut),
 				'amountCut' => $this->db->sanitize($this->amountCut),

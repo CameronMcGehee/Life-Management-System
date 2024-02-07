@@ -1,6 +1,6 @@
 <?php
 
-    // Get a full list of jobs within a date span (start and end dates are included) (overdue jobs do not have to be within the date span!)
+    // Get a full list of calendarEvents within a date span (start and end dates are included) (overdue calendarEvents do not have to be within the date span!)
 
 		function getPaymentTotal($invoiceId) {
 			

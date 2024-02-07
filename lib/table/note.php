@@ -12,7 +12,7 @@
 
 		// Main database attributes
 		public $noteId;
-		public $businessId;
+		public $workspaceId;
 		public $title;
 		public $bodyMarkdown;
 		public $bodyHtml;
@@ -33,11 +33,11 @@
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 
 		public function setToDefaults() {
-			// Default businessId to the currently selected business
-			if (isset($_SESSION['ultiscape_businessId'])) {
-				$this->businessId = $_SESSION['ultiscape_businessId'];
+			// Default workspaceId to the currently selected workspace
+			if (isset($_SESSION['lifems_workspaceId'])) {
+				$this->workspaceId = $_SESSION['lifems_workspaceId'];
 			} else {
-				$this->businessId = '';
+				$this->workspaceId = '';
 			}
 			$this->title = '';
 			$this->bodyMarkdown = '';
@@ -78,7 +78,7 @@
 			// If noteId already exists then set the set method type to UPDATE and fetch the values for the note
 			if ($fetch) {
 				$this->noteId = $noteId;
-				$this->businessId = $fetch[0]['businessId'];
+				$this->workspaceId = $fetch[0]['workspaceId'];
 				$this->title = $fetch[0]['title'];
 				$this->bodyMarkdown = $fetch[0]['bodyMarkdown'];
 				$this->bodyHtml = $fetch[0]['bodyHtml'];
@@ -119,7 +119,7 @@
 
 			$attributes = array(
 				'noteId' => $this->db->sanitize($this->dbNoteId),
-				'businessId' => $this->db->sanitize($this->businessId),
+				'workspaceId' => $this->db->sanitize($this->workspaceId),
 				'title' => $this->db->sanitize($this->title),
 				'bodyMarkdown' => $this->db->sanitize($this->bodyMarkdown),
 				'bodyHtml' => $this->db->sanitize($this->bodyHtml),

@@ -11,7 +11,7 @@
 
 		// Main database attributes
 		public $timeLogId;
-		public $businessId;
+		public $workspaceId;
 		public $staffId;
 		public $dateTimeStart;
 		public $dateTimeEnd;
@@ -28,11 +28,11 @@
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 
 		public function setToDefaults() {
-			// Default businessId to the currently selected business
-			if (isset($_SESSION['ultiscape_businessId'])) {
-				$this->businessId = $_SESSION['ultiscape_businessId'];
+			// Default workspaceId to the currently selected workspace
+			if (isset($_SESSION['lifems_workspaceId'])) {
+				$this->workspaceId = $_SESSION['lifems_workspaceId'];
 			} else {
-				$this->businessId = '';
+				$this->workspaceId = '';
 			}
 			$this->staffId = '';
 			$this->dateTimeStart = '';
@@ -64,7 +64,7 @@
 			// If timeLogId already exists then set the set method type to UPDATE and fetch the values for the timeLog
 			if ($fetch) {
 				$this->timeLogId = $timeLogId;
-				$this->businessId = $fetch[0]['businessId'];
+				$this->workspaceId = $fetch[0]['workspaceId'];
 				$this->staffId = $fetch[0]['staffId'];
 				$this->dateTimeStart = $fetch[0]['dateTimeStart'];
 				$this->dateTimeEnd = $fetch[0]['dateTimeEnd'];
@@ -128,7 +128,7 @@
 
 			$attributes = array(
 				'timeLogId' => $this->db->sanitize($this->dbTimeLogId),
-				'businessId' => $this->db->sanitize($this->businessId),
+				'workspaceId' => $this->db->sanitize($this->workspaceId),
 				'staffId' => $this->db->sanitize($this->staffId),
 				'dateTimeStart' => $this->db->sanitize($this->dateTimeStart),
 				'dateTimeEnd' => $this->db->sanitize($this->dateTimeEnd),

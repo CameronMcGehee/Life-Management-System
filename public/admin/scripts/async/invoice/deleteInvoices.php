@@ -4,7 +4,7 @@
 
     // Make sure that an admin is logged in
 
-    if (!isset($_SESSION['ultiscape_adminId']) || !isset($_SESSION['ultiscape_businessId'])) {
+    if (!isset($_SESSION['lifems_adminId']) || !isset($_SESSION['lifems_workspaceId'])) {
         echo 'unauthorized';
         exit();
     }
@@ -32,8 +32,8 @@
             echo 'noInvoice';
             die();
         }
-        // Check if current business has access to that invoice
-        if ($currentInvoice->businessId !== $_SESSION['ultiscape_businessId']) {
+        // Check if current workspace has access to that invoice
+        if ($currentInvoice->workspaceId !== $_SESSION['lifems_workspaceId']) {
             echo 'unauthorized';
             die();
         }

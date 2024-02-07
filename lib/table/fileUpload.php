@@ -11,9 +11,9 @@
 
 		// Main database attributes
 		public $fileUploadId;
-		public $businessId;
+		public $workspaceId;
 		public $docIdId;
-		public $linkedToCustomerId;
+		public $linkedToContactId;
 		public $linkedToStaffId;
 		public $dateTimeAdded;
 
@@ -24,14 +24,14 @@
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 
 		public function setToDefaults() {
-			// Default businessId to the currently selected business
-			if (isset($_SESSION['ultiscape_businessId'])) {
-				$this->businessId = $_SESSION['ultiscape_businessId'];
+			// Default workspaceId to the currently selected workspace
+			if (isset($_SESSION['lifems_workspaceId'])) {
+				$this->workspaceId = $_SESSION['lifems_workspaceId'];
 			} else {
-				$this->businessId = '';
+				$this->workspaceId = '';
 			}
 			$this->docIdId = '';
-			$this->linkedToCustomerId = NULL;
+			$this->linkedToContactId = NULL;
 			$this->linkedToStaffId = NULL;
 			// Default dateTimeAdded to now since it is likely going to be inserted at this time
 			$currentDateTime = new DateTime();
@@ -56,9 +56,9 @@
 			// If fileUploadId already exists then set the set method type to UPDATE and fetch the values for the fileUpload
 			if ($fetch) {
 				$this->fileUploadId = $fileUploadId;
-				$this->businessId = $fetch[0]['businessId'];
+				$this->workspaceId = $fetch[0]['workspaceId'];
 				$this->docIdId = $fetch[0]['docIdId'];
-				$this->linkedToCustomerId = $fetch[0]['linkedToCustomerId'];
+				$this->linkedToContactId = $fetch[0]['linkedToContactId'];
 				$this->linkedToStaffId = $fetch[0]['linkedToStaffId'];
 				$this->dateTimeAdded = $fetch[0]['dateTimeAdded'];
 
@@ -92,9 +92,9 @@
 
 			$attributes = array(
 				'fileUploadId' => $this->db->sanitize($this->dbFileUploadId),
-				'businessId' => $this->db->sanitize($this->businessId),
+				'workspaceId' => $this->db->sanitize($this->workspaceId),
 				'docIdId' => $this->db->sanitize($this->docIdId),
-				'linkedToCustomerId' => $this->db->sanitize($this->linkedToCustomerId),
+				'linkedToContactId' => $this->db->sanitize($this->linkedToContactId),
 				'linkedToStaffId' => $this->db->sanitize($this->linkedToStaffId),
 				'dateTimeAdded' => $this->db->sanitize($this->dateTimeAdded)
 			);

@@ -6,12 +6,12 @@
 
 		public string $renderId;
 		public array $options;
-		public business $currentBusiness;
+		public workspace $currentWorkspace;
 
 		function __construct(string $renderId, array $options = []) {
 
 			require_once dirname(__FILE__)."/../../table/paymentMethod.php";
-			require_once dirname(__FILE__)."/../../table/business.php";
+			require_once dirname(__FILE__)."/../../table/workspace.php";
 			
 			parent::__construct();
 			
@@ -25,15 +25,15 @@
 				$options['selectedId'] = 'none';
 			}
 
-			if (isset($_SESSION['ultiscape_businessId'])) {
-				$this->currentBusiness = new business($_SESSION['ultiscape_businessId']);
-				if (!$this->currentBusiness->existed) {
-					throw new Exception("Business Id doesn't exist (in paymentMethodSelector)");
+			if (isset($_SESSION['lifems_workspaceId'])) {
+				$this->currentWorkspace = new workspace($_SESSION['lifems_workspaceId']);
+				if (!$this->currentWorkspace->existed) {
+					throw new Exception("Workspace Id doesn't exist (in paymentMethodSelector)");
 				} else {
-					$this->currentBusiness->pullPaymentMethods($options['queryParams']);
+					$this->currentWorkspace->pullPaymentMethods($options['queryParams']);
 				}
 			} else {
-				throw new Exception("No businessId set to pull paymentMethods from (in paymentMethodSelector)");
+				throw new Exception("No workspaceId set to pull paymentMethods from (in paymentMethodSelector)");
 			}
 
 			if (empty($options['style'])) {
@@ -68,7 +68,7 @@
 				$this->output .= '<option value="none">None</option>';
 			}
 			
-			foreach ($this->currentBusiness->paymentMethods as $paymentMethodId) {
+			foreach ($this->currentWorkspace->paymentMethods as $paymentMethodId) {
 				$currentPaymentMethod = new paymentMethod($paymentMethodId);
 				$this->output .= '<option ';
 				

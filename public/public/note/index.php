@@ -9,7 +9,7 @@
 	// Other required libraries
 	require_once '../../../lib/table/admin.php';
 	require_once '../../../lib/table/note.php';
-	require_once '../../../lib/table/business.php';
+	require_once '../../../lib/table/workspace.php';
 	require_once '../../../lib/render/etc/tagEditor.php';
 	if (isset($_GET['id']) && !empty($_GET['id'])) {
 		$currentNote = new note($_GET['id']);
@@ -18,7 +18,7 @@
 		exit();
 	}
 
-	$currentBusiness = new business($_SESSION['ultiscape_businessId']);
+	$currentWorkspace = new workspace($_SESSION['lifems_workspaceId']);
 
 	if ($currentNote->existed) {
 		$titleName = $currentNote->title;
@@ -43,12 +43,12 @@
 	$noteEditAuth = 'denied';
 	$initialAuth = false;
 
-	if (!isset($_SESSION['ultiscape_noteAccess'])) {
-	} else if (gettype($_SESSION['ultiscape_noteAccess']) !== 'array') {
-		$_SESSION['ultiscape_noteAccess'] = array();
-	} else if (in_array([$currentNote->noteId, 'view', $currentNote->viewPass], $_SESSION['ultiscape_noteAccess'])) {
+	if (!isset($_SESSION['lifems_noteAccess'])) {
+	} else if (gettype($_SESSION['lifems_noteAccess']) !== 'array') {
+		$_SESSION['lifems_noteAccess'] = array();
+	} else if (in_array([$currentNote->noteId, 'view', $currentNote->viewPass], $_SESSION['lifems_noteAccess'])) {
 		$initialAuth = 'view';
-	} else if (in_array([$currentNote->noteId, 'edit', $currentNote->editPass], $_SESSION['ultiscape_noteAccess'])) {
+	} else if (in_array([$currentNote->noteId, 'edit', $currentNote->editPass], $_SESSION['lifems_noteAccess'])) {
 		$initialAuth = 'edit';
 	}
 
@@ -71,8 +71,8 @@
 				break;
 			case 'link':
 				$noteViewAuth = 'authorized';
-				if (!in_array([$currentNote->noteId, 'view', NULL], $_SESSION['ultiscape_noteAccess'])) {
-					array_push($_SESSION['ultiscape_noteAccess'], [$currentNote->noteId, 'view', NULL]);
+				if (!in_array([$currentNote->noteId, 'view', NULL], $_SESSION['lifems_noteAccess'])) {
+					array_push($_SESSION['lifems_noteAccess'], [$currentNote->noteId, 'view', NULL]);
 				}
 			default:
 				break;
@@ -90,8 +90,8 @@
 				break;
 			case 'link':
 				$noteEditAuth = 'authorized';
-				if (!in_array([$currentNote->noteId, 'edit', NULL], $_SESSION['ultiscape_noteAccess'])) {
-					array_push($_SESSION['ultiscape_noteAccess'], [$currentNote->noteId, 'edit', NULL]);
+				if (!in_array([$currentNote->noteId, 'edit', NULL], $_SESSION['lifems_noteAccess'])) {
+					array_push($_SESSION['lifems_noteAccess'], [$currentNote->noteId, 'edit', NULL]);
 				}
 			default:
 				break;
@@ -259,7 +259,7 @@
 		<div class="publicNotesMainContentWrapper textColorThemeGray styledText">
 			<div class="mobileOnlyBlock xyCenteredFlex centered" style="position: sticky; top: 0px; width: 100%; padding-top: .3em; padding-bottom: .3em; border-bottom: .1em solid gray; background-color: white; z-index: 99;">
 				<div class="changesMessage"><span style="color: green;">Up to date ✔</span></div>
-				<img style="display: none; width: 2em;" src="../../images/ultiscape/etc/loading.gif" class="loadingGif">
+				<img style="display: none; width: 2em;" src="../../images/lifems/etc/loading.gif" class="loadingGif">
 			</div>
 
 				<div class="twoColPage-Content-InfoSmall maxHeight">
@@ -424,7 +424,7 @@
 						<br class="desktopOnlyBlock">
 						<span class="desktopOnlyBlock">
 							<div class="changesMessage"><span style="color: green;">Up to date ✔</span></div>
-							<img style="display: none; width: 2em;" src="../../images/ultiscape/etc/loading.gif" class="loadingGif">
+							<img style="display: none; width: 2em;" src="../../images/lifems/etc/loading.gif" class="loadingGif">
 						</span>
 
 						<br><hr><br>
@@ -457,7 +457,7 @@
 							</div>
 						</div>
 
-						<span style="display: none;" id="deleteLoading"><img style="display: none; width: 2em;" src="../../images/ultiscape/etc/loading.gif" class="loadingGif"></span>
+						<span style="display: none;" id="deleteLoading"><img style="display: none; width: 2em;" src="../../images/lifems/etc/loading.gif" class="loadingGif"></span>
 					</div>
 				</div>
 		</div>

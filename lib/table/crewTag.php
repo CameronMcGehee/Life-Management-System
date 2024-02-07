@@ -11,7 +11,7 @@
 
 		// Main database attributes
 		public $crewTagId;
-		public $businessId;
+		public $workspaceId;
 		public $name;
 		public $description;
 		public $color;
@@ -25,11 +25,11 @@
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 
 		public function setToDefaults() {
-			// Default businessId to the currently selected business
-			if (isset($_SESSION['ultiscape_businessId'])) {
-				$this->businessId = $_SESSION['ultiscape_businessId'];
+			// Default workspaceId to the currently selected workspace
+			if (isset($_SESSION['lifems_workspaceId'])) {
+				$this->workspaceId = $_SESSION['lifems_workspaceId'];
 			} else {
-				$this->businessId = '';
+				$this->workspaceId = '';
 			}
 			$this->name = '';
 			$this->description = NULL;
@@ -60,7 +60,7 @@
 			// If crewTagId already exists then set the set method type to UPDATE and fetch the values for the crewTag
 			if ($fetch) {
 				$this->crewTagId = $crewTagId;
-				$this->businessId = $fetch[0]['businessId'];
+				$this->workspaceId = $fetch[0]['workspaceId'];
 				$this->name = $fetch[0]['name'];
 				$this->description = $fetch[0]['description'];
 				$this->color = $fetch[0]['color'];
@@ -97,7 +97,7 @@
 
 			$attributes = array(
 				'crewTagId' => $this->db->sanitize($this->dbCrewTagId),
-				'businessId' => $this->db->sanitize($this->businessId),
+				'workspaceId' => $this->db->sanitize($this->workspaceId),
 				'name' => $this->db->sanitize($this->name),
 				'description' => $this->db->sanitize($this->description),
 				'color' => $this->db->sanitize($this->color),

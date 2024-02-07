@@ -1,7 +1,7 @@
 <?php
 
-    $ULTISCAPECONFIG = include('../config/mainConfig.php');
-    error_reporting($ULTISCAPECONFIG['phpErrors']);
+    $lifemsConfig = include('../config/mainConfig.php');
+    error_reporting($lifemsConfig['phpErrors']);
 
     $currentUpdateStatus = 'none';
 

@@ -11,7 +11,7 @@
 
 		// Main database attributes
 		public $payrollSatisfactionId;
-		public $businessId;
+		public $workspaceId;
 		public $staffId;
 		public $linkedToPayrollDueId;
 		public $method;
@@ -27,11 +27,11 @@
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 
 		public function setToDefaults() {
-			// Default businessId to the currently selected business
-			if (isset($_SESSION['ultiscape_businessId'])) {
-				$this->businessId = $_SESSION['ultiscape_businessId'];
+			// Default workspaceId to the currently selected workspace
+			if (isset($_SESSION['lifems_workspaceId'])) {
+				$this->workspaceId = $_SESSION['lifems_workspaceId'];
 			} else {
-				$this->businessId = '';
+				$this->workspaceId = '';
 			}
 			$this->staffId = '';
 			$this->linkedToPayrollDueId = NULL;
@@ -62,7 +62,7 @@
 			// If payrollSatisfactionId already exists then set the set method type to UPDATE and fetch the values for the payrollSatisfaction
 			if ($fetch) {
 				$this->payrollSatisfactionId = $payrollSatisfactionId;
-				$this->businessId = $fetch[0]['businessId'];
+				$this->workspaceId = $fetch[0]['workspaceId'];
 				$this->staffId = $fetch[0]['staffId'];
 				$this->linkedToPayrollDueId = $fetch[0]['linkedToPayrollDueId'];
 				$this->method = $fetch[0]['method'];
@@ -101,7 +101,7 @@
 
 			$attributes = array(
 				'payrollSatisfactionId' => $this->db->sanitize($this->dbPayrollSatisfactionId),
-				'businessId' => $this->db->sanitize($this->businessId),
+				'workspaceId' => $this->db->sanitize($this->workspaceId),
 				'staffId' => $this->db->sanitize($this->staffId),
 				'linkedToPayrollDueId' => $this->db->sanitize($this->linkedToPayrollDueId),
 				'method' => $this->db->sanitize($this->method),

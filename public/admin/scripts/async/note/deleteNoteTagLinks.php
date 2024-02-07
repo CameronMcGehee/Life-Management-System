@@ -6,7 +6,7 @@
 
     // Make sure that an admin is logged in
 
-    if (!isset($_SESSION['ultiscape_adminId']) || !isset($_SESSION['ultiscape_businessId'])) {
+    if (!isset($_SESSION['lifems_adminId']) || !isset($_SESSION['lifems_workspaceId'])) {
         echo 'unauthorized';
         exit();
     }
@@ -46,7 +46,7 @@
             die();
         }
         // delete the link
-        if ($db->delete('noteNoteTagBridge', "WHERE businessId = '".$_SESSION['ultiscape_businessId']."' AND noteId = '".$db->sanitize($tagLink[0])."' AND noteTagId = '".$db->sanitize($tagLink[1])."'", 1)) {
+        if ($db->delete('noteNoteTagBridge', "WHERE workspaceId = '".$_SESSION['lifems_workspaceId']."' AND noteId = '".$db->sanitize($tagLink[0])."' AND noteTagId = '".$db->sanitize($tagLink[1])."'", 1)) {
             echo 'success';
         } else {
             echo 'deleteError';

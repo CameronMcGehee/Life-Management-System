@@ -7,7 +7,7 @@
         //0 for none, E_ERROR, E_WARNING, E_PARSE, or E_ALL
             "phpErrors" => 0,
 
-        // Root user - Can create new admin accounts and businesses in single-business mode.
+        // Root user - Can create new admin accounts and workspaces in single-workspace mode.
             "rootUserUsername" => 'root',
             "rootUserPassword" => '1234567890', // Change this!!
 
@@ -15,7 +15,7 @@
             "databaseServer" => 'localhost',
             "databaseUsername" => 'USERNAME',
             "databasePassword" => 'PASSWORD',
-            "databaseDb" => 'ultiscape',
+            "databaseDb" => 'lifems',
 
         // Global Access Control
             "allowAccess" => true, // Essentially takes down LifeMS. Users will not be able to access the site. The message below will be shown instead.
@@ -25,14 +25,14 @@
             "databaseErrTitle" => 'LifeMS - No Database Connection',
             "databaseErrMessage" => '<h1>LifeMS currently cannot connect to the database. Reload the page in a few minutes to try again.</h1>',
 
-        // Business Settings
+        // Workspace Settings
 
             // Available modules:
-            // - customers
+            // - contacts
             // - invoices
             // - estimates
             // - properties
-            // - jobs
+            // - calendarEvents
             // - equipment
             // - chemicals
             // - staff
@@ -40,8 +40,8 @@
             // - payroll
             // - email
 
-            // Default Modules to enable when a new business is created by an admin.
-            "defaultBusinessModules" => array("customers", "properties", "jobs", "invoices"),
+            // Default Modules to enable when a new workspace is created by an admin.
+            "defaultWorkspaceModules" => array("contacts", "properties", "calendarEvents", "invoices"),
 
         // Email SMTP settings - It's recommended to use something like Amazon SES for your email sending to avoid being blacklisted for using a private server
         // These settings are NOT REQUIRED as long as you do not intend to use the email module in LifeMS.
@@ -69,11 +69,11 @@
             // Whether to use email validation when the user enters an email address
             "useEmailValidation" => true,
 
-            // Business inputs
-            "businessNameMinLength" => 5,
-            "businessNameMaxLength" => 100,
-            "businessInternalNameMinLength" => 5,
-            "businessInternalNameMaxLength" => 100,
+            // Workspace inputs
+            "workspaceNameMinLength" => 5,
+            "workspaceNameMaxLength" => 100,
+            "workspaceInternalNameMinLength" => 5,
+            "workspaceInternalNameMaxLength" => 100,
 
             // File Upload settings
             "allowedImageUploadTypes" => array('jpg', 'jpeg', 'png')

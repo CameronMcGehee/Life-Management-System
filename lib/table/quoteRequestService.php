@@ -11,7 +11,7 @@
 
 		// Main database attributes
 		public $quoteRequestServiceId;
-		public $businessId;
+		public $workspaceId;
 		public $quoteRequestId;
 		public $linkedToServiceListingId;
 		public $currentName;
@@ -29,11 +29,11 @@
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 
 		public function setToDefaults() {
-			// Default businessId to the currently selected business
-			if (isset($_SESSION['ultiscape_businessId'])) {
-				$this->businessId = $_SESSION['ultiscape_businessId'];
+			// Default workspaceId to the currently selected workspace
+			if (isset($_SESSION['lifems_workspaceId'])) {
+				$this->workspaceId = $_SESSION['lifems_workspaceId'];
 			} else {
-				$this->businessId = '';
+				$this->workspaceId = '';
 			}
 			$this->quoteRequestId = '';
 			$this->linkedToServiceListingId = '';
@@ -66,7 +66,7 @@
 			// If quoteRequestServiceId already exists then set the set method type to UPDATE and fetch the values for the quoteRequestService
 			if ($fetch) {
 				$this->quoteRequestServiceId = $quoteRequestServiceId;
-				$this->businessId = $fetch[0]['businessId'];
+				$this->workspaceId = $fetch[0]['workspaceId'];
 				$this->quoteRequestId = $fetch[0]['quoteRequestId'];
 				$this->linkedToServiceListingId = $fetch[0]['linkedToServiceListingId'];
 				$this->currentName = $fetch[0]['currentName'];
@@ -107,7 +107,7 @@
 
 			$attributes = array(
 				'quoteRequestServiceId' => $this->db->sanitize($this->dbQuoteRequestServiceId),
-				'businessId' => $this->db->sanitize($this->businessId),
+				'workspaceId' => $this->db->sanitize($this->workspaceId),
 				'quoteRequestId' => $this->db->sanitize($this->quoteRequestId),
 				'linkedToServiceListingId' => $this->db->sanitize($this->linkedToServiceListingId),
 				'currentName' => $this->db->sanitize($this->currentName),

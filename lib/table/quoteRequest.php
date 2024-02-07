@@ -11,8 +11,8 @@
 
 		// Main database attributes
 		public $quoteRequestId;
-		public $businessId;
-		public $linkedToCustomerId;
+		public $workspaceId;
+		public $linkedToContactId;
 		public $name;
 		public $email;
 		public $address1;
@@ -31,17 +31,17 @@
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 
 		public function setToDefaults() {
-			// Default businessId to the currently selected business
-			if (isset($_SESSION['ultiscape_businessId'])) {
-				$this->businessId = $_SESSION['ultiscape_businessId'];
+			// Default workspaceId to the currently selected workspace
+			if (isset($_SESSION['lifems_workspaceId'])) {
+				$this->workspaceId = $_SESSION['lifems_workspaceId'];
 			} else {
-				$this->businessId = '';
+				$this->workspaceId = '';
 			}
-			// Default linkedToCustomerId to the currently selected business
-			if (isset($_SESSION['ultiscape_customerId'])) {
-				$this->linkedToCustomerId = $_SESSION['ultiscape_customerId'];
+			// Default linkedToContactId to the currently selected workspace
+			if (isset($_SESSION['lifems_contactId'])) {
+				$this->linkedToContactId = $_SESSION['lifems_contactId'];
 			} else {
-				$this->linkedToCustomerId = NULL;
+				$this->linkedToContactId = NULL;
 			}
 			$this->name = NULL;
 			$this->email = NULL;
@@ -75,8 +75,8 @@
 			// If quoteRequestId already exists then set the set method type to UPDATE and fetch the values for the quoteRequest
 			if ($fetch) {
 				$this->quoteRequestId = $quoteRequestId;
-				$this->businessId = $fetch[0]['businessId'];
-				$this->linkedToCustomerId = $fetch[0]['linkedToCustomerId'];
+				$this->workspaceId = $fetch[0]['workspaceId'];
+				$this->linkedToContactId = $fetch[0]['linkedToContactId'];
 				$this->name = $fetch[0]['name'];
 				$this->email = $fetch[0]['email'];
 				$this->address1 = $fetch[0]['address1'];
@@ -142,7 +142,7 @@
 
 			$attributes = array(
 				'quoteRequestId' => $this->db->sanitize($this->dbQuoteRequestId),
-				'businessId' => $this->db->sanitize($this->businessId),
+				'workspaceId' => $this->db->sanitize($this->workspaceId),
 				'name' => $this->db->sanitize($this->name),
 				'email' => $this->db->sanitize($this->email),
 				'address1' => $this->db->sanitize($this->address1),

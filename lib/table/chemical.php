@@ -11,7 +11,7 @@
 
 		// Main database attributes
 		public $chemicalId;
-		public $businessId;
+		public $workspaceId;
 		public $linkedToCrewId;
 		public $linkedToStaffId;
 		public $name;
@@ -26,7 +26,7 @@
 		public $defaultAmountAppliedUnit;
 		public $amountInStock;
 		public $amountInStockUnit;
-		public $notesToCustomer;
+		public $notesToContact;
 		public $notesToStaff;
 		public $description;
 		public $condition;
@@ -46,11 +46,11 @@
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 
 		public function setToDefaults() {
-			// Default businessId to the currently selected business
-			if (isset($_SESSION['ultiscape_businessId'])) {
-				$this->businessId = $_SESSION['ultiscape_businessId'];
+			// Default workspaceId to the currently selected workspace
+			if (isset($_SESSION['lifems_workspaceId'])) {
+				$this->workspaceId = $_SESSION['lifems_workspaceId'];
 			} else {
-				$this->businessId = '';
+				$this->workspaceId = '';
 			}
 			$this->linkedToCrewId = NULL;
 			$this->linkedToStaffId = NULL;
@@ -66,7 +66,7 @@
 			$this->defaultAmountAppliedUnit = 'ml/ft²';
 			$this->amountInStock = NULL;
 			$this->amountInStockUnit = 'ml';
-			$this->notesToCustomer = NULL;
+			$this->notesToContact = NULL;
 			$this->notesToStaff = NULL;
 			$this->description = NULL;
 			$this->condition = NULL;
@@ -100,7 +100,7 @@
 			// If chemicalId already exists then set the set method type to UPDATE and fetch the values for the chemical
 			if ($fetch) {
 				$this->chemicalId = $chemicalId;
-				$this->businessId = $fetch[0]['businessId'];
+				$this->workspaceId = $fetch[0]['workspaceId'];
 				$this->linkedToCrewId = $fetch[0]['linkedToCrewId'];
 				$this->linkedToStaffId = $fetch[0]['linkedToStaffId'];
 				$this->name = $fetch[0]['name'];
@@ -115,7 +115,7 @@
 				$this->defaultAmountAppliedUnit = $fetch[0]['defaultAmountAppliedUnit'];
 				$this->amountInStock = $fetch[0]['amountInStock'];
 				$this->amountInStockUnit = $fetch[0]['amountInStockUnit'];
-				$this->notesToCustomer = $fetch[0]['notesToCustomer'];
+				$this->notesToContact = $fetch[0]['notesToContact'];
 				$this->notesToStaff = $fetch[0]['notesToStaff'];
 				$this->description = $fetch[0]['description'];
 				$this->condition = $fetch[0]['condition'];
@@ -202,7 +202,7 @@
 
 			$attributes = array(
 				'chemicalId' => $this->db->sanitize($this->dbChemicalId),
-				'businessId' => $this->db->sanitize($this->businessId),
+				'workspaceId' => $this->db->sanitize($this->workspaceId),
 				'linkedToCrewId' => $this->db->sanitize($this->linkedToCrewId),
 				'linkedToStaffId' => $this->db->sanitize($this->linkedToStaffId),
 				'name' => $this->db->sanitize($this->name),
@@ -217,7 +217,7 @@
 				'defaultAmountAppliedUnit' => $this->db->sanitize($this->defaultAmountAppliedUnit),
 				'amountInStock' => $this->db->sanitize($this->amountInStock),
 				'amountInStockUnit' => $this->db->sanitize($this->amountInStockUnit),
-				'notesToCustomer' => $this->db->sanitize($this->notesToCustomer),
+				'notesToContact' => $this->db->sanitize($this->notesToContact),
 				'notesToStaff' => $this->db->sanitize($this->notesToStaff),
 				'description' => $this->db->sanitize($this->description),
 				'condition' => $this->db->sanitize($this->condition),

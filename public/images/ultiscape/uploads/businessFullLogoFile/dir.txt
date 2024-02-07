@@ -1,1 +1,0 @@
-This folder holds all businessFullLogo file uploads. DO NOT REMOVE THESE OR THEY WILL BREAK SOME PARTS OF THE SITE.

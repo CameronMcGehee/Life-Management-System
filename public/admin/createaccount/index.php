@@ -3,9 +3,9 @@
 	// Start Session
 	require_once '../../php/startSession.php';
 
-	// This is the login page so if we are already signed in, just redirect to the business selection page
+	// This is the login page so if we are already signed in, just redirect to the workspace selection page
 
-	if (isset($_SESSION['ultiscape_adminId'])) {
+	if (isset($_SESSION['lifems_adminId'])) {
 		header("location: ../");
 	}
 

@@ -6,7 +6,7 @@
 
     // Make sure that an admin is logged in
 
-    if (!isset($_SESSION['ultiscape_adminId']) || !isset($_SESSION['ultiscape_businessId'])) {
+    if (!isset($_SESSION['lifems_adminId']) || !isset($_SESSION['lifems_workspaceId'])) {
         echo 'unauthorized';
         exit();
     }
@@ -43,7 +43,7 @@
             die();
         }
         // create the link
-        if ($db->insert('noteNoteTagBridge', ['businessId' => $_SESSION['ultiscape_businessId'], 'noteId' => $db->sanitize($tagLink[0]), 'noteTagId' => $db->sanitize($tagLink[1]))) {
+        if ($db->insert('noteNoteTagBridge', ['workspaceId' => $_SESSION['lifems_workspaceId'], 'noteId' => $db->sanitize($tagLink[0]), 'noteTagId' => $db->sanitize($tagLink[1]))) {
             echo 'success';
         } else {
             echo 'insertError';

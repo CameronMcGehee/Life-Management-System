@@ -4,7 +4,7 @@
 
     class propertyTable extends render {
 
-        private business $currentBusiness; // For storing the object of the business
+        private workspace $currentWorkspace; // For storing the object of the workspace
 
         public string $renderId = '';
         public array $options = [];
@@ -22,11 +22,11 @@
 				$options['queryParams'] = '';
 			}
 
-            if (!isset($options['businessId'])) {
-				if (isset($_SESSION['ultiscape_businessId'])) {
-                    $options['businessId'] = $_SESSION['ultiscape_businessId'];
+            if (!isset($options['workspaceId'])) {
+				if (isset($_SESSION['lifems_workspaceId'])) {
+                    $options['workspaceId'] = $_SESSION['lifems_workspaceId'];
                 } else {
-                    throw new Exception("No businessId set to pull properties from (in propertyTable)");
+                    throw new Exception("No workspaceId set to pull properties from (in propertyTable)");
                 }
 			}
 
@@ -74,8 +74,8 @@
 				$options['showPageNav'] = true;
 			}
 
-            if (!isset($options['showCustomer'])) {
-				$options['showCustomer'] = true;
+            if (!isset($options['showContact'])) {
+				$options['showContact'] = true;
 			}
 
             if (!isset($options['showLawnSize'])) {
@@ -102,13 +102,13 @@
 				$options['showBatch'] = false;
 			}
 
-            $this->currentBusiness = new business($options['businessId']);
+            $this->currentWorkspace = new workspace($options['workspaceId']);
 
             $this->renderId = $renderId;
 
             require_once dirname(__FILE__)."/../../table/authToken.php";
             require_once dirname(__FILE__)."/../../table/property.php";
-            require_once dirname(__FILE__)."/../../table/business.php";
+            require_once dirname(__FILE__)."/../../table/workspace.php";
             require_once dirname(__FILE__)."/../etc/tagEditor.php";
             require_once dirname(__FILE__)."/../etc/pageNavigator.php";
             require_once dirname(__FILE__)."/../etc/sortBySelector.php";
@@ -140,7 +140,7 @@
             $firstLimit = ($this->options['usePage'] - 1) * $this->options['maxRows'];
 
             // Get count for page count
-            $pageCountQuery = "WHERE businessId = '".$_SESSION['ultiscape_businessId']."'";
+            $pageCountQuery = "WHERE workspaceId = '".$_SESSION['lifems_workspaceId']."'";
             if ($this->options['useSearch'] != '') {
                 $keywords = explode(" ", $this->options['useSearch']);
                 foreach ($keywords as $key => $keyword) {
@@ -238,9 +238,9 @@
                 $params .= $this->options['queryParams']." LIMIT ".$firstLimit.", ".$this->options['maxRows'];
             }
 
-            $this->currentBusiness->pullProperties($params);
+            $this->currentWorkspace->pullProperties($params);
             
-			if (count($this->currentBusiness->properties) < 1) {
+			if (count($this->currentWorkspace->properties) < 1) {
 				$this->output .= '<table class="defaultTable" style="margin-top: .5em;"><tr><td class="la">No properties...</td></tr></table>
                 ';
                 return;
@@ -261,8 +261,8 @@
             $this->output .= '<th class="la nrb">Address</th>
             ';
 
-            if ($this->options['showCustomer']) {
-                $this->output .= '<th class="ca nrb nlb">Customer</th>
+            if ($this->options['showContact']) {
+                $this->output .= '<th class="ca nrb nlb">Contact</th>
                 ';
             }
             if ($this->options['showLawnSize']) {
@@ -289,7 +289,7 @@
             $this->output .= '</tr>
             ';
 			
-			foreach ($this->currentBusiness->properties as $propertyId) {
+			foreach ($this->currentWorkspace->properties as $propertyId) {
 
                 $property = new property($propertyId);
 
@@ -334,7 +334,7 @@
                     $address = '<span style="color: red;">Not on file.</span>';
                 }
 
-                $customerName = 'NF';
+                $contactName = 'NF';
 
                 if (!is_null($property->lawnSize)) {
                     $lawnSize = (int)$property->lawnSize;
@@ -362,8 +362,8 @@
                 $this->output .= '<td class="la nrb vam" style="max-width: 10em;"><a href="'.$this->options['rootPathPrefix'].'admin/properties/property?id='.htmlspecialchars(htmlspecialchars($property->propertyId)).'" style="font-size: 1.1em; margin-right: .5em;"><b>'.$address.'</b></a></td>
                 ';
                                     
-                if ($this->options['showCustomer']) {
-                    $this->output .= '<td class="la nlb nrb">'.$customerName.'</td>
+                if ($this->options['showContact']) {
+                    $this->output .= '<td class="la nlb nrb">'.$contactName.'</td>
                     ';
                 }
                 if ($this->options['showLawnSize']) {

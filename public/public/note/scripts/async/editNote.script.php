@@ -3,7 +3,7 @@
 	require_once '../../../../php/startSession.php';
 	require_once '../../../../../lib/table/note.php';
 	require_once '../../../../../lib/etc/authToken/useAuthToken.php';
-	require_once '../../../../../lib/table/business.php';
+	require_once '../../../../../lib/table/workspace.php';
 
 	if (!isset($_POST['formData'])) {
 		echo 'noData';
@@ -24,13 +24,13 @@
 	}
 
 	// Make sure that local access to this note has been granted
-	if (!isset($_SESSION['ultiscape_noteAccess'])) {
+	if (!isset($_SESSION['lifems_noteAccess'])) {
 		echo 'unauthorized';
 		exit();
-	} else if (gettype($_SESSION['ultiscape_noteAccess']) !== 'array') {
+	} else if (gettype($_SESSION['lifems_noteAccess']) !== 'array') {
 		echo 'unauthorized';
 		exit();
-	} else if (!in_array([$currentNote->noteId, 'edit', $currentNote->editPass], $_SESSION['ultiscape_noteAccess'])) {
+	} else if (!in_array([$currentNote->noteId, 'edit', $currentNote->editPass], $_SESSION['lifems_noteAccess'])) {
 		echo 'unauthorized';
 		exit();
 	}
@@ -45,7 +45,7 @@
 	}
 
 	// Check if input is set and valid
-	$currentBusiness = new business($currentNote->businessId);
+	$currentWorkspace = new workspace($currentNote->workspaceId);
 
 	// title
 	if (!isset($formData['title']) || empty($formData['title']) || strlen(strval($formData['title'])) < 1) {

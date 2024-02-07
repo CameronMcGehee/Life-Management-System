@@ -98,7 +98,7 @@
 
                     $this->output .= '"><div style="'.$this->options['style'].'" class="popupMessageDialog '.$this->options['class'].'">
 
-                    <div style="width: 100%;"><span class="closeButton" onclick="close'.$this->renderId.$popup.'()"><img src="'.$this->options['rootPathPrefix'].'images/ultiscape/icons/cross.svg" /></span></div>
+                    <div style="width: 100%;"><span class="closeButton" onclick="close'.$this->renderId.$popup.'()"><img src="'.$this->options['rootPathPrefix'].'images/lifems/icons/cross.svg" /></span></div>
                     
                     '.$content.'</div></span>';
 

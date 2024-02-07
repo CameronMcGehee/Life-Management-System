@@ -11,7 +11,7 @@
 
 		// Main database attributes
 		public $crewId;
-		public $businessId;
+		public $workspaceId;
 		public $name;
 		public $description;
 		public $dateTimeAdded;
@@ -20,9 +20,9 @@
 		public $chemicals = array();
 		public $equipment = array();
 		public $chemicalApplications = array();
-		public $jobCompleteds = array();
-		public $jobSingulars = array();
-		public $jobRecurrings = array();
+		public $calendarEventCompleteds = array();
+		public $calendarEventSingulars = array();
+		public $calendarEventRecurrings = array();
 		public $leaders = array();
 		public $staff = array();
 
@@ -33,11 +33,11 @@
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 
 		public function setToDefaults() {
-			// Default businessId to the currently selected business
-			if (isset($_SESSION['ultiscape_businessId'])) {
-				$this->businessId = $_SESSION['ultiscape_businessId'];
+			// Default workspaceId to the currently selected workspace
+			if (isset($_SESSION['lifems_workspaceId'])) {
+				$this->workspaceId = $_SESSION['lifems_workspaceId'];
 			} else {
-				$this->businessId = '';
+				$this->workspaceId = '';
 			}
 			$this->name = '';
 			$this->description = NULL;
@@ -49,9 +49,9 @@
 			$this->chemicals = array();
 			$this->equipment = array();
 			$this->chemicalApplications = array();
-			$this->jobCompleteds = array();
-			$this->jobSingulars = array();
-			$this->jobRecurrings = array();
+			$this->calendarEventCompleteds = array();
+			$this->calendarEventSingulars = array();
+			$this->calendarEventRecurrings = array();
 			$this->leaders = array();
 			$this->staff = array();
 		}
@@ -74,7 +74,7 @@
 			// If crewId already exists then set the set method type to UPDATE and fetch the values for the crew
 			if ($fetch) {
 				$this->crewId = $crewId;
-				$this->businessId = $fetch[0]['businessId'];
+				$this->workspaceId = $fetch[0]['workspaceId'];
 				$this->name = $fetch[0]['name'];
 				$this->description = $fetch[0]['description'];
 				$this->dateTimeAdded = $fetch[0]['dateTimeAdded'];
@@ -168,18 +168,18 @@
 			}
 		}
 		
-		// jobCompleteds
-		public function pullJobCompleteds ($params = '') {
-			$this->jobCompleteds = array();
+		// calendarEventCompleteds
+		public function pullCalendarEventCompleteds ($params = '') {
+			$this->calendarEventCompleteds = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('jobCompletedCrewBridge', 'jobCompletedCrewId', "WHERE crewId = '$this->dbCrewId'".$params);
+			$fetch = $this->db->select('calendarEventCompletedCrewBridge', 'calendarEventCompletedCrewId', "WHERE crewId = '$this->dbCrewId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
-					array_push($this->jobCompleteds, $row['jobCompletedId']);
+					array_push($this->calendarEventCompleteds, $row['calendarEventCompletedId']);
 				}
 				return true;
 			} elseif ($this->db->getLastError() === '') {
@@ -189,18 +189,18 @@
 			}
 		}
 		
-		// jobSingulars
-		public function pullJobSingulars ($params = '') {
-			$this->jobSingulars = array();
+		// calendarEventSingulars
+		public function pullCalendarEventSingulars ($params = '') {
+			$this->calendarEventSingulars = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('jobSingularCrewBridge', 'jobSingularCrewId', "WHERE crewId = '$this->dbCrewId'".$params);
+			$fetch = $this->db->select('calendarEventSingularCrewBridge', 'calendarEventSingularCrewId', "WHERE crewId = '$this->dbCrewId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
-					array_push($this->jobSingulars, $row['jobSingularId']);
+					array_push($this->calendarEventSingulars, $row['calendarEventSingularId']);
 				}
 				return true;
 			} elseif ($this->db->getLastError() === '') {
@@ -210,18 +210,18 @@
 			}
 		}
 		
-		// jobRecurrings
-		public function pullJobRecurrings ($params = '') {
-			$this->jobRecurrings = array();
+		// calendarEventRecurrings
+		public function pullCalendarEventRecurrings ($params = '') {
+			$this->calendarEventRecurrings = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('jobRecurringCrewBridge', 'jobRecurringCrewId', "WHERE crewId = '$this->dbCrewId'".$params);
+			$fetch = $this->db->select('calendarEventRecurringCrewBridge', 'calendarEventRecurringCrewId', "WHERE crewId = '$this->dbCrewId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
-					array_push($this->jobRecurrings, $row['jobRecurringId']);
+					array_push($this->calendarEventRecurrings, $row['calendarEventRecurringId']);
 				}
 				return true;
 			} elseif ($this->db->getLastError() === '') {
@@ -283,7 +283,7 @@
 
 			$attributes = array(
 				'crewId' => $this->db->sanitize($this->dbCrewId),
-				'businessId' => $this->db->sanitize($this->businessId),
+				'workspaceId' => $this->db->sanitize($this->workspaceId),
 				'name' => $this->db->sanitize($this->name),
 				'description' => $this->db->sanitize($this->description),
 				'dateTimeAdded' => $this->db->sanitize($this->dateTimeAdded)

@@ -3,12 +3,12 @@
     // Start Session
     require_once '../../php/startSession.php';
 
-    // This is the login page so if we are already signed in, just redirect to the business selection page
+    // This is the login page so if we are already signed in, just redirect to the workspace selection page
 
-    if (isset($_SESSION['ultiscape_adminId']) && isset($_SESSION['ultiscape_businessId'])) {
-        header("location: ../businessoverview");
-    } elseif (isset($_SESSION['ultiscape_adminId'])) {
-        header("location: ../selectbusiness");
+    if (isset($_SESSION['lifems_adminId']) && isset($_SESSION['lifems_workspaceId'])) {
+        header("location: ../workspaceoverview");
+    } elseif (isset($_SESSION['lifems_adminId'])) {
+        header("location: ../selectworkspace");
     }
 
     require_once '../../../lib/adminUIRender.php';

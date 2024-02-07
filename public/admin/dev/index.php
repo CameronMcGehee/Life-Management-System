@@ -31,7 +31,7 @@
             echo $adminUIRender->renderAdminSideBar('../../');
 
             // require_once '../../../lib/render/ui/popupsHandler.php';
-            // $popupsHandler = new popupsHandler('mainPopupsHandler', ["rootPathPrefix" => '../../', "popups" => ['businessCreated'], 'class' => 'styledText spacedText defaultMainShadows', 'style' => 'width: 500em;']);
+            // $popupsHandler = new popupsHandler('mainPopupsHandler', ["rootPathPrefix" => '../../', "popups" => ['workspaceCreated'], 'class' => 'styledText spacedText defaultMainShadows', 'style' => 'width: 500em;']);
             // $popupsHandler->render();
             // echo $popupsHandler->output;
         ?>
@@ -40,47 +40,47 @@
             <div style="margin-left: 2em; margin-right: 2em;">
                 <?php
 
-                    // require_once '../../../lib/table/job.php';
-                    // require_once '../../../lib/table/customerEmailAddress.php';
-                    // require_once '../../../lib/table/customerPhoneNumber.php';
+                    // require_once '../../../lib/table/calendarEvent.php';
+                    // require_once '../../../lib/table/contactEmailAddress.php';
+                    // require_once '../../../lib/table/contactPhoneNumber.php';
                     // $lastNames = require_once '../../../lib/arrays/lastNames.php';
                     // $firstNames = require_once '../../../lib/arrays/firstNames.php';
 
                     // for ($x = 0; $x <= 1500; $x++) {
-                    //     $job = new job();
+                    //     $calendarEvent = new calendarEvent();
 
-                    //     $job->linkedToCustomerId = NULL;
-                    //     $job->linkedToPropertyId = NULL;
-                    //     $job->name = 'Mowing'.uniqid();
-                    //     $job->description = NULL;
-                    //     $job->privateNotes = NULL;
-                    //     $job->price = NULL;
-                    //     $job->estHours = NULL;
-                    //     $job->isPrepaid = 0;
-                    //     $job->frequencyInterval = 'none';
-                    //     $job->frequency = 1;
-                    //     $job->weekday = '5';
-                    //     $job->startDateTime = '2022-02-18 00:00:00';
-                    //     $job->endDateTime = NULL;
+                    //     $calendarEvent->linkedToContactId = NULL;
+                    //     $calendarEvent->linkedToPropertyId = NULL;
+                    //     $calendarEvent->name = 'Mowing'.uniqid();
+                    //     $calendarEvent->description = NULL;
+                    //     $calendarEvent->privateNotes = NULL;
+                    //     $calendarEvent->price = NULL;
+                    //     $calendarEvent->estHours = NULL;
+                    //     $calendarEvent->isPrepaid = 0;
+                    //     $calendarEvent->frequencyInterval = 'none';
+                    //     $calendarEvent->frequency = 1;
+                    //     $calendarEvent->weekday = '5';
+                    //     $calendarEvent->startDateTime = '2022-02-18 00:00:00';
+                    //     $calendarEvent->endDateTime = NULL;
     
-                    //     $job->set();
-    
-    
-                    //     $customerEmailAddress = new customerEmailAddress();
-    
-                    //     $customerEmailAddress->customerId = $customer->customerId;
-                    //     $customerEmailAddress->email = 'email@example.com';
-    
-                    //     $customerEmailAddress->set();
+                    //     $calendarEvent->set();
     
     
-                    //     $customerPhoneNumber = new customerPhoneNumber();
+                    //     $contactEmailAddress = new contactEmailAddress();
     
-                    //     $customerPhoneNumber->customerId = $customer->customerId;
-                    //     $customerPhoneNumber->phonePrefix = '1';
-                    //     $customerPhoneNumber->phone1 = (string)rand(0,9).(string)rand(0,9).(string)rand(0,9).(string)rand(0,9).(string)rand(0,9).(string)rand(0,9).(string)rand(0,9).(string)rand(0,9).(string)rand(0,9).(string)rand(0,9);
+                    //     $contactEmailAddress->contactId = $contact->contactId;
+                    //     $contactEmailAddress->email = 'email@example.com';
     
-                    //     $customerPhoneNumber->set();
+                    //     $contactEmailAddress->set();
+    
+    
+                    //     $contactPhoneNumber = new contactPhoneNumber();
+    
+                    //     $contactPhoneNumber->contactId = $contact->contactId;
+                    //     $contactPhoneNumber->phonePrefix = '1';
+                    //     $contactPhoneNumber->phone1 = (string)rand(0,9).(string)rand(0,9).(string)rand(0,9).(string)rand(0,9).(string)rand(0,9).(string)rand(0,9).(string)rand(0,9).(string)rand(0,9).(string)rand(0,9).(string)rand(0,9);
+    
+                    //     $contactPhoneNumber->set();
                     // }
 
                     // -----------------------------------------------------------------------------------------------------------------------------------------------
@@ -99,47 +99,47 @@
 
                     // -----------------------------------------------------------------------------------------------------------------------------------------------
 
-                    // require_once '../../../lib/table/business.php';
+                    // require_once '../../../lib/table/workspace.php';
 
-                    // $business = new business('691661a305e702984');
+                    // $workspace = new workspace('691661a305e702984');
 
-                    // $business->displayName = "C's Test Business";
-                    // $business->adminDisplayName = 'Test Business';
+                    // $workspace->displayName = "C's Test Workspace";
+                    // $workspace->adminDisplayName = 'Test Workspace';
 
-                    // $business->set();
+                    // $workspace->set();
 
-                    // echo '<p>'.htmlspecialchars($business->businessId).'</p>';
-                    // echo '<p>'.htmlspecialchars($business->displayName).' '.htmlspecialchars($business->adminDisplayName).'</p>';
-
-                    // -----------------------------------------------------------------------------------------------------------------------------------------------
-
-                    // require_once '../../../lib/render/customer/customerTable.php';
-
-                    // $customerTable = new customerTable();
-
-                    // $customerTable->rootPathPrefix = '../';
-
-                    // $customerTable->render();
-
-                    // echo $customerTable->output;
-
-                    // // echo '<p>'.htmlspecialchars($business->businessId).'</p>';
-                    // // echo '<p>'.htmlspecialchars($business->displayName).' '.htmlspecialchars($business->adminDisplayName).'</p>';
+                    // echo '<p>'.htmlspecialchars($workspace->workspaceId).'</p>';
+                    // echo '<p>'.htmlspecialchars($workspace->displayName).' '.htmlspecialchars($workspace->adminDisplayName).'</p>';
 
                     // -----------------------------------------------------------------------------------------------------------------------------------------------
 
-                    require_once '../../../lib/table/business.php';
-                    $currentBusiness = new business($_SESSION['ultiscape_businessId']);
-                    $currentBusiness->pullNotes();
+                    // require_once '../../../lib/render/contact/contactTable.php';
+
+                    // $contactTable = new contactTable();
+
+                    // $contactTable->rootPathPrefix = '../';
+
+                    // $contactTable->render();
+
+                    // echo $contactTable->output;
+
+                    // // echo '<p>'.htmlspecialchars($workspace->workspaceId).'</p>';
+                    // // echo '<p>'.htmlspecialchars($workspace->displayName).' '.htmlspecialchars($workspace->adminDisplayName).'</p>';
+
+                    // -----------------------------------------------------------------------------------------------------------------------------------------------
+
+                    require_once '../../../lib/table/workspace.php';
+                    $currentWorkspace = new workspace($_SESSION['lifems_workspaceId']);
+                    $currentWorkspace->pullNotes();
 
                     require_once '../../../lib/table/note.php';
 
-                    $note = new note($currentBusiness->notes[0]);
+                    $note = new note($currentWorkspace->notes[0]);
                     echo $note->convertMarkdownToHtml();
                     // var_dump($note);
 
-                    // echo '<p>'.htmlspecialchars($business->businessId).'</p>';
-                    // // echo '<p>'.htmlspecialchars($business->displayName).' '.htmlspecialchars($business->adminDisplayName).'</p>';
+                    // echo '<p>'.htmlspecialchars($workspace->workspaceId).'</p>';
+                    // // echo '<p>'.htmlspecialchars($workspace->displayName).' '.htmlspecialchars($workspace->adminDisplayName).'</p>';
 
 
                 ?>

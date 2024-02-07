@@ -11,10 +11,10 @@
 
 		// Main database attributes
 		public $paymentId;
-		public $businessId;
+		public $workspaceId;
 		public $linkedToInvoiceId;
 		public $linkedToPaymentMethodId;
-		public $customerId;
+		public $contactId;
 		public $methodName;
 		public $methodPercentCut;
 		public $methodAmountCut;
@@ -30,15 +30,15 @@
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 
 		public function setToDefaults() {
-			// Default businessId to the currently selected business
-			if (isset($_SESSION['ultiscape_businessId'])) {
-				$this->businessId = $_SESSION['ultiscape_businessId'];
+			// Default workspaceId to the currently selected workspace
+			if (isset($_SESSION['lifems_workspaceId'])) {
+				$this->workspaceId = $_SESSION['lifems_workspaceId'];
 			} else {
-				$this->businessId = '';
+				$this->workspaceId = '';
 			}
 			$this->linkedToInvoiceId = '';
 			$this->linkedToPaymentMethodId = '';
-			$this->customerId = '';
+			$this->contactId = '';
 			$this->methodName = '';
 			$this->methodPercentCut = '';
 			$this->methodAmountCut = '';
@@ -68,10 +68,10 @@
 			// If paymentId already exists then set the set methodName type to UPDATE and fetch the values for the payment
 			if ($fetch) {
 				$this->paymentId = $paymentId;
-				$this->businessId = $fetch[0]['businessId'];
+				$this->workspaceId = $fetch[0]['workspaceId'];
 				$this->linkedToInvoiceId = $fetch[0]['linkedToInvoiceId'];
 				$this->linkedToPaymentMethodId = $fetch[0]['linkedToPaymentMethodId'];
-				$this->customerId = $fetch[0]['customerId'];
+				$this->contactId = $fetch[0]['contactId'];
 				$this->methodName = $fetch[0]['methodName'];
 				$this->methodPercentCut = $fetch[0]['methodPercentCut'];
 				$this->methodAmountCut = $fetch[0]['methodAmountCut'];
@@ -110,10 +110,10 @@
 
 			$attributes = array(
 				'paymentId' => $this->db->sanitize($this->dbPaymentId),
-				'businessId' => $this->db->sanitize($this->businessId),
+				'workspaceId' => $this->db->sanitize($this->workspaceId),
 				'linkedToInvoiceId' => $this->db->sanitize($this->linkedToInvoiceId),
 				'linkedToPaymentMethodId' => $this->db->sanitize($this->linkedToPaymentMethodId),
-				'customerId' => $this->db->sanitize($this->customerId),
+				'contactId' => $this->db->sanitize($this->contactId),
 				'methodName' => $this->db->sanitize($this->methodName),
 				'methodPercentCut' => $this->db->sanitize($this->methodPercentCut),
 				'methodAmountCut' => $this->db->sanitize($this->methodAmountCut),

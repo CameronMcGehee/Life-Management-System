@@ -11,7 +11,7 @@
 			require_once dirname(__FILE__)."/database.php";
 			$this->database = new database;
 
-			$this->config = $GLOBALS['ULTISCAPECONFIG'];
+			$this->config = $GLOBALS['lifemsConfig'];
 		}
 
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -71,7 +71,7 @@
 			$output .= '<div class="adminTopBarWrapper defaultInsetShadow">
 			';
 
-			$output .= '<div class="xyCenteredFlex" id="ultiscapeLogoWrapper">
+			$output .= '<div class="xyCenteredFlex" id="lifemsLogoWrapper">
 			';
 				if ($showLogo) {
 					$output .= '<a class="noUnderline" href="'.$rootPathPrefix.'"><h2>LifeMS</h2></a>

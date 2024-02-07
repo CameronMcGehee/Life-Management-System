@@ -3,9 +3,9 @@
 	// Start Session
 	require_once '../../../php/startSession.php';
 
-	// This is the business select page so if we are not signed in, just redirect to the login page
+	// This is the workspace select page so if we are not signed in, just redirect to the login page
 
-	if (!isset($_SESSION['ultiscape_adminId'])) {
+	if (!isset($_SESSION['lifems_adminId'])) {
 		header("location: ../../login");
 	}
 
@@ -15,7 +15,7 @@
 	// Other required libraries
 	require_once '../../../../lib/table/admin.php';
 	require_once '../../../../lib/table/invoice.php';
-	require_once '../../../../lib/table/business.php';
+	require_once '../../../../lib/table/workspace.php';
 	require_once '../../../../lib/table/docId.php';
 	require_once '../../../../lib/render/etc/tagEditor.php';
 	require_once '../../../../lib/table/invoiceItem.php';
@@ -25,18 +25,18 @@
 		$currentDocId = new docId($currentInvoice->docIdId);
 	} else {
 		$currentInvoice = new invoice();
-		$currentDocId = new docId($_SESSION['ultiscape_businessId']);
+		$currentDocId = new docId($_SESSION['lifems_workspaceId']);
 	}
 
-	if ($currentInvoice->businessId != $_SESSION['ultiscape_businessId']) {
+	if ($currentInvoice->workspaceId != $_SESSION['lifems_workspaceId']) {
         header("location: ./");
 		exit();
     }
 
-	$currentBusiness = new business($_SESSION['ultiscape_businessId']);
+	$currentWorkspace = new workspace($_SESSION['lifems_workspaceId']);
 
 	if ($currentInvoice->existed) {
-		if ((string)$currentBusiness->docIdIsRandom == '1') {
+		if ((string)$currentWorkspace->docIdIsRandom == '1') {
 			$titleName = 'Invoice '.$currentDocId->randomId;
 		} else {
 			$titleName = 'Invoice '.$currentDocId->incrementalId;
@@ -459,7 +459,7 @@
 								case 'success':
 
 									// Append item to list
-									$("#items").append('<tr><td><input type="hidden" name="itemId[]" value="' + itemId + '"><input class="invisibleInput" style="height: 1.3em; width: 16em; font-size: 1.3em;" type="text" name="itemName[]"> <span id="deleteItem:::' + itemId + '" class="smallButtonWrapper orangeButton xyCenteredFlex" style="width: 1em; display: inline;"><img style="height: 1em;" src="../../../images/ultiscape/icons/trash.svg"></span></td><td class="tg-0lax"><input class="invisibleInput" style="height: 1.3em; width: 5em; font-size: 1.3em;" type="number" step="0.01" name="itemPrice[]"  min="0" style="width: 5em;" value="25"></td><td class="tg-0lax"><input class="invisibleInput" style="height: 1.3em; width: 3em; font-size: 1.3em;" type="number" step="any" name="itemQuantity[]" min="1" style="width: 5em;" value="1"></td><td class="tg-0lax"><input class="invisibleInput" style="height: 1.3em; width: 3em; font-size: 1.3em;" type="number" step="any" name="itemTax[]" min="0" max="100"style="width: 5em;" value="0"><label for="itemTax">%</label></td><td class="tg-0lax"><span class="itemTotal"></span></td></tr>');
+									$("#items").append('<tr><td><input type="hidden" name="itemId[]" value="' + itemId + '"><input class="invisibleInput" style="height: 1.3em; width: 16em; font-size: 1.3em;" type="text" name="itemName[]"> <span id="deleteItem:::' + itemId + '" class="smallButtonWrapper orangeButton xyCenteredFlex" style="width: 1em; display: inline;"><img style="height: 1em;" src="../../../images/lifems/icons/trash.svg"></span></td><td class="tg-0lax"><input class="invisibleInput" style="height: 1.3em; width: 5em; font-size: 1.3em;" type="number" step="0.01" name="itemPrice[]"  min="0" style="width: 5em;" value="25"></td><td class="tg-0lax"><input class="invisibleInput" style="height: 1.3em; width: 3em; font-size: 1.3em;" type="number" step="any" name="itemQuantity[]" min="1" style="width: 5em;" value="1"></td><td class="tg-0lax"><input class="invisibleInput" style="height: 1.3em; width: 3em; font-size: 1.3em;" type="number" step="any" name="itemTax[]" min="0" max="100"style="width: 5em;" value="0"><label for="itemTax">%</label></td><td class="tg-0lax"><span class="itemTotal"></span></td></tr>');
 									updateTotals();
 
 									// Make sure the new inputs update the changes tracker
@@ -486,16 +486,16 @@
 				inputChange();
 			});
 
-			$("#invoiceForm :input[name=customer]").change(function () {
-				// Show the customer's billing address
-				customerId = $(":input[name=customer]").val();
-				$("#billingAddressLoader").load("./includes/customerBillingAddress.inc.php", {
-					customerId: customerId
+			$("#invoiceForm :input[name=contact]").change(function () {
+				// Show the contact's billing address
+				contactId = $(":input[name=contact]").val();
+				$("#billingAddressLoader").load("./includes/contactBillingAddress.inc.php", {
+					contactId: contactId
 				});
 			});
 
-			$("#billingAddressLoader").load("./includes/customerBillingAddress.inc.php", {
-				customerId: $(":input[name=customer]").val()
+			$("#billingAddressLoader").load("./includes/contactBillingAddress.inc.php", {
+				contactId: $(":input[name=contact]").val()
 			});
 		});
 	</script>
@@ -516,7 +516,7 @@
 		<div class="cmsMainContentWrapper textColorThemeGray styledText">
 			<div class="mobileOnlyBlock xyCenteredFlex centered" style="position: sticky; top: 0px; width: 100%; padding-top: .3em; padding-bottom: .3em; border-bottom: .1em solid gray; background-color: white; z-index: 99;">
 				<div class="changesMessage"><span style="color: green;">Up to date ✔</span></div>
-				<img style="display: none; width: 2em;" src="../../../images/ultiscape/etc/loading.gif" class="loadingGif">
+				<img style="display: none; width: 2em;" src="../../../images/lifems/etc/loading.gif" class="loadingGif">
 			</div>
 
 				<div class="twoColPage-Content-InfoSmall maxHeight">
@@ -532,8 +532,8 @@
 							
 								if ($currentInvoice->existed) {
 									echo '<div class="twoCol" style="width: 21em;">';
-										echo '<span style="width: 9em;" class="smallButtonWrapper greenButton centered defaultMainShadows" onclick="recordPaymentButton()"><img style="height: 1.2em;" src="../../../images/ultiscape/icons/credit_card.svg"> Record Payment</span>';
-										echo '<span style="width: 5em;" class="smallButtonWrapper redButton centered defaultMainShadows" onclick="deleteButton()"><img style="height: 1.2em;" src="../../../images/ultiscape/icons/trash.svg"> Delete</span>';
+										echo '<span style="width: 9em;" class="smallButtonWrapper greenButton centered defaultMainShadows" onclick="recordPaymentButton()"><img style="height: 1.2em;" src="../../../images/lifems/icons/credit_card.svg"> Record Payment</span>';
+										echo '<span style="width: 5em;" class="smallButtonWrapper redButton centered defaultMainShadows" onclick="deleteButton()"><img style="height: 1.2em;" src="../../../images/lifems/icons/trash.svg"> Delete</span>';
 									echo '</div>';
 
 									echo '<br>';
@@ -546,21 +546,21 @@
 							<div class="twoCol">
 								<div>
 									<label for="docId"><p>Doc ID</p></label>
-									<input class="defaultInput" id="docId" type="number" step="1" name="docId" min="0" style="width: 5em;" value="<?php if ((string)$currentBusiness->docIdIsRandom == '1') {echo $currentDocId->randomId;} else {echo $currentDocId->incrementalId;}  ?>">
+									<input class="defaultInput" id="docId" type="number" step="1" name="docId" min="0" style="width: 5em;" value="<?php if ((string)$currentWorkspace->docIdIsRandom == '1') {echo $currentDocId->randomId;} else {echo $currentDocId->incrementalId;}  ?>">
 									<span id="docIdError" class="underInputError" style="display: none;"><br>Input a valid Id.</span>	
 								</div>
 								<div style="text-align: right;">
-									<label for="customerSelector"><p>Customer</p></label>
-									<!-- Select customer dialog -->
+									<label for="contactSelector"><p>Contact</p></label>
+									<!-- Select contact dialog -->
 									<?php
 									
-										require_once '../../../../lib/render/input/customerSelector.php';
-										$customerSelector = new customerSelector("customerSelector", ["name" => 'customer', "selectedId" => $currentInvoice->customerId]);
-										$customerSelector->render();
-										echo $customerSelector->output;
+										require_once '../../../../lib/render/input/contactSelector.php';
+										$contactSelector = new contactSelector("contactSelector", ["name" => 'contact', "selectedId" => $currentInvoice->contactId]);
+										$contactSelector->render();
+										echo $contactSelector->output;
 
 									?>
-									<span id="customerError" class="underInputError" style="display: none;"><br>Select a customer.</span>
+									<span id="contactError" class="underInputError" style="display: none;"><br>Select a contact.</span>
 									<p id="billingAddressLoader"></p>
 								</div>
 							</div>
@@ -586,7 +586,7 @@
 										$currentItem = new invoiceItem($itemId);
 										if ($currentItem->existed) {
 											echo '<tr><td><input type="hidden" name="itemId[]" value="'.htmlspecialchars($itemId).'"><input class="invisibleInput" style="height: 1.3em; width: 16em; max-width: 30vw; font-size: 1.3em;" type="text" name="itemName[]" value="'.htmlspecialchars($currentItem->name).'"> 
-											<span id="deleteItem:::'.htmlspecialchars($itemId).'" class="smallButtonWrapper orangeButton xyCenteredFlex" style="width: 1em; display: inline;"><img style="height: 1em;" src="../../../images/ultiscape/icons/trash.svg"></span>
+											<span id="deleteItem:::'.htmlspecialchars($itemId).'" class="smallButtonWrapper orangeButton xyCenteredFlex" style="width: 1em; display: inline;"><img style="height: 1em;" src="../../../images/lifems/icons/trash.svg"></span>
 											</td><td class="tg-0lax"><input class="invisibleInput" style="height: 1.3em; width: 5em; font-size: 1.3em;" type="number" step="0.01" name="itemPrice[]" value="'.htmlspecialchars($currentItem->price).'" min="0" style="width: 5em;" value="25"></td><td class="tg-0lax"><input class="invisibleInput" style="height: 1.3em; width: 3em; font-size: 1.3em;" type="number" step="any" name="itemQuantity[]" value="'.htmlspecialchars($currentItem->quantity).'" min="1" style="width: 5em;" value="1"></td><td class="tg-0lax"><input class="invisibleInput" style="height: 1.3em; width: 3em; font-size: 1.3em;" type="number" step="any" name="itemTax[]" value="'.htmlspecialchars($currentItem->tax).'" min="0" max="100"style="width: 5em;" value="0"><label for="itemTax">%</label></td><td class="tg-0lax"><span class="itemTotal"></span></td></tr>';
 										}
 									}
@@ -596,7 +596,7 @@
 								</tbody>
 
 								<tr id="subTotalRow">
-									<td colspan="3"><a href="#" id="add">Add Item</a><img style="display: none; width: 2em;" src="../../../images/ultiscape/etc/loading.gif" class="addItemLoadingGif"></td>
+									<td colspan="3"><a href="#" id="add">Add Item</a><img style="display: none; width: 2em;" src="../../../images/lifems/etc/loading.gif" class="addItemLoadingGif"></td>
 									<td style="text-decoration: underline; border-top-width: 2px; border-left-width: 2px; border-left-color: green; border-top-color: green;">Subtotal:</td>
 									<td id="subTotal" style="border-top-width: 2px; border-top-color: green;">$0</td>
 								</tr>
@@ -629,7 +629,7 @@
 											$paymentDateOutput = $paymentDateOutput->format('D, M d Y');
 											echo '<tr class="paymentRow">
 													<td style="border: none;" colspan="2"></td>
-													<td style="background-color: #fff2e6;">Payment on '.htmlspecialchars($paymentDateOutput).' <span id="deletePayment:::'.htmlspecialchars($paymentId).'" class="smallButtonWrapper orangeButton xyCenteredFlex" style="width: 1em; display: inline;"><img style="height: 1em;" src="../../../images/ultiscape/icons/trash.svg"></span></td>
+													<td style="background-color: #fff2e6;">Payment on '.htmlspecialchars($paymentDateOutput).' <span id="deletePayment:::'.htmlspecialchars($paymentId).'" class="smallButtonWrapper orangeButton xyCenteredFlex" style="width: 1em; display: inline;"><img style="height: 1em;" src="../../../images/lifems/icons/trash.svg"></span></td>
 													<td style="background-color: #fff2e6;"><span class="paymentAmount" style="display: none;">'.htmlspecialchars(number_format($currentPayment->amount, 2, '.', ',')).'</span>-$'.htmlspecialchars(number_format($currentPayment->amount, 2, '.', ',')).'</td>
 													<td style="background-color: #fff2e6;"><span class="paymentBalanceUpdate" style="font-size: 1.5em; color: green;">Loading...</span></td>
 												</tr>';
@@ -666,7 +666,7 @@
 						<br class="desktopOnlyBlock">
 						<span class="desktopOnlyBlock">
 							<div class="changesMessage"><span style="color: green;">Up to date ✔</span></div>
-							<img style="display: none; width: 2em;" src="../../../images/ultiscape/etc/loading.gif" class="loadingGif">
+							<img style="display: none; width: 2em;" src="../../../images/lifems/etc/loading.gif" class="loadingGif">
 						</span>
 
 						<br><hr><br>
@@ -697,7 +697,7 @@
 							</div>
 						</div>
 
-						<span style="display: none;" id="deleteLoading"><img style="display: none; width: 2em;" src="../../../images/ultiscape/etc/loading.gif" class="loadingGif"></span>
+						<span style="display: none;" id="deleteLoading"><img style="display: none; width: 2em;" src="../../../images/lifems/etc/loading.gif" class="loadingGif"></span>
 					</div>
 				</div>
 
@@ -711,7 +711,7 @@
 						<span id="recordPaymentAmountError" class="underInputError" style="display: none;"><br>Enter an amount greater than 0.01.</span>
 						<br><br>
 
-						<label for="recordPaymentMethod"><p style="display: inline;">Method</p> <a href="../../businesssettings/#paymentmethods"><span style="font-size: .75em; width: 20em;" class="extraSmallButtonWrapper orangeButton">Edit Methods</span></a></label>
+						<label for="recordPaymentMethod"><p style="display: inline;">Method</p> <a href="../../workspacesettings/#paymentmethods"><span style="font-size: .75em; width: 20em;" class="extraSmallButtonWrapper orangeButton">Edit Methods</span></a></label>
 						<br>
 							<?php
 
@@ -728,7 +728,7 @@
 						<p>If amount is greater than invoice balance, </p>
 						<input type="radio" name="recordPaymentExcessType" value="tip" id="tipRadio" checked="checked"><label for="tipRadio">Record as Tip</label>
 						<br>
-						<input type="radio" name="recordPaymentExcessType" value="credit" id="creditRadio"><label for="creditRadio">Add to Customer's Account Credit</label>
+						<input type="radio" name="recordPaymentExcessType" value="credit" id="creditRadio"><label for="creditRadio">Add to Contact's Account Credit</label>
 						<span id="recordPaymentExcessTypeError" class="underInputError" style="display: none;"><br>Select an option.</span>
 
 						<br><br>
@@ -740,7 +740,7 @@
 
 						<div id="recordPaymentButtons" class="twoCol centered" style="width: 15em;">
 							<div>
-								<span id="recordPaymentYesButton" class="smallButtonWrapper greenButton" onclick="recordPaymentYes()">Record <span style="display: none;" id="recordPaymentLoading"><img style="width: 1em;" src="../../../images/ultiscape/etc/loading.gif" class="loadingGif"></span></span>
+								<span id="recordPaymentYesButton" class="smallButtonWrapper greenButton" onclick="recordPaymentYes()">Record <span style="display: none;" id="recordPaymentLoading"><img style="width: 1em;" src="../../../images/lifems/etc/loading.gif" class="loadingGif"></span></span>
 							</div>
 
 							<div>

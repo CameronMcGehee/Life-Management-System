@@ -11,10 +11,10 @@
 
 		// Main database attributes
 		public $payrollDueId;
-		public $businessId;
+		public $workspaceId;
 		public $staffId;
 		public $linkedToTimeLogId;
-		public $linkedToJobCompletedId;
+		public $linkedToCalendarEventCompletedId;
 		public $amount;
 		public $notes;
 		public $isManualPaid;
@@ -27,15 +27,15 @@
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 
 		public function setToDefaults() {
-			// Default businessId to the currently selected business
-			if (isset($_SESSION['ultiscape_businessId'])) {
-				$this->businessId = $_SESSION['ultiscape_businessId'];
+			// Default workspaceId to the currently selected workspace
+			if (isset($_SESSION['lifems_workspaceId'])) {
+				$this->workspaceId = $_SESSION['lifems_workspaceId'];
 			} else {
-				$this->businessId = '';
+				$this->workspaceId = '';
 			}
 			$this->staffId = '';
 			$this->linkedToTimeLogId = NULL;
-			$this->linkedToJobCompletedId = NULL;
+			$this->linkedToCalendarEventCompletedId = NULL;
 			$this->amount = '0';
 			$this->notes = NULL;
 			$this->isManualPaid = '0';
@@ -62,10 +62,10 @@
 			// If payrollDueId already exists then set the set method type to UPDATE and fetch the values for the payrollDue
 			if ($fetch) {
 				$this->payrollDueId = $payrollDueId;
-				$this->businessId = $fetch[0]['businessId'];
+				$this->workspaceId = $fetch[0]['workspaceId'];
 				$this->staffId = $fetch[0]['staffId'];
 				$this->linkedToTimeLogId = $fetch[0]['linkedToTimeLogId'];
-				$this->linkedToJobCompletedId = $fetch[0]['linkedToJobCompletedId'];
+				$this->linkedToCalendarEventCompletedId = $fetch[0]['linkedToCalendarEventCompletedId'];
 				$this->amount = $fetch[0]['amount'];
 				$this->notes = $fetch[0]['notes'];
 				$this->isManualPaid = $fetch[0]['isManualPaid'];
@@ -101,10 +101,10 @@
 
 			$attributes = array(
 				'payrollDueId' => $this->db->sanitize($this->dbPayrollDueId),
-				'businessId' => $this->db->sanitize($this->businessId),
+				'workspaceId' => $this->db->sanitize($this->workspaceId),
 				'staffId' => $this->db->sanitize($this->staffId),
 				'linkedToTimeLogId' => $this->db->sanitize($this->linkedToTimeLogId),
-				'linkedToJobCompletedId' => $this->db->sanitize($this->linkedToJobCompletedId),
+				'linkedToCalendarEventCompletedId' => $this->db->sanitize($this->linkedToCalendarEventCompletedId),
 				'amount' => $this->db->sanitize($this->amount),
 				'notes' => $this->db->sanitize($this->notes),
 				'isManualPaid' => $this->db->sanitize($this->isManualPaid),

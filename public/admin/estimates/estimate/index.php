@@ -3,9 +3,9 @@
 	// Start Session
 	require_once '../../../php/startSession.php';
 
-	// This is the business select page so if we are not signed in, just redirect to the login page
+	// This is the workspace select page so if we are not signed in, just redirect to the login page
 
-	if (!isset($_SESSION['ultiscape_adminId'])) {
+	if (!isset($_SESSION['lifems_adminId'])) {
 		header("location: ../../login");
 	}
 
@@ -15,7 +15,7 @@
 	// Other required libraries
 	require_once '../../../../lib/table/admin.php';
 	require_once '../../../../lib/table/estimate.php';
-	require_once '../../../../lib/table/business.php';
+	require_once '../../../../lib/table/workspace.php';
 	require_once '../../../../lib/table/docId.php';
 	require_once '../../../../lib/render/etc/tagEditor.php';
 	require_once '../../../../lib/table/estimateItem.php';
@@ -25,18 +25,18 @@
 		$currentDocId = new docId($currentEstimate->docIdId);
 	} else {
 		$currentEstimate = new estimate();
-		$currentDocId = new docId($_SESSION['ultiscape_businessId']);
+		$currentDocId = new docId($_SESSION['lifems_workspaceId']);
 	}
 
-	if ($currentEstimate->businessId != $_SESSION['ultiscape_businessId']) {
+	if ($currentEstimate->workspaceId != $_SESSION['lifems_workspaceId']) {
         header("location: ./");
 		exit();
     }
 
-	$currentBusiness = new business($_SESSION['ultiscape_businessId']);
+	$currentWorkspace = new workspace($_SESSION['lifems_workspaceId']);
 
 	if ($currentEstimate->existed) {
-		if ((string)$currentBusiness->docIdIsRandom == '1') {
+		if ((string)$currentWorkspace->docIdIsRandom == '1') {
 			$titleName = 'Estimate '.$currentDocId->randomId;
 		} else {
 			$titleName = 'Estimate '.$currentDocId->incrementalId;
@@ -482,7 +482,7 @@
 								case 'success':
 
 									// Append item to list
-									$("#items").append('<tr><td><input type="hidden" name="itemId[]" value="' + itemId + '"><input class="invisibleInput" style="height: 1.3em; width: 16em; font-size: 1.3em;" type="text" name="itemName[]"> <span id="deleteItem:::' + itemId + '" class="smallButtonWrapper orangeButton xyCenteredFlex" style="width: 1em; display: inline;"><img style="height: 1em;" src="../../../images/ultiscape/icons/trash.svg"></span></td><td class="tg-0lax"><input class="invisibleInput" style="height: 1.3em; width: 5em; font-size: 1.3em;" type="number" step="0.01" name="itemPrice[]"  min="0" style="width: 5em;" value="25"></td><td class="tg-0lax"><input class="invisibleInput" style="height: 1.3em; width: 3em; font-size: 1.3em;" type="number" step="any" name="itemQuantity[]" min="1" style="width: 5em;" value="1"></td><td class="tg-0lax"><input class="invisibleInput" style="height: 1.3em; width: 3em; font-size: 1.3em;" type="number" step="any" name="itemTax[]" min="0" max="100"style="width: 5em;" value="0"><label for="itemTax">%</label></td><td class="tg-0lax"><span class="itemTotal"></span></td></tr>');
+									$("#items").append('<tr><td><input type="hidden" name="itemId[]" value="' + itemId + '"><input class="invisibleInput" style="height: 1.3em; width: 16em; font-size: 1.3em;" type="text" name="itemName[]"> <span id="deleteItem:::' + itemId + '" class="smallButtonWrapper orangeButton xyCenteredFlex" style="width: 1em; display: inline;"><img style="height: 1em;" src="../../../images/lifems/icons/trash.svg"></span></td><td class="tg-0lax"><input class="invisibleInput" style="height: 1.3em; width: 5em; font-size: 1.3em;" type="number" step="0.01" name="itemPrice[]"  min="0" style="width: 5em;" value="25"></td><td class="tg-0lax"><input class="invisibleInput" style="height: 1.3em; width: 3em; font-size: 1.3em;" type="number" step="any" name="itemQuantity[]" min="1" style="width: 5em;" value="1"></td><td class="tg-0lax"><input class="invisibleInput" style="height: 1.3em; width: 3em; font-size: 1.3em;" type="number" step="any" name="itemTax[]" min="0" max="100"style="width: 5em;" value="0"><label for="itemTax">%</label></td><td class="tg-0lax"><span class="itemTotal"></span></td></tr>');
 									updateTotals();
 
 									// Make sure the new inputs update the changes tracker
@@ -509,16 +509,16 @@
 				inputChange();
 			});
 
-			$("#estimateForm :input[name=customer]").change(function () {
-				// Show the customer's billing address
-				customerId = $(":input[name=customer]").val();
-				$("#billingAddressLoader").load("./includes/customerBillingAddress.inc.php", {
-					customerId: customerId
+			$("#estimateForm :input[name=contact]").change(function () {
+				// Show the contact's billing address
+				contactId = $(":input[name=contact]").val();
+				$("#billingAddressLoader").load("./includes/contactBillingAddress.inc.php", {
+					contactId: contactId
 				});
 			});
 
-			$("#billingAddressLoader").load("./includes/customerBillingAddress.inc.php", {
-				customerId: $(":input[name=customer]").val()
+			$("#billingAddressLoader").load("./includes/contactBillingAddress.inc.php", {
+				contactId: $(":input[name=contact]").val()
 			});
 		});
 	</script>
@@ -539,7 +539,7 @@
 		<div class="cmsMainContentWrapper textColorThemeGray styledText">
 			<div class="mobileOnlyBlock xyCenteredFlex centered" style="position: sticky; top: 0px; width: 100%; padding-top: .3em; padding-bottom: .3em; border-bottom: .1em solid gray; background-color: white; z-index: 99;">
 				<div class="changesMessage"><span style="color: green;">Up to date ✔</span></div>
-				<img style="display: none; width: 2em;" src="../../../images/ultiscape/etc/loading.gif" class="loadingGif">
+				<img style="display: none; width: 2em;" src="../../../images/lifems/etc/loading.gif" class="loadingGif">
 			</div>
 
 				<div class="twoColPage-Content-InfoSmall maxHeight">
@@ -558,7 +558,7 @@
 									if ($currentEstimate->approvedByAdminId != NULL) {
 										// Get the admin's name
 										$currentAdmin = new admin($currentEstimate->approvedByAdminId);
-										if ($currentEstimate->approvedByAdminId == $_SESSION['ultiscape_adminId']) {
+										if ($currentEstimate->approvedByAdminId == $_SESSION['lifems_adminId']) {
 											$approvalNameOutput = '<a href="../../myprofile">You</a>';
 										} elseif ($currentAdmin->existed) {
 											$approvalNameOutput = '<a href="../../profile?id='.htmlspecialchars(strval($currentEstimate->approvedByAdminId)).'">'.htmlspecialchars($currentAdmin->firstName).' '.htmlspecialchars($currentAdmin->lastName).'</a>';
@@ -566,13 +566,13 @@
 											$approvalNameOutput = 'an admin';
 										}
 									} else {
-										$approvalNameOutput = '<a href="../../customers/customer?id='.htmlspecialchars(strval($currentEstimate->customerId)).'">the customer</a>';
+										$approvalNameOutput = '<a href="../../contacts/contact?id='.htmlspecialchars(strval($currentEstimate->contactId)).'">the contact</a>';
 									}
 
 									$approvalDateOutput = new DateTime($currentEstimate->dateTimeApproved);
 									$approvalDateOutput = $approvalDateOutput->format('D, M d Y');
 									echo '<div class="defaultInputGroup twoCol" style="grid-template-columns: min-content auto; background-color: rgb(179, 255, 179);">
-											<div><img style="height: 3em;" src="../../../images/ultiscape/icons/thumbs_up.svg"></div>
+											<div><img style="height: 3em;" src="../../../images/lifems/icons/thumbs_up.svg"></div>
 											<div>
 											<p style="display: inline;">This estimate was approved on <b>'.$approvalDateOutput.'</b> by <b>'.$approvalNameOutput.'</b>.</p>';
 
@@ -586,11 +586,11 @@
 								if ($currentEstimate->existed) {
 									echo '<div class="twoCol" style="width: 23em;">';
 										if ($currentEstimate->dateTimeApproved == NULL) {
-											echo '<span style="width: 9em;" class="smallButtonWrapper greenButton centered defaultMainShadows" onclick="recordApprovalButton()"><img style="height: 1.2em;" src="../../../images/ultiscape/icons/thumbs_up.svg"> Admin Approve</span>';
+											echo '<span style="width: 9em;" class="smallButtonWrapper greenButton centered defaultMainShadows" onclick="recordApprovalButton()"><img style="height: 1.2em;" src="../../../images/lifems/icons/thumbs_up.svg"> Admin Approve</span>';
 										} else {
-											echo '<span style="width: 11em;" class="smallButtonWrapper orangeButton centered defaultMainShadows" onclick="removeApprovalButton()"><img style="height: 1.2em;" src="../../../images/ultiscape/icons/thumbs_down.svg"> Remove Approval</span>';
+											echo '<span style="width: 11em;" class="smallButtonWrapper orangeButton centered defaultMainShadows" onclick="removeApprovalButton()"><img style="height: 1.2em;" src="../../../images/lifems/icons/thumbs_down.svg"> Remove Approval</span>';
 										}
-										echo '<span style="width: 5em;" class="smallButtonWrapper redButton centered defaultMainShadows" onclick="deleteButton()"><img style="height: 1.2em;" src="../../../images/ultiscape/icons/trash.svg"> Delete</span>';
+										echo '<span style="width: 5em;" class="smallButtonWrapper redButton centered defaultMainShadows" onclick="deleteButton()"><img style="height: 1.2em;" src="../../../images/lifems/icons/trash.svg"> Delete</span>';
 									echo '</div>';
 
 									echo '<br>';
@@ -603,27 +603,27 @@
 							<div class="twoCol">
 								<div>
 									<label for="docId"><p>Doc ID</p></label>
-									<input <?php if ($currentEstimate->dateTimeApproved != NULL) { echo 'readonly ';} ?>class="defaultInput" id="docId" type="number" step="1" name="docId" min="0" style="width: 5em;" value="<?php if ((string)$currentBusiness->docIdIsRandom == '1') {echo $currentDocId->randomId;} else {echo $currentDocId->incrementalId;}  ?>">
+									<input <?php if ($currentEstimate->dateTimeApproved != NULL) { echo 'readonly ';} ?>class="defaultInput" id="docId" type="number" step="1" name="docId" min="0" style="width: 5em;" value="<?php if ((string)$currentWorkspace->docIdIsRandom == '1') {echo $currentDocId->randomId;} else {echo $currentDocId->incrementalId;}  ?>">
 									<span id="docIdError" class="underInputError" style="display: none;"><br>Input a valid Id.</span>	
 								</div>
 								<div style="text-align: right;">
-									<label for="customerSelector"><p>Customer</p></label>
-									<!-- Select customer dialog -->
+									<label for="contactSelector"><p>Contact</p></label>
+									<!-- Select contact dialog -->
 									<?php
 									
-										require_once '../../../../lib/render/input/customerSelector.php';
+										require_once '../../../../lib/render/input/contactSelector.php';
 
 										if ($currentEstimate->dateTimeApproved != NULL) {
-											$customerReadonly = true;
+											$contactReadonly = true;
 										} else {
-											$customerReadonly = false;
+											$contactReadonly = false;
 										}
-										$customerSelector = new customerSelector("customerSelector", ["readonly" => $customerReadonly, "name" => 'customer', "selectedId" => $currentEstimate->customerId]);
-										$customerSelector->render();
-										echo $customerSelector->output;
+										$contactSelector = new contactSelector("contactSelector", ["readonly" => $contactReadonly, "name" => 'contact', "selectedId" => $currentEstimate->contactId]);
+										$contactSelector->render();
+										echo $contactSelector->output;
 
 									?>
-									<span id="customerError" class="underInputError" style="display: none;"><br>Select a customer.</span>
+									<span id="contactError" class="underInputError" style="display: none;"><br>Select a contact.</span>
 									<p id="billingAddressLoader"></p>
 								</div>
 							</div>
@@ -670,7 +670,7 @@
 												echo '<tr>
 														<td>
 															<input type="hidden" name="itemId[]" value="'.htmlspecialchars($itemId).'"><input class="invisibleInput" style="height: 1.3em; width: 16em; max-width: 30vw; font-size: 1.3em;" type="text" name="itemName[]" value="'.htmlspecialchars($currentItem->name).'"> 
-															<span id="deleteItem:::'.htmlspecialchars($itemId).'" class="smallButtonWrapper orangeButton xyCenteredFlex" style="width: 1em; display: inline;"><img style="height: 1em;" src="../../../images/ultiscape/icons/trash.svg"></span>
+															<span id="deleteItem:::'.htmlspecialchars($itemId).'" class="smallButtonWrapper orangeButton xyCenteredFlex" style="width: 1em; display: inline;"><img style="height: 1em;" src="../../../images/lifems/icons/trash.svg"></span>
 														</td>
 														<td class="tg-0lax">
 															<input class="invisibleInput" style="height: 1.3em; width: 5em; font-size: 1.3em;" type="number" step="0.01" name="itemPrice[]" value="'.htmlspecialchars($currentItem->price).'" min="0" style="width: 5em;" value="25">
@@ -700,7 +700,7 @@
 										if ($currentEstimate->dateTimeApproved != NULL) {
 											echo '<td colspan="3">You cannot alter, add or remove items once an estimate has been approved.</td>';
 										} else {
-											echo '<td colspan="3"><a href="#" id="add">Add Item</a><img style="display: none; width: 2em;" src="../../../images/ultiscape/etc/loading.gif" class="addItemLoadingGif"></td>';
+											echo '<td colspan="3"><a href="#" id="add">Add Item</a><img style="display: none; width: 2em;" src="../../../images/lifems/etc/loading.gif" class="addItemLoadingGif"></td>';
 										}
 
 									?>
@@ -754,7 +754,7 @@
 						<br class="desktopOnlyBlock">
 						<span class="desktopOnlyBlock">
 							<div class="changesMessage"><span style="color: green;">Up to date ✔</span></div>
-							<img style="display: none; width: 2em;" src="../../../images/ultiscape/etc/loading.gif" class="loadingGif">
+							<img style="display: none; width: 2em;" src="../../../images/lifems/etc/loading.gif" class="loadingGif">
 						</span>
 
 						<br><hr><br>
@@ -785,7 +785,7 @@
 							</div>
 						</div>
 
-						<span style="display: none;" id="deleteLoading"><img style="display: none; width: 2em;" src="../../../images/ultiscape/etc/loading.gif" class="loadingGif"></span>
+						<span style="display: none;" id="deleteLoading"><img style="display: none; width: 2em;" src="../../../images/lifems/etc/loading.gif" class="loadingGif"></span>
 					</div>
 				</div>
 
@@ -802,7 +802,7 @@
 
 						<div id="recordApprovalButtons" class="twoCol centered" style="width: 15em;">
 							<div>
-								<span id="recordApprovalYesButton" class="smallButtonWrapper greenButton" onclick="recordApprovalYes()">Record <span style="display: none;" id="recordApprovalLoading"><img style="width: 1em;" src="../../../images/ultiscape/etc/loading.gif" class="loadingGif"></span></span>
+								<span id="recordApprovalYesButton" class="smallButtonWrapper greenButton" onclick="recordApprovalYes()">Record <span style="display: none;" id="recordApprovalLoading"><img style="width: 1em;" src="../../../images/lifems/etc/loading.gif" class="loadingGif"></span></span>
 							</div>
 
 							<div>
@@ -816,12 +816,12 @@
 				<div id="removeApprovalPrompt" class="dimOverlay xyCenteredFlex" style="display: none;">
 					<div class="popupMessageDialog" style="width: 30em;">
 						<h3>Remove Approval?</h3>
-						<p>If the customer has approved this estimate, the approval status will be reset!</p>
+						<p>If the contact has approved this estimate, the approval status will be reset!</p>
 						<br>
 
 						<div id="removeApprovalButtons" class="twoCol centered" style="width: 15em;">
 							<div>
-								<span id="removeApprovalYesButton" class="smallButtonWrapper greenButton" onclick="removeApprovalYes()">Yes <span style="display: none;" id="removeApprovalLoading"><img style="width: 1em;" src="../../../images/ultiscape/etc/loading.gif" class="loadingGif"></span></span>
+								<span id="removeApprovalYesButton" class="smallButtonWrapper greenButton" onclick="removeApprovalYes()">Yes <span style="display: none;" id="removeApprovalLoading"><img style="width: 1em;" src="../../../images/lifems/etc/loading.gif" class="loadingGif"></span></span>
 							</div>
 
 							<div>

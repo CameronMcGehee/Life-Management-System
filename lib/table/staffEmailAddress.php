@@ -5,7 +5,7 @@
 		private string $setType;
 		private database $db;
 
-		private string $dbCustomerEmailAddressId; // Used when updating the table incase the staffEmailAddressId has been changed after instantiation
+		private string $dbContactEmailAddressId; // Used when updating the table incase the staffEmailAddressId has been changed after instantiation
 		
 		public bool $existed; // Can be used to see whether the given entity existed already at the time of instantiation
 
@@ -14,7 +14,7 @@
 
 		// Main database attributes
 		public $staffEmailAddressId;
-		public $businessId;
+		public $workspaceId;
 		public $staffId;
 		public $email;
 		public $description;
@@ -27,11 +27,11 @@
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 
 		public function setToDefaults() {
-			// Default businessId to the currently selected business
-			if (isset($_SESSION['ultiscape_businessId'])) {
-				$this->businessId = $_SESSION['ultiscape_businessId'];
+			// Default workspaceId to the currently selected workspace
+			if (isset($_SESSION['lifems_workspaceId'])) {
+				$this->workspaceId = $_SESSION['lifems_workspaceId'];
 			} else {
-				$this->businessId = '';
+				$this->workspaceId = '';
 			}
 			$this->staffId = '';
 			$this->email = '';
@@ -64,7 +64,7 @@
 			// If staffEmailAddressId already exists then set the set method type to UPDATE and fetch the values for the staffEmailAddress
 			if ($fetch) {
 				$this->staffEmailAddressId = $staffEmailAddressId;
-				$this->businessId = $fetch[0]['businessId'];
+				$this->workspaceId = $fetch[0]['workspaceId'];
 				$this->staffId = $fetch[0]['staffId'];
 				$this->email = $fetch[0]['email'];
 				$this->description = $fetch[0]['description'];
@@ -96,7 +96,7 @@
 				$this->existed = false;
 			}
 
-			$this->dbCustomerEmailAddressId = $this->staffEmailAddressId;
+			$this->dbContactEmailAddressId = $this->staffEmailAddressId;
 			
 		}
 
@@ -109,8 +109,8 @@
 		public function set() {
 
 			$attr = array(
-				'staffEmailAddressId' => $this->dbCustomerEmailAddressId,
-				'businessId' => $this->businessId,
+				'staffEmailAddressId' => $this->dbContactEmailAddressId,
+				'workspaceId' => $this->workspaceId,
 				'staffId' => $this->staffId,
 				'email' => $this->email,
 				'description' => $this->description,
@@ -125,8 +125,8 @@
 			}
 
 			$attributes = array(
-				'staffEmailAddressId' => $this->db->sanitize($this->dbCustomerEmailAddressId),
-				'businessId' => $this->db->sanitize($attr['businessId']),
+				'staffEmailAddressId' => $this->db->sanitize($this->dbContactEmailAddressId),
+				'workspaceId' => $this->db->sanitize($attr['workspaceId']),
 				'staffId' => $this->db->sanitize($attr['staffId']),
 				'email' => $this->db->sanitize($attr['email']),
 				'description' => $this->db->sanitize($attr['description']),
@@ -136,7 +136,7 @@
 			if ($this->setType == 'UPDATE') {
 
 				// Update the values in the database after sanitizing them
-				if ($this->db->update('staffEmailAddress', $attributes, "WHERE staffEmailAddressId = ".$this->db->sanitize($this->dbCustomerEmailAddressId), 1)) {
+				if ($this->db->update('staffEmailAddress', $attributes, "WHERE staffEmailAddressId = ".$this->db->sanitize($this->dbContactEmailAddressId), 1)) {
 					return true;
 				} elseif ($this->db->getLastError() === '') {
 					return true;
@@ -168,7 +168,7 @@
 		public function delete() {
 
 			// Remove row from database
-			if (!$this->db->delete('staffEmailAddress', "WHERE staffEmailAddressId = '".$this->db->sanitize($this->dbCustomerEmailAddressId)."'", 1)) {
+			if (!$this->db->delete('staffEmailAddress', "WHERE staffEmailAddressId = '".$this->db->sanitize($this->dbContactEmailAddressId)."'", 1)) {
 				return $this->db->getLastError();
 			}
 

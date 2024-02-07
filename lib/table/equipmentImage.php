@@ -11,7 +11,7 @@
 
 		// Main database attributes
 		public $equipmentImageId;
-		public $businessId;
+		public $workspaceId;
 		public $equipmentId;
 		public $imgFile;
 		public $caption;
@@ -24,11 +24,11 @@
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 
 		public function setToDefaults() {
-			// Default businessId to the currently selected business
-			if (isset($_SESSION['ultiscape_businessId'])) {
-				$this->businessId = $_SESSION['ultiscape_businessId'];
+			// Default workspaceId to the currently selected workspace
+			if (isset($_SESSION['lifems_workspaceId'])) {
+				$this->workspaceId = $_SESSION['lifems_workspaceId'];
 			} else {
-				$this->businessId = '';
+				$this->workspaceId = '';
 			}
 			$this->equipmentId = '';
 			$this->imgFile = '';
@@ -56,7 +56,7 @@
 			// If equipmentImageId already exists then set the set method type to UPDATE and fetch the values for the equipmentImage
 			if ($fetch) {
 				$this->equipmentImageId = $equipmentImageId;
-				$this->businessId = $fetch[0]['businessId'];
+				$this->workspaceId = $fetch[0]['workspaceId'];
 				$this->equipmentId = $fetch[0]['equipmentId'];
 				$this->imgFile = $fetch[0]['imgFile'];
 				$this->caption = $fetch[0]['caption'];
@@ -92,7 +92,7 @@
 
 			$attributes = array(
 				'equipmentImageId' => $this->db->sanitize($this->dbEquipmentImageId),
-				'businessId' => $this->db->sanitize($this->businessId),
+				'workspaceId' => $this->db->sanitize($this->workspaceId),
 				'equipmentId' => $this->db->sanitize($this->equipmentId),
 				'imgFile' => $this->db->sanitize($this->imgFile),
 				'caption' => $this->db->sanitize($this->caption),

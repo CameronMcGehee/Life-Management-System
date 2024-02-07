@@ -18,7 +18,7 @@
 				$options['rootPathPrefix'] = './';
 			}
 
-			if (empty($options['type']) || !in_array($options['type'], ['crew', 'customer', 'note', 'chemical', 'equipment', 'staff'])) {
+			if (empty($options['type']) || !in_array($options['type'], ['crew', 'contact', 'note', 'chemical', 'equipment', 'staff'])) {
 				throw new Exception("Invalid or no type set (in tagEditor '".$this->renderId."')");
 			}
 
@@ -60,10 +60,10 @@
 						throw new Exception("ObjectId given doesn't exist (in tagEditor '".$this->renderId."')");
 					}
 					break;
-				case 'customer':
-					require_once dirname(__FILE__)."/../../table/customer.php";
-					require_once dirname(__FILE__)."/../../table/customerTag.php";
-					$currentObject = new customer($this->options['objectId']);
+				case 'contact':
+					require_once dirname(__FILE__)."/../../table/contact.php";
+					require_once dirname(__FILE__)."/../../table/contactTag.php";
+					$currentObject = new contact($this->options['objectId']);
 					if (!$currentObject->existed) {
 						throw new Exception("ObjectId given doesn't exist (in tagEditor '".$this->renderId."')");
 					}
@@ -120,8 +120,8 @@
 							throw new Exception("TagId given doesn't exist (in tagEditor '".$this->renderId."')");
 						}
 						break;
-					case 'customer':
-						$currentTag = new customerTag($tagId);
+					case 'contact':
+						$currentTag = new contactTag($tagId);
 						if (!$currentTag->existed) {
 							throw new Exception("TagId given doesn't exist (in tagEditor '".$this->renderId."')");
 						}
@@ -156,10 +156,10 @@
 					$this->output .= ' font-size: .9em;';
 				}
 				
-				$this->output .= '"><a style="color: white; text-decoration: none; border: none;" href="'.$this->options['rootPathPrefix'].'admin/customer/tag/?id='.$tagId.'">'.htmlspecialchars($currentTag->name).'</a>';
+				$this->output .= '"><a style="color: white; text-decoration: none; border: none;" href="'.$this->options['rootPathPrefix'].'admin/contact/tag/?id='.$tagId.'">'.htmlspecialchars($currentTag->name).'</a>';
 				
 				if ($this->options['showDelete']) {
-					$this->output .= '<img onclick="'.$this->renderId.'removeTag(\''.htmlspecialchars($this->options['objectId']).'\', \''.htmlspecialchars($tagId).'\')" id="remove'.htmlspecialchars($tagId).'" src="'.$this->options['rootPathPrefix'].'images/ultiscape/icons/cross.svg" style="height: 1em; filter: brightness(100); cursor: pointer;">';
+					$this->output .= '<img onclick="'.$this->renderId.'removeTag(\''.htmlspecialchars($this->options['objectId']).'\', \''.htmlspecialchars($tagId).'\')" id="remove'.htmlspecialchars($tagId).'" src="'.$this->options['rootPathPrefix'].'images/lifems/icons/cross.svg" style="height: 1em; filter: brightness(100); cursor: pointer;">';
 				}
 				
 				$this->output .= '</span>';
@@ -173,10 +173,10 @@
 					$deleteCrewTagLinksAuthToken->authName = 'deleteCrewTagLinks';
 					$deleteCrewTagLinksAuthToken->set();
 					break;
-				case 'customer':
-					$deleteCustomerTagLinksAuthToken = new authToken;
-					$deleteCustomerTagLinksAuthToken->authName = 'deleteCustomerTagLinks';
-					$deleteCustomerTagLinksAuthToken->set();
+				case 'contact':
+					$deleteContactTagLinksAuthToken = new authToken;
+					$deleteContactTagLinksAuthToken->authName = 'deleteContactTagLinks';
+					$deleteContactTagLinksAuthToken->set();
 					break;
 				case 'note':
 					$deleteNoteTagLinksAuthToken = new authToken;
@@ -215,10 +215,10 @@
 								"crewTagLinks": [[objectId, tagId]]
 							});';
 							break;
-						case "customer":
-							$this->output .= '$("#scriptLoader").load("'.$this->options['rootPathPrefix'].'admin/scripts/async/customer/deleteCustomerTagLinks.php", {
-								"authToken": "'.$deleteCustomerTagLinksAuthToken->authTokenId.'",
-								"customerTagLinks": [[objectId, tagId]]
+						case "contact":
+							$this->output .= '$("#scriptLoader").load("'.$this->options['rootPathPrefix'].'admin/scripts/async/contact/deleteContactTagLinks.php", {
+								"authToken": "'.$deleteContactTagLinksAuthToken->authTokenId.'",
+								"contactTagLinks": [[objectId, tagId]]
 							});';
 							break;
 						case "chemical":
@@ -258,7 +258,7 @@
 					$this->output .= ' font-size: .9em;';
 				}
 
-				$this->output .= '"><img src="'.$this->options['rootPathPrefix'].'images/ultiscape/icons/tags.svg" style="height: 1em; cursor: pointer;">';
+				$this->output .= '"><img src="'.$this->options['rootPathPrefix'].'images/lifems/icons/tags.svg" style="height: 1em; cursor: pointer;">';
 
 				// Ouput a dialog (hidden initially), that shows up when the button is clicked, that lists all the available tags that haven't been added yet
 

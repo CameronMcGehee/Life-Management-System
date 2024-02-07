@@ -1,10 +1,10 @@
 <?php
 
-    function adminHeaderRedirect(string $loginLocation = './', string $businessSelectLocation = './') {
-        if (!isset($_SESSION['ultiscape_adminId'])) {
+    function adminHeaderRedirect(string $loginLocation = './', string $workspaceSelectLocation = './') {
+        if (!isset($_SESSION['lifems_adminId'])) {
             header("location: ".$loginLocation."login");
-        } elseif (!isset($_SESSION['ultiscape_businessId'])) {
-            header("location: ".$businessSelectLocation."selectbusiness");
+        } elseif (!isset($_SESSION['lifems_workspaceId'])) {
+            header("location: ".$workspaceSelectLocation."selectworkspace");
         }
     }
 

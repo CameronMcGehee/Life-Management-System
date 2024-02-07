@@ -11,8 +11,8 @@
 
 		// Main database attributes
 		public $propertyId;
-		public $businessId;
-		public $customerId;
+		public $workspaceId;
+		public $contactId;
 		public $address1;
 		public $address2;
 		public $city;
@@ -25,9 +25,9 @@
 
 		// Arrays to store linked data
 		public $chemicalApplications = array();
-		public $jobCompleteds = array();
-		public $jobRecurrings = array();
-		public $jobSingulars = array();
+		public $calendarEventCompleteds = array();
+		public $calendarEventRecurrings = array();
+		public $calendarEventSingulars = array();
 
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -36,13 +36,13 @@
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 
 		public function setToDefaults() {
-			// Default businessId to the currently selected business
-			if (isset($_SESSION['ultiscape_businessId'])) {
-				$this->businessId = $_SESSION['ultiscape_businessId'];
+			// Default workspaceId to the currently selected workspace
+			if (isset($_SESSION['lifems_workspaceId'])) {
+				$this->workspaceId = $_SESSION['lifems_workspaceId'];
 			} else {
-				$this->businessId = '';
+				$this->workspaceId = '';
 			}
-			$this->customerId = '';
+			$this->contactId = '';
 			$this->address1 = '';
 			$this->address2 = NULL;
 			$this->city = NULL;
@@ -57,9 +57,9 @@
 
 			// Clear arrays
 			$this->chemicalApplications = array();
-			$this->jobCompleteds = array();
-			$this->jobRecurrings = array();
-			$this->jobSingulars = array();
+			$this->calendarEventCompleteds = array();
+			$this->calendarEventRecurrings = array();
+			$this->calendarEventSingulars = array();
 		}
 
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -80,8 +80,8 @@
 			// If propertyId already exists then set the set address2 type to UPDATE and fetch the values for the property
 			if ($fetch) {
 				$this->propertyId = $propertyId;
-				$this->businessId = $fetch[0]['businessId'];
-				$this->customerId = $fetch[0]['customerId'];
+				$this->workspaceId = $fetch[0]['workspaceId'];
+				$this->contactId = $fetch[0]['contactId'];
 				$this->address1 = $fetch[0]['address1'];
 				$this->address2 = $fetch[0]['address2'];
 				$this->city = $fetch[0]['city'];
@@ -139,18 +139,18 @@
 			}
 		}
 
-		// jobCompleteds
-		public function pullJobCompleteds($params = '') {
-			$this->jobCompleteds = array();
+		// calendarEventCompleteds
+		public function pullCalendarEventCompleteds($params = '') {
+			$this->calendarEventCompleteds = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('jobCompleted', 'jobCompletedId', "WHERE linkedToPropertyId = '$this->dbPropertyId'".$params);
+			$fetch = $this->db->select('calendarEventCompleted', 'calendarEventCompletedId', "WHERE linkedToPropertyId = '$this->dbPropertyId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
-					array_push($this->jobCompleteds, $row['jobCompletedId']);
+					array_push($this->calendarEventCompleteds, $row['calendarEventCompletedId']);
 				}
 				return true;
 			} elseif ($this->db->getLastError() === '') {
@@ -160,18 +160,18 @@
 			}
 		}
 
-		// jobRecurrings
-		public function pullJobRecurrings($params = '') {
-			$this->jobRecurrings = array();
+		// calendarEventRecurrings
+		public function pullCalendarEventRecurrings($params = '') {
+			$this->calendarEventRecurrings = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('jobRecurring', 'jobRecurringId', "WHERE linkedToPropertyId = '$this->dbPropertyId'".$params);
+			$fetch = $this->db->select('calendarEventRecurring', 'calendarEventRecurringId', "WHERE linkedToPropertyId = '$this->dbPropertyId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
-					array_push($this->jobRecurrings, $row['jobRecurringId']);
+					array_push($this->calendarEventRecurrings, $row['calendarEventRecurringId']);
 				}
 				return true;
 			} elseif ($this->db->getLastError() === '') {
@@ -181,18 +181,18 @@
 			}
 		}
 
-		// jobSingulars
-		public function pullJobSingulars($params = '') {
-			$this->jobSingulars = array();
+		// calendarEventSingulars
+		public function pullCalendarEventSingulars($params = '') {
+			$this->calendarEventSingulars = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('jobSingular', 'jobSingularId', "WHERE linkedToPropertyId = '$this->dbPropertyId'".$params);
+			$fetch = $this->db->select('calendarEventSingular', 'calendarEventSingularId', "WHERE linkedToPropertyId = '$this->dbPropertyId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
-					array_push($this->jobSingulars, $row['jobSingularId']);
+					array_push($this->calendarEventSingulars, $row['calendarEventSingularId']);
 				}
 				return true;
 			} elseif ($this->db->getLastError() === '') {
@@ -212,8 +212,8 @@
 
 			$attributes = array(
 				'propertyId' => $this->db->sanitize($this->dbPropertyId),
-				'businessId' => $this->db->sanitize($this->businessId),
-				'customerId' => $this->db->sanitize($this->customerId),
+				'workspaceId' => $this->db->sanitize($this->workspaceId),
+				'contactId' => $this->db->sanitize($this->contactId),
 				'address1' => $this->db->sanitize($this->address1),
 				'address2' => $this->db->sanitize($this->address2),
 				'city' => $this->db->sanitize($this->city),

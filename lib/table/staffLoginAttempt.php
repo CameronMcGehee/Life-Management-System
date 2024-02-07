@@ -5,13 +5,13 @@
 		private string $setType;
 		private database $db;
 
-		private string $dbCustomerLoginAttemptId; // Used when updating the table incase the staffLoginAttemptId has been changed after instantiation
+		private string $dbContactLoginAttemptId; // Used when updating the table incase the staffLoginAttemptId has been changed after instantiation
 		
 		public bool $existed; // Can be used to see whether the given entity existed already at the time of instantiation
 
 		// Main database attributes
 		public $staffLoginAttemptId;
-		public $businessId;
+		public $workspaceId;
 		public $staffId;
 		public $clientIp;
 		public $result;
@@ -24,11 +24,11 @@
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 
 		public function setToDefaults() {
-			// Default businessId to the currently selected business
-			if (isset($_SESSION['ultiscape_businessId'])) {
-				$this->businessId = $_SESSION['ultiscape_businessId'];
+			// Default workspaceId to the currently selected workspace
+			if (isset($_SESSION['lifems_workspaceId'])) {
+				$this->workspaceId = $_SESSION['lifems_workspaceId'];
 			} else {
-				$this->businessId = '';
+				$this->workspaceId = '';
 			}
 			$this->staffId = '';
 			$this->clientIp = '';
@@ -56,7 +56,7 @@
 			// If staffLoginAttemptId already exists then set the set method type to UPDATE and fetch the values for the staffLoginAttempt
 			if ($fetch) {
 				$this->staffLoginAttemptId = $staffLoginAttemptId;
-				$this->businessId = $fetch[0]['businessId'];
+				$this->workspaceId = $fetch[0]['workspaceId'];
 				$this->staffId = $fetch[0]['staffId'];
 				$this->clientIp = $fetch[0]['clientIp'];
 				$this->result = $fetch[0]['result'];
@@ -78,7 +78,7 @@
 				$this->existed = false;
 			}
 
-			$this->dbCustomerLoginAttemptId = $this->staffLoginAttemptId;
+			$this->dbContactLoginAttemptId = $this->staffLoginAttemptId;
 			
 		}
 
@@ -91,8 +91,8 @@
 		public function set() {
 
 			$attributes = array(
-				'staffLoginAttemptId' => $this->db->sanitize($this->dbCustomerLoginAttemptId),
-				'businessId' => $this->db->sanitize($this->businessId),
+				'staffLoginAttemptId' => $this->db->sanitize($this->dbContactLoginAttemptId),
+				'workspaceId' => $this->db->sanitize($this->workspaceId),
 				'staffId' => $this->db->sanitize($this->staffId),
 				'clientIp' => $this->db->sanitize($this->clientIp),
 				'result' => $this->db->sanitize($this->result),
@@ -102,7 +102,7 @@
 			if ($this->setType == 'UPDATE') {
 
 				// Update the values in the database after sanitizing them
-				if ($this->db->update('staffLoginAttempt', $attributes, "WHERE staffLoginAttemptId = ".$this->db->sanitize($this->dbCustomerLoginAttemptId), 1)) {
+				if ($this->db->update('staffLoginAttempt', $attributes, "WHERE staffLoginAttemptId = ".$this->db->sanitize($this->dbContactLoginAttemptId), 1)) {
 					return true;
 				} elseif ($this->db->getLastError() === '') {
 					return true;
@@ -134,7 +134,7 @@
 		public function delete() {
 
 			// Remove row from database
-			if (!$this->db->delete('staffLoginAttempt', "WHERE staffLoginAttemptId = '".$this->db->sanitize($this->dbCustomerLoginAttemptId)."'", 1)) {
+			if (!$this->db->delete('staffLoginAttempt', "WHERE staffLoginAttemptId = '".$this->db->sanitize($this->dbContactLoginAttemptId)."'", 1)) {
 				return $this->db->getLastError();
 			}
 

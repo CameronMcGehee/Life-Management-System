@@ -16,15 +16,15 @@
 
     // WILL DO THIS LATER - NEEDS DATABASE TABLE ADDED
 
-    // If user is logged in and a business is selected, go to the overview page of that business
-    // If not, check if user is logged in. If not, take them to the user login page. If they are logged in but no business has been selected, take them to the business selection page.
+    // If user is logged in and a workspace is selected, go to the overview page of that workspace
+    // If not, check if user is logged in. If not, take them to the user login page. If they are logged in but no workspace has been selected, take them to the workspace selection page.
     
     require_once '../php/startSession.php';
 
-    if (isset($_SESSION['ultiscape_adminId']) && isset($_SESSION['ultiscape_businessId'])) {
-        header("location: ./businessoverview");
-    } elseif (isset($_SESSION['ultiscape_adminId'])) {
-        header("location: ./selectbusiness");
+    if (isset($_SESSION['lifems_adminId']) && isset($_SESSION['lifems_workspaceId'])) {
+        header("location: ./workspaceoverview");
+    } elseif (isset($_SESSION['lifems_adminId'])) {
+        header("location: ./selectworkspace");
     } else {
         header("location: ./login");
     }

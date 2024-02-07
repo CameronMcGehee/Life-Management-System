@@ -5,13 +5,13 @@
 		private string $setType;
 		private database $db;
 
-		private string $dbCustomerSavedLoginId; // Used when updating the table incase the staffSavedLoginId has been changed after instantiation
+		private string $dbContactSavedLoginId; // Used when updating the table incase the staffSavedLoginId has been changed after instantiation
 		
 		public bool $existed; // Can be used to see whether the given entity existed already at the time of instantiation
 
 		// Main database attributes
 		public $staffSavedLoginId;
-		public $businessId;
+		public $workspaceId;
 		public $staffId;
 		public $dateTimeAdded;
 
@@ -22,11 +22,11 @@
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 
 		public function setToDefaults() {
-			// Default businessId to the currently selected business
-			if (isset($_SESSION['ultiscape_businessId'])) {
-				$this->businessId = $_SESSION['ultiscape_businessId'];
+			// Default workspaceId to the currently selected workspace
+			if (isset($_SESSION['lifems_workspaceId'])) {
+				$this->workspaceId = $_SESSION['lifems_workspaceId'];
 			} else {
-				$this->businessId = '';
+				$this->workspaceId = '';
 			}
 			$this->staffId = '';
 			// Default dateTimeAdded to now since it is likely going to be inserted at this time
@@ -52,7 +52,7 @@
 			// If staffSavedLoginId already exists then set the set method type to UPDATE and fetch the values for the staffSavedLogin
 			if ($fetch) {
 				$this->staffSavedLoginId = $staffSavedLoginId;
-				$this->businessId = $fetch[0]['businessId'];
+				$this->workspaceId = $fetch[0]['workspaceId'];
 				$this->staffId = $fetch[0]['staffId'];
 				$this->dateTimeAdded = $fetch[0]['dateTimeAdded'];
 
@@ -72,7 +72,7 @@
 				$this->existed = false;
 			}
 
-			$this->dbCustomerSavedLoginId = $this->staffSavedLoginId;
+			$this->dbContactSavedLoginId = $this->staffSavedLoginId;
 			
 		}
 
@@ -85,8 +85,8 @@
 		public function set() {
 
 			$attributes = array(
-				'staffSavedLoginId' => $this->db->sanitize($this->dbCustomerSavedLoginId),
-				'businessId' => $this->db->sanitize($this->businessId),
+				'staffSavedLoginId' => $this->db->sanitize($this->dbContactSavedLoginId),
+				'workspaceId' => $this->db->sanitize($this->workspaceId),
 				'staffId' => $this->db->sanitize($this->staffId),
 				'dateTimeAdded' => $this->db->sanitize($this->dateTimeAdded)
 			);
@@ -94,7 +94,7 @@
 			if ($this->setType == 'UPDATE') {
 
 				// Update the values in the database after sanitizing them
-				if ($this->db->update('staffSavedLogin', $attributes, "WHERE staffSavedLoginId = ".$this->db->sanitize($this->dbCustomerSavedLoginId), 1)) {
+				if ($this->db->update('staffSavedLogin', $attributes, "WHERE staffSavedLoginId = ".$this->db->sanitize($this->dbContactSavedLoginId), 1)) {
 					return true;
 				} elseif ($this->db->getLastError() === '') {
 					return true;
@@ -126,7 +126,7 @@
 		public function delete() {
 
 			// Remove row from database
-			if (!$this->db->delete('staffSavedLogin', "WHERE staffSavedLoginId = '".$this->db->sanitize($this->dbCustomerSavedLoginId)."'", 1)) {
+			if (!$this->db->delete('staffSavedLogin', "WHERE staffSavedLoginId = '".$this->db->sanitize($this->dbContactSavedLoginId)."'", 1)) {
 				return $this->db->getLastError();
 			}
 

@@ -11,7 +11,7 @@
 
 		// Main database attributes
 		public $invoiceItemId;
-		public $businessId;
+		public $workspaceId;
 		public $invoiceId;
 		public $name;
 		public $price;
@@ -27,11 +27,11 @@
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 
 		public function setToDefaults() {
-			// Default businessId to the currently selected business
-			if (isset($_SESSION['ultiscape_businessId'])) {
-				$this->businessId = $_SESSION['ultiscape_businessId'];
+			// Default workspaceId to the currently selected workspace
+			if (isset($_SESSION['lifems_workspaceId'])) {
+				$this->workspaceId = $_SESSION['lifems_workspaceId'];
 			} else {
-				$this->businessId = '';
+				$this->workspaceId = '';
 			}
 			$this->invoiceId = '';
 			$this->name = '';
@@ -62,7 +62,7 @@
 			// If invoiceItemId already exists then set the set method type to UPDATE and fetch the values for the invoiceItem
 			if ($fetch) {
 				$this->invoiceItemId = $invoiceItemId;
-				$this->businessId = $fetch[0]['businessId'];
+				$this->workspaceId = $fetch[0]['workspaceId'];
 				$this->invoiceId = $fetch[0]['invoiceId'];
 				$this->name = $fetch[0]['name'];
 				$this->price = $fetch[0]['price'];
@@ -101,7 +101,7 @@
 
 			$attributes = array(
 				'invoiceItemId' => $this->db->sanitize($this->dbInvoiceItemId),
-				'businessId' => $this->db->sanitize($this->businessId),
+				'workspaceId' => $this->db->sanitize($this->workspaceId),
 				'invoiceId' => $this->db->sanitize($this->invoiceId),
 				'name' => $this->db->sanitize($this->name),
 				'price' => $this->db->sanitize($this->price),

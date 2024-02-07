@@ -11,7 +11,7 @@
 
 		// Main database attributes
 		public $docIdId;
-		public $businessId;
+		public $workspaceId;
 		public $incrementalId;
 		public $randomId;
 		public $dateTimeAdded;
@@ -26,11 +26,11 @@
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 
 		public function setToDefaults() {
-			// Default businessId to the currently selected business
-			if (isset($_SESSION['ultiscape_businessId'])) {
-				$this->businessId = $_SESSION['ultiscape_businessId'];
+			// Default workspaceId to the currently selected workspace
+			if (isset($_SESSION['lifems_workspaceId'])) {
+				$this->workspaceId = $_SESSION['lifems_workspaceId'];
 			} else {
-				$this->businessId = '';
+				$this->workspaceId = '';
 			}
 			$this->incrementalId = '';
 			$this->randomId = '';
@@ -60,7 +60,7 @@
 			// If docIdId already exists then set the set method type to UPDATE and fetch the values for the docId
 			if ($fetch) {
 				$this->docIdId = $docIdId;
-				$this->businessId = $fetch[0]['businessId'];
+				$this->workspaceId = $fetch[0]['workspaceId'];
 				$this->incrementalId = $fetch[0]['incrementalId'];
 				$this->randomId = $fetch[0]['randomId'];
 				$this->dateTimeAdded = $fetch[0]['dateTimeAdded'];
@@ -86,7 +86,7 @@
 			if ($this->existed) {
 				// If the docId existed, fill the linkedItem array with whatever the docId is linked to
 				$this->pullLinkedItem();
-			} elseif ($this->businessId != '') {
+			} elseif ($this->workspaceId != '') {
 				$this->generateIncrementalId();
 				$this->generateRandomId();
 			}
@@ -108,10 +108,10 @@
 			}
 
 			// Find what item has this docIdId
-			// docIds can be linked to either a customerServiceMessage, a fileUpload, an invoice or an estimate
-			// $fetch = $this->db->select('customerServiceMessage', 'customerServiceMessageId', "WHERE docIdId = '$this->dbDocIdId'");
+			// docIds can be linked to either a contactServiceMessage, a fileUpload, an invoice or an estimate
+			// $fetch = $this->db->select('contactServiceMessage', 'contactServiceMessageId', "WHERE docIdId = '$this->dbDocIdId'");
 			// if ($fetch) {
-			// 	array_push($this->linkedItem, array('customerServiceMessage', $fetch[0]['customerServiceMessageId']));
+			// 	array_push($this->linkedItem, array('contactServiceMessage', $fetch[0]['contactServiceMessageId']));
 			// 	return;
 			// }
 			$fetch = $this->db->select('fileUpload', 'fileUploadId', "WHERE docIdId = '$this->dbDocIdId'");
@@ -139,8 +139,8 @@
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 
 		public function generateIncrementalId() {
-			// For incremental id, find the last highest id for this business and then set this one to one above that
-			$fetch = $this->db->select('docId', 'incrementalId', "WHERE businessId = '".$this->db->sanitize($this->businessId)."' ORDER BY incrementalId DESC LIMIT 1");
+			// For incremental id, find the last highest id for this workspace and then set this one to one above that
+			$fetch = $this->db->select('docId', 'incrementalId', "WHERE workspaceId = '".$this->db->sanitize($this->workspaceId)."' ORDER BY incrementalId DESC LIMIT 1");
 			if (!$fetch) {
 				$newIncrementalId = 1;
 			} else {
@@ -152,7 +152,7 @@
 		public function generateRandomId() {
 			// for random id, generate a random 5 number id until it doesn't exist already
 			$newRandomId = (string)rand(0,9).(string)rand(0,9).(string)rand(0,9).(string)rand(0,9).(string)rand(0,9);
-			while ($this->db->select('docId', 'randomId', "WHERE businessId = '".$this->db->sanitize($this->businessId)."' AND randomId = '$newRandomId'")) {
+			while ($this->db->select('docId', 'randomId', "WHERE workspaceId = '".$this->db->sanitize($this->workspaceId)."' AND randomId = '$newRandomId'")) {
 				$newRandomId = (string)rand(0,9).(string)rand(0,9).(string)rand(0,9).(string)rand(0,9).(string)rand(0,9);
 			}
 			$this->randomId = (string)$newRandomId;
@@ -169,7 +169,7 @@
 
 			$attributes = array(
 				'docIdId' => $this->db->sanitize($this->dbDocIdId),
-				'businessId' => $this->db->sanitize($this->businessId),
+				'workspaceId' => $this->db->sanitize($this->workspaceId),
 				'incrementalId' => $this->db->sanitize($this->incrementalId),
 				'randomId' => $this->db->sanitize($this->randomId),
 				'dateTimeAdded' => $this->db->sanitize($this->dateTimeAdded)
@@ -223,7 +223,7 @@
 			$this->existed = false;
 
 			// Generate new ids
-			if ($this->businessId != '') {
+			if ($this->workspaceId != '') {
 				$this->generateIncrementalId();
 				$this->generateRandomId();
 			}

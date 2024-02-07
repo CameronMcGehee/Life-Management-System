@@ -10,7 +10,7 @@
 		public $conn;
 		
 		static function getConn() {
-			$config = $GLOBALS['ULTISCAPECONFIG'];
+			$config = $GLOBALS['lifemsConfig'];
 			$conn = mysqli_connect($config['databaseServer'], $config['databaseUsername'], $config['databasePassword'], $config['databaseDb']);
 			return $conn;
 		}

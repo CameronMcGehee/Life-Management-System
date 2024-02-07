@@ -48,8 +48,8 @@
 
                     <?php
 
-                        require_once '../../../lib/table/business.php';
-                        $business = new business($_SESSION['ultiscape_businessId']);
+                        require_once '../../../lib/table/workspace.php';
+                        $workspace = new workspace($_SESSION['lifems_workspaceId']);
 
                     ?>
 
@@ -59,12 +59,12 @@
                     <br>
                     <hr>
                 
-                    <h3>Current business entity: <span id="overviewButtonBusinessName" style="text-decoration: underline;"><i><?php echo htmlspecialchars($business->adminDisplayName); ?></i></span> <a href="../selectbusiness">(Change)</a></h3>
-                        <p class="subPage"><a href="../businessoverview">Business Overview</a></p>
-                        <p class="subPage"><a href="../customers">Customers</a></p>
+                    <h3>Current workspace entity: <span id="overviewButtonWorkspaceName" style="text-decoration: underline;"><i><?php echo htmlspecialchars($workspace->adminDisplayName); ?></i></span> <a href="../selectworkspace">(Change)</a></h3>
+                        <p class="subPage"><a href="../workspaceoverview">Workspace Overview</a></p>
+                        <p class="subPage"><a href="../contacts">Contacts</a></p>
                         <p class="subPage"><a href="../invoices">Invoices</a></p>
                         <p class="subPage"><a href="../estimates">Estimates</a></p>
-                        <p class="subPage"><a href="../jobs">Jobs</a></p>
+                        <p class="subPage"><a href="../calendarEvents">CalendarEvents</a></p>
                         <p class="subPage"><a href="../inventory">Inventory</a></p>
                 
 

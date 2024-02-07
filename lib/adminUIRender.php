@@ -11,7 +11,7 @@
 			require_once dirname(__FILE__)."/database.php";
 			$this->database = new database;
 
-			$this->config = $GLOBALS['ULTISCAPECONFIG'];
+			$this->config = $GLOBALS['lifemsConfig'];
 		}
 
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -65,13 +65,13 @@
 			';
 		}
 		
-		function renderAdminTopBar(string $rootPathPrefix = './', bool $showLogo = true, bool $showBusinessSelector = true, bool $showProfileButton = true) {
+		function renderAdminTopBar(string $rootPathPrefix = './', bool $showLogo = true, bool $showWorkspaceSelector = true, bool $showProfileButton = true) {
 			$output = '';
 
 			$output .= '<div class="adminTopBarWrapper defaultInsetShadow">
 			';
 
-			$output .= '<div class="xyCenteredFlex" id="ultiscapeLogoWrapper">
+			$output .= '<div class="xyCenteredFlex" id="lifemsLogoWrapper">
 			';
 				if ($showLogo) {
 					$output .= '<a class="noUnderline" href="'.$rootPathPrefix.'"><h2>LifeMS</h2></a>
@@ -84,24 +84,24 @@
 			$output .= '<div></div>
 			';
 
-			// Business Selector Button
-			$output .= '<div class="yCenteredFlex flexDirectionRow" id="businessSelectorButtonWrapper">
+			// Workspace Selector Button
+			$output .= '<div class="yCenteredFlex flexDirectionRow" id="workspaceSelectorButtonWrapper">
 			';
-				if ($showBusinessSelector) {
-					$output .= '<div class="yCenteredFlex flexDirectionRow" id="businessSelectorButton">
+				if ($showWorkspaceSelector) {
+					$output .= '<div class="yCenteredFlex flexDirectionRow" id="workspaceSelectorButton">
 					';
-					require_once dirname(__FILE__)."/table/business.php";
-					$business = new business($_SESSION['ultiscape_businessId']);
-					$currentBusinessLogo = $business->fullLogoFile;
-					// If the currently selected business does not have a logo file, display the default one
-					if ($currentBusinessLogo == NULL) {
-						$bsImgPath = $rootPathPrefix.'images/ultiscape/etc/noLogo.png';
+					require_once dirname(__FILE__)."/table/workspace.php";
+					$workspace = new workspace($_SESSION['lifems_workspaceId']);
+					$currentWorkspaceLogo = $workspace->fullLogoFile;
+					// If the currently selected workspace does not have a logo file, display the default one
+					if ($currentWorkspaceLogo == NULL) {
+						$bsImgPath = $rootPathPrefix.'images/lifems/etc/noLogo.png';
 					} else {
-						$bsImgPath = $rootPathPrefix.'images/ultiscape/uploads/business/fullLogoFile/'.$currentBusinessLogo;
+						$bsImgPath = $rootPathPrefix.'images/lifems/uploads/workspace/fullLogoFile/'.$currentWorkspaceLogo;
 					}
 					
 					// Render the button itself
-					$output .= '<img id="businessSelectorSelectedImg" src="'.$bsImgPath.'"><img src="'.$rootPathPrefix.'images/ultiscape/icons/chevron_down.svg"></div>
+					$output .= '<img id="workspaceSelectorSelectedImg" src="'.$bsImgPath.'"><img src="'.$rootPathPrefix.'images/lifems/icons/chevron_down.svg"></div>
 					';
 				}
 			$output .= '</div>
@@ -115,12 +115,12 @@
 					$fileName = '';
 					if (false) {
 						if (false) {
-							$pfpPath = $rootPathPrefix.'images/ultiscape/uploads/profile/'.$fileName;
+							$pfpPath = $rootPathPrefix.'images/lifems/uploads/profile/'.$fileName;
 						}
 					} else {
-						$pfpPath = $rootPathPrefix.'images/ultiscape/icons/user_male.svg';
+						$pfpPath = $rootPathPrefix.'images/lifems/icons/user_male.svg';
 					}
-					$output .= '<img id="profilePictureButton" src="'.$pfpPath.'"><img src="'.$rootPathPrefix.'images/ultiscape/icons/chevron_down.svg" class="whiteChevron">
+					$output .= '<img id="profilePictureButton" src="'.$pfpPath.'"><img src="'.$rootPathPrefix.'images/lifems/icons/chevron_down.svg" class="whiteChevron">
 					';
 				}
 			$output .= '</div>
@@ -136,20 +136,20 @@
 		function renderAdminTopBarDropdowns(string $rootPathPrefix = './') {
 			$output = '';
 
-			// Business Selector button dropdown
-			$output .= '<span class="businessSelectorButtonDropdownHider" id="bsMenu"><div class="businessSelectorButtonDropdownWrapper xyCenteredFlex flexDirectionColumn">
+			// Workspace Selector button dropdown
+			$output .= '<span class="workspaceSelectorButtonDropdownHider" id="bsMenu"><div class="workspaceSelectorButtonDropdownWrapper xyCenteredFlex flexDirectionColumn">
 			';
 			
-				// Eventually for each business that belongs to the admin, output a button to switch to that business
-				$output .= '<p><a href="'.$rootPathPrefix.'admin/selectbusiness">Switch Business</a></p>
+				// Eventually for each workspace that belongs to the admin, output a button to switch to that workspace
+				$output .= '<p><a href="'.$rootPathPrefix.'admin/selectworkspace">Switch Workspace</a></p>
 				';
 
 				// Edit button temporarily until we make it look nice
-				$output .= '<p><a href="'.$rootPathPrefix.'admin/businesssettings">Business Settings</a></p>
+				$output .= '<p><a href="'.$rootPathPrefix.'admin/workspacesettings">Workspace Settings</a></p>
 				';
 
-				// Button to create a new business
-				$output .= '<br><a href="'.$rootPathPrefix.'admin/createbusiness" class="smallButtonWrapper greenButton xyCenteredFlex defaultMainShadows" style="padding: .2em;"><img style="width: 2em; height: 2em;" src="'.$rootPathPrefix.'images/ultiscape/icons/plus.svg"></a>
+				// Button to create a new workspace
+				$output .= '<br><a href="'.$rootPathPrefix.'admin/createworkspace" class="smallButtonWrapper greenButton xyCenteredFlex defaultMainShadows" style="padding: .2em;"><img style="width: 2em; height: 2em;" src="'.$rootPathPrefix.'images/lifems/icons/plus.svg"></a>
 				';
 
 			$output .= '</div></span>
@@ -160,7 +160,7 @@
 			';
 				$output .= '<p><a href="'.$rootPathPrefix.'admin/editprofile">Edit Profile</a></p>
 				';
-				$output .= '<a href="'.$rootPathPrefix.'admin/scripts/standalone/logout.script" class="smallButtonWrapper orangeButton xyCenteredFlex defaultMainShadows" style="padding: .2em;"><img style="width: 2em; height: 2em;" src="'.$rootPathPrefix.'images/ultiscape/icons/exit_right.svg"></a>
+				$output .= '<a href="'.$rootPathPrefix.'admin/scripts/standalone/logout.script" class="smallButtonWrapper orangeButton xyCenteredFlex defaultMainShadows" style="padding: .2em;"><img style="width: 2em; height: 2em;" src="'.$rootPathPrefix.'images/lifems/icons/exit_right.svg"></a>
 				';
 			$output .= '</div></span>
 			';
@@ -168,7 +168,7 @@
 			return $output;
 		}
 
-		function renderAdminUIMenuToggleScripts(string $rootPathPrefix = './', bool $showProfileButtonScript = true, bool $showBusinessSelectorScript = true, bool $showSideBarMoreMenuScript = true, bool $showMobileNavBarMoreMenuScript = true) {
+		function renderAdminUIMenuToggleScripts(string $rootPathPrefix = './', bool $showProfileButtonScript = true, bool $showWorkspaceSelectorScript = true, bool $showSideBarMoreMenuScript = true, bool $showMobileNavBarMoreMenuScript = true) {
 			$output = '';
 
 			// Scripts for dropping them down
@@ -189,8 +189,8 @@
 								';
 				}
 
-				if ($showBusinessSelectorScript) {
-					$output .= '$("#businessSelectorButtonWrapper").click(function() {
+				if ($showWorkspaceSelectorScript) {
+					$output .= '$("#workspaceSelectorButtonWrapper").click(function() {
 									$("#bsMenu").toggle();
 
 									if($("#pfpMenu").is(":visible")) {
@@ -241,30 +241,30 @@
 			$output .= '<div class="cmsSideBarWrapper">
 			';
 
-			// Eventually will add checks to see if the currently selected business has the modules enabled for the buttons to show accordingly
+			// Eventually will add checks to see if the currently selected workspace has the modules enabled for the buttons to show accordingly
 
-			$output .= '<a class="noUnderline sideBarButton defaultAll4InsetShadow aniBold" id="button1" href="'.$rootPathPrefix.'admin/customers"><img src="'.$rootPathPrefix.'images/ultiscape/icons/users.svg"><p>Customers</p></a>
+			$output .= '<a class="noUnderline sideBarButton defaultAll4InsetShadow aniBold" id="button1" href="'.$rootPathPrefix.'admin/contacts"><img src="'.$rootPathPrefix.'images/lifems/icons/users.svg"><p>Contacts</p></a>
 			';
-			$output .= '<a class="noUnderline sideBarButton defaultAll4InsetShadow aniBold" id="button3" href="'.$rootPathPrefix.'admin/jobs"><img src="'.$rootPathPrefix.'images/ultiscape/icons/calendar_month.svg"><p>Jobs</p></a>
+			$output .= '<a class="noUnderline sideBarButton defaultAll4InsetShadow aniBold" id="button3" href="'.$rootPathPrefix.'admin/calendarEvents"><img src="'.$rootPathPrefix.'images/lifems/icons/calendar_month.svg"><p>CalendarEvents</p></a>
 			';
-			$output .= '<a class="noUnderline sideBarButton defaultAll4InsetShadow aniBold" id="button4" href="'.$rootPathPrefix.'admin/invoices"><img src="'.$rootPathPrefix.'images/ultiscape/icons/document.svg"><p>Invoices</p></a>
+			$output .= '<a class="noUnderline sideBarButton defaultAll4InsetShadow aniBold" id="button4" href="'.$rootPathPrefix.'admin/invoices"><img src="'.$rootPathPrefix.'images/lifems/icons/document.svg"><p>Invoices</p></a>
 			';
-			$output .= '<a class="noUnderline sideBarButton defaultAll4InsetShadow aniBold" id="button2" href="'.$rootPathPrefix.'admin/estimates"><img src="'.$rootPathPrefix.'images/ultiscape/icons/document.svg"><p>Estimates</p></a>
+			$output .= '<a class="noUnderline sideBarButton defaultAll4InsetShadow aniBold" id="button2" href="'.$rootPathPrefix.'admin/estimates"><img src="'.$rootPathPrefix.'images/lifems/icons/document.svg"><p>Estimates</p></a>
 			';
-			$output .= '<a class="noUnderline sideBarButton defaultAll4InsetShadow aniBold" id="button3" href="'.$rootPathPrefix.'admin/notes"><img src="'.$rootPathPrefix.'images/ultiscape/icons/pen.svg"><p>Notes</p></a>
+			$output .= '<a class="noUnderline sideBarButton defaultAll4InsetShadow aniBold" id="button3" href="'.$rootPathPrefix.'admin/notes"><img src="'.$rootPathPrefix.'images/lifems/icons/pen.svg"><p>Notes</p></a>
 			';
-			$output .= '<a class="noUnderline sideBarButton defaultAll4InsetShadow aniBold" id="button5"><img src="'.$rootPathPrefix.'images/ultiscape/icons/drag.svg"><p>More...</p></a>
+			$output .= '<a class="noUnderline sideBarButton defaultAll4InsetShadow aniBold" id="button5"><img src="'.$rootPathPrefix.'images/lifems/icons/drag.svg"><p>More...</p></a>
 			';
 
 			// Bottom links
-			$output .= '<div id="smallBottomLinks"><a class="noUnderline" href="'.$rootPathPrefix.'admin/businessoverview">Overview</a> | <a class="noUnderline" href="'.$rootPathPrefix.'admin/sitemap">Sitemap</a></div>
+			$output .= '<div id="smallBottomLinks"><a class="noUnderline" href="'.$rootPathPrefix.'admin/workspaceoverview">Overview</a> | <a class="noUnderline" href="'.$rootPathPrefix.'admin/sitemap">Sitemap</a></div>
 			';
 
 			// Start More menu
 			$output .= '<div id="sideBarMoreMenu">
 			';
 				// More menu items
-				$output .= '<a class="noUnderline sideBarButton defaultAll4InsetShadow aniBold" id="button6" href="'.$rootPathPrefix.'admin/inventory"><img src="'.$rootPathPrefix.'images/ultiscape/icons/archive.svg"><p>Inventory</p></a>
+				$output .= '<a class="noUnderline sideBarButton defaultAll4InsetShadow aniBold" id="button6" href="'.$rootPathPrefix.'admin/inventory"><img src="'.$rootPathPrefix.'images/lifems/icons/archive.svg"><p>Inventory</p></a>
 				';
 			// End More menu
 			$output .= '</div>
@@ -302,25 +302,25 @@
 			$output .= '<div class="cmsMobileNavBarWrapper">
 			';
 
-			// If user is signed in and business is selected then render the buttons, otherwise print an error.
+			// If user is signed in and workspace is selected then render the buttons, otherwise print an error.
 
-			if (isset($_SESSION['ultiscape_adminId']) && isset($_SESSION['ultiscape_businessId'])) {
+			if (isset($_SESSION['lifems_adminId']) && isset($_SESSION['lifems_workspaceId'])) {
 				$output .= '<div class="mobileNavBarButtonArray">
 				';
-					$output .= '<a class="button" id="button1" href="'.$rootPathPrefix.'admin/customers"><img src="'.$rootPathPrefix.'images/ultiscape/icons/users.svg"><p>Customers</p></a>
+					$output .= '<a class="button" id="button1" href="'.$rootPathPrefix.'admin/contacts"><img src="'.$rootPathPrefix.'images/lifems/icons/users.svg"><p>Contacts</p></a>
 					';
-					$output .= '<a class="button" id="button3" href="'.$rootPathPrefix.'admin/jobs"><img src="'.$rootPathPrefix.'images/ultiscape/icons/calendar_month.svg"><p>Jobs</p></a>
+					$output .= '<a class="button" id="button3" href="'.$rootPathPrefix.'admin/calendarEvents"><img src="'.$rootPathPrefix.'images/lifems/icons/calendar_month.svg"><p>CalendarEvents</p></a>
 					';
-					$output .= '<a class="button" id="button4" href="'.$rootPathPrefix.'admin/invoices"><img src="'.$rootPathPrefix.'images/ultiscape/icons/document.svg"><p>Invoices</p></a>
+					$output .= '<a class="button" id="button4" href="'.$rootPathPrefix.'admin/invoices"><img src="'.$rootPathPrefix.'images/lifems/icons/document.svg"><p>Invoices</p></a>
 					';
-					$output .= '<a class="button" id="button2" href="'.$rootPathPrefix.'admin/estimates"><img src="'.$rootPathPrefix.'images/ultiscape/icons/document.svg"><p>Estimates</p></a>
+					$output .= '<a class="button" id="button2" href="'.$rootPathPrefix.'admin/estimates"><img src="'.$rootPathPrefix.'images/lifems/icons/document.svg"><p>Estimates</p></a>
 					';
-					$output .= '<span class="button" id="button5"><img src="'.$rootPathPrefix.'images/ultiscape/icons/drag.svg"></span>
+					$output .= '<span class="button" id="button5"><img src="'.$rootPathPrefix.'images/lifems/icons/drag.svg"></span>
 					';
 				$output .= '</div>
 				';
 			} else {
-				$output .= '<p class="marginLeftRight90 textCentered">Please login and select business.</p>
+				$output .= '<p class="marginLeftRight90 textCentered">Please login and select workspace.</p>
 				';
 			}
 

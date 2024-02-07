@@ -4,7 +4,7 @@
 
     class invoiceTable extends render {
 
-        private business $currentBusiness; // For storing the object of the business
+        private workspace $currentWorkspace; // For storing the object of the workspace
 
         public string $renderId = '';
         public array $options = [];
@@ -22,11 +22,11 @@
 				$options['queryParams'] = '';
 			}
 
-            if (!isset($options['businessId'])) {
-				if (isset($_SESSION['ultiscape_businessId'])) {
-                    $options['businessId'] = $_SESSION['ultiscape_businessId'];
+            if (!isset($options['workspaceId'])) {
+				if (isset($_SESSION['lifems_workspaceId'])) {
+                    $options['workspaceId'] = $_SESSION['lifems_workspaceId'];
                 } else {
-                    throw new Exception("No businessId set to pull invoices from (in invoiceTable)");
+                    throw new Exception("No workspaceId set to pull invoices from (in invoiceTable)");
                 }
 			}
 
@@ -62,8 +62,8 @@
 				$options['showPageNav'] = true;
 			}
 
-            if (!isset($options['showCustomer'])) {
-				$options['showCustomer'] = true;
+            if (!isset($options['showContact'])) {
+				$options['showContact'] = true;
 			}
 
             if (!isset($options['showTotal'])) {
@@ -94,14 +94,14 @@
 				$options['showBatch'] = false;
 			}
 
-            require_once dirname(__FILE__)."/../../table/business.php";
-            $this->currentBusiness = new business($options['businessId']);
+            require_once dirname(__FILE__)."/../../table/workspace.php";
+            $this->currentWorkspace = new workspace($options['workspaceId']);
 
             $this->renderId = $renderId;
 
             require_once dirname(__FILE__)."/../../table/authToken.php";
             require_once dirname(__FILE__)."/../../table/invoice.php";
-            require_once dirname(__FILE__)."/../../table/customer.php";
+            require_once dirname(__FILE__)."/../../table/contact.php";
             require_once dirname(__FILE__)."/../../table/docId.php";
             require_once dirname(__FILE__)."/../etc/pageNavigator.php";
             require_once dirname(__FILE__)."/../etc/sortBySelector.php";
@@ -130,7 +130,7 @@
             $firstLimit = ($this->options['usePage'] - 1) * $this->options['maxRows'];
 
             // Get count for page count
-            $pageCountQuery = "WHERE businessId = '".$_SESSION['ultiscape_businessId']."'";
+            $pageCountQuery = "WHERE workspaceId = '".$_SESSION['lifems_workspaceId']."'";
             if ($this->options['queryParams'] != '') {
                 $pageCountQuery .= ' '.$this->options['queryParams'];
             }
@@ -217,9 +217,9 @@
                 $params .= "LIMIT ".$firstLimit.", ".$this->options['maxRows'];
             }
 
-            $this->currentBusiness->pullInvoices($params);
+            $this->currentWorkspace->pullInvoices($params);
             
-			if (count($this->currentBusiness->invoices) < 1) {
+			if (count($this->currentWorkspace->invoices) < 1) {
 				$this->output .= '<table class="defaultTable" style="margin-top: .5em;"><tr><td class="la">No invoices...</td></tr></table>
                 ';
                 return;
@@ -240,8 +240,8 @@
             $this->output .= '<th class="la nrb">ID</th>
             ';
 
-            if ($this->options['showCustomer']) {
-                $this->output .= '<th class="ca nrb nlb">Customer</th>
+            if ($this->options['showContact']) {
+                $this->output .= '<th class="ca nrb nlb">Contact</th>
                 ';
             }
             if ($this->options['showTotal']) {
@@ -272,12 +272,12 @@
             $this->output .= '</tr>
             ';
 			
-			foreach ($this->currentBusiness->invoices as $invoiceId) {
+			foreach ($this->currentWorkspace->invoices as $invoiceId) {
 
                 $invoice = new invoice($invoiceId);
                 $docId = new docId($invoice->docIdId);
 
-                if ((string)$this->currentBusiness->docIdIsRandom == '1') {
+                if ((string)$this->currentWorkspace->docIdIsRandom == '1') {
                     $docIdOutput = (string)$docId->randomId;
                 } else {
                     $docIdOutput = (string)$docId->incrementalId;
@@ -300,17 +300,17 @@
                         break;
                 }
 
-                // Customer Name
-                $customer = new customer($invoice->customerId);
-                if (!empty($customer->lastName)) {
-                    $customerNameOutput = htmlspecialchars($customer->firstName.' '.$customer->lastName);
+                // Contact Name
+                $contact = new contact($invoice->contactId);
+                if (!empty($contact->lastName)) {
+                    $contactNameOutput = htmlspecialchars($contact->firstName.' '.$contact->lastName);
                 } else {
-                    $customerNameOutput = htmlspecialchars($customer->firstName);
+                    $contactNameOutput = htmlspecialchars($contact->firstName);
                 }
 
                 // Total
                 $total = getGrandTotal($invoice->invoiceId);
-                $totalOutput = htmlspecialchars($this->currentBusiness->currencySymbol).number_format($total, 2, '.', ',');
+                $totalOutput = htmlspecialchars($this->currentWorkspace->currencySymbol).number_format($total, 2, '.', ',');
 
                 // Payment Status
                 $amountPaid = getPaymentTotal($invoice->invoiceId);
@@ -332,7 +332,7 @@
                 } else {
                     $paymentStatusColor = '#006600';
                 }
-                $paymentStatusOutput = '<div style="display: inline-block; width: .9em; height: .9em; border-radius: 50%; background-color: '.$paymentStatusColor.'"></div> <b>'.htmlspecialchars($this->currentBusiness->currencySymbol).$amountPaid.'</b> ('.$percentPaid.'%)';
+                $paymentStatusOutput = '<div style="display: inline-block; width: .9em; height: .9em; border-radius: 50%; background-color: '.$paymentStatusColor.'"></div> <b>'.htmlspecialchars($this->currentWorkspace->currencySymbol).$amountPaid.'</b> ('.$percentPaid.'%)';
 
                 // Render the row
 				$this->output .= '<tr>';
@@ -342,8 +342,8 @@
                 $this->output .= '<td class="la nrb vam" style="max-width: 10em;"><a href="'.$this->options['rootPathPrefix'].'admin/invoices/invoice?id='.htmlspecialchars(htmlspecialchars($invoice->invoiceId)).'" style="font-size: 1.1em; margin-right: .5em;"><b>'.$docIdOutput.'</b></a></td>
                 ';
                                     
-                if ($this->options['showCustomer']) {
-                    $this->output .= '<td class="la nlb nrb"><a href="../customers/customer?id='.htmlspecialchars($customer->customerId).'">'.$customerNameOutput.'</a></td>
+                if ($this->options['showContact']) {
+                    $this->output .= '<td class="la nlb nrb"><a href="../contacts/contact?id='.htmlspecialchars($contact->contactId).'">'.$contactNameOutput.'</a></td>
                     ';
                 }
                 if ($this->options['showTotal']) {

@@ -14,11 +14,11 @@
 
 		// Main database attributes
 		public $staffId;
-		public $businessId;
+		public $workspaceId;
 		public $firstName;
 		public $lastName;
 		public $profilePicture;
-		public $jobTitle;
+		public $calendarEventTitle;
 		public $bio;
 		public $payrollAddress1;
 		public $payrollAddress2;
@@ -27,8 +27,8 @@
 		public $payrollZipCode;
 		public $overridePayrollType;
 		public $overrideHourlyRate;
-		public $overridePerJobRate;
-		public $overrideJobPercentage;
+		public $overridePerCalendarEventRate;
+		public $overrideCalendarEventPercentage;
 		public $payrollDueCache;
 		public $advancePaymentCache;
 		public $allowSignIn;
@@ -45,9 +45,9 @@
 		public $tags = array();
 		public $leaderCrews = array();
 		public $staffCrews = array();
-		public $jobSingulars = array();
-		public $jobRecurrings = array();
-		public $jobCompleteds = array();
+		public $calendarEventSingulars = array();
+		public $calendarEventRecurrings = array();
+		public $calendarEventCompleteds = array();
 		public $timeLogs = array();
 		public $payrollDues = array();
 		public $payrollSatisfactions = array();
@@ -59,16 +59,16 @@
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 
 		public function setToDefaults() {
-			// Default businessId to the currently selected business
-			if (isset($_SESSION['ultiscape_businessId'])) {
-				$this->businessId = $_SESSION['ultiscape_businessId'];
+			// Default workspaceId to the currently selected workspace
+			if (isset($_SESSION['lifems_workspaceId'])) {
+				$this->workspaceId = $_SESSION['lifems_workspaceId'];
 			} else {
-				$this->businessId = '';
+				$this->workspaceId = '';
 			}
 			$this->firstName = '';
 			$this->lastName = NULL;
 			$this->profilePicture = NULL;
-			$this->jobTitle = NULL;
+			$this->calendarEventTitle = NULL;
 			$this->bio = NULL;
 			$this->payrollAddress1 = NULL;
 			$this->payrollAddress2 = NULL;
@@ -77,8 +77,8 @@
 			$this->payrollZipCode = NULL;
 			$this->overridePayrollType = NULL;
 			$this->overrideHourlyRate = NULL;
-			$this->overridePerJobRate = NULL;
-			$this->overrideJobPercentage = NULL;
+			$this->overridePerCalendarEventRate = NULL;
+			$this->overrideCalendarEventPercentage = NULL;
 			$this->payrollDueCache = '0';
 			$this->advancePaymentCache = '0';
 			$this->allowSignIn = '1';
@@ -95,9 +95,9 @@
 			$this->tags = array();
 			$this->leaderCrews = array();
 			$this->staffCrews = array();
-			$this->jobSingulars = array();
-			$this->jobRecurrings = array();
-			$this->jobCompleteds = array();
+			$this->calendarEventSingulars = array();
+			$this->calendarEventRecurrings = array();
+			$this->calendarEventCompleteds = array();
 			$this->timeLogs = array();
 			$this->payrollDues = array();
 			$this->payrollSatisfactions = array();
@@ -126,11 +126,11 @@
 			// If staffId already exists then set the set method type to UPDATE and fetch the values for the staff
 			if ($fetch) {
 				$this->staffId = $staffId;
-				$this->businessId = $fetch[0]['businessId'];
+				$this->workspaceId = $fetch[0]['workspaceId'];
 				$this->firstName = $fetch[0]['firstName'];
 				$this->lastName = $fetch[0]['lastName'];
 				$this->profilePicture = $fetch[0]['profilePicture'];
-				$this->jobTitle = $fetch[0]['jobTitle'];
+				$this->calendarEventTitle = $fetch[0]['calendarEventTitle'];
 				$this->bio = $fetch[0]['bio'];
 				$this->payrollAddress1 = $fetch[0]['payrollAddress1'];
 				$this->payrollAddress2 = $fetch[0]['payrollAddress2'];
@@ -139,8 +139,8 @@
 				$this->payrollZipCode = $fetch[0]['payrollZipCode'];
 				$this->overridePayrollType = $fetch[0]['overridePayrollType'];
 				$this->overrideHourlyRate = $fetch[0]['overrideHourlyRate'];
-				$this->overridePerJobRate = $fetch[0]['overridePerJobRate'];
-				$this->overrideJobPercentage = $fetch[0]['overrideJobPercentage'];
+				$this->overridePerCalendarEventRate = $fetch[0]['overridePerCalendarEventRate'];
+				$this->overrideCalendarEventPercentage = $fetch[0]['overrideCalendarEventPercentage'];
 				$this->payrollDueCache = $fetch[0]['payrollDueCache'];
 				$this->advancePaymentCache = $fetch[0]['advancePaymentCache'];
 				$this->allowSignIn = $fetch[0]['allowSignIn'];
@@ -330,18 +330,18 @@
 			}
 		}
 
-		// jobSingulars
-		public function pullJobSingulars($params = '') {
-			$this->jobSingulars = array();
+		// calendarEventSingulars
+		public function pullCalendarEventSingulars($params = '') {
+			$this->calendarEventSingulars = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('jobSingularStaffBridge', 'jobSingularStaffBridgeId', "WHERE staffId = '$this->dbStaffId'".$params);
+			$fetch = $this->db->select('calendarEventSingularStaffBridge', 'calendarEventSingularStaffBridgeId', "WHERE staffId = '$this->dbStaffId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
-					array_push($this->jobSingulars, $row['jobSingularId']);
+					array_push($this->calendarEventSingulars, $row['calendarEventSingularId']);
 				}
 				return true;
 			} elseif ($this->db->getLastError() === '') {
@@ -351,18 +351,18 @@
 			}
 		}
 
-		// jobRecurrings
-		public function pullJobRecurrings($params = '') {
-			$this->jobRecurrings = array();
+		// calendarEventRecurrings
+		public function pullCalendarEventRecurrings($params = '') {
+			$this->calendarEventRecurrings = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('jobRecurringStaffBridge', 'jobRecurringStaffBridgeId', "WHERE staffId = '$this->dbStaffId'".$params);
+			$fetch = $this->db->select('calendarEventRecurringStaffBridge', 'calendarEventRecurringStaffBridgeId', "WHERE staffId = '$this->dbStaffId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
-					array_push($this->jobRecurrings, $row['jobRecurringId']);
+					array_push($this->calendarEventRecurrings, $row['calendarEventRecurringId']);
 				}
 				return true;
 			} elseif ($this->db->getLastError() === '') {
@@ -372,18 +372,18 @@
 			}
 		}
 
-		// jobCompleteds
-		public function pullJobCompleteds($params = '') {
-			$this->jobCompleteds = array();
+		// calendarEventCompleteds
+		public function pullCalendarEventCompleteds($params = '') {
+			$this->calendarEventCompleteds = array();
 			// Add space before params
 			if ($params != '') {
 				$params = " ".$params;
 			}
 			// If there are entries, push them to the array
-			$fetch = $this->db->select('jobCompletedStaffBridge', 'jobCompletedStaffBridgeId', "WHERE staffId = '$this->dbStaffId'".$params);
+			$fetch = $this->db->select('calendarEventCompletedStaffBridge', 'calendarEventCompletedStaffBridgeId', "WHERE staffId = '$this->dbStaffId'".$params);
 			if ($fetch) {
 				foreach ($fetch as $row) {
-					array_push($this->jobCompleteds, $row['jobCompletedId']);
+					array_push($this->calendarEventCompleteds, $row['calendarEventCompletedId']);
 				}
 				return true;
 			} elseif ($this->db->getLastError() === '') {
@@ -466,11 +466,11 @@
 
 			$attr = array(
 				'staffId' => $this->dbStaffId,
-				'businessId' => $this->businessId,
+				'workspaceId' => $this->workspaceId,
 				'firstName' => $this->firstName,
 				'lastName' => $this->lastName,
 				'profilePicture' => $this->profilePicture,
-				'jobTitle' => $this->jobTitle,
+				'calendarEventTitle' => $this->calendarEventTitle,
 				'bio' => $this->bio,
 				'payrollAddress1' => $this->payrollAddress1,
 				'payrollAddress2' => $this->payrollAddress2,
@@ -479,8 +479,8 @@
 				'payrollZipCode' => $this->payrollZipCode,
 				'overridePayrollType' => $this->overridePayrollType,
 				'overrideHourlyRate' => $this->overrideHourlyRate,
-				'overridePerJobRate' => $this->overridePerJobRate,
-				'overrideJobPercentage' => $this->overrideJobPercentage,
+				'overridePerCalendarEventRate' => $this->overridePerCalendarEventRate,
+				'overrideCalendarEventPercentage' => $this->overrideCalendarEventPercentage,
 				'payrollDueCache' => $this->payrollDueCache,
 				'advancePaymentCache' => $this->advancePaymentCache,
 				'allowSignIn' => $this->allowSignIn,
@@ -497,11 +497,11 @@
 
 			$attributes = array(
 				'staffId' => $this->db->sanitize($this->dbStaffId),
-				'businessId' => $this->db->sanitize($attr['businessId']),
+				'workspaceId' => $this->db->sanitize($attr['workspaceId']),
 				'firstName' => $this->db->sanitize($attr['firstName']),
 				'lastName' => $this->db->sanitize($attr['lastName']),
 				'profilePicture' => $this->db->sanitize($attr['profilePicture']),
-				'jobTitle' => $this->db->sanitize($attr['jobTitle']),
+				'calendarEventTitle' => $this->db->sanitize($attr['calendarEventTitle']),
 				'bio' => $this->db->sanitize($attr['bio']),
 				'payrollAddress1' => $this->db->sanitize($attr['payrollAddress1']),
 				'payrollAddress2' => $this->db->sanitize($attr['payrollAddress2']),
@@ -510,8 +510,8 @@
 				'payrollZipCode' => $this->db->sanitize($attr['payrollZipCode']),
 				'overridePayrollType' => $this->db->sanitize($attr['overridePayrollType']),
 				'overrideHourlyRate' => $this->db->sanitize($attr['overrideHourlyRate']),
-				'overridePerJobRate' => $this->db->sanitize($attr['overridePerJobRate']),
-				'overrideJobPercentage' => $this->db->sanitize($attr['overrideJobPercentage']),
+				'overridePerCalendarEventRate' => $this->db->sanitize($attr['overridePerCalendarEventRate']),
+				'overrideCalendarEventPercentage' => $this->db->sanitize($attr['overrideCalendarEventPercentage']),
 				'payrollDueCache' => $this->db->sanitize($attr['payrollDueCache']),
 				'advancePaymentCache' => $this->db->sanitize($attr['advancePaymentCache']),
 				'allowSignIn' => $this->db->sanitize($attr['allowSignIn']),

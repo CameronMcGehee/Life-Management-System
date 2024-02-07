@@ -17,7 +17,7 @@
         } else {
             // Since this script is run relatively often, purge old authTokens to keep the table small whenever the token is valid
             require_once '../../../../../lib/etc/authToken/purgeAuthTokens.php';
-            purgeAuthTokens($ULTISCAPECONFIG['authTokenDefaultPurge']);
+            purgeAuthTokens($lifemsConfig['authTokenDefaultPurge']);
         }
     }
 
@@ -53,7 +53,7 @@
         //Check if the username/email and password match
         if (password_verify($_POST['password'], $matchedAdmin->password)) {
             // Login the user
-            $_SESSION['ultiscape_adminId'] = $matchedAdminId;
+            $_SESSION['lifems_adminId'] = $matchedAdminId;
             $result = 'success';
 
             // if remember me is checked, save the login and set a cookie

@@ -11,7 +11,7 @@
 
 		// Main database attributes
 		public $authTokenId;
-		public $businessId;
+		public $workspaceId;
 		public $authName;
 		public $clientIp;
 		public $dateTimeAdded;
@@ -23,11 +23,11 @@
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 
 		public function setToDefaults() {
-			// Default businessId to the currently selected business
-			if (isset($_SESSION['ultiscape_businessId'])) {
-				$this->businessId = $_SESSION['ultiscape_businessId'];
+			// Default workspaceId to the currently selected workspace
+			if (isset($_SESSION['lifems_workspaceId'])) {
+				$this->workspaceId = $_SESSION['lifems_workspaceId'];
 			} else {
-				$this->businessId = NULL;
+				$this->workspaceId = NULL;
 			}
 			$this->authName = NULL;
 			// Default clientIp to the current IP address
@@ -56,7 +56,7 @@
 			// If authTokenId already exists then set the set method type to UPDATE and fetch the values for the authToken
 			if ($fetch) {
 				$this->authTokenId = $authTokenId;
-				$this->businessId = $fetch[0]['businessId'];
+				$this->workspaceId = $fetch[0]['workspaceId'];
 				$this->authName = $fetch[0]['authName'];
 				$this->clientIp = $fetch[0]['clientIp'];
 				$this->dateTimeAdded = $fetch[0]['dateTimeAdded'];
@@ -91,7 +91,7 @@
 
 			$attributes = array(
 				'authTokenId' => $this->db->sanitize($this->dbAuthTokenId),
-				'businessId' => $this->db->sanitize($this->businessId),
+				'workspaceId' => $this->db->sanitize($this->workspaceId),
 				'authName' => $this->db->sanitize($this->authName),
 				'clientIp' => $this->db->sanitize($this->clientIp),
 				'dateTimeAdded' => $this->db->sanitize($this->dateTimeAdded)

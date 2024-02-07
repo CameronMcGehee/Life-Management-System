@@ -4,7 +4,7 @@
 
 	// Make sure that an admin is logged in
 
-	if (!isset($_SESSION['ultiscape_adminId']) || !isset($_SESSION['ultiscape_businessId'])) {
+	if (!isset($_SESSION['lifems_adminId']) || !isset($_SESSION['lifems_workspaceId'])) {
 		echo 'unauthorized';
 		exit();
 	}
@@ -21,10 +21,10 @@
 		exit();
 	}
 
-	//Verify the note belongs to the business that is signed in
+	//Verify the note belongs to the workspace that is signed in
     require_once '../../../../../../lib/table/note.php';
 	$currentNote = new note($_POST['noteId']);
-    if (!$currentNote->existed || $currentNote->businessId != $_SESSION['ultiscape_businessId']) {
+    if (!$currentNote->existed || $currentNote->workspaceId != $_SESSION['lifems_workspaceId']) {
         echo 'noNote';
         exit();
     }

@@ -5,7 +5,7 @@
 		private string $setType;
 		private database $db;
 
-		private string $dbCustomerPhoneNumberId; // Used when updating the table incase the staffPhoneNumberId has been changed after instantiation
+		private string $dbContactPhoneNumberId; // Used when updating the table incase the staffPhoneNumberId has been changed after instantiation
 		
 		public bool $existed; // Can be used to see whether the given entity existed already at the time of instantiation
 
@@ -14,7 +14,7 @@
 
 		// Main database attributes
 		public $staffPhoneNumberId;
-		public $businessId;
+		public $workspaceId;
 		public $staffId;
 		public $phonePrefix;
 		public $phone1;
@@ -30,11 +30,11 @@
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 
 		public function setToDefaults() {
-			// Default businessId to the currently selected business
-			if (isset($_SESSION['ultiscape_businessId'])) {
-				$this->businessId = $_SESSION['ultiscape_businessId'];
+			// Default workspaceId to the currently selected workspace
+			if (isset($_SESSION['lifems_workspaceId'])) {
+				$this->workspaceId = $_SESSION['lifems_workspaceId'];
 			} else {
-				$this->businessId = '';
+				$this->workspaceId = '';
 			}
 			$this->staffId = '';
 			$this->phonePrefix = NULL;
@@ -70,7 +70,7 @@
 			// If staffPhoneNumberId already exists then set the set method type to UPDATE and fetch the values for the staffPhoneNumber
 			if ($fetch) {
 				$this->staffPhoneNumberId = $staffPhoneNumberId;
-				$this->businessId = $fetch[0]['businessId'];
+				$this->workspaceId = $fetch[0]['workspaceId'];
 				$this->staffId = $fetch[0]['staffId'];
 				$this->phonePrefix = $fetch[0]['phonePrefix'];
 				$this->phone1 = $fetch[0]['phone1'];
@@ -105,7 +105,7 @@
 				$this->existed = false;
 			}
 
-			$this->dbCustomerPhoneNumberId = $this->staffPhoneNumberId;
+			$this->dbContactPhoneNumberId = $this->staffPhoneNumberId;
 			
 		}
 
@@ -118,8 +118,8 @@
 		public function set() {
 
 			$attr = array(
-				'staffPhoneNumberId' => $this->dbCustomerPhoneNumberId,
-				'businessId' => $this->businessId,
+				'staffPhoneNumberId' => $this->dbContactPhoneNumberId,
+				'workspaceId' => $this->workspaceId,
 				'staffId' => $this->staffId,
 				'phonePrefix' => $this->phonePrefix,
 				'phone1' => $this->phone1,
@@ -137,8 +137,8 @@
 			}
 
 			$attributes = array(
-				'staffPhoneNumberId' => $this->db->sanitize($this->dbCustomerPhoneNumberId),
-				'businessId' => $this->db->sanitize($attr'[businessId']),
+				'staffPhoneNumberId' => $this->db->sanitize($this->dbContactPhoneNumberId),
+				'workspaceId' => $this->db->sanitize($attr'[workspaceId']),
 				'staffId' => $this->db->sanitize($attr'[staffId']),
 				'phonePrefix' => $this->db->sanitize($attr'[phonePrefix']),
 				'phone1' => $this->db->sanitize($attr'[phone1']),
@@ -151,7 +151,7 @@
 			if ($this->setType == 'UPDATE') {
 
 				// Update the values in the database after sanitizing them
-				if ($this->db->update('staffPhoneNumber', $attributes, "WHERE staffPhoneNumberId = ".$this->db->sanitize($this->dbCustomerPhoneNumberId), 1)) {
+				if ($this->db->update('staffPhoneNumber', $attributes, "WHERE staffPhoneNumberId = ".$this->db->sanitize($this->dbContactPhoneNumberId), 1)) {
 					return true;
 				} elseif ($this->db->getLastError() === '') {
 					return true;
@@ -183,7 +183,7 @@
 		public function delete() {
 
 			// Remove row from database
-			if (!$this->db->delete('staffPhoneNumber', "WHERE staffPhoneNumberId = '".$this->db->sanitize($this->dbCustomerPhoneNumberId)."'", 1)) {
+			if (!$this->db->delete('staffPhoneNumber', "WHERE staffPhoneNumberId = '".$this->db->sanitize($this->dbContactPhoneNumberId)."'", 1)) {
 				return $this->db->getLastError();
 			}
 

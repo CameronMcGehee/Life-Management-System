@@ -12,7 +12,7 @@
 
     echo $adminUIRender->renderAdminHtmlTop('../../', [
 		"pageTitle" => 'Inventory',
-		"pageDescription" => 'Manage your business\'s inventory.']);
+		"pageDescription" => 'Manage your workspace\'s inventory.']);
     echo $adminUIRender->renderAdminUIMenuToggleScripts('../../');
 
 ?>
@@ -33,7 +33,7 @@
         <div class="cmsMainContentWrapper styledText spacedText textColorThemeInventory">
             <div style="margin-left: 2em; margin-right: 2em;">
                 <h1>Inventory</h1>
-                <p>Manage your business's inventory.</p>
+                <p>Manage your workspace's inventory.</p>
                 
                 <h2>Equipment</h2>
                 <h2>Chemicals</h2>

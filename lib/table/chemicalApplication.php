@@ -11,12 +11,12 @@
 
 		// Main database attributes
 		public $chemicalApplicationId;
-		public $businessId;
+		public $workspaceId;
 		public $chemicalId;
 		public $propertyId;
 		public $linkedToCrewId;
 		public $linkedToStaffId;
-		public $linkedToJobCompletedId;
+		public $linkedToCalendarEventCompletedId;
 		public $weatherDescription;
 		public $amountApplied;
 		public $wasSubtractedFromStock;
@@ -29,17 +29,17 @@
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 
 		public function setToDefaults() {
-			// Default businessId to the currently selected business
-			if (isset($_SESSION['ultiscape_businessId'])) {
-				$this->businessId = $_SESSION['ultiscape_businessId'];
+			// Default workspaceId to the currently selected workspace
+			if (isset($_SESSION['lifems_workspaceId'])) {
+				$this->workspaceId = $_SESSION['lifems_workspaceId'];
 			} else {
-				$this->businessId = '';
+				$this->workspaceId = '';
 			}
 			$this->chemicalId = '';
 			$this->propertyId = '';
 			$this->linkedToCrewId = NULL;
 			$this->linkedToStaffId = NULL;
-			$this->linkedToJobCompletedId = NULL;
+			$this->linkedToCalendarEventCompletedId = NULL;
 			$this->weatherDescription = NULL;
 			$this->amountApplied = NULL;
 			$this->wasSubtractedFromStock = '0';
@@ -66,12 +66,12 @@
 			// If chemicalApplicationId already exists then set the set method type to UPDATE and fetch the values for the chemicalApplication
 			if ($fetch) {
 				$this->chemicalApplicationId = $chemicalApplicationId;
-				$this->businessId = $fetch[0]['businessId'];
+				$this->workspaceId = $fetch[0]['workspaceId'];
 				$this->chemicalId = $fetch[0]['chemicalId'];
 				$this->propertyId = $fetch[0]['propertyId'];
 				$this->linkedToCrewId = $fetch[0]['linkedToCrewId'];
 				$this->linkedToStaffId = $fetch[0]['linkedToStaffId'];
-				$this->linkedToJobCompletedId = $fetch[0]['linkedToJobCompletedId'];
+				$this->linkedToCalendarEventCompletedId = $fetch[0]['linkedToCalendarEventCompletedId'];
 				$this->weatherDescription = $fetch[0]['weatherDescription'];
 				$this->amountApplied = $fetch[0]['amountApplied'];
 				$this->wasSubtractedFromStock = $fetch[0]['wasSubtractedFromStock'];
@@ -107,12 +107,12 @@
 
 			$attributes = array(
 				'chemicalApplicationId' => $this->db->sanitize($this->dbChemicalApplicationId),
-				'businessId' => $this->db->sanitize($this->businessId),
+				'workspaceId' => $this->db->sanitize($this->workspaceId),
 				'chemicalId' => $this->db->sanitize($this->chemicalId),
 				'propertyId' => $this->db->sanitize($this->propertyId),
 				'linkedToCrewId' => $this->db->sanitize($this->linkedToCrewId),
 				'linkedToStaffId' => $this->db->sanitize($this->linkedToStaffId),
-				'linkedToJobCompletedId' => $this->db->sanitize($this->linkedToJobCompletedId),
+				'linkedToCalendarEventCompletedId' => $this->db->sanitize($this->linkedToCalendarEventCompletedId),
 				'weatherDescription' => $this->db->sanitize($this->weatherDescription),
 				'amountApplied' => $this->db->sanitize($this->amountApplied),
 				'wasSubtractedFromStock' => $this->db->sanitize($this->wasSubtractedFromStock),

@@ -11,12 +11,12 @@
 
 		// Main database attributes
 		public $estimateId;
-		public $businessId;
+		public $workspaceId;
 		public $docIdId;
-		public $customerId;
+		public $contactId;
 		public $discountIsPercent;
 		public $discount;
-		public $customJobDetails;
+		public $customCalendarEventDetails;
 		public $comments;
 		public $privateNotes;
 		public $isViewed;
@@ -37,17 +37,17 @@
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------
 
 		public function setToDefaults() {
-			// Default businessId to the currently selected business
-			if (isset($_SESSION['ultiscape_businessId'])) {
-				$this->businessId = $_SESSION['ultiscape_businessId'];
+			// Default workspaceId to the currently selected workspace
+			if (isset($_SESSION['lifems_workspaceId'])) {
+				$this->workspaceId = $_SESSION['lifems_workspaceId'];
 			} else {
-				$this->businessId = '';
+				$this->workspaceId = '';
 			}
 			$this->docIdId = '';
-			$this->customerId = NULL;
+			$this->contactId = NULL;
 			$this->discountIsPercent = NULL;
 			$this->discount = '0';
-			$this->customJobDetails = NULL;
+			$this->customCalendarEventDetails = NULL;
 			$this->comments = NULL;
 			$this->privateNotes = NULL;
 			$this->isViewed = '0';
@@ -82,12 +82,12 @@
 			// If estimateId already exists then set the set method type to UPDATE and fetch the values for the estimate
 			if ($fetch) {
 				$this->estimateId = $estimateId;
-				$this->businessId = $fetch[0]['businessId'];
+				$this->workspaceId = $fetch[0]['workspaceId'];
 				$this->docIdId = $fetch[0]['docIdId'];
-				$this->customerId = $fetch[0]['customerId'];
+				$this->contactId = $fetch[0]['contactId'];
 				$this->discountIsPercent = $fetch[0]['discountIsPercent'];
 				$this->discount = $fetch[0]['discount'];
-				$this->customJobDetails = $fetch[0]['customJobDetails'];
+				$this->customCalendarEventDetails = $fetch[0]['customCalendarEventDetails'];
 				$this->comments = $fetch[0]['comments'];
 				$this->privateNotes = $fetch[0]['privateNotes'];
 				$this->isViewed = $fetch[0]['isViewed'];
@@ -154,12 +154,12 @@
 
 			$attributes = array(
 				'estimateId' => $this->db->sanitize($this->dbEstimateId),
-				'businessId' => $this->db->sanitize($this->businessId),
+				'workspaceId' => $this->db->sanitize($this->workspaceId),
 				'docIdId' => $this->db->sanitize($this->docIdId),
-				'customerId' => $this->db->sanitize($this->customerId),
+				'contactId' => $this->db->sanitize($this->contactId),
 				'discountIsPercent' => $this->db->sanitize($this->discountIsPercent),
 				'discount' => $this->db->sanitize($this->discount),
-				'customJobDetails' => $this->db->sanitize($this->customJobDetails),
+				'customCalendarEventDetails' => $this->db->sanitize($this->customCalendarEventDetails),
 				'comments' => $this->db->sanitize($this->comments),
 				'privateNotes' => $this->db->sanitize($this->privateNotes),
 				'isViewed' => $this->db->sanitize($this->isViewed),
